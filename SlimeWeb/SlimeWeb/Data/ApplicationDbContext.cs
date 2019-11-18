@@ -9,8 +9,8 @@ namespace SlimeWeb.Data
 {
     public class ApplicationDbContext : SlimeDbContentext//IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            // : base(options)
+        public ApplicationDbContext(DbContextOptions<SlimeDbContentext> options)
+           : base(options)
         {
         }
     }
