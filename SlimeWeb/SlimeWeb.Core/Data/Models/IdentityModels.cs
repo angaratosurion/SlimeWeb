@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using IdentityResult = Microsoft.AspNet.Identity.IdentityResult;
 
 namespace SlimeWeb.Core.Data.Models
 {
@@ -20,7 +15,7 @@ namespace SlimeWeb.Core.Data.Models
             try
             {
                 ApplicationUser ap = new ApplicationUser();
-
+              
                 //if ( this !=null)
                 { 
                     //ap.Id = this.Id;
@@ -62,14 +57,15 @@ namespace SlimeWeb.Core.Data.Models
                 return null;
             }
         }
-        public async Task<Microsoft.AspNetCore.Identity.IdentityResult> GenerateUserIdentityAsync(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> manager)
+       /* public async Task<IdentityResult> GenerateUserIdentityAsync(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> manager)
         {
+            
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var thisIdentity = await manager.CreateAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var thisIdentity = await manager.CreateAsync(this, ApplicationCookie);
             // Add custom this claims here
 
             return thisIdentity;
-        }
+        }*/
 
     }
 }

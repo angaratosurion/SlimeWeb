@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SlimeWeb.Core.Data.Models
 {
@@ -13,7 +13,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public IController Controller { get; set; }
+        public Controller Controller { get; set; }
         public Boolean Disabled { get; set; }
     }
 }
