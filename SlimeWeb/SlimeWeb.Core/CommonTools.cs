@@ -30,7 +30,7 @@ namespace SlimeWeb.Core
         public static void ErrorReporting(Exception ex)
         {
             //throw (ex);
-            //BlackCogs.Configuration.BlackCogsSettingManager conf = new Configuration.BlackCogsSettingManager();
+            //SlimeWeb.Core.Configuration.SlimeWeb.CoreSettingManager conf = new Configuration.SlimeWeb.CoreSettingManager();
             if (ex.GetBaseException() is ValidationException)
             {
                // ValidationErrorReporting((ValidationException)ex);
