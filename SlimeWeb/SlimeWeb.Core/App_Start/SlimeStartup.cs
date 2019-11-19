@@ -35,35 +35,34 @@ namespace SlimeWeb.Core.App_Start
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            { 
-                //app.UseDeveloperExceptionPage();
+            {
+                app.UseDeveloperExceptionPage();
                 //app.UseDatabaseErrorPage();
             }
             else
             {
-               // app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-               // app.UseHsts();
+                app.UseExceptionHandler("/Home/Error");
+               // The default HSTS value is 30 days.You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
-           
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
 
-            //app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            //app.UseAuthentication();
-            
-            //app.
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //    endpoints.MapRazorPages();
-            //});
+            app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

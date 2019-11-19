@@ -16,9 +16,9 @@ using SlimeWeb.Core.App_Start;
 
 namespace SlimeWeb
 {
-    public class Startup//:SlimeStartup
+    public class Startup:SlimeStartup
     {
-        public Startup(IConfiguration configuration)//:base(configuration)
+        public Startup(IConfiguration configuration):base(configuration)
         {
           Configuration = configuration;
         }
@@ -26,9 +26,9 @@ namespace SlimeWeb
         public IConfiguration Configuration { get; }
 
         ///This method gets called by the runtime.Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+      /*  public void ConfigureServices(IServiceCollection services)
         {
-           // base.ConfigureServices(services);
+            // base.ConfigureServices(services);
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -39,7 +39,7 @@ namespace SlimeWeb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public  void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             //base.Configure(app, (Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
@@ -69,6 +69,6 @@ namespace SlimeWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-        }
+        }*/
     }
 }

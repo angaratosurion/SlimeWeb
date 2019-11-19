@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data.Models
 {
