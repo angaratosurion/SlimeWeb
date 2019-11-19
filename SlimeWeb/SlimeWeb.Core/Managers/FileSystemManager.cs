@@ -1,7 +1,13 @@
-﻿using Microsoft.Extensions.Hosting.Internal;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
@@ -11,12 +17,16 @@ namespace SlimeWeb.Core.Managers
         //  static HttpServerUtilityBase util;
         //const string   filesdir="files",AppDataDir="App_Data";
         const string AppDataDir = "App_Data";
-        
+       static  IWebHostEnvironment webHostEnvironment;
+
         [DllImport("kernel32.dll")]
         static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
 
         static int SYMLINK_FLAG_DIRECTORY = 1;
-
+        public FileSystemManager(IWebHostEnvironment twebHostEnvironment)
+        {
+            webHostEnvironment = twebHostEnvironment;
+        }
 
         #region Common
 
@@ -28,7 +38,8 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 Boolean ap = false;
-                path = HostingEnvironment.MapPath(path);
+                
+                path = path = Path.Combine(webHostEnvironment.ContentRootPath, path);
                 if (!CommonTools.isEmpty(path) && Directory.Exists(path))
                 {
                     ap = true;
@@ -51,7 +62,7 @@ namespace SlimeWeb.Core.Managers
 
                 if (DirectoryExists(relpath) == false)
                 {
-                    string t = HostingEnvironment.MapPath(relpath);
+                    string t =  Path.Combine(webHostEnvironment.ContentRootPath, relpath);
                     Directory.CreateDirectory(t);
                     ap = true;
                 }
@@ -74,7 +85,7 @@ namespace SlimeWeb.Core.Managers
                 Boolean ap = false;
                 if (!CommonTools.isEmpty(relpath) && DirectoryExists(relpath))
                 {
-                    string t = HostingEnvironment.MapPath(relpath);
+                    string t = Path.Combine(webHostEnvironment.ContentRootPath, relpath);
                     Directory.Delete(t, true);
                     ap = true;
                 }
@@ -101,8 +112,8 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(relsrc) && !CommonTools.isEmpty(reltrg)
                     && DirectoryExists(relsrc))//&&  Exists(trg))
                 {
-                    relsrc = HostingEnvironment.MapPath(relsrc);
-                    reltrg = HostingEnvironment.MapPath(reltrg);
+                    relsrc = Path.Combine(webHostEnvironment.ContentRootPath, relsrc);
+                    reltrg = Path.Combine(webHostEnvironment.ContentRootPath, reltrg);
                     Directory.Move(relsrc, reltrg);
                     ap = true;
                 }
@@ -127,8 +138,8 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(relsrc) == false && !CommonTools.isEmpty(reltrg)
                     && DirectoryExists(relsrc))//&&  Exists(trg))
                 {
-                    relsrc = HostingEnvironment.MapPath(relsrc);
-                    reltrg = HostingEnvironment.MapPath(reltrg);
+                    relsrc = Path.Combine(webHostEnvironment.ContentRootPath, relsrc);
+                    reltrg = Path.Combine(webHostEnvironment.ContentRootPath, reltrg);
                     ap = CreateSymbolicLink(relsrc, reltrg, SYMLINK_FLAG_DIRECTORY);
 
                 }
@@ -151,7 +162,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 Boolean ap = false;
-                String path = HostingEnvironment.MapPath(relpath);
+                String path = Path.Combine(webHostEnvironment.ContentRootPath, relpath);
 
                 if (CommonTools.isEmpty(path) != true && File.Exists(path) == true)
                 {
@@ -167,34 +178,43 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        //public static Boolean CreateFile(string relpath, HttpPostedFileBase data)
-        //{
-        //    try
-        //    {
-        //        Boolean ap = false;
-        //        string path = relpath;
-        //        if (CommonTools.isEmpty(path) == false && !FileExists(path) && data != null)
-        //        {
-        //            /* int count = data.Count();*/
-        //            path = HostingEnvironment.MapPath(path);
+        public static async Task<Boolean> CreateFile(string relpath, List<IFormFile> files)
+        {
+            try
+            {
+                long size = files.Sum(f => f.Length);
 
-        //            data.SaveAs(path);
-        //            ap = true;
-        //        }
+                var filePaths = new List<string>();
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        // full path to file in temp location
+                        var filePath = Path.GetTempFileName();
+                        filePaths.Add(filePath);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+                    }
+                }
+
+                // process uploaded files
+                // Don't rely on or trust the FileName property without validation.
+              
+                return true;
+              
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
 
 
-
-        //        return ap;
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CommonTools.ErrorReporting(ex);
-
-
-        //        return false;
-        //    }
-        //}
+                return false;
+            }
+        }
         public static Boolean DeleteFile(string relpath)
         {
             try
@@ -203,7 +223,9 @@ namespace SlimeWeb.Core.Managers
                 Boolean ap = false;
                 if (CommonTools.isEmpty(relpath) != true && FileExists(relpath) == true)
                 {
-                    path = HostingEnvironment.MapPath(relpath);
+                    path=Path.Combine(webHostEnvironment.ContentRootPath, relpath);
+
+                    //MapPath(relpath);
                     File.Delete(path);
                     ap = true;
                 }
@@ -231,8 +253,8 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
                    && FileExists(src))//&&  Exists(trg))
                 {
-                    src = HostingEnvironment.MapPath(src);
-                    trg = HostingEnvironment.MapPath(trg);
+                    src = Path.Combine(webHostEnvironment.ContentRootPath, relsrc);
+                    trg = Path.Combine(webHostEnvironment.ContentRootPath, reltrg);
                     File.Copy(src, trg, true);
                     ap = true;
                 }
@@ -258,8 +280,8 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
                    && FileExists(src))//&&  Exists(trg))
                 {
-                    src = HostingEnvironment.MapPath(src);
-                    trg = HostingEnvironment.MapPath(trg);
+                    src = Path.Combine(webHostEnvironment.ContentRootPath, relsrc);
+                    trg = Path.Combine(webHostEnvironment.ContentRootPath, reltrg);
                     File.Move(src, trg);
                     ap = true;
                 }
@@ -286,8 +308,8 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
                     && FileExists(src))//&&  Exists(trg))
                 {
-                    src = HostingEnvironment.MapPath(src);
-                    trg = HostingEnvironment.MapPath(trg);
+                    src = Path.Combine(webHostEnvironment.ContentRootPath, relsrc);
+                    trg = Path.Combine(webHostEnvironment.ContentRootPath, reltrg);
                     ap = CreateSymbolicLink(src, trg, 0);
                     // ap = true;
                 }

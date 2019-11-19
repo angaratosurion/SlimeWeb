@@ -8,7 +8,11 @@ namespace SlimeWeb.Core.Managers
 {
     public class FeatureManager
     {
-        SlimeDbContentext db = new SlimeDbContentext();
+        SlimeDbContentext db; ///new SlimeDbContentext();
+        public FeatureManager(SlimeDbContentext dbContentext)
+        {
+            db = dbContentext;
+        }
         public List<Feature> GetAllFeatures()
         {
             try

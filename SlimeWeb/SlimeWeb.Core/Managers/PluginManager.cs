@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace BlackOwl.Core.Managers
+namespace SlimeWeb.Core.Managers
 {
    public class PluginManager
     {
        const string   filesdir="files",AppDataDir="App_Data";
-       HttpServerUtilityBase util;
+      
        FileManager filmngr;
        //public PluginManager(HttpServerUtilityBase tul)
        //{
