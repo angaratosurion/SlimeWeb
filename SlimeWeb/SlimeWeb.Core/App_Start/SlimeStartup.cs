@@ -19,13 +19,13 @@ namespace SlimeWeb.Core.App_Start
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public  void ConfigureServices(IServiceCollection services)
+        public  void ConfigureServicesSlime(IServiceCollection services)
         {
-            services.AddDbContext<SlimeDbContentext>(options =>
+            services.AddDbContext<SlimeDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<SlimeDbContentext>();
+                .AddEntityFrameworkStores<SlimeDbContext>();
             services.AddMvcCore().AddControllersAsServices()
                 .AddRazorPages();// AddControllersWithViews();
                 
@@ -36,7 +36,7 @@ namespace SlimeWeb.Core.App_Start
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

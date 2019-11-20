@@ -12,6 +12,6 @@ namespace SlimeWeb.Core.Data.Models
     //    {
     //        get; set;
     //    }
-
+    public string engine { get; set; }
     }
 }

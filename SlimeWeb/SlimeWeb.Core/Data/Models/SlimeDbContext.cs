@@ -8,14 +8,20 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class SlimeDbContentext : IdentityDbContext
+    public class SlimeDbContext : IdentityDbContext
     {
        
-        public DbSet<Page> Pages { get; set; }
-        public DbSet<Post> Post{ get; set; }
+       
+        public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
+                : base(options)
+            {
+            }
+       public DbSet<Blog> Blogs { get; set; }
+        public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<Post> Post { get; set; }
         public DbSet<Category> Catgories { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        //public IDbSet<Files> Files { get; set; }
+        public DbSet<Files> Files { get; set; }
         public DbSet<FileType> FileTypes { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<GeneralSettings> Settings { get; set; }
@@ -27,10 +33,6 @@ namespace SlimeWeb.Core.Data.Models
             }
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
-        public SlimeDbContentext(DbContextOptions<SlimeDbContentext> options)
-                : base(options)
-            {
-            }
-       
+
     }
 }

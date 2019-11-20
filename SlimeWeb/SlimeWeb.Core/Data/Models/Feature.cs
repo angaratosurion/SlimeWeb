@@ -13,7 +13,9 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public Controller Controller { get; set; }
+        public string ControllerName { get; set; }
         public Boolean Disabled { get; set; }
+        [Required]
+        public int BlogId { get; set; }
     }
 }

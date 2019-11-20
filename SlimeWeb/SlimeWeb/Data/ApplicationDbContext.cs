@@ -7,10 +7,10 @@ using SlimeWeb.Core.Data.Models;
 
 namespace SlimeWeb.Data
 {
-    public class ApplicationDbContext : SlimeDbContentext////IdentityDbContext
+    public class ApplicationDbContext : SlimeDbContext////IdentityDbContext
    // public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<SlimeDbContentext> options)
+        public ApplicationDbContext(DbContextOptions<SlimeDbContext> options)
            : base(options)
         {
         }

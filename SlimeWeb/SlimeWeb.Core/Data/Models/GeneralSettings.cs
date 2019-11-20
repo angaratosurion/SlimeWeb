@@ -14,5 +14,7 @@ namespace SlimeWeb.Core.Data.Models
         public string WebSiteName { get; set; }
         public int ItemsPerPage { get; set; }
         public Boolean FeatureManagment { get; set; }
+        [Required]
+        public int BlogId { get; set; }
     }
 }

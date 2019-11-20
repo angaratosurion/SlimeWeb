@@ -8,8 +8,8 @@ namespace SlimeWeb.Core.Managers
 {
     public class FeatureManager
     {
-        SlimeDbContentext db; ///new SlimeDbContentext();
-        public FeatureManager(SlimeDbContentext dbContentext)
+        SlimeDbContext db; ///new SlimeDbContentext();
+        public FeatureManager(SlimeDbContext dbContentext)
         {
             db = dbContentext;
         }
@@ -69,7 +69,7 @@ namespace SlimeWeb.Core.Managers
                 Feature modl = new Feature();
                 if ( CommonTools.isEmpty(name)==false && contr !=null && this.FeatureExists(name)==false)
                 {
-                    modl.Controller = contr;
+                    modl.ControllerName = name;
                     modl.Disabled = disabled;
                     modl.Name = name;
                     this.db.Features.Add(modl);

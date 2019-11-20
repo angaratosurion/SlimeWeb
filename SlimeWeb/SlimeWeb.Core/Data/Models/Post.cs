@@ -21,6 +21,8 @@ namespace SlimeWeb.Core.Data.Models
         public virtual List<Tag> Tags { get; set; }
         [Timestamp]
         public Byte[] RowVersion { get; set; }
+        [Required]
+        public int BlogId { get; set; }
 
     }
 }

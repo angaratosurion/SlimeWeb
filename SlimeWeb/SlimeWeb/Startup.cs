@@ -26,9 +26,9 @@ namespace SlimeWeb
         public IConfiguration Configuration { get; }
 
         ///This method gets called by the runtime.Use this method to add services to the container.
-      /*  public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            // base.ConfigureServices(services);
+            base.ConfigureServicesSlime(services);
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -42,7 +42,7 @@ namespace SlimeWeb
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            //base.Configure(app, (Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
+            base.ConfigureSlime(app, env);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,6 +69,6 @@ namespace SlimeWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-        }*/
+        }
     }
 }
