@@ -12,6 +12,15 @@ namespace SlimeWeb.Core.Data.Models
         [Required]        
         public string Name  { get; set; }
         [Required]
-        public int AuthorId { get; set; }
+         public int AuthorId { get; set; }
+        [Required]
+        public string Title { get; set; }
+        [Display(Name="Last Update At")]
+        [Required]
+        public DateTime LastUpdate { get; set; }
+        [Display(Name = "Created Update At")]
+        [Required]
+        public DateTime Created { get; set; }
+
     }
 }
