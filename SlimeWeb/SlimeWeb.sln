@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb", "SlimeWeb\SlimeWeb.csproj", "{8CD94ADB-8005-4674-843D-3AA85EDAE1FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWeb.Core", "SlimeWeb.Core\SlimeWeb.Core.csproj", "{F4875980-692B-4B18-95C9-935250A1AEB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.Core", "SlimeWeb.Core\SlimeWeb.Core.csproj", "{F4875980-692B-4B18-95C9-935250A1AEB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
