@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data;
 
 namespace SlimeWeb.Core.App_Start
 {

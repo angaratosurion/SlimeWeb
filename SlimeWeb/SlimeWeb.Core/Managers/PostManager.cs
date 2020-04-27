@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using System;
 using System.Collections.Generic;

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SlimeWeb.Core.Data.Models
+namespace SlimeWeb.Core.Data
 {
     public class SlimeDbContext : IdentityDbContext
     {
