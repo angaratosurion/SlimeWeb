@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -13,11 +15,8 @@ namespace SlimeWeb.Core.Data
     {
        
        
-        public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
-                : base(options)
-            {
-            }
-       public DbSet<Blog> Blogs { get; set; }
+       
+        public DbSet<Blog> Blogs { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
         public DbSet<Post> Post { get; set; }
         public DbSet<Category> Catgories { get; set; }
@@ -34,6 +33,46 @@ namespace SlimeWeb.Core.Data
             }
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
+        public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
+               : base(options)
+        {
+           
+
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+
+
+
+
+            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(path)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Build();
+            var directory = Path.Combine(path, "App_Data");
+            if(Directory.Exists(directory)== false)
+            {
+                Directory.CreateDirectory(directory);
+            }
+            string olddbConn = config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            if (olddbConn != null)
+            {
+
+                string dbCon = olddbConn.Replace("|DataDirectory|", directory);
+                if (dbCon != null)
+                {
+                    optionsBuilder.UseSqlServer(dbCon);
+                    
+                }
+            }
+               
+
+        }
+
 
     }
 }
