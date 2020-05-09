@@ -13,8 +13,8 @@ namespace SlimeWeb.Core.Data.Models
         public string FileName { get; set; }
         [Required]
         public string Path { get; set; }
-        //  [DataType(DataType.Upload)]
-        // public Byte[] Content { get; set; }
+        [Required]
+        public string RelativePath { get; set; }
         [Timestamp]
         public Byte[] RowVersion { get; set; }
 

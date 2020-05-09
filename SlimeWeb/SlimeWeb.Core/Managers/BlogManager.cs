@@ -1,7 +1,9 @@
-﻿using SlimeWeb.Core.Data;
+﻿using Microsoft.AspNetCore.Hosting;
+using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -174,6 +176,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
+        
         public Blog EditBasicInfo(Blog bl, string Blogname)
         {
             try
@@ -182,8 +185,13 @@ namespace SlimeWeb.Core.Managers
                 if (bl != null && CommonTools.isEmpty(Blogname) == false)
                 {
 
-                    this.wrepo.EditBlogBasicInfo(bl, Blogname);
-                    ap = this.wrepo.GetBlog(Blogname);
+                
+
+                      bl2 = this.GetBlog(Blogname);
+                    bl.Administrator = bl2.Administrator;
+                    slimeDb.Entry(this.GetBlog(Blogname)).CurrentValues.SetValues(bl);
+                    slimeDb.SaveChanges();
+                    ap = this.GetBlog(Blogname);
                 }
 
 
@@ -273,7 +281,9 @@ namespace SlimeWeb.Core.Managers
                         FileSystemManager.DeleteDirectory(path);
                     }
 
-                    this.wrepo.DeleteBlog(Blogname);
+                    this.slimeDb.Files.RemoveRange(blfiles);
+                    this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
+                    this.slimeDb.SaveChanges();
 
                 }
 

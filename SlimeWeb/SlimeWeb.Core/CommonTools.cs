@@ -51,6 +51,17 @@ namespace SlimeWeb.Core
             }
 
         }
-        
+        public static void ValidationErrorReporting(ValidationException ex)
+        {
+            //throw (ex);
+          
+
+
+            NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+            logger.Info(ex);
+         
+
+        }
     }
 }
