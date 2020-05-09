@@ -97,6 +97,32 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public bool  BlogExists(string name)
+        {
+            try
+            {
+                bool ap = false;
+                if (!CommonTools.isEmpty(name))
+                {
+                    List<Blog> blgs = this.ListBlog();
+                    if(blgs.Find(x => x.Name == name)!=null)
+                    {
+                        ap = true;
+                    }
+
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false; ;
+            }
+        }
         public void CreateBlog(Blog bl, string username)
         {
             try
@@ -176,7 +202,7 @@ namespace SlimeWeb.Core.Managers
             {
                 List<ApplicationUser> ap = new List<ApplicationUser>();
 
-                if (CommonTools.isEmpty(Blogname) == false && this.wrepo.BlogExists(Blogname))
+                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
                 {
                     Blog bl = this.GetBlog(Blogname);
 
@@ -209,7 +235,7 @@ namespace SlimeWeb.Core.Managers
             {
                 ApplicationUser ap = null;
 
-                if (CommonTools.isEmpty(Blogname) == false && this.wrepo.BlogExists(Blogname))
+                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
                 {
                     Blog bl = this.GetBlog(Blogname);
                     string adm = bl.Administrator;
@@ -237,7 +263,7 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(Blogname))
                 {
                     string path = FileSystemManager.GetBlogRootDataFolderRelativePath(Blogname);
-                    List<Files> blfiles = this.wrepo.GetBlogFiles(Blogname);
+                    List<Files> blfiles = this.GetBlog(Blogname).Files;
                     if (blfiles != null)
                     {
                         foreach (Files f in blfiles)
