@@ -13,7 +13,6 @@ namespace SlimeWeb.Controllers
     public class BlogsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public BlogsController(ApplicationDbContext context)
         {
             _context = context;

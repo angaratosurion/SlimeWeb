@@ -21,6 +21,11 @@ namespace SlimeWeb.Core.Data.Models
         [Display(Name = "Created Update At")]
         [Required]
         public DateTime Created { get; set; }
+        public string Administrator { get; set; }
+        public virtual List<BlogMods> Moderators { get; set; }
+        public virtual List<Category> Categories { get; set; }
+        public virtual List<Files> Files { get; set; }
+        public virtual List<Post> Posts { get; set; }
 
     }
 }

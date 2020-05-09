@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlimeWeb.Core.Managers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -7,7 +8,7 @@ namespace SlimeWeb.Core
 {
     public class CommonTools
     {
-       
+        public static SlimeWebsUserManager usrmng = new SlimeWebsUserManager();
         public static Boolean isEmpty(string str)
         {
             try

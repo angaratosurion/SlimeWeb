@@ -28,12 +28,55 @@ namespace SlimeWeb.Core.Managers
             webHostEnvironment = twebHostEnvironment;
         }
 
+        public FileSystemManager()
+        {
+        }
+
         #region Common
+        public static string GetAppRootDataFolderRelativePath()
+        {
+            try
+            {
+                string ap = "";
+
+                // string wkrotfold = setmngr.blogRootFolderName();
+                ap = "~/" + AppDataDir + "/";;
+              
 
 
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetBlogRootDataFolderRelativePath(string blogname)
+        {
+            try
+            {
+                string ap = "";
+                if (CommonTools.isEmpty(blogname) == false)
+                {
+                    
+                    ap =GetAppRootDataFolderRelativePath()+"/" + blogname;
+                }
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         #endregion
         #region Directory
-         public static Boolean DirectoryExists(String path)
+        public static Boolean DirectoryExists(String path)
         {
             try
             {

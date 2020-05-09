@@ -8,22 +8,21 @@ using System.Text;
 
 namespace SlimeWeb.Core.Managers
 {
-    class SlimeWebUserManager
-    {
-        public class BlackCogsUserManager
+   
+        public class SlimeWebsUserManager
         {
             SlimeDbContext db = null;
             private readonly SignInManager<ApplicationUser> _signInManager;
             private readonly UserManager<ApplicationUser> _userManager;
 
-            public BlackCogsUserManager(UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
+            public SlimeWebsUserManager(UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
                 SlimeDbContext tdb)
             {
                 this._userManager = usrmngr;
                 this._signInManager = singmngr;
                 this.Context = tdb;
             }
-            public BlackCogsUserManager()
+            public SlimeWebsUserManager()
             {
 
             }
@@ -455,5 +454,4 @@ namespace SlimeWeb.Core.Managers
 
             #endregion
         }
-    }
-}
+   

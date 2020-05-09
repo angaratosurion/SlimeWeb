@@ -40,6 +40,11 @@ namespace SlimeWeb.Core.Data
 
 
         }
+
+        public SlimeDbContext()
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
