@@ -7,11 +7,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data;
+using ExtCore.WebApplication.Extensions;
+using System.IO;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace SlimeWeb.Core.App_Start
 {
     public class SlimeStartup
     {
+        string extensionsPath;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +35,15 @@ namespace SlimeWeb.Core.App_Start
                 .AddRazorPages();
             //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //  .AddEntityFrameworkStores<SlimeDbContext>();
+            //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
+            this.extensionsPath = Configuration["Extensions:Path"];
+            if (string.IsNullOrWhiteSpace(extensionsPath) == false)
+            {
+                
+                services.AddExtCore(this.extensionsPath);
+            }
+
+            
             return services;
 
 
@@ -40,7 +53,8 @@ namespace SlimeWeb.Core.App_Start
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment())
+            this.extensionsPath = Path.Combine(env.ContentRootPath, Configuration["Extensions:Path"]);
+         //if (env.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
             //    //app.UseDatabaseErrorPage();
@@ -73,6 +87,12 @@ namespace SlimeWeb.Core.App_Start
                 context.Database.EnsureCreated();
                 context.Database.Migrate();
             }
+            if (!Directory.Exists(extensionsPath))
+            {
+                Directory.CreateDirectory(extensionsPath);
+            }
+            app.UseExtCore();
+
         }
     }
 }
