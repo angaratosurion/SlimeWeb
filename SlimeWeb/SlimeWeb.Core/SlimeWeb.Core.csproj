@@ -7,7 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="5.1.0" />
+    <PackageReference Include="ExtCore.Data.Abstractions" Version="5.1.0" />
+    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="5.1.0" />
     <PackageReference Include="ExtCore.Data.EntityFramework" Version="5.1.0" />
+    <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="5.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.3" />

@@ -13,9 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data
-{
-    public class SlimeDbContext : StorageContextBase
-   // public class SlimeDbContext : IdentityDbContext, IStorage
+{    //
+    public class SlimeDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>, IStorageContext
     {
        
        
@@ -86,20 +85,6 @@ namespace SlimeWeb.Core.Data
 
         }
 
-        public T GetRepository<T>() where T : IRepository
-        {
-            throw new NotImplementedException();
-            
-        }
-
-        public void Save()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public Task SaveAsync()
-        {
-           throw new NotImplementedException();
-        }
+       
     }
 }
