@@ -28,9 +28,9 @@ namespace SlimeWeb.Controllers
             var builder = new ConfigurationBuilder()
                             .SetBasePath(path)
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();
+            var config = builder.Build();//
 
-            defaultcon= config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            defaultcon = config.GetValue<string>("DefaultRoot:Controller");
             if (String.IsNullOrEmpty(defaultcon) ==false )//&& string.IsNullOrEmpty(defaultcon)==false)
             {
                Response.Redirect(defaultcon);

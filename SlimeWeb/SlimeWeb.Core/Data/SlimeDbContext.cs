@@ -33,6 +33,7 @@ namespace SlimeWeb.Core.Data
             }
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
+        public DbSet<News> News{ get; set; }
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
                : base(options)
         {
@@ -63,7 +64,7 @@ namespace SlimeWeb.Core.Data
             {
                 Directory.CreateDirectory(directory);
             }
-            string olddbConn = config.GetValue<string>("DefaultRoot:Controller");
+            string olddbConn = config.GetValue<string>("ConnectionStrings:DefaultConnection");
             if (olddbConn != null)
             {
 
