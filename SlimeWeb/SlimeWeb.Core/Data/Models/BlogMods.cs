@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-   public class BlogMods
+   public class BlogMods : IEntity
     {
         [Required]
         // [Key]

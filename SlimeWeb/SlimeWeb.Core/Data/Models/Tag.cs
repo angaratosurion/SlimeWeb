@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ExtCore.Data.Entities.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class Tag
+    public class Tag : IEntity
     {
         [Required]
         public int Id { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class BannedUsers
+    public class BannedUsers : IEntity
     {
         [Required]
         public int Id { get; set; }

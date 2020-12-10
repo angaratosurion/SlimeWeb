@@ -10,6 +10,8 @@ using SlimeWeb.Core.Data;
 using ExtCore.WebApplication.Extensions;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
+using ExtCore.Data.EntityFramework;
+using System.Reflection;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -42,8 +44,14 @@ namespace SlimeWeb.Core.App_Start
                 
                 services.AddExtCore(this.extensionsPath);
             }
+            services.Configure<StorageContextOptions>(options =>
+            {
+                options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
-            
+            });
+            DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+
+
             return services;
 
 

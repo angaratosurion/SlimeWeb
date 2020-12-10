@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ExtCore.Data.Abstractions;
+using ExtCore.Data.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,10 +10,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data
 {
-    public class SlimeDbContext : IdentityDbContext
+    public class SlimeDbContext : StorageContextBase
+   // public class SlimeDbContext : IdentityDbContext, IStorage
     {
        
        
@@ -34,6 +38,9 @@ namespace SlimeWeb.Core.Data
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
         public DbSet<News> News{ get; set; }
+
+        public IStorageContext StorageContext => throw new NotImplementedException();
+
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
                : base(options)
         {
@@ -79,6 +86,20 @@ namespace SlimeWeb.Core.Data
 
         }
 
+        public T GetRepository<T>() where T : IRepository
+        {
+            throw new NotImplementedException();
+            
+        }
 
+        public void Save()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public Task SaveAsync()
+        {
+           throw new NotImplementedException();
+        }
     }
 }

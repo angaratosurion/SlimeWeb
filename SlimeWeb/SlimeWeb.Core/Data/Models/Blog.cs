@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-  public  class Blog
+  public  class Blog : IEntity
     {
         [Required]
         public int Id { get; set; }
