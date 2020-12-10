@@ -63,7 +63,7 @@ namespace SlimeWeb.Core.Data
             {
                 Directory.CreateDirectory(directory);
             }
-            string olddbConn = config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            string olddbConn = config.GetValue<string>("DefaultRoot:Controller");
             if (olddbConn != null)
             {
 
