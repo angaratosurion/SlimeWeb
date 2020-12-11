@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
-using SlimeWeb.Core.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,14 +15,12 @@ namespace SlimeWeb.Core.Managers
         FileSystemManager flmng = new FileSystemManager();
 
         SlimeDbContext slimeDb = new SlimeDbContext();
-        BlogRepository blogrp = new BlogRepository();
         public List<Blog> ListBlog()
         {
             try
             {
                 //return this.db.Blogs.ToList();
-                // return this.slimeDb.Blogs.ToList<Blog>();
-                return blogrp.GetAll();
+                return this.slimeDb.Blogs.ToList<Blog>();
             }
             catch (Exception ex)
             {
@@ -37,11 +34,10 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<Blog> ap = null;
-                //if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
-                //{
-                //    ap = this.ListBlog().FindAll(x => x.Administrator == username);
-                //}
-                ap = blogrp.GetAllByAdminUser(username);
+                if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
+                {
+                    ap = this.ListBlog().FindAll(x => x.Administrator == username);
+                }
 
                 return ap;
 
@@ -58,11 +54,11 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<Blog> ap = null;
-                //if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
-                //{
-                //    //ap = this.ListBlog().FindAll(x => x.Moderators.First(x=>x.Moderator == username));
-                //}
-                ap = blogrp.GetAllByModUser(username);
+                if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
+                {
+                    //ap = this.ListBlog().FindAll(x => x.Moderators.First(x=>x.Moderator == username));
+                }
+
                 return ap;
 
             }
@@ -78,20 +74,19 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 Blog ap = null;
-                //if (!CommonTools.isEmpty(name))
-                //{
-                //    ap = this.ListBlog().First(x => x.Name==name);
-                //    if (ap.Categories == null)
-                //    {
-                //        ap.Categories = new List<Category>();
-                //    }
-                //    if (ap.Posts== null)
-                //    {
-                //        ap.Posts = new List<Post>();
-                //    }
+                if (!CommonTools.isEmpty(name))
+                {
+                    ap = this.ListBlog().First(x => x.Name==name);
+                    if (ap.Categories == null)
+                    {
+                        ap.Categories = new List<Category>();
+                    }
+                    if (ap.Posts== null)
+                    {
+                        ap.Posts = new List<Post>();
+                    }
 
-                //}
-                ap = blogrp.Get(name);
+                }
 
 
                 return ap;
@@ -109,16 +104,15 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 bool ap = false;
-                //if (!CommonTools.isEmpty(name))
-                //{
-                //    List<Blog> blgs = this.ListBlog();
-                //    if(blgs.Find(x => x.Name == name)!=null)
-                //    {
-                //        ap = true;
-                //    }
+                if (!CommonTools.isEmpty(name))
+                {
+                    List<Blog> blgs = this.ListBlog();
+                    if(blgs.Find(x => x.Name == name)!=null)
+                    {
+                        ap = true;
+                    }
 
-                //}
-                ap = this.blogrp.Exists(name);
+                }
 
 
                 return ap;
@@ -145,17 +139,27 @@ namespace SlimeWeb.Core.Managers
                     usr = CommonTools.usrmng.GetUser(username);
                     if (usr != null)
                     {
-                        //bl.Administrator = usr.Id;//.Clone();
-                        //                          //bl.AdministratorId = bl.Administrator.Id;
+                        bl.Administrator = usr.Id;//.Clone();
+                                                  //bl.AdministratorId = bl.Administrator.Id;
 
-                        //this.slimeDb.Add(bl);
-                        //this.slimeDb.SaveChanges();
-                        this.blogrp.Create(bl, username);
+
+
+                        //  bl.Moderators = new List<BlogMods>();
+                        //  BlogMods wm = new BlogMods();
+                        // wm.Blog = bl;
+                        // wm.Moderator = usr.Id;
+                        //bl.Moderators.Add(wm);
+                        this.slimeDb.Add(bl);
+                        this.slimeDb.SaveChanges();
 
                        
                         string blpath;
 
-                        
+                        //if (CommonTools.isEmpty(blrotfold ))
+                        //{
+                        //    blrotfold = "Blogfiles";
+                        //}
+                        // blpath = "~/" + AppDataDir + "/" + blrotfold + "/" + bl.Name;
                         blpath = FileSystemManager.GetBlogRootDataFolderRelativePath(bl.Name);
                         if (FileSystemManager.DirectoryExists(blpath) == false)
                         {
@@ -181,14 +185,13 @@ namespace SlimeWeb.Core.Managers
                 if (bl != null && CommonTools.isEmpty(Blogname) == false)
                 {
 
+                
 
-
-                      //bl2 = this.GetBlog(Blogname);
-                    //bl.Administrator = bl2.Administrator;
-                    //slimeDb.Entry(this.GetBlog(Blogname)).CurrentValues.SetValues(bl);
-                    //slimeDb.SaveChanges();
-                    ap=blogrp.EditBasicInfo(bl, Blogname);
-                  //  ap = this.GetBlog(Blogname);
+                      bl2 = this.GetBlog(Blogname);
+                    bl.Administrator = bl2.Administrator;
+                    slimeDb.Entry(this.GetBlog(Blogname)).CurrentValues.SetValues(bl);
+                    slimeDb.SaveChanges();
+                    ap = this.GetBlog(Blogname);
                 }
 
 
@@ -207,24 +210,23 @@ namespace SlimeWeb.Core.Managers
             {
                 List<ApplicationUser> ap = new List<ApplicationUser>();
 
-                //if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
-                //{
-                //    Blog bl = this.GetBlog(Blogname);
+                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
+                {
+                    Blog bl = this.GetBlog(Blogname);
 
-                //    List<BlogMods> mods = bl.Moderators;
-                //    if (mods != null)
-                //    {
-                //        foreach (var m in mods)
-                //        {
-                //            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.Moderator);
-                //            if (md != null)
-                //            {
-                //                ap.Add(md);
-                //            }
-                //        }
-                //    }
-                //}
-                ap = blogrp.GetModerators(Blogname);
+                    List<BlogMods> mods = bl.Moderators;
+                    if (mods != null)
+                    {
+                        foreach (var m in mods)
+                        {
+                            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.Moderator);
+                            if (md != null)
+                            {
+                                ap.Add(md);
+                            }
+                        }
+                    }
+                }
                 return ap;
 
             }
@@ -241,17 +243,16 @@ namespace SlimeWeb.Core.Managers
             {
                 ApplicationUser ap = null;
 
-                //if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
-                //{
-                //    Blog bl = this.GetBlog(Blogname);
-                //    string adm = bl.Administrator;
-                //    if (CommonTools.isEmpty(adm) == false)
-                //    {
-                //        ap = CommonTools.usrmng.GetUserbyID(adm);
+                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
+                {
+                    Blog bl = this.GetBlog(Blogname);
+                    string adm = bl.Administrator;
+                    if (CommonTools.isEmpty(adm) == false)
+                    {
+                        ap = CommonTools.usrmng.GetUserbyID(adm);
 
-                //    }
-                //}
-                ap = this.blogrp.GetAdministrator(Blogname);
+                    }
+                }
                 return ap;
 
             }
@@ -266,7 +267,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                 
+                Blog ap = null;
                 if (!CommonTools.isEmpty(Blogname))
                 {
                     string path = FileSystemManager.GetBlogRootDataFolderRelativePath(Blogname);
@@ -281,9 +282,8 @@ namespace SlimeWeb.Core.Managers
                     }
 
                     this.slimeDb.Files.RemoveRange(blfiles);
-                    //this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
-                    //this.slimeDb.SaveChanges();
-                    this.blogrp.Delete(Blogname);
+                    this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
+                    this.slimeDb.SaveChanges();
 
                 }
 
@@ -302,7 +302,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-
+                Blog ap = null;
                 if (!CommonTools.isEmpty(username))
                 {
 
