@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data
 {
-    public class DesignTimeStorageContextFactory : DesignTimeStorageContextFactoryBase<SlimeDbContext>
-    { 
-    }
+    //public class DesignTimeStorageContextFactory : DesignTimeStorageContextFactoryBase<SlimeDbContext>
+    //{ 
+    //}
 }

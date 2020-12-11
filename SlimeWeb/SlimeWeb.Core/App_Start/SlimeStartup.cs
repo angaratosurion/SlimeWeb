@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using ExtCore.Data.EntityFramework;
 using System.Reflection;
+using ExtCore.Data.Abstractions;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -46,10 +47,11 @@ namespace SlimeWeb.Core.App_Start
             }
             services.Configure<StorageContextOptions>(options =>
             {
-                options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
+               // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
             });
-            DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+            services.AddScoped<IStorageContext,SlimeDbContext>();
+         //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
 
 
             return services;

@@ -38,7 +38,7 @@ namespace SlimeWeb.Core.Data
         public DbSet<BannedUsers> BannedUsers { get; set; }
         public DbSet<News> News{ get; set; }
 
-        public IStorageContext StorageContext => throw new NotImplementedException();
+        //public IStorageContext StorageContext => throw new NotImplementedException();
 
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
                : base(options)

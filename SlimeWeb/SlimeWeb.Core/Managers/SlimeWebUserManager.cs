@@ -129,7 +129,7 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(username) == false && this.UserExists(username) == true)
                 {
                     ApplicationUser user = this.GetUser(username);
-                    List<IdentityRole> roles = this.GetRolesOfUser(username);
+                    List<ApplicationRole> roles = this.GetRolesOfUser(username);
                     if (roles != null)
                     {
                         foreach (var r in roles)
@@ -168,7 +168,7 @@ namespace SlimeWeb.Core.Managers
                 Boolean ap = false;
                 if (Name != null)
                 {
-                    IdentityRole rol = this.GetRole(Name);
+                    ApplicationRole rol = this.GetRole(Name);
                     if (rol != null)
                     {
                         ap = true;
@@ -183,14 +183,14 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public IdentityRole GetRole(string Name)
+        public ApplicationRole GetRole(string Name)
         {
             try
             {
-                IdentityRole ap = null;
+                ApplicationRole ap = null;
                 if (Name != null)
                 {
-                    List<IdentityRole> rols = this.GetRoles();
+                    List<ApplicationRole> rols = this.GetRoles();
 
                     if (rols != null)
                     {
@@ -206,21 +206,21 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public List<IdentityRole> GetRolesOfUser(string UserName)
+        public List<ApplicationRole> GetRolesOfUser(string UserName)
         {
             try
             {
-                List<IdentityRole> ap = null;
+                List<ApplicationRole> ap = null;
                 if (UserName != null && this.UserExists(UserName))
                 {
                     ApplicationUser usr = this.GetUser(UserName);
 
                     /* if (usr != null && usr.Roles != null)
                      {
-                         ap = new List<IdentityRole>();
+                         ap = new List<ApplicationRole>();
                          foreach (IdentityUserRole<ApplicationUser> rl in usr.Roles)
                          {
-                             IdentityRole r = this.db.Roles.FirstOrDefault(x => x.Id == rl.RoleId);
+                             ApplicationRole r = this.db.Roles.FirstOrDefault(x => x.Id == rl.RoleId);
                              ap.Add(r);
                          }
 
@@ -238,11 +238,11 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public List<IdentityRole> GetRoles()
+        public List<ApplicationRole> GetRoles()
         {
             try
             {
-                List<IdentityRole> ap = this.db.Roles.ToList();
+                List<ApplicationRole> ap = this.db.Roles.ToList();
                 return ap;
             }
             catch (Exception ex)
@@ -252,7 +252,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public void CreateNewRole(IdentityRole role)
+        public void CreateNewRole(ApplicationRole role)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace SlimeWeb.Core.Managers
                 // return null;
             }
         }
-        public void EditRole(string rolename, IdentityRole role)
+        public void EditRole(string rolename, ApplicationRole role)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace SlimeWeb.Core.Managers
                     role != null && this.RoleExists(role.Name) == false &&
                     this.RoleExists(rolename))
                 {
-                    IdentityRole or = this.GetRole(rolename);
+                    ApplicationRole or = this.GetRole(rolename);
                     if (or != null && or.Name != "Administrators"
                         && rolename != "Administrators")
                     {
@@ -301,7 +301,7 @@ namespace SlimeWeb.Core.Managers
             {
                 if (CommonTools.isEmpty(rolename) == false)
                 {
-                    IdentityRole or = this.GetRole(rolename);
+                    ApplicationRole or = this.GetRole(rolename);
                     if (or != null && rolename != "Administrators")
                     {
                         this.db.Roles.Remove(or);
@@ -325,7 +325,7 @@ namespace SlimeWeb.Core.Managers
                 List<ApplicationUser> ap = null;
                 //if (Name != null && this.RoleExists(Name))
                 //{
-                //    IdentityRole rol = this.GetRole(Name);
+                //    ApplicationRole rol = this.GetRole(Name);
                 //    if (rol != null && rol.Users != null && rol.Users.Count > 0)
                 //    {
                 //        ap = new List<ApplicationUser>();
@@ -355,7 +355,7 @@ namespace SlimeWeb.Core.Managers
 
 
                 //    {
-                //        IdentityRole or = this.GetRole(rolename);
+                //        ApplicationRole or = this.GetRole(rolename);
                 //        ApplicationUser user = this.GetUser(username);
                 //        if (this.UserExistsInRole(rolename, username) == false)
                 //        {
@@ -389,7 +389,7 @@ namespace SlimeWeb.Core.Managers
                 //        && CommonTools.isEmpty(username) == false &&
                 //        this.RoleExists(rolename) && this.UserExists(username) == true)
                 //    {
-                //        IdentityRole or = this.GetRole(rolename);
+                //        ApplicationRole or = this.GetRole(rolename);
                 //        ApplicationUser user = this.GetUser(username);
                 //        if (this.UserExistsInRole(rolename, username) != false)
                 //        {
@@ -427,10 +427,10 @@ namespace SlimeWeb.Core.Managers
                 //     this.RoleExists(rolename) && this.UserExists(username) == true)
                 //{
                 //    ApplicationUser us = this.GetUser(username);
-                //    IdentityRole or = this.GetRole(rolename);
+                //    ApplicationRole or = this.GetRole(rolename);
                 //    IdentityUserRole r = or.Users.FirstOrDefault(x => x.UserId == us.Id && x.RoleId == or.Id);
-                //    IdentityRole r1 = null;
-                //    List<IdentityRole> rls = this.GetRolesOfUser(username);
+                //    ApplicationRole r1 = null;
+                //    List<ApplicationRole> rls = this.GetRolesOfUser(username);
                 //    if (rls != null)
                 //    {
                 //        r1 = rls.FirstOrDefault(x => x.Name == rolename);
