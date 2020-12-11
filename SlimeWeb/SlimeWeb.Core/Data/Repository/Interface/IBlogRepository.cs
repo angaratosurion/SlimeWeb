@@ -15,7 +15,7 @@ namespace SlimeWeb.Core.Data.Repository.Interface
         Blog Get(string Blog);
         Boolean Exists(string name);
         void Create(Blog bl, string username);
-        void EditBasicInfo(Blog bl, string blogname);
+       Blog EditBasicInfo(Blog bl, string blogname);
         List<ApplicationUser> GetModerators(string Blogname);
         ApplicationUser GetAdministrator(string Blogname);
         void Delete(string Blogname);

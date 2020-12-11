@@ -3,13 +3,14 @@ using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.Repository.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SlimeWeb.Core.Data.Repository
 {
     public class BlogRepository : RepositoryBase<Blog>, IBlogRepository
     {
-        SlimeDbContext slimeDb = new SlimeDbContext();
+      
         public void Create(Blog bl, string username)
         {
             try
@@ -26,6 +27,7 @@ namespace SlimeWeb.Core.Data.Repository
                     {
                         bl.Administrator = usr.Id;
                         this.dbSet.AddAsync(bl);
+                       this.storageContext.SaveChangesAsync();
 
                     }
                 }
@@ -49,7 +51,8 @@ namespace SlimeWeb.Core.Data.Repository
                     if( bl!=null)
                     {
                         this.dbSet.Remove(bl);
-                        
+                       this.storageContext.SaveChangesAsync();
+
                     }
                 }
             }
@@ -94,44 +97,213 @@ namespace SlimeWeb.Core.Data.Repository
             }
         }
 
-        public void EditBasicInfo(Blog bl, string blogname)
+        public Blog EditBasicInfo(Blog bl, string Blogname)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Blog ap = null, bl2;
+                if (bl != null && CommonTools.isEmpty(Blogname) == false)
+                {
+
+
+
+                    bl2 = this.Get(Blogname);
+                    bl.Administrator = bl2.Administrator;
+
+                    
+
+                     this.storageContext.Entry(this.Get(Blogname)).CurrentValues.SetValues(bl);
+                     this.storageContext.SaveChanges();
+
+                    ap = this.Get(Blogname);
+                }
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
         public bool Exists(string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool ap = false;
+                if (!CommonTools.isEmpty(name))
+                {
+                    List<Blog> blgs = this.GetAll();
+                    if (blgs.Find(x => x.Name == name) != null)
+                    {
+                        ap = true;
+                    }
+
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false; ;
+            }
         }
 
-        public Blog Get(string Blog)
+        public Blog Get(string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Blog ap = null;
+                if (!CommonTools.isEmpty(name))
+                {
+                    ap = this.GetAll().First(x => x.Name == name);
+                    if (ap.Categories == null)
+                    {
+                        ap.Categories = new List<Category>();
+                    }
+                    if (ap.Posts == null)
+                    {
+                        ap.Posts = new List<Post>();
+                    }
+
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
         public ApplicationUser GetAdministrator(string Blogname)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ApplicationUser ap = null;
+
+                if (CommonTools.isEmpty(Blogname) == false && this.Exists(Blogname))
+                {
+                    Blog bl = this.Get(Blogname);
+                    string adm = bl.Administrator;
+                    if (CommonTools.isEmpty(adm) == false)
+                    {
+                        ap = CommonTools.usrmng.GetUserbyID(adm);
+
+                    }
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
             public List<Blog> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                //return this.db.Blogs.ToList();
+                return this.dbSet.ToList<Blog>();
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
         public List<Blog> GetAllByAdminUser(string username)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Blog> ap = null;
+                if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
+                {
+                    ap = this.GetAll().FindAll(x => x.Administrator == username);
+                }
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
         public List<Blog> GetAllByModUser(string username)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Blog> ap = null;
+                if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
+                {
+                    //ap = this.ListBlog().FindAll(x => x.Moderators.First(x=>x.Moderator == username));
+                }
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
 
         public List<ApplicationUser> GetModerators(string Blogname)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ApplicationUser> ap = new List<ApplicationUser>();
+
+                if (CommonTools.isEmpty(Blogname) == false && this.Exists(Blogname))
+                {
+                    Blog bl = this.Get(Blogname);
+
+                    List<BlogMods> mods = bl.Moderators;
+                    if (mods != null)
+                    {
+                        foreach (var m in mods)
+                        {
+                            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.Moderator);
+                            if (md != null)
+                            {
+                                ap.Add(md);
+                            }
+                        }
+                    }
+                }
+                return ap;
+                
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
     }
 }
