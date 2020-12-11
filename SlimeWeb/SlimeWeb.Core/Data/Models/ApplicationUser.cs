@@ -9,12 +9,13 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         [Display(Name = "UserName")]
         public string DisplayName { get; set; }
+        public string Id { get; set; }
         //public ApplicationUser Clone()
         //{
         //    try
         //    {
         //        ApplicationUser ap = new ApplicationUser();
-              
+
         //        //if ( this !=null)
         //        { 
         //            //ap.Id = this.Id;
@@ -56,15 +57,15 @@ namespace SlimeWeb.Core.Data.Models
         //        return null;
         //    }
         //}
-       /* public async Task<IdentityResult> GenerateUserIdentityAsync(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> manager)
-        {
-            
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var thisIdentity = await manager.CreateAsync(this, ApplicationCookie);
-            // Add custom this claims here
+        /* public async Task<IdentityResult> GenerateUserIdentityAsync(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> manager)
+         {
 
-            return thisIdentity;
-        }*/
+             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+             var thisIdentity = await manager.CreateAsync(this, ApplicationCookie);
+             // Add custom this claims here
+
+             return thisIdentity;
+         }*/
 
     }
 }

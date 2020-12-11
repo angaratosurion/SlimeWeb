@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,7 @@ namespace SlimeWeb.Core.Managers
         FileSystemManager flmng = new FileSystemManager();
 
         SlimeDbContext slimeDb = new SlimeDbContext();
+        BlogRepository blogrp = new BlogRepository();
         public List<Blog> ListBlog()
         {
             try
@@ -139,27 +141,17 @@ namespace SlimeWeb.Core.Managers
                     usr = CommonTools.usrmng.GetUser(username);
                     if (usr != null)
                     {
-                        bl.Administrator = usr.Id;//.Clone();
-                                                  //bl.AdministratorId = bl.Administrator.Id;
+                        //bl.Administrator = usr.Id;//.Clone();
+                        //                          //bl.AdministratorId = bl.Administrator.Id;
 
-
-
-                        //  bl.Moderators = new List<BlogMods>();
-                        //  BlogMods wm = new BlogMods();
-                        // wm.Blog = bl;
-                        // wm.Moderator = usr.Id;
-                        //bl.Moderators.Add(wm);
-                        this.slimeDb.Add(bl);
-                        this.slimeDb.SaveChanges();
+                        //this.slimeDb.Add(bl);
+                        //this.slimeDb.SaveChanges();
+                        this.blogrp.Create(bl, username);
 
                        
                         string blpath;
 
-                        //if (CommonTools.isEmpty(blrotfold ))
-                        //{
-                        //    blrotfold = "Blogfiles";
-                        //}
-                        // blpath = "~/" + AppDataDir + "/" + blrotfold + "/" + bl.Name;
+                        
                         blpath = FileSystemManager.GetBlogRootDataFolderRelativePath(bl.Name);
                         if (FileSystemManager.DirectoryExists(blpath) == false)
                         {
@@ -267,7 +259,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                Blog ap = null;
+                 
                 if (!CommonTools.isEmpty(Blogname))
                 {
                     string path = FileSystemManager.GetBlogRootDataFolderRelativePath(Blogname);
@@ -282,8 +274,9 @@ namespace SlimeWeb.Core.Managers
                     }
 
                     this.slimeDb.Files.RemoveRange(blfiles);
-                    this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
-                    this.slimeDb.SaveChanges();
+                    //this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
+                    //this.slimeDb.SaveChanges();
+                    this.blogrp.Delete(Blogname);
 
                 }
 
@@ -302,7 +295,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                Blog ap = null;
+               
                 if (!CommonTools.isEmpty(username))
                 {
 
