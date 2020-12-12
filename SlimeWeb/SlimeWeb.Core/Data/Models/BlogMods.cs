@@ -18,6 +18,6 @@ namespace SlimeWeb.Core.Data.Models
         public virtual Blog Blog{ get; set; }
         [Required]
         //  [Key]
-        public string Moderator { get; set; }
+        public int Moderator { get; set; }
     }
 }

@@ -10,6 +10,7 @@
     <PackageReference Include="ExtCore.Data.Abstractions" Version="5.1.0" />
     <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="5.1.0" />
     <PackageReference Include="ExtCore.Data.EntityFramework" Version="5.1.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="5.1.0" />
     <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="5.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="5.1.0" />
@@ -25,6 +26,10 @@
     </PackageReference>
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="System.Composition.AttributedModel" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

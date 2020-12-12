@@ -28,7 +28,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         {
             try
             {
-                if (md != null && CommonTools.isEmpty(md.Author) == false)
+                if (md != null )
                 {
                     //ApplicationUser user = CommonTools.Blusrmng.GetUserbyID(md.Author);
                    // if (user != null)

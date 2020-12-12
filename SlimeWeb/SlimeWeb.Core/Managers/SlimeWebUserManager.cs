@@ -49,7 +49,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public ApplicationUser GetUserbyID(string id)
+        public ApplicationUser GetUserbyID(int? id)
         {
             try
             {
@@ -83,6 +83,28 @@ namespace SlimeWeb.Core.Managers
 
                 CommonTools.ErrorReporting(ex);
 
+            }
+        }
+        public Boolean UserExistsByID(int? id)
+        {
+            try
+            {
+                Boolean ap = false;
+                if (id != null)
+                {
+                    ApplicationUser us = this.GetUserbyID(id);
+                    if (us != null)
+                    {
+                        ap = true;
+                    }
+                }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
             }
         }
         public Boolean UserExists(string id)

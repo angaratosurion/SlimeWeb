@@ -9,7 +9,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         [Display(Name = "UserName")]
         public string DisplayName { get; set; }
-        public string Id { get; set; }
+        //public string Id { get; set; }
         //public ApplicationUser Clone()
         //{
         //    try

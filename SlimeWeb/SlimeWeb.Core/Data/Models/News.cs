@@ -16,7 +16,7 @@ namespace SlimeWeb.Core.Data.Models
         public DateTime Published { get; set; }
         [DataType(DataType.Html)]
         public string content { get; set; }
-        public string Author { get; set; }
+        public int Author { get; set; }
 
         public virtual List<Category> Categories { get; set; }
         public virtual List<Tag> Tags { get; set; }

@@ -36,7 +36,12 @@ namespace SlimeWeb.Core.Managers
                 List<Blog> ap = null;
                 if (!CommonTools.isEmpty(username) && CommonTools.usrmng.UserExists(username))
                 {
-                    ap = this.ListBlog().FindAll(x => x.Administrator == username);
+                    var adm = CommonTools.usrmng.GetUser(username);
+                    if ( adm==null)
+                    {
+                        return null;
+                    }
+                    ap = this.ListBlog().FindAll(x => x.Administrator == adm.Id);
                 }
 
                 return ap;
@@ -246,8 +251,8 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
                 {
                     Blog bl = this.GetBlog(Blogname);
-                    string adm = bl.Administrator;
-                    if (CommonTools.isEmpty(adm) == false)
+                    int adm = bl.Administrator;
+                  //  if (CommonTools.isEmpty(adm) == false)
                     {
                         ap = CommonTools.usrmng.GetUserbyID(adm);
 
