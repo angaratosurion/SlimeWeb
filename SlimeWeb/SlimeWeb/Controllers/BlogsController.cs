@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 using SlimeWeb.Data;
 
 namespace SlimeWeb.Controllers
@@ -13,6 +14,7 @@ namespace SlimeWeb.Controllers
     public class BlogsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly BlogManager  blogmnger= new BlogManager();
         public BlogsController(ApplicationDbContext context)
         {
             _context = context;
@@ -21,19 +23,20 @@ namespace SlimeWeb.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Blogs.ToListAsync());
+            return View(await blogmnger.ListBlog());
         }
 
         // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var blog = await _context.Blogs
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var blog = await blogmnger.GetBlogAsync(name);
             if (blog == null)
             {
                 return NotFound();
@@ -57,8 +60,9 @@ namespace SlimeWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
-                await _context.SaveChangesAsync();
+                //_context.Add(blog);
+                //await _context.SaveChangesAsync();
+                this.blogmnger.CreateBlog(blog, this.User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(blog);

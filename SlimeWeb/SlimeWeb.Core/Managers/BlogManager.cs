@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public  class BlogManager
+   public   class BlogManager
     {
        
         FileSystemManager flmng = new FileSystemManager();
 
         SlimeDbContext slimeDb = new SlimeDbContext();
-        public List<Blog> ListBlog()
+        public async  Task<List<Blog>> ListBlog()
         {
             try
             {
@@ -29,7 +30,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public List<Blog> ListBlogByAdmUser(string username)
+        public async Task<List<Blog>> ListBlogByAdmUser(string username)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace SlimeWeb.Core.Managers
                     {
                         return null;
                     }
-                    ap = this.ListBlog().FindAll(x => x.Administrator == adm.Id);
+                    ap = (await this.ListBlog()).FindAll(x => x.Administrator == adm.Id);
                 }
 
                 return ap;
@@ -54,7 +55,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public List<Blog> ListBlogByModUser(string username)
+        public async Task<List<Blog>> ListBlogByModUser(string username)
         {
             try
             {
@@ -74,14 +75,14 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public Blog GetBlog(string name)
+        public async Task<Blog> GetBlogAsync(string name)
         {
             try
             {
                 Blog ap = null;
                 if (!CommonTools.isEmpty(name))
                 {
-                    ap = this.ListBlog().First(x => x.Name==name);
+                    ap = (await this.ListBlog()).First(x => x.Name==name);
                     if (ap.Categories == null)
                     {
                         ap.Categories = new List<Category>();
@@ -104,14 +105,14 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public bool  BlogExists(string name)
+        public async Task<bool>  BlogExists(string name)
         {
             try
             {
                 bool ap = false;
                 if (!CommonTools.isEmpty(name))
                 {
-                    List<Blog> blgs = this.ListBlog();
+                    List<Blog> blgs = await this.ListBlog();
                     if(blgs.Find(x => x.Name == name)!=null)
                     {
                         ap = true;
@@ -182,7 +183,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
         
-        public Blog EditBasicInfo(Blog bl, string Blogname)
+        public async Task<Blog> EditBasicInfo(Blog bl, string Blogname)
         {
             try
             {
@@ -192,11 +193,11 @@ namespace SlimeWeb.Core.Managers
 
                 
 
-                      bl2 = this.GetBlog(Blogname);
+                      bl2 =await this.GetBlogAsync(Blogname);
                     bl.Administrator = bl2.Administrator;
-                    slimeDb.Entry(this.GetBlog(Blogname)).CurrentValues.SetValues(bl);
+                    slimeDb.Entry(this.GetBlogAsync(Blogname)).CurrentValues.SetValues(bl);
                     slimeDb.SaveChanges();
-                    ap = this.GetBlog(Blogname);
+                    ap =await  this.GetBlogAsync(Blogname);
                 }
 
 
@@ -209,17 +210,18 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public List<ApplicationUser> GetBlogModerators(string Blogname)
+        public async Task<List<ApplicationUser>> GetBlogModerators(string Blogname)
         {
             try
             {
                 List<ApplicationUser> ap = new List<ApplicationUser>();
 
-                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
+                if (CommonTools.isEmpty(Blogname) == false
+                    && await this.BlogExists(Blogname))
                 {
-                    Blog bl = this.GetBlog(Blogname);
+                    Blog bl = await this.GetBlogAsync(Blogname);
 
-                    List<BlogMods> mods = bl.Moderators;
+                    List<BlogMods> mods =  bl.Moderators;
                     if (mods != null)
                     {
                         foreach (var m in mods)
@@ -242,15 +244,16 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public ApplicationUser GetBlogAdministrator(string Blogname)
+        public async Task<ApplicationUser> GetBlogAdministrator(string Blogname)
         {
             try
             {
                 ApplicationUser ap = null;
 
-                if (CommonTools.isEmpty(Blogname) == false && this.BlogExists(Blogname))
+                if (CommonTools.isEmpty(Blogname) == false 
+                    && await this.BlogExists(Blogname))
                 {
-                    Blog bl = this.GetBlog(Blogname);
+                    Blog bl = await this.GetBlogAsync(Blogname);
                     int adm = bl.Administrator;
                   //  if (CommonTools.isEmpty(adm) == false)
                     {
@@ -268,7 +271,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public void DeleteBlog(string Blogname)
+        public async Task DeleteBlogAsync(string Blogname)
         {
             try
             {
@@ -276,7 +279,7 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(Blogname))
                 {
                     string path = FileSystemManager.GetBlogRootDataFolderRelativePath(Blogname);
-                    List<Files> blfiles = this.GetBlog(Blogname).Files;
+                    List<Files> blfiles = (await this.GetBlogAsync(Blogname)).Files;
                     if (blfiles != null)
                     {
                         foreach (Files f in blfiles)
@@ -287,7 +290,7 @@ namespace SlimeWeb.Core.Managers
                     }
 
                     this.slimeDb.Files.RemoveRange(blfiles);
-                    this.slimeDb.Blogs.Remove(this.GetBlog(Blogname));
+                    this.slimeDb.Blogs.Remove(await this.GetBlogAsync(Blogname));
                     this.slimeDb.SaveChanges();
 
                 }
@@ -303,7 +306,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public void DeleteBlogByAdm(string username)
+        public async void DeleteBlogByAdm(string username)
         {
             try
             {
@@ -311,12 +314,12 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(username))
                 {
 
-                    List<Blog> bls = this.ListBlogByAdmUser(username);
+                    List<Blog> bls = await this.ListBlogByAdmUser(username);
                     if (bls != null)
                     {
                         foreach (Blog w in bls)
                         {
-                            this.DeleteBlog(w.Name);
+                            this.DeleteBlogAsync(w.Name);
                         }
                     }
 
