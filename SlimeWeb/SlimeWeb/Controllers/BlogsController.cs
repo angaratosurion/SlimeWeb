@@ -69,14 +69,15 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
+            // var blog = await _context.Blogs.FindAsync(id);
+            var blog = await this.blogmnger.GetBlogAsync(name);
             if (blog == null)
             {
                 return NotFound();
@@ -89,9 +90,9 @@ namespace SlimeWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
+        public async Task<IActionResult> Edit(string name, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
         {
-            if (id != blog.Id)
+            if (id != blog.n)
             {
                 return NotFound();
             }
@@ -100,8 +101,9 @@ namespace SlimeWeb.Controllers
             {
                 try
                 {
-                    _context.Update(blog);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(blog);
+                    //await _context.SaveChangesAsync();
+                   await  this.blogmnger.EditBasicInfo(blog, name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
