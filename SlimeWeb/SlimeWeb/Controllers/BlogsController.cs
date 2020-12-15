@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -69,6 +71,7 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(string name)
         {
             if (name == null)
@@ -92,7 +95,7 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string name, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
         {
-            if (id != blog.n)
+            if (name != blog.Name)
             {
                 return NotFound();
             }
@@ -122,15 +125,18 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize]
+        public async Task<IActionResult> Delete(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var blog = await _context.Blogs
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var blog = await this.blogmnger.GetBlogAsync(name);
+          
             if (blog == null)
             {
                 return NotFound();
@@ -142,11 +148,12 @@ namespace SlimeWeb.Controllers
         // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string name)
         {
-            var blog = await _context.Blogs.FindAsync(id);
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();
+            //var blog = await _context.Blogs.FindAsync(id);
+            //_context.Blogs.Remove(blog);
+            //await _context.SaveChangesAsync();
+            var blog = this.blogmnger.DeleteBlogAsync(name);
             return RedirectToAction(nameof(Index));
         }
 
