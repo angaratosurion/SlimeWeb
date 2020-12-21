@@ -27,6 +27,8 @@ namespace SlimeWeb.Core.Data.Models
         public virtual List<Category> Categories { get; set; }
         public virtual List<Files> Files { get; set; }
         public virtual List<Post> Posts { get; set; }
-
+        public string engine { get; set; }
     }
+
 }
+

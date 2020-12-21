@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting.Internal;
 using ExtCore.Data.EntityFramework;
 using System.Reflection;
 using ExtCore.Data.Abstractions;
+using SlimeWeb.Core.MarkaupEngine.Interfaces;
+using SlimeWeb.Core.MarkaupEngine;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -51,7 +53,8 @@ namespace SlimeWeb.Core.App_Start
 
             });
             services.AddScoped<IStorageContext,SlimeDbContext>();
-         //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+            //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+            services.AddScoped<IMarkaupEngineService, MarkaupEngineService>();
 
 
             return services;
