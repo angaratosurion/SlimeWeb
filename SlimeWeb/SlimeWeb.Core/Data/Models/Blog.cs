@@ -23,11 +23,12 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         public DateTime Created { get; set; }
         public int Administrator { get; set; }
+        public string engine { get; set; }
         public virtual List<BlogMods> Moderators { get; set; }
         public virtual List<Category> Categories { get; set; }
         public virtual List<Files> Files { get; set; }
         public virtual List<Post> Posts { get; set; }
-        public string engine { get; set; }
+        
     }
 
 }
