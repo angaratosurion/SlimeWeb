@@ -16,10 +16,10 @@ namespace SlimeWeb.Core.Data.Models
          public int AuthorId { get; set; }
         [Required]
         public string Title { get; set; }
-        [Display(Name="Last Update At")]
+        [Display(Name="Last Updated At")]
         [Required]
         public DateTime LastUpdate { get; set; }
-        [Display(Name = "Created Update At")]
+        [Display(Name = "Created  At")]
         [Required]
         public DateTime Created { get; set; }
         public int Administrator { get; set; }

@@ -110,7 +110,7 @@ namespace SlimeWeb.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.Id))
+                    if (!await blogmnger.BlogExists(name))
                     {
                         return NotFound();
                     }
@@ -157,9 +157,6 @@ namespace SlimeWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogExists(int id)
-        {
-            return _context.Blogs.Any(e => e.Id == id);
-        }
+       
     }
 }
