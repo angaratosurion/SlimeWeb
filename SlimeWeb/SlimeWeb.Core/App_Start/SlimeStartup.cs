@@ -34,8 +34,9 @@ namespace SlimeWeb.Core.App_Start
             services.AddDbContext<SlimeDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-            //  .AddEntityFrameworkStores<SlimeDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+              .AddEntityFrameworkStores<SlimeDbContext>()
+              .AddDefaultTokenProviders();
             services.AddMvcCore().AddControllersAsServices()
                 .AddRazorPages();
             //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)

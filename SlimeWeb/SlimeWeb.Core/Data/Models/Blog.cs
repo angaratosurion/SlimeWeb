@@ -13,7 +13,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]        
         public string Name  { get; set; }
         [Required]
-         public int AuthorId { get; set; }
+         public string AuthorId { get; set; }
         [Required]
         public string Title { get; set; }
         [Display(Name="Last Updated At")]
@@ -22,7 +22,7 @@ namespace SlimeWeb.Core.Data.Models
         [Display(Name = "Created  At")]
         [Required]
         public DateTime Created { get; set; }
-        public int Administrator { get; set; }
+        public string Administrator { get; set; }
         public string engine { get; set; }
         public virtual List<BlogMods> Moderators { get; set; }
         public virtual List<Category> Categories { get; set; }

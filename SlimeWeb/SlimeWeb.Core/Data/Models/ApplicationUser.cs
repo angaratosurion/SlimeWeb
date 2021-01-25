@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<string>
     {
         [Required]
         [Display(Name = "UserName")]

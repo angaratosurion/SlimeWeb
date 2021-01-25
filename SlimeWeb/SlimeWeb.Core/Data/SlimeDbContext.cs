@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data
 {    //
-    public class SlimeDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>, IStorageContext
+    public class SlimeDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IStorageContext
     {
        
        

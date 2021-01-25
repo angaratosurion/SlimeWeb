@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class ApplicationRole : IdentityRole<int>
+    public class ApplicationRole : IdentityRole<string>
     {
     }
 }

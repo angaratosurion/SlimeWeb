@@ -254,7 +254,7 @@ namespace SlimeWeb.Core.Managers
                     && await this.BlogExists(Blogname))
                 {
                     Blog bl = await this.GetBlogAsync(Blogname);
-                    int adm = bl.Administrator;
+                    string adm = bl.Administrator;
                   //  if (CommonTools.isEmpty(adm) == false)
                     {
                         ap = CommonTools.usrmng.GetUserbyID(adm);

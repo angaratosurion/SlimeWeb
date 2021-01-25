@@ -31,15 +31,15 @@ namespace SlimeWeb.Controllers
             var config = builder.Build();//
 
             defaultcon = config.GetValue<string>("DefaultRoot:Controller");
-            if (String.IsNullOrEmpty(defaultcon) ==false )//&& string.IsNullOrEmpty(defaultcon)==false)
+            if (String.IsNullOrEmpty(defaultcon) == false)//&& string.IsNullOrEmpty(defaultcon)==false)
             {
-               Response.Redirect(defaultcon);
+                Response.Redirect(defaultcon);
             }
-           // else
+            else
             {
                 return View();
             }
-            //return View();
+            return View();
 
         }
 
