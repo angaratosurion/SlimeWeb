@@ -6,9 +6,9 @@ namespace SlimeWeb.Core.Data.Models
 {
     public class ApplicationUser : IdentityUser<string>
     {
-        [Required]
-        [Display(Name = "UserName")]
-        public string DisplayName { get; set; }
+        //[Required]
+        //[Display(Name = "UserName")]
+        //public string DisplayName { get; set; }
         //public string Id { get; set; }
         //public ApplicationUser Clone()
         //{

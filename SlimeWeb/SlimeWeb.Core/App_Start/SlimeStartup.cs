@@ -15,6 +15,8 @@ using System.Reflection;
 using ExtCore.Data.Abstractions;
 using SlimeWeb.Core.MarkaupEngine.Interfaces;
 using SlimeWeb.Core.MarkaupEngine;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SlimeWeb.Core.Services;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -56,6 +58,7 @@ namespace SlimeWeb.Core.App_Start
             services.AddScoped<IStorageContext,SlimeDbContext>();
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
             services.AddScoped<IMarkaupEngineService, MarkaupEngineService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
 
 
             return services;

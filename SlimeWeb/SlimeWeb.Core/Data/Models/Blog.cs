@@ -12,8 +12,8 @@ namespace SlimeWeb.Core.Data.Models
         public int Id { get; set; }
         [Required]        
         public string Name  { get; set; }
-        [Required]
-         public string AuthorId { get; set; }
+        //[Required]
+        // public string AuthorId { get; set; }
         [Required]
         public string Title { get; set; }
         [Display(Name="Last Updated At")]

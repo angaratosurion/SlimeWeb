@@ -13,7 +13,7 @@ namespace SlimeWeb.Core.Data.Models
         public string Title { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Published { get; set; }
-        [DataType(DataType.Html)]
+        //[DataType(DataType.Html)]
         public string content { get; set; }
         public string Author { get; set; }
 

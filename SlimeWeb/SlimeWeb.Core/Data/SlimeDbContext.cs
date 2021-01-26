@@ -38,7 +38,7 @@ namespace SlimeWeb.Core.Data
         public DbSet<BannedUsers> BannedUsers { get; set; }
         public DbSet<News> News{ get; set; }
 
-        //public IStorageContext StorageContext => throw new NotImplementedException();
+        //public IStorageContext StorageContext => throw new NotImplementedException();\
 
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
                : base(options)
@@ -84,7 +84,14 @@ namespace SlimeWeb.Core.Data
                
 
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>()
+                 .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
 
-       
+        }
+
     }
 }
