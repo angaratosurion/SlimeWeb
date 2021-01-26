@@ -17,12 +17,13 @@ namespace SlimeWeb.Core.Data.Models
         public string content { get; set; }
         public string Author { get; set; }
 
-        public virtual List<Category> Categories { get; set; }
-        public virtual List<Tag> Tags { get; set; }
+        
         [Timestamp]
         public Byte[] RowVersion { get; set; }
         [Required]
         public int BlogId { get; set; }
+        public virtual List<Category> Categories { get; set; }
+        public virtual List<Tag> Tags { get; set; }
 
     }
 }

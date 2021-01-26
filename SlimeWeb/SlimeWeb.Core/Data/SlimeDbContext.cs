@@ -43,7 +43,7 @@ namespace SlimeWeb.Core.Data
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
                : base(options)
         {
-           
+
 
 
         }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Data;
@@ -14,9 +15,9 @@ namespace SlimeWeb.Controllers
 {
     public class BlogsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SlimeDbContext  _context;
         private readonly BlogManager  blogmnger= new BlogManager();
-        public BlogsController(ApplicationDbContext context)
+        public BlogsController(SlimeDbContext context)
         {
             _context = context;
         }
@@ -28,8 +29,9 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(string name)
+        public async Task<IActionResult> Details(string id)
         {
+            string name = id;
             if (name == null)
             {
                 return NotFound();
@@ -72,8 +74,9 @@ namespace SlimeWeb.Controllers
 
         // GET: Blogs/Edit/5
         [Authorize]
-        public async Task<IActionResult> Edit(string name)
+        public async Task<IActionResult> Edit(string id)
         {
+            string name = id;
             if (name == null)
             {
                 return NotFound();
@@ -93,8 +96,8 @@ namespace SlimeWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
-        {
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
+        { string name = id;
             if (name != blog.Name)
             {
                 return NotFound();
@@ -126,8 +129,9 @@ namespace SlimeWeb.Controllers
 
         // GET: Blogs/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(string name)
+        public async Task<IActionResult> Delete(string id)
         {
+            string name = id;
             if (name == null)
             {
                 return NotFound();
@@ -148,8 +152,9 @@ namespace SlimeWeb.Controllers
         // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string name)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            string name = id;
             //var blog = await _context.Blogs.FindAsync(id);
             //_context.Blogs.Remove(blog);
             //await _context.SaveChangesAsync();

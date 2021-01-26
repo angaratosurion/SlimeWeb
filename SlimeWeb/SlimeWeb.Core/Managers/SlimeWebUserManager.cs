@@ -11,7 +11,7 @@ namespace SlimeWeb.Core.Managers
 
     public class SlimeWebsUserManager
     {
-        SlimeDbContext db = null;
+        SlimeDbContext db = new SlimeDbContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.App_Start;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data;
 
 namespace SlimeWeb
 {
@@ -30,7 +31,7 @@ namespace SlimeWeb
         public void ConfigureServices(IServiceCollection services)
         {
            services= base.ConfigureServicesSlime(services);
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<SlimeDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)

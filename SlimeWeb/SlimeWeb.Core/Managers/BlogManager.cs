@@ -288,9 +288,12 @@ namespace SlimeWeb.Core.Managers
                         }
                         FileSystemManager.DeleteDirectory(path);
                     }
-
-                    this.slimeDb.Files.RemoveRange(blfiles);
-                    this.slimeDb.Blogs.Remove(await this.GetBlogAsync(Blogname));
+                    if (blfiles != null)
+                    {
+                        this.slimeDb.Files.RemoveRange(blfiles);
+                    }
+                    Blog blog = await this.GetBlogAsync(Blogname);
+                    this.slimeDb.Blogs.Remove(blog); 
                     this.slimeDb.SaveChanges();
 
                 }

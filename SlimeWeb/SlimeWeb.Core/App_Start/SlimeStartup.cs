@@ -71,7 +71,7 @@ namespace SlimeWeb.Core.App_Start
         public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
             this.extensionsPath = Path.Combine(env.ContentRootPath, Configuration["Extensions:Path"]);
-         //if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
             //    //app.UseDatabaseErrorPage();
@@ -100,7 +100,7 @@ namespace SlimeWeb.Core.App_Start
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
-             
+
                 context.Database.EnsureCreated();
                 context.Database.Migrate();
             }
@@ -109,7 +109,9 @@ namespace SlimeWeb.Core.App_Start
                 Directory.CreateDirectory(extensionsPath);
             }
             app.UseExtCore();
+        }
+                
 
         }
     }
-}
+

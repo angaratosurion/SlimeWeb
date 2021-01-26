@@ -8,17 +8,13 @@ using SlimeWeb.Core.Data.Models;
 
 namespace SlimeWeb.Data
 {
-    public class ApplicationDbContext : SlimeDbContext////IdentityDbContext
-   // public class ApplicationDbContext : IdentityDbContext
-    {
-        public ApplicationDbContext(DbContextOptions<SlimeDbContext> options)
-           : base(options)
-        {
-        }
+    //public class ApplicationDbContext : SlimeDbContext
+    //{
+    //    public ApplicationDbContext(DbContextOptions<SlimeDbContext> options)
+    //       : base(options)
+    //    {
+    //    }
 
-        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        //   : base(options)
-        //{
-        //}
-    }
+       
+    //}
 }
