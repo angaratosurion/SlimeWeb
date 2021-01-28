@@ -1,4 +1,4 @@
-﻿@model SlimeWeb.Core.Data.Models.Blog
+﻿@model SlimeWeb.Core.Data.Models.Post
 
 @{
     ViewData["Title"] = "Create";
@@ -6,36 +6,35 @@
 
 <h1>Create</h1>
 
-<h4>Blog</h4>
+<h4>Post</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastUpdate" class="control-label"></label>
-                <input asp-for="LastUpdate" class="form-control" />
-                <span asp-validation-for="LastUpdate" class="text-danger"></span>
+                <label asp-for="Published" class="control-label"></label>
+                <input asp-for="Published" class="form-control" />
+                <span asp-validation-for="Published" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" />
-                <span asp-validation-for="Created" class="text-danger"></span>
+                <label asp-for="content" class="control-label"></label>
+                <input asp-for="content" class="form-control" />
+                <span asp-validation-for="content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Administrator" class="control-label"></label>
-                <input asp-for="Administrator" class="form-control" />
-                <span asp-validation-for="Administrator" class="text-danger"></span>
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogId" class="control-label"></label>
+                <select asp-for="BlogId" class ="form-control" asp-items="ViewBag.BlogId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="engine" class="control-label"></label>

@@ -1,4 +1,4 @@
-﻿@model SlimeWeb.Core.Data.Models.Blog
+﻿@model SlimeWeb.Core.Data.Models.Post
 
 @{
     ViewData["Title"] = "Details";
@@ -7,15 +7,9 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Blog</h4>
+    <h4>Post</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -23,22 +17,28 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastUpdate)
+            @Html.DisplayNameFor(model => model.Published)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastUpdate)
+            @Html.DisplayFor(model => model.Published)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.content)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Created)
+            @Html.DisplayFor(model => model.content)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Administrator)
+            @Html.DisplayNameFor(model => model.Author)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Administrator)
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RowVersion)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.engine)
@@ -49,6 +49,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Name">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -9,14 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
-using SlimeWeb.Data;
 
-namespace SlimeWeb.Controllers
+namespace SlimeWeb
 {
     public class BlogsController : Controller
     {
-        private readonly SlimeDbContext  _context;
-        private readonly BlogManager  blogmnger= new BlogManager();
+        private readonly SlimeDbContext _context;
+        private readonly BlogManager blogmnger = new BlogManager();
         public BlogsController(SlimeDbContext context)
         {
             _context = context;
@@ -96,8 +95,9 @@ namespace SlimeWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
-        { string name = id;
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name, Title,LastUpdate,Created")] Blog blog)
+        {
+            string name = id;
             if (name != blog.Name)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace SlimeWeb.Controllers
                 {
                     //_context.Update(blog);
                     //await _context.SaveChangesAsync();
-                   await  this.blogmnger.EditBasicInfo(blog, name);
+                    await this.blogmnger.EditBasicInfo(blog, name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,7 +140,7 @@ namespace SlimeWeb.Controllers
             //var blog = await _context.Blogs
             //    .FirstOrDefaultAsync(m => m.Id == id);
             var blog = await this.blogmnger.GetBlogAsync(name);
-          
+
             if (blog == null)
             {
                 return NotFound();
@@ -161,7 +161,5 @@ namespace SlimeWeb.Controllers
             var blog = this.blogmnger.DeleteBlogAsync(name);
             return RedirectToAction(nameof(Index));
         }
-
-       
     }
 }
