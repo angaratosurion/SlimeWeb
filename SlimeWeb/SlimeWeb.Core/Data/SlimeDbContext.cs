@@ -37,6 +37,7 @@ namespace SlimeWeb.Core.Data
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
         public DbSet<News> News{ get; set; }
+        public DbSet<BlogMods>  BlogMods { get; set; }
 
         //public IStorageContext StorageContext => throw new NotImplementedException();\
 

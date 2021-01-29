@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -75,14 +76,16 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Blog> GetBlogAsync(string name)
+        public async Task<ViewBlog> GetBlogAsync(string name)
         {
             try
             {
-                Blog ap = null;
+                ViewBlog ap = null;
                 if (!CommonTools.isEmpty(name))
                 {
-                    ap = (await this.ListBlog()).First(x => x.Name==name);
+                    ap = new ViewBlog();
+                    var tap = (await this.ListBlog()).First(x => x.Name==name);
+                    ap.ImportFromModel(tap);
                     if (ap.Categories == null)
                     {
                         ap.Categories = new List<Category>();
@@ -216,13 +219,13 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<ApplicationUser> ap = new List<ApplicationUser>();
-
+              
                 if (CommonTools.isEmpty(Blogname) == false
                     && await this.BlogExists(Blogname))
                 {
                     Blog bl = await this.GetBlogAsync(Blogname);
 
-                    List<BlogMods> mods =  bl.Moderators;
+                    List<BlogMods> mods = this.slimeDb.BlogMods.ToList().FindAll(x => x.Id == bl.Id).ToList();
                     if (mods != null)
                     {
                         foreach (var m in mods)
