@@ -195,7 +195,8 @@ namespace SlimeWeb.Core.Managers
 
                       bl2 =await this.GetBlogAsync(Blogname);
                     bl.Administrator = bl2.Administrator;
-                    slimeDb.Entry(this.GetBlogAsync(Blogname)).CurrentValues.SetValues(bl);
+                    bl.Id = bl2.Id;
+                    slimeDb.Entry(await this.GetBlogAsync(Blogname)).CurrentValues.SetValues(bl);
                     slimeDb.SaveChanges();
                     ap =await  this.GetBlogAsync(Blogname);
                 }

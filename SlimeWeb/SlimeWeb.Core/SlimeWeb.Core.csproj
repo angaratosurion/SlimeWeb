@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\Models\Blog.cs~RF583bd4.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="6.0.0" />
     <PackageReference Include="ExtCore.Data.Abstractions" Version="6.0.0" />
     <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="6.0.0" />

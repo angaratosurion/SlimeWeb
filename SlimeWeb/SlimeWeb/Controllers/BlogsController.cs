@@ -95,15 +95,16 @@ namespace SlimeWeb
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name, Title,LastUpdate,Created")] Blog blog)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Administrator, Title,Created")] Blog blog)
         {
+            
             string name = id;
             if (name != blog.Name)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+           // if (ModelState.IsValid)
             {
                 try
                 {
@@ -124,7 +125,8 @@ namespace SlimeWeb
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(blog);
+
+            //return View(blog);
         }
 
         // GET: Blogs/Delete/5
