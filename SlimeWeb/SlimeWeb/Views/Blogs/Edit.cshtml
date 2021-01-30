@@ -1,4 +1,4 @@
-﻿@model SlimeWeb.Core.Data.Models.Blog
+﻿@model SlimeWeb.Core.Data.ViewModels.ViewBlog
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,10 +13,9 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Administrator" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" readonly="readonly" />
+                <input asp-for="Name" class="form-control" readonly="readonly"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,19 +25,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastUpdate" class="control-label"></label>
-                <input asp-for="LastUpdate" class="form-control" readonly="readonly" value="@DateTime.Now" />
+                <input asp-for="LastUpdate" class="form-control" value="@DateTime.Now" readonly="readonly" />
                 <span asp-validation-for="LastUpdate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" readonly="readonly" />
+                <input asp-for="Created" class="form-control" readonly="readonly"/>
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="Administrator" class="control-label"></label>
-            <input asp-for="Administrator" class="form-control" readonly="readonly" />
-            <span asp-validation-for="Administrator" class="text-danger"></span>
-        </div>*@
+            <div class="form-group">
+                <label asp-for="Administrator" class="control-label"></label>
+                <input asp-for="Administrator" class="form-control" value="@Model.Administrator.UserName" readonly="readonly"/>
+                <span asp-validation-for="Administrator" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="engine" class="control-label"></label>
                 <input asp-for="engine" class="form-control" />

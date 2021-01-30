@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SlimeWeb.Core.Data.Models.Blog>
+﻿@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewBlog>
 
 @{
     ViewData["Title"] = "Index";
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.Created)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Administrator)
+                @Html.DisplayFor(modelItem => item.Administrator.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.engine)

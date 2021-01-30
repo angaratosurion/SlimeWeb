@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
 
-namespace SlimeWeb
+namespace SlimeWeb.Controllers
 {
     public class BlogsController : Controller
     {
@@ -24,7 +25,15 @@ namespace SlimeWeb
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            return View(await blogmnger.ListBlog());
+            List<ViewBlog> lstblogs = new List<ViewBlog>();
+            var list = await blogmnger.ListBlog();
+            foreach (var bl in list )
+            {
+                ViewBlog vb = new ViewBlog();
+                vb.ImportFromModel(bl);
+                lstblogs.Add(vb);
+            }
+            return View(lstblogs);
         }
 
         // GET: Blogs/Details/5
@@ -97,20 +106,21 @@ namespace SlimeWeb
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Administrator, Title,Created")] Blog blog)
         {
-            
+
             string name = id;
             if (name != blog.Name)
             {
                 return NotFound();
             }
 
-           // if (ModelState.IsValid)
+            // if (ModelState.IsValid)
             {
                 try
                 {
                     //_context.Update(blog);
                     //await _context.SaveChangesAsync();
-                    await this.blogmnger.EditBasicInfo(blog, name);
+                    blog.LastUpdate = DateTime.Now;
+                    await this.blogmnger.EditBasicInfo(blog, name); ;
                 }
                 catch (DbUpdateConcurrencyException)
                 {

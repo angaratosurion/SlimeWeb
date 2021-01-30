@@ -194,14 +194,15 @@ namespace SlimeWeb.Core.Managers
                 if (bl != null && CommonTools.isEmpty(Blogname) == false)
                 {
 
-                
 
-                      bl2 =await this.GetBlogAsync(Blogname);
+
+                    bl2 = (await this.GetBlogAsync(Blogname)).ExportToModel();
                     bl.Administrator = bl2.Administrator;
                     bl.Id = bl2.Id;
-                    slimeDb.Entry(await this.GetBlogAsync(Blogname)).CurrentValues.SetValues(bl);
+                    bl.LastUpdate = DateTime.Now;
+                    slimeDb.Entry(bl2).CurrentValues.SetValues(bl);
                     slimeDb.SaveChanges();
-                    ap =await  this.GetBlogAsync(Blogname);
+                    ap =(await  this.GetBlogAsync(Blogname)).ExportToModel();
                 }
 
 

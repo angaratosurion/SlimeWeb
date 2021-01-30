@@ -24,17 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastUpdate" class="control-label"></label>
-                <input asp-for="LastUpdate" class="form-control" />
+                <input asp-for="LastUpdate" class="form-control" type="hidden" value="@DateTime.Now"/>
                 <span asp-validation-for="LastUpdate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" />
+                <input asp-for="Created" class="form-control" value="@DateTime.Now" />
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Administrator" class="control-label"></label>
-                <input asp-for="Administrator" class="form-control" />
+                <input asp-for="Administrator" class="form-control" ype="hidden" value="@this.User;" />
                 <span asp-validation-for="Administrator" class="text-danger"></span>
             </div>
             <div class="form-group">
