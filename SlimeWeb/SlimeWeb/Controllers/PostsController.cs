@@ -2,27 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb
 {
     public class PostsController : Controller
     {
         private readonly SlimeDbContext _context;
-
+        PostManager postManager;
         public PostsController(SlimeDbContext context)
         {
             _context = context;
+            postManager = new PostManager(context);
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            return View(await _context.Post.ToListAsync());
+            string name = id;
+            if (name == null)
+            {
+                return NotFound();
+            }
+            
+            return View(await postManager.ListByBlogName(name));
         }
 
         // GET: Posts/Details/5
@@ -44,6 +53,7 @@ namespace SlimeWeb
         }
 
         // GET: Posts/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +76,7 @@ namespace SlimeWeb
         }
 
         // GET: Posts/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -117,6 +128,7 @@ namespace SlimeWeb
         }
 
         // GET: Posts/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -12,9 +12,11 @@ namespace SlimeWeb.Core.Managers
    public  class PostManager
     {
         SlimeDbContext db;
+        BlogManager blmngr;
         public PostManager(SlimeDbContext dbContext)
         {
             db = dbContext;
+            blmngr = new BlogManager();
         }
 
         public async Task<List<Post>> List()
@@ -24,6 +26,40 @@ namespace SlimeWeb.Core.Managers
                 List<Post> ap = null;
 
                 ap = await db.Post.ToListAsync();
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+
+            }
+
+        }
+        public async Task<List<Post>> ListByBlogName(string name)
+        {
+            try
+            {
+                List<Post> ap = null, posts;
+                Blog blog=null;
+                if (name!= null)
+                {
+                    ap = new List<Post>();
+                    if ((await this.blmngr.BlogExists(name)) == true)
+                    {
+                        blog = await this.blmngr.GetBlogAsync(name);
+
+                        posts = await this.db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
+                        if (posts != null)
+                        {
+                            ap = posts;
+                        }
+                    }
+
+
+
+                }
+
                 return ap;
 
             }
