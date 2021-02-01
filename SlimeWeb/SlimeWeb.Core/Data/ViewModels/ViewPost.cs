@@ -1,4 +1,5 @@
 ﻿using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,10 +11,13 @@ namespace SlimeWeb.Core.Data.ViewModels
 {
    public class ViewPost:Post
     {
+
+        BlogManager bmngr = new BlogManager();
         [DataType(DataType.Html)]
         public string HTMLcontent { get; set; }
-       
-        public ViewPost(Post model)
+        public Blog Blog { get; set; }
+
+        public void  ImportFromModel(Post model)
         {
             this.Author = model.Author;
             this.BlogId = model.BlogId;
@@ -25,6 +29,9 @@ namespace SlimeWeb.Core.Data.ViewModels
             this.Tags = model.Tags;
             this.Title = model.Title;
             this.content = model.content;
+            Blog = this.bmngr.GetBlogByIdAsync(model.BlogId).Result.ExportToModel();
+
+            
 
         }
         public Post ToModel()

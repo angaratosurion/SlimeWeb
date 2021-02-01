@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb
@@ -16,6 +17,7 @@ namespace SlimeWeb
     {
         private readonly SlimeDbContext _context;
         PostManager postManager;
+        BlogManager blmngr = new BlogManager();
         public PostsController(SlimeDbContext context)
         {
             _context = context;
@@ -26,12 +28,22 @@ namespace SlimeWeb
         public async Task<IActionResult> Index(string id)
         {
             string name = id;
+            
             if (name == null)
             {
                 return NotFound();
             }
-            
-            return View(await postManager.ListByBlogName(name));
+            var p = await postManager.ListByBlogName(name);
+
+            List<ViewPost> posts = new List<ViewPost>();
+            foreach(var tp in p)
+            {
+                ViewPost ap = new ViewPost();
+                ap.ImportFromModel(tp);
+                posts.Add(ap);
+
+            }
+            return View(posts);
         }
 
         // GET: Posts/Details/5
@@ -42,8 +54,8 @@ namespace SlimeWeb
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var post = await postManager.Details(id);
+
             if (post == null)
             {
                 return NotFound();
@@ -54,7 +66,7 @@ namespace SlimeWeb
 
         // GET: Posts/Create
         [Authorize]
-        public IActionResult Create()
+        public IActionResult Create(string blogname)
         {
             return View();
         }
@@ -64,13 +76,13 @@ namespace SlimeWeb
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] Post post)
+        public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] Post post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await postManager.Create(post, this.User.Identity.Name);
+                //blmngr.GetBlogAsync()
+                return RedirectToAction(nameof(Index),blogname);
             }
             return View(post);
         }

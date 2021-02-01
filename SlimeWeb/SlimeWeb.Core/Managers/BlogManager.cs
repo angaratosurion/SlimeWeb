@@ -108,6 +108,38 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<ViewBlog> GetBlogByIdAsync(int ?id)
+        {
+            try
+            {
+                ViewBlog ap = null;
+                //if (!CommonTools.isEmpty(id))
+                {
+                    ap = new ViewBlog();
+                    var tap = (await this.ListBlog()).First(x => x.Id == id);
+                    ap.ImportFromModel(tap);
+                    if (ap.Categories == null)
+                    {
+                        ap.Categories = new List<Category>();
+                    }
+                    if (ap.Posts == null)
+                    {
+                        ap.Posts = new List<Post>();
+                    }
+
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<bool>  BlogExists(string name)
         {
             try
