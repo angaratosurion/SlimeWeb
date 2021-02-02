@@ -19,18 +19,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Published)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.content)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Author)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.RowVersion)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.engine)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -44,18 +44,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Published)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.content)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.RowVersion)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.engine)
-                </td>
+                </td>*@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
