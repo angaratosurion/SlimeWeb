@@ -18,6 +18,7 @@ namespace SlimeWeb
         private readonly SlimeDbContext _context;
         PostManager postManager;
         BlogManager blmngr = new BlogManager();
+         
         public PostsController(SlimeDbContext context)
         {
             _context = context;
@@ -54,7 +55,9 @@ namespace SlimeWeb
                 return NotFound();
             }
 
-            var post = await postManager.Details(id);
+            var mpost = await postManager.Details(id);
+            ViewPost post = new ViewPost();
+            post.ImportFromModel(post);
 
             if (post == null)
             {
@@ -66,8 +69,15 @@ namespace SlimeWeb
 
         // GET: Posts/Create
         [Authorize]
-        public IActionResult Create(string blogname)
+        public IActionResult Create(string id)
         {
+            string blogname=id;
+            var blog = this.blmngr.GetBlogAsync(blogname).Result;
+            if (blog != null)
+            {
+
+                ViewBag.BlogId = blog.Id;
+            }
             return View();
         }
 
