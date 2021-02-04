@@ -17,6 +17,7 @@ using SlimeWeb.Core.MarkaupEngine.Interfaces;
 using SlimeWeb.Core.MarkaupEngine;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SlimeWeb.Core.Services;
+using SlimeWeb.Core.MarkaupEngine.Engines;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -98,6 +99,15 @@ namespace SlimeWeb.Core.App_Start
             //    endpoints.MapRazorPages();
             //});
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                BBCEngine bbcengine = new BBCEngine();
+                var Markupsrv = serviceScope.ServiceProvider.GetService<IMarkaupEngineService>();
+               Markupsrv.AddEngine(bbcengine);
+                
+
+
+            }
+                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
 

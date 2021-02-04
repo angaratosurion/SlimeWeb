@@ -36,4 +36,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CodeKicker.BBCode\CodeKicker.BBCode.csproj" />
+  </ItemGroup>
+
 </Project>
