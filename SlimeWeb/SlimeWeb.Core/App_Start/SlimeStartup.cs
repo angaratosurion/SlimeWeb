@@ -28,6 +28,7 @@ namespace SlimeWeb.Core.App_Start
         {
             Configuration = configuration;
         }
+        public static IMarkaupEngineService  MarkupService;
 
         public IConfiguration Configuration { get; }
 
@@ -103,6 +104,7 @@ namespace SlimeWeb.Core.App_Start
                 BBCEngine bbcengine = new BBCEngine();
                 var Markupsrv = serviceScope.ServiceProvider.GetService<IMarkaupEngineService>();
                Markupsrv.AddEngine(bbcengine);
+                MarkupService = Markupsrv;
                 
 
 

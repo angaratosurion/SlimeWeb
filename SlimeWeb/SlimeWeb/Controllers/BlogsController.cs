@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SlimeWeb.Core.App_Start;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.MarkaupEngine.Interfaces;
 
 namespace SlimeWeb.Controllers
 {
@@ -60,6 +63,21 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public IActionResult Create()
         {
+
+
+            var Markupsrv = SlimeStartup.MarkupService;
+            List<string> lstnames = new List<string>();
+
+
+            foreach( var mrkserv in Markupsrv.GetEngines())
+            {
+                lstnames.Add(mrkserv.Name);
+            }
+            ViewBag.Engines = lstnames;
+
+
+                    
+           
             return View();
         }
 
