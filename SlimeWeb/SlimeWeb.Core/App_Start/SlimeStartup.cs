@@ -4,20 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data;
 using ExtCore.WebApplication.Extensions;
 using System.IO;
-using Microsoft.Extensions.Hosting.Internal;
 using ExtCore.Data.EntityFramework;
-using System.Reflection;
 using ExtCore.Data.Abstractions;
-using SlimeWeb.Core.MarkaupEngine.Interfaces;
-using SlimeWeb.Core.MarkaupEngine;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SlimeWeb.Core.Services;
-using SlimeWeb.Core.MarkaupEngine.Engines;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -28,8 +22,7 @@ namespace SlimeWeb.Core.App_Start
         {
             Configuration = configuration;
         }
-        public static IMarkaupEngineService  MarkupService;
-
+      
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -59,7 +52,7 @@ namespace SlimeWeb.Core.App_Start
             });
             services.AddScoped<IStorageContext,SlimeDbContext>();
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
-            services.AddScoped<IMarkaupEngineService, MarkaupEngineService>();
+          
             services.AddSingleton<IEmailSender, EmailSender>();
 
 
@@ -99,16 +92,7 @@ namespace SlimeWeb.Core.App_Start
             //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //    endpoints.MapRazorPages();
             //});
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                BBCEngine bbcengine = new BBCEngine();
-                var Markupsrv = serviceScope.ServiceProvider.GetService<IMarkaupEngineService>();
-               Markupsrv.AddEngine(bbcengine);
-                MarkupService = Markupsrv;
-                
-
-
-            }
+           
                 using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();

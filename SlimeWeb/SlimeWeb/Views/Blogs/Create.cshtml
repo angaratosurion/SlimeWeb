@@ -37,12 +37,7 @@
                 <input asp-for="Administrator" class="form-control" ype="hidden" value="@this.User;" />
                 <span asp-validation-for="Administrator" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="engine" class="control-label"></label>
-                @*<input asp-for="engine" class="form-control"  />*@
-                <select asp-for="engine" class="form-control" asp-items="@(new SelectList(ViewBag.Engines))"  />
-                <span asp-validation-for="engine" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

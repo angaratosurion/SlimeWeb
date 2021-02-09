@@ -27,9 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Administrator)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.engine)
-            </th>
+          
             <th></th>
         </tr>
     </thead>
@@ -51,9 +49,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Administrator.UserName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.engine)
-            </td>
+           
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Name">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Name">Details</a> |

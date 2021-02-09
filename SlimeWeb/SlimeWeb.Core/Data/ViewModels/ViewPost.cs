@@ -22,7 +22,7 @@ namespace SlimeWeb.Core.Data.ViewModels
             this.Author = model.Author;
             this.BlogId = model.BlogId;
             this.Categories = model.Categories;
-            this.engine = model.engine;
+          
             this.Id = model.Id;
             this.Published = model.Published;
             this.RowVersion = model.RowVersion;
@@ -41,7 +41,7 @@ namespace SlimeWeb.Core.Data.ViewModels
             ap.Author = Author;
             ap.BlogId = BlogId;
             ap.Categories = Categories;
-            ap.engine = engine;
+           
             ap.Id = Id;
             ap.Published = Published;
             ap.RowVersion = RowVersion;

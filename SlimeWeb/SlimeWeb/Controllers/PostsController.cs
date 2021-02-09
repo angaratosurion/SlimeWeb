@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
@@ -18,6 +16,7 @@ namespace SlimeWeb
         private readonly SlimeDbContext _context;
         PostManager postManager;
         BlogManager blmngr = new BlogManager();
+      
          
         public PostsController(SlimeDbContext context)
         {
@@ -29,13 +28,14 @@ namespace SlimeWeb
         public async Task<IActionResult> Index(string id)
         {
             string name = id;
+
             
             if (name == null)
             {
                 return NotFound();
             }
             var p = await postManager.ListByBlogName(name);
-
+            
             List<ViewPost> posts = new List<ViewPost>();
             foreach(var tp in p)
             {
@@ -54,11 +54,11 @@ namespace SlimeWeb
             {
                 return NotFound();
             }
-
+            MarkDownManager markDownManager= new MarkDownManager();
             var mpost = await postManager.Details(id);
             ViewPost post = new ViewPost();
-            post.ImportFromModel(post);
-
+            post.ImportFromModel(mpost);
+            post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
             if (post == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace SlimeWeb
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] Post post)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 await postManager.Create(post, this.User.Identity.Name);
                 //blmngr.GetBlogAsync()

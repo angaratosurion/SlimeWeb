@@ -24,7 +24,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                         this.Id = md.Id;                        
                         
                         this.Created = md.Created;
-                        this.engine = md.engine;
+                     
                         this.Id = md.Id;
                         this.LastUpdate = md.LastUpdate;
                         this.Name = md.Name;
@@ -58,7 +58,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 ap.Id = this.Id;
 
                 ap.Created = this.Created;
-                ap.engine = this.engine;
+               
                 ap.Id = this.Id;
                 ap.LastUpdate = this.LastUpdate;
                 ap.Name = this.Name;
