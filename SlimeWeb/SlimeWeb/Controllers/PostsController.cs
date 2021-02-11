@@ -73,6 +73,7 @@ namespace SlimeWeb
         {
             string blogname=id;
             var blog = this.blmngr.GetBlogAsync(blogname).Result;
+            
             if (blog != null)
             {
 
@@ -86,15 +87,17 @@ namespace SlimeWeb
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] Post post)
+        public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post)
         {
             //if (ModelState.IsValid)
             {
-                await postManager.Create(post, this.User.Identity.Name);
+                var mpost = post.ToModel();
+
+                await postManager.Create(mpost, this.User.Identity.Name);
                 //blmngr.GetBlogAsync()
                 return RedirectToAction(nameof(Index),blogname);
             }
-            return View(post);
+           // return View(post);
         }
 
         // GET: Posts/Edit/5
