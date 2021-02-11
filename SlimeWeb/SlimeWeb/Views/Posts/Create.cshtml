@@ -3,16 +3,16 @@
 @{
     ViewData["Title"] = "Create";
 }
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
 <h1>Create</h1>
 
 <h4>Post</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create"  onsubmit="handleSubmit()" >
-            
+        <form asp-action="Create" >
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -21,30 +21,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Published" class="control-label"></label>
-                <input asp-for="Published" class="form-control" hidden="hidden"  value="@DateTime.Now"/>
+                <input asp-for="Published" class="form-control" hidden="hidden" value="@DateTime.Now" />
                 <span asp-validation-for="Published" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="content" class="control-label"></label>
-                <div id="description">
 
-                </div>
-                <textarea asp-for="content" class="form-control" id="jdr"  hidden="hidden">
+                <textarea asp-for="content" class="form-control" id="sourceTA" onkeypress="run">
                 </textarea>
-
+                <div id="targetDiv"></div>
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Author" class="control-label"></label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>
                 @*<select asp-for="BlogId" class ="form-control" asp-items="ViewBag.BlogId"></select>*@
-                <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden"/>
+                <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden" />
             </div>
-           
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -59,12 +57,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-<script>
-    let jdQuill = new Quill('#description', {
-        theme: 'snow'
-    });
-    function handleSubmit() {
-        console.info('handleSubmit called');
-        document.getElementById('jdr').value = jdQuill.getContents();
-    };
-</script>

@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using Quill.Delta;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
