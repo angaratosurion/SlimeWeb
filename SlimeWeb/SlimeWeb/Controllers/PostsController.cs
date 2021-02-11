@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using Quill.Delta;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
@@ -92,10 +94,11 @@ namespace SlimeWeb
             //if (ModelState.IsValid)
             {
                 var mpost = post.ToModel();
-
+              
+                 
                 await postManager.Create(mpost, this.User.Identity.Name);
                 //blmngr.GetBlogAsync()
-                return RedirectToAction(nameof(Index),blogname);
+                return RedirectToAction(nameof(Index),"Blogs",blogname);
             }
            // return View(post);
         }
