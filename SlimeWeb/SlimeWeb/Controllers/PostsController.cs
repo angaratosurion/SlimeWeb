@@ -54,13 +54,16 @@ namespace SlimeWeb
             {
                 return NotFound();
             }
-           // MarkDownManager markDownManager= new MarkDownManager();
+          
             var mpost = await postManager.Details(id);
             ViewPost post = new ViewPost();
             post.ImportFromModel(mpost);
-          //  post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
-            QuilDeltaManager quilDeltaManager = new QuilDeltaManager();
-            post.HTMLcontent = quilDeltaManager.ToHrml(mpost.content);
+            MarkDownManager markDownManager = new MarkDownManager();
+            post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
+
+
+            //QuilDeltaManager quilDeltaManager = new QuilDeltaManager();
+            //post.HTMLcontent = quilDeltaManager.ToHrml(mpost.content);
             if (post == null)
             {
                 return NotFound();
@@ -94,6 +97,8 @@ namespace SlimeWeb
             //if (ModelState.IsValid)
             {
                 var mpost = post.ToModel();
+                MarkDownManager markDownManager = new MarkDownManager();
+                mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
               
                  
                 await postManager.Create(mpost, this.User.Identity.Name);

@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using ReverseMarkdown;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,27 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-            
+        public string ConvertFromHtmlToMarkDwon(string htmlcode)
+        {
+            try
+            {
+                string ap = null;
+
+                if (CommonTools.isEmpty(htmlcode) == false)
+                {
+
+                    Converter conv = new  Converter();
+                    ap=conv.Convert(htmlcode);
+                }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+
     }
 }
