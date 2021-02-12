@@ -30,6 +30,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NLog" Version="4.7.7" />
+    <PackageReference Include="Quill.Delta" Version="1.0.7" />
     <PackageReference Include="ReverseMarkdown" Version="3.18.0" />
     <PackageReference Include="System.Composition.AttributedModel" Version="5.0.1" />
   </ItemGroup>
