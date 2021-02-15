@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Data.Models;
+﻿using Microsoft.AspNetCore.Http;
+using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         [DataType(DataType.Html)]
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }
-
+        public ICollection<IFormFile> Files { get; set; }
         public void  ImportFromModel(Post model)
         {
             this.Author = model.Author;

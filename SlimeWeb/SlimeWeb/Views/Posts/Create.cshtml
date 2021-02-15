@@ -4,7 +4,8 @@
     ViewData["Title"] = "Create";
 }
 <script src="https://cdn.tiny.cloud/1/ja3n56taowk4bc936bes4ljg4qzrtu9qbl825wsz5m06t6ko/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
+<script src="~/lib/uploadify/jquery.uploadifive.min.js"></script>
+<link href="~/lib/uploadify/uploadifive.css" rel="stylesheet"/>
 <script>
     tinymce.init({
         selector: '#content',
@@ -12,7 +13,28 @@
         toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table'
     });
 </script>
+<script type="text/javascript">
+$(function () {
 
+$('#file_upload').uploadify({
+
+'swf': '/Scripts/Uploadify/uploadify.swf',
+'uploader': "@Url.Action("Upload", "News")",
+'cancelImg': "@Url.Content("/Scripts/Uploadify/uploadify-cancel.png")",
+'fileSizeLimit': '1MB', // Add Kb, MB, GB
+'buttonText': 'Insert Images...', //Text for button
+'queueSizeLimit': 10, // Max number of files allowed
+'fileTypeDesc': 'Image Files',
+'fileTypeExts': '*.gif; *.jpg; *.png', // File type allowed
+'onUploadSuccess' : function(file, data, response) {
+tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data + "' alt='Uploaded Image' class='img-responsive' />");
+}
+
+})
+
+}
+);
+</script>
 <h1>Create</h1>
 
 <h4>Post</h4>

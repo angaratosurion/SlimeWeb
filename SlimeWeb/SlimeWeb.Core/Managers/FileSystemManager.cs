@@ -281,6 +281,8 @@ namespace SlimeWeb.Core.Managers
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await formFile.CopyToAsync(stream);
+                            await stream.FlushAsync();
+                             stream.Close();
                         }
                     }
                 }
@@ -298,6 +300,46 @@ namespace SlimeWeb.Core.Managers
 
 
                 return false;
+            }
+        }
+        public static async Task<string> CreateFile(string relpath, IFormFile file)
+        {
+            try
+            {
+                string ap = null;
+              
+
+                
+                
+                    if (file.Length > 0)
+                    {
+                        // full path to file in temp location
+                        var filePath = Path.GetTempFileName();
+                        
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                            await stream.FlushAsync();
+                            stream.Close();
+                        }
+                    ap = filePath;
+                    }
+                
+
+                // process uploaded files
+                // Don't rely on or trust the FileName property without validation.
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+                return null; ;
             }
         }
         public static Boolean DeleteFile(string relpath)

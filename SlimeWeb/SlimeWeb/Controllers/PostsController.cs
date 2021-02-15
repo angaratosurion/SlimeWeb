@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
@@ -141,12 +144,15 @@ namespace SlimeWeb
             {
                 try
                 {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(post);
+                    //await _context.SaveChangesAsync();
+                    postManager.Edit(post);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.Id))
+
+
+                    if ( this.postManager.Exists(post.Id))
                     {
                         return NotFound();
                     }
@@ -189,10 +195,28 @@ namespace SlimeWeb
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool PostExists(int id)
+      //  [HttpPost]
+       
+        public ActionResult Upload()
         {
-            return _context.Post.Any(e => e.Id == id);
+            try
+            {
+
+
+
+
+
+                // return Content(Url.Content(@"~\Uploads\" + fileid));
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        //private bool PostExists(int id)
+        //{
+        //    return _context.Post.Any(e => e.Id == id);
+        //}
     }
 }

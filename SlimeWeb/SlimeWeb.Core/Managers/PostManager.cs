@@ -188,6 +188,18 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); }
 
         }
+        public bool Exists(int ?id)
+        {
+            try
+            {
+                return db.Post.Any(e => e.Id == id);
+            }
+            catch (Exception ex )
+            {
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
     }
 }
 
