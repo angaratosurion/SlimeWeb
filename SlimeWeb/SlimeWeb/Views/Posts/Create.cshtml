@@ -63,11 +63,17 @@ tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data +
 
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Files" class="col-lg-2 control-label" ></label>
+                <div class="col-lg-9">
+                    <input type="file" name="Img" id="file_upload" />
+                </div>
+            </div>
             @*<div class="form-group">
-                    <label asp-for="Author" class="control-label"></label>
-                    <input asp-for="Author" class="form-control" />
-                    <span asp-validation-for="Author" class="text-danger"></span>
-                </div>*@
+            <label asp-for="Author" class="control-label"></label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>
                 @*<select asp-for="BlogId" class ="form-control" asp-items="ViewBag.BlogId"></select>*@
