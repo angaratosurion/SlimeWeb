@@ -19,10 +19,10 @@ namespace SlimeWeb.Core.Managers
         const string AppDataDir = "App_Data";
        //static  IWebHostEnvironment webHostEnvironment;
 
-        [DllImport("kernel32.dll")]
-        static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+        //[DllImport("kernel32.dll")]
+        //static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
 
-        static int SYMLINK_FLAG_DIRECTORY = 1;
+        //static int SYMLINK_FLAG_DIRECTORY = 1;
         //public FileSystemManager(IWebHostEnvironment twebHostEnvironment)
         //{
         //    webHostEnvironment = twebHostEnvironment;
@@ -214,32 +214,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public static Boolean CreateDirectoryLink(string relsrc, string reltrg)
-        {
-            try
-            {
-                Boolean ap = false;
-
-                if (CommonTools.isEmpty(relsrc) == false && !CommonTools.isEmpty(reltrg)
-                    && DirectoryExists(relsrc))//&&  Exists(trg))
-                {
-                    relsrc = Path.Combine(GetAppRootDataFolderAbsolutePath(), relsrc);
-                    reltrg = Path.Combine(GetAppRootDataFolderAbsolutePath(), reltrg);
-                    ap = CreateSymbolicLink(relsrc, reltrg, SYMLINK_FLAG_DIRECTORY);
-
-                }
-
-
-                return ap;
-            }
-            catch (Exception ex)
-            {
-                CommonTools.ErrorReporting(ex);
-
-
-                return false;
-            }
-        }
+     
         #endregion
         #region files
         public static Boolean FileExists(String relpath)
@@ -302,7 +277,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public static async Task<string> CreateFile(string relpath, IFormFile file)
+        public static async Task<string> CreateFile(string abspath, IFormFile file)
         {
             try
             {
@@ -311,13 +286,16 @@ namespace SlimeWeb.Core.Managers
 
                 
                 
-                    if (file.Length > 0)
+                    if (file.Length > 0 && (CommonTools.isEmpty(abspath)==false))
                     {
-                        // full path to file in temp location
-                        var filePath = Path.GetTempFileName();
-                        
+                    // full path to file in temp location
+                    var filePath = abspath;
+                    string extension = Path.GetExtension(file.FileName);
+                    string fileid = Guid.NewGuid().ToString();
+                    fileid = Path.ChangeExtension(fileid, extension);
+                    filePath = Path.Combine(abspath, fileid);
 
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
                             await stream.FlushAsync();
@@ -425,33 +403,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
 
-        public static Boolean CreateFileLink(string relsrc, string reltrg)
-        {
-            try
-            {
-                Boolean ap = false;
-                string src = relsrc, trg = reltrg;
-
-                if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
-                    && FileExists(src))//&&  Exists(trg))
-                {
-                    src = Path.Combine(GetAppRootDataFolderAbsolutePath(), relsrc);
-                    trg = Path.Combine(GetAppRootDataFolderAbsolutePath(), reltrg);
-                    ap = CreateSymbolicLink(src, trg, 0);
-                    // ap = true;
-                }
-
-
-                return ap;
-            }
-            catch (Exception ex)
-            {
-                CommonTools.ErrorReporting(ex);
-
-
-                return false;
-            }
-        }
+       
         #endregion
     }
 }

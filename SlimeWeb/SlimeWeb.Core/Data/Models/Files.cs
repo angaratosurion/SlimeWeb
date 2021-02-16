@@ -21,7 +21,6 @@ namespace SlimeWeb.Core.Data.Models
 
         public string Owner { get; set; }
 
-        public virtual FileType FileType { get; set; }
         [Required]
         public int BlogId { get; set; }
 

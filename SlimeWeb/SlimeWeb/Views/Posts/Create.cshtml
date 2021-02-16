@@ -19,8 +19,8 @@ $(function () {
 $('#file_upload').uploadify({
 
 'swf': '/Scripts/Uploadify/uploadify.swf',
-'uploader': "@Url.Action("Upload", "News")",
-'cancelImg': "@Url.Content("/Scripts/Uploadify/uploadify-cancel.png")",
+'uploader': "@Url.Action("Upload", "ViewPost")",
+'cancelImg': "@Url.Content("~/lib/uploadify/uploadify-cancel.png")",
 'fileSizeLimit': '1MB', // Add Kb, MB, GB
 'buttonText': 'Insert Images...', //Text for button
 'queueSizeLimit': 10, // Max number of files allowed
@@ -41,7 +41,7 @@ tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data +
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">

@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public  class PostManager
+   public  class PostManager:DataManager
     {
-        SlimeDbContext db;
-        BlogManager blmngr;
-        public PostManager(SlimeDbContext dbContext)
-        {
-            db = dbContext;
-            blmngr = new BlogManager();
-        }
+      
+        BlogManager blmngr = new BlogManager();
+        //public PostManager(dbContext dbContext)
+        //{
+        //    db = dbContext;
+        //    blmngr = new BlogManager();
+        //}
+    
 
         public async Task<List<Post>> List()
         {
@@ -49,7 +50,7 @@ namespace SlimeWeb.Core.Managers
                     {
                         blog = await this.blmngr.GetBlogAsync(name);
 
-                        posts = await this.db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
+                        posts = await db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
                         if (posts != null)
                         {
                             ap = posts;
@@ -78,7 +79,7 @@ namespace SlimeWeb.Core.Managers
                 if (id != null)
                 {
                     ap = new List<Post>();
-                    news = await this.db.Post.Where(x => x.BlogId == id).ToListAsync();
+                    news = await db.Post.Where(x => x.BlogId == id).ToListAsync();
                     if (news != null)
                     {
                         ap = news;

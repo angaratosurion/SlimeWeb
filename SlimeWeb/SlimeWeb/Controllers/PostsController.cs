@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
@@ -24,7 +25,7 @@ namespace SlimeWeb
         public PostsController(SlimeDbContext context)
         {
             _context = context;
-            postManager = new PostManager(context);
+            postManager = new PostManager( );
         }
 
         // GET: Posts
@@ -197,17 +198,20 @@ namespace SlimeWeb
         }
       //  [HttpPost]
        
-        public ActionResult Upload()
+        public async Task<ActionResult> Upload(ViewPost viewPost)
         {
             try
             {
-
+                FileRecordManager fileRecordManager = new FileRecordManager();
+                FormFile formFile = (FormFile)viewPost.Files[0];
+                var path = await fileRecordManager.Create((int)ViewBag.BlogId,viewPost.ToModel().Id, new Files(),formFile);
 
 
 
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
-                return null;
+                return Content(path);
+               // return null;
             }
             catch (Exception)
             {

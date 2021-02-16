@@ -25,7 +25,7 @@ namespace SlimeWeb.Core.Data
         public DbSet<Category> Catgories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Files> Files { get; set; }
-        public DbSet<FileType> FileTypes { get; set; }
+       
         public DbSet<Feature> Features { get; set; }
         public DbSet<GeneralSettings> Settings { get; set; }
         public GeneralSettings GeneralSettings

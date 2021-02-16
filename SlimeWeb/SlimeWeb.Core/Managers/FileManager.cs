@@ -14,10 +14,10 @@ namespace SlimeWeb.Core.Managers
 
         //const string   filesdir="files",AppDataDir="App_Data";
         //static IWebHostEnvironment webHostEnvironment;
-        [DllImport("kernel32.dll")]
-        static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+        //[DllImport("kernel32.dll")]
+        //static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
 
-        static int SYMLINK_FLAG_DIRECTORY = 1;
+        //static int SYMLINK_FLAG_DIRECTORY = 1;
         //public FileManager(IWebHostEnvironment twebHostEnvironment)//:base(twebHostEnvironment)
         //{
         //    webHostEnvironment = twebHostEnvironment;

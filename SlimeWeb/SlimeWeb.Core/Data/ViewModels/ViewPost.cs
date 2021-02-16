@@ -17,7 +17,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         [DataType(DataType.Html)]
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }
-        public ICollection<IFormFile> Files { get; set; }
+        public List<IFormFile> Files { get; set; }
         public void  ImportFromModel(Post model)
         {
             this.Author = model.Author;

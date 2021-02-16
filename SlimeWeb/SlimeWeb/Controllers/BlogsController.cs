@@ -15,16 +15,21 @@ namespace SlimeWeb.Controllers
 {
     public class BlogsController : Controller
     {
-        private readonly SlimeDbContext _context;
-        private readonly BlogManager blogmnger = new BlogManager();
+       private readonly SlimeDbContext _context;
+        private readonly BlogManager blogmnger;// = new BlogManager();
         public BlogsController(SlimeDbContext context)
         {
             _context = context;
+            blogmnger = new BlogManager();
         }
 
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
+            try
+            {
+
+           
             List<ViewBlog> lstblogs = new List<ViewBlog>();
             var list = await blogmnger.ListBlog();
             foreach (var bl in list )
@@ -34,6 +39,12 @@ namespace SlimeWeb.Controllers
                 lstblogs.Add(vb);
             }
             return View(lstblogs);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET: Blogs/Details/5
@@ -77,9 +88,9 @@ namespace SlimeWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,AuthorId,Title,LastUpdate,Created")] Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,Name,Title,LastUpdate,Created")] Blog blog)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 //_context.Add(blog);
                 //await _context.SaveChangesAsync();

@@ -15,7 +15,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         {
             try
             {
-                if (md != null)
+                if (md != null )
                 {
                     //ApplicationUser user = CommonTools.Blusrmng.GetUserbyID(md.Author);
                     // if (user != null)
@@ -29,14 +29,11 @@ namespace SlimeWeb.Core.Data.ViewModels
                         this.LastUpdate = md.LastUpdate;
                         this.Name = md.Name;
                         this.Title = md.Title;
-                        using(SlimeDbContext db = new SlimeDbContext())
-                        {
-                            this.Categories =   db.Catgories.ToList().FindAll(x => x.BlogId == md.Id).ToList();
-                            this.Posts = db.Post.ToList().FindAll(x => x.BlogId == md.Id).ToList();
-                            this.Administrator = db.applicationUsers.FirstOrDefault(x => x.Id == md.Administrator);
-                            this.Files =db.Files.ToList().FindAll(x => x.BlogId == md.Id).ToList();
-                        }
-                        
+                        this.Administrator = CommonTools.usrmng.GetUserbyID(md.Administrator);
+                         
+
+
+
 
 
 

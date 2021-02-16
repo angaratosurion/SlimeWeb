@@ -1,8 +1,14 @@
 ﻿@model SlimeWeb.Core.Data.Models.Blog
+@using Microsoft.AspNetCore.Identity
+@using SlimeWeb.Core.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 
 @{
     ViewData["Title"] = "Create";
 }
+
 
 <h1>Create</h1>
 
@@ -24,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastUpdate" class="control-label"></label>
-                <input asp-for="LastUpdate" class="form-control" type="hidden" value="@DateTime.Now"/>
+                <input asp-for="LastUpdate" class="form-control" type="hidden" value="@DateTime.Now" />
                 <span asp-validation-for="LastUpdate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,12 +38,12 @@
                 <input asp-for="Created" class="form-control" value="@DateTime.Now" />
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Administrator" class="control-label"></label>
-                <input asp-for="Administrator" class="form-control" ype="hidden" value="@this.User;" />
+                <input asp-for="Administrator" class="form-control"  value="@User.Identity.Name" />
                 <span asp-validation-for="Administrator" class="text-danger"></span>
-            </div>
-           
+            </div>*@
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

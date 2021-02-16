@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SlimeWeb.Core.Managers;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -66,6 +67,7 @@ namespace SlimeWeb.Core.Data.Models
 
              return thisIdentity;
          }*/
+       
 
     }
 }

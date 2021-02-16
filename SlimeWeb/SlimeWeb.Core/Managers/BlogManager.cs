@@ -11,18 +11,24 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public   class BlogManager
+   public   class BlogManager:DataManager
     {
        
         FileSystemManager flmng = new FileSystemManager();
 
-        SlimeDbContext slimeDb = new SlimeDbContext();
+        
+        FileRecordManager fileRecordManager;
+        public BlogManager()
+        {
+
+            fileRecordManager = CommonTools.FileRecordManager;
+        }
         public async  Task<List<Blog>> ListBlog()
         {
             try
             {
-                //return this.db.Blogs.ToList();
-                return this.slimeDb.Blogs.ToList<Blog>();
+                //return db.Blogs.ToList();
+                return db.Blogs.ToList<Blog>();
             }
             catch (Exception ex)
             {
@@ -190,8 +196,8 @@ namespace SlimeWeb.Core.Managers
                         // wm.Blog = bl;
                         // wm.Moderator = usr.Id;
                         //bl.Moderators.Add(wm);
-                        this.slimeDb.Add(bl);
-                        this.slimeDb.SaveChanges();
+                        db.Add(bl);
+                        db.SaveChanges();
 
                        
                         string blpath;
@@ -232,8 +238,8 @@ namespace SlimeWeb.Core.Managers
                     bl.Administrator = bl2.Administrator;
                     bl.Id = bl2.Id;
                     bl.LastUpdate = DateTime.Now;
-                    slimeDb.Entry(bl2).CurrentValues.SetValues(bl);
-                    slimeDb.SaveChanges();
+                    db.Entry(bl2).CurrentValues.SetValues(bl);
+                    db.SaveChanges();
                     ap =(await  this.GetBlogAsync(Blogname)).ExportToModel();
                 }
 
@@ -258,7 +264,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     Blog bl = await this.GetBlogAsync(Blogname);
 
-                    List<BlogMods> mods = this.slimeDb.BlogMods.ToList().FindAll(x => x.Id == bl.Id).ToList();
+                    List<BlogMods> mods = db.BlogMods.ToList().FindAll(x => x.Id == bl.Id).ToList();
                     if (mods != null)
                     {
                         foreach (var m in mods)
@@ -317,21 +323,24 @@ namespace SlimeWeb.Core.Managers
                 {
                     string path = FileSystemManager.GetBlogRootDataFolderRelativePath(Blogname);
                     List<Files> blfiles = (await this.GetBlogAsync(Blogname)).Files;
-                    if (blfiles != null)
-                    {
-                        foreach (Files f in blfiles)
-                        {
-                            FileSystemManager.DeleteFile(f.RelativePath);
-                        }
-                        FileSystemManager.DeleteDirectory(path);
-                    }
-                    if (blfiles != null)
-                    {
-                        this.slimeDb.Files.RemoveRange(blfiles);
-                    }
+                    //if (blfiles != null)
+                    //{
+                    //    foreach (Files f in blfiles)
+                    //    {
+                    //        FileSystemManager.DeleteFile(f.RelativePath);
+                    //    }
+                    //    FileSystemManager.DeleteDirectory(path);
+                    //}
+                    //if (blfiles != null)
+                    //{
+                    //    db.Files.RemoveRange(blfiles);
+                    //}
+
                     Blog blog = await this.GetBlogAsync(Blogname);
-                    this.slimeDb.Blogs.Remove(blog); 
-                    this.slimeDb.SaveChanges();
+                    this.fileRecordManager.DeleteByBlog(Blogname);
+                    FileSystemManager.DeleteDirectory(path);
+                    db.Blogs.Remove(blog); 
+                    db.SaveChanges();
 
                 }
 

@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <None Remove="Data\Models\Blog.cs~RF583bd4.TMP" />
+    <None Remove="Managers\FileRecord.cs~RF16a79f.TMP" />
+    <None Remove="Managers\FileRecordManager.cs~RF6112c4.TMP" />
   </ItemGroup>
 
   <ItemGroup>

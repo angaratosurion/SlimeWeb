@@ -9,6 +9,7 @@ namespace SlimeWeb.Core
     public class CommonTools
     {
         public static SlimeWebsUserManager usrmng = new SlimeWebsUserManager();
+        public static FileRecordManager FileRecordManager = new FileRecordManager();
         public static Boolean isEmpty(string str)
         {
             try
