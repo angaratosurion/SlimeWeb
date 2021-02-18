@@ -219,13 +219,15 @@ namespace SlimeWeb
 
 
                     var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile);
-             
+
 
 
 
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
-                return Content(path);
+                //return Content(path);
+                return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+
                // return null;
             }
             catch (Exception ex)

@@ -337,7 +337,10 @@ namespace SlimeWeb.Core.Managers
                     //}
 
                     Blog blog = await this.GetBlogAsync(Blogname);
+
                     this.fileRecordManager.DeleteByBlog(Blogname);
+                    PostManager postManager = new PostManager();
+                    await postManager.DeleteByBlogId(blog.Id);
                     FileSystemManager.DeleteDirectory(path);
                     db.Blogs.Remove(blog); 
                     db.SaveChanges();

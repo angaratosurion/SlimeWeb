@@ -50,9 +50,10 @@ namespace SlimeWeb.Core.App_Start
                // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
             });
-            services.AddScoped<IStorageContext,SlimeDbContext>();
+            services.AddScoped<IStorageContext, SlimeDbContext>();
+            //services.AddSingleton<IStorageContext, SlimeDbContext>();
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
-          
+
             services.AddSingleton<IEmailSender, EmailSender>();
 
 
