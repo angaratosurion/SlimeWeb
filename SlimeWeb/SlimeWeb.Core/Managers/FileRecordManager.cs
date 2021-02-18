@@ -29,16 +29,17 @@ namespace SlimeWeb.Core.Managers
                 {
                     var blog = await blogmngr.GetBlogByIdAsync(BlogId);
                     var post = await postManager.Details(postid);
-                    if ( (blog !=null) && (post!=null))
+                    if ( (blog !=null) )
                     {
                         var blogpath = FileSystemManager.GetBlogRootDataFolderAbsolutePath(blog.Name);
                        string  abspath=await  FileSystemManager.CreateFile(blogpath, filedata);
                         if (!CommonTools.isEmpty(abspath))
                         {
-                            ap = FileSystemManager.GetBlogRootDataFolderRelativePath(blog.Name) + "\\" + Path.GetFileName(abspath);
+                            ap = FileSystemManager.GetBlogRootDataFolderRelativePath(blog.Name) + "/" + Path.GetFileName(abspath);
                             filemodel.FileName = Path.GetFileName(abspath);
                             filemodel.Path = abspath;
                             filemodel.RelativePath = ap;
+                            filemodel.BlogId = blog.Id;
                             db.Files.Add(filemodel);
                            await  db.SaveChangesAsync();
                         }

@@ -207,7 +207,7 @@ namespace SlimeWeb.Core.Managers
                         //    blrotfold = "Blogfiles";
                         //}
                         // blpath = "~/" + AppDataDir + "/" + blrotfold + "/" + bl.Name;
-                        blpath = FileSystemManager.GetBlogRootDataFolderRelativePath(bl.Name);
+                        blpath = FileSystemManager.GetBlogRootDataFolderAbsolutePath(bl.Name);
                         if (FileSystemManager.DirectoryExists(blpath) == false)
                         {
                             FileSystemManager.CreateDirectory(blpath);

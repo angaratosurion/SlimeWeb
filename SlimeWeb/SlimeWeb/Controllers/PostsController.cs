@@ -200,16 +200,21 @@ namespace SlimeWeb
         }
       //  [HttpPost]
        
-        public async Task<ActionResult> Upload()
+        public async Task<ActionResult> Upload([FromQuery]string bid)
         {
             try
             {
                 FileRecordManager fileRecordManager = new FileRecordManager();
-                int Blogid = this.ViewBag.BlogId;
-                int postid = 0;
+              // string Blogid = bid;
+                var posts = await postManager.List();
+                int postid = posts.ToList().Count + 1;
              
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
-                var blog = await this.blmngr.GetBlogByIdAsync(Blogid);
+                if(bid==null)
+                {
+                    bid = Request.RouteValues["id"].ToString();
+                }
+                var blog = await this.blmngr.GetBlogAsync(bid);
                
 
 

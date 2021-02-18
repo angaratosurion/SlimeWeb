@@ -11,7 +11,7 @@
         selector: '#content',
         plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
         toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'
-        , images_upload_url: '/Posts/Upload/bid=@ViewBag.BlogId&pid=@Model.Id',
+        , images_upload_url: '/Posts/Upload/@(Context.Request.RouteValues["id"])',
         automatic_uploads: true,
         images_reuse_filename: true,
         //images_upload_base_path: '~/AppData/AppData/Temp/'
