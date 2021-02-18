@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
@@ -103,11 +104,12 @@ namespace SlimeWeb
                 var mpost = post.ToModel();
                 MarkDownManager markDownManager = new MarkDownManager();
                 mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
+               var blog=await blmngr.GetBlogByIdAsync(mpost.BlogId);
               
                  
                 await postManager.Create(mpost, this.User.Identity.Name);
                 //blmngr.GetBlogAsync()
-                return RedirectToAction(nameof(Index),"Blogs",blogname);
+                return RedirectToAction(nameof(Index),"Posts",new { id = blog.Name });
             }
            // return View(post);
         }
@@ -198,13 +200,21 @@ namespace SlimeWeb
         }
       //  [HttpPost]
        
-        public async Task<ActionResult> Upload(ViewPost viewPost)
+        public async Task<ActionResult> Upload()
         {
             try
             {
                 FileRecordManager fileRecordManager = new FileRecordManager();
-                FormFile formFile = (FormFile)viewPost.Files[0];
-                var path = await fileRecordManager.Create((int)ViewBag.BlogId,viewPost.ToModel().Id, new Files(),formFile);
+                int Blogid = this.ViewBag.BlogId;
+                int postid = 0;
+             
+                IFormFile formFile = (FormFile)Request.Form.Files[0];
+                var blog = await this.blmngr.GetBlogByIdAsync(Blogid);
+               
+
+
+                    var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile);
+             
 
 
 
@@ -213,9 +223,11 @@ namespace SlimeWeb
                 return Content(path);
                // return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+
+                CommonTools.ErrorReporting(ex);
+                return null;
             }
         }
         //private bool PostExists(int id)

@@ -9,16 +9,20 @@
 <script>
     tinymce.init({
         selector: '#content',
-        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table'
-    });
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'
+        ,images_upload_url: '/Posts/Upload/@ViewBag.BlogId',
+        automatic_uploads: true,
+        images_reuse_filename: true,
+        //images_upload_base_path: '~/AppData/AppData/Temp/'
+    })
 </script>
-<script type="text/javascript">
+@*<script type="text/javascript">
 $(function () {
 
 $('#file_upload').uploadify({
 
-'swf': '/Scripts/Uploadify/uploadify.swf',
+    'swf': '~/lib/uploadify/uploadify.swf',
 'uploader': "@Url.Action("Upload", "ViewPost")",
 'cancelImg': "@Url.Content("~/lib/uploadify/uploadify-cancel.png")",
 'fileSizeLimit': '1MB', // Add Kb, MB, GB
@@ -34,7 +38,7 @@ tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data +
 
 }
 );
-</script>
+</script>*@
 <h1>Create</h1>
 
 <h4>Post</h4>
@@ -63,12 +67,12 @@ tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data +
 
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Files" class="col-lg-2 control-label" ></label>
                 <div class="col-lg-9">
                     <input type="file" name="Img" id="file_upload" />
                 </div>
-            </div>
+            </div>*@
             @*<div class="form-group">
             <label asp-for="Author" class="control-label"></label>
             <input asp-for="Author" class="form-control" />
