@@ -61,7 +61,7 @@ namespace SlimeWeb.Core.Managers
                 string ap = "";
 
                 // string wkrotfold = setmngr.blogRootFolderName();
-                ap = "~/" + AppDataDir + "/";;
+                ap = "~/" + AppDataDir ;;
               
 
 
