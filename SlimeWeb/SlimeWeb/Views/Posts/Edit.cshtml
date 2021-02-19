@@ -3,7 +3,19 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<script src="https://cdn.tiny.cloud/1/ja3n56taowk4bc936bes4ljg4qzrtu9qbl825wsz5m06t6ko/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
+<script>
+    tinymce.init({
+        selector: '#content',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'
+        , images_upload_url: '/Posts/Upload/@(Context.Request.RouteValues["id"])',
+        automatic_uploads: true,
+        images_reuse_filename: true,
+        //images_upload_base_path: '~/AppData/AppData/Temp/'
+    })
+</script>
 <h1>Edit</h1>
 
 <h4>Post</h4>
@@ -38,7 +50,7 @@
                 <select asp-for="BlogId" class="form-control" asp-items="ViewBag.BlogId"></select>
                 <span asp-validation-for="BlogId" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
