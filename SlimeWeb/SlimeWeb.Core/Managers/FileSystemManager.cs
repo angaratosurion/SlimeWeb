@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
+using SlimeWeb.Core.App_Start;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,8 +40,9 @@ namespace SlimeWeb.Core.Managers
             {
                 string ap = "";
 
-                 string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                string pathwithextention = Path.Combine(SlimeStartup.WebRoot, "wwwroot");;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                    path= pathwithextention.Replace("file:\\", "");
                 ap = Path.Combine(path,AppDataDir) ;
 
 
@@ -61,8 +63,10 @@ namespace SlimeWeb.Core.Managers
                 string ap = "";
 
                 // string wkrotfold = setmngr.blogRootFolderName();
-                ap = "~/" + AppDataDir ;;
-              
+                ap =  AppDataDir;
+                    //"~/" + AppDataDir ;;
+
+
 
 
                 return ap;

@@ -18,6 +18,7 @@ namespace SlimeWeb.Core.App_Start
     public class SlimeStartup
     {
         string extensionsPath;
+        public static string WebRoot;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -55,6 +56,7 @@ namespace SlimeWeb.Core.App_Start
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
 
             services.AddSingleton<IEmailSender, EmailSender>();
+            
 
 
             return services;
@@ -94,6 +96,8 @@ namespace SlimeWeb.Core.App_Start
             //    endpoints.MapRazorPages();
             //});
             app.UseStaticFiles();
+            
+            WebRoot=env.ContentRootPath;
              
 
 
