@@ -349,7 +349,4 @@ healthchecksdb
 MigrationBackup/
 /Backups
 /SlimeWeb/SlimeWeb/wwwroot/App_Data/*. 
-SlimeWeb/SlimeWeb/wwwroot/App_Data/NewBlog/473a90e0-c365-4c9a-8012-5be85af432a8.jpg
-SlimeWeb/SlimeWeb/wwwroot/App_Data/NewBlog/49126be6-5891-430c-b0ba-cddf0cebb191.jpg
-SlimeWeb/SlimeWeb/wwwroot/App_Data/NewBlog/77d0591d-3754-4564-bb15-db2eb3970479.jpg
-SlimeWeb/SlimeWeb/wwwroot/App_Data/NewBlog/f319cb4a-e21d-4c38-93fb-6a213a6f0376.png
+/SlimeWeb/SlimeWeb/wwwroot/App_Data/
