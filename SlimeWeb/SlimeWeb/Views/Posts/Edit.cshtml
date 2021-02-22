@@ -1,4 +1,4 @@
-﻿@model SlimeWeb.Core.Data.Models.Post
+﻿@model SlimeWeb.Core.Data.ViewModels.ViewPost
 
 @{
     ViewData["Title"] = "Edit";
@@ -37,7 +37,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="content" class="control-label"></label>
-                <input asp-for="content" class="form-control" />
+                @*<input asp-for="content" class="form-control" />*@
+                <textarea asp-for="content" class="form-control" id="content" name="content">
+</textarea>
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,8 +49,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>
-                <select asp-for="BlogId" class="form-control" asp-items="ViewBag.BlogId"></select>
-                <span asp-validation-for="BlogId" class="text-danger"></span>
+                @*<select asp-for="BlogId" class ="form-control" asp-items="ViewBag.BlogId"></select>*@
+                <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden" />
             </div>
 
             <div class="form-group">

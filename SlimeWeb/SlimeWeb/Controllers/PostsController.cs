@@ -123,12 +123,16 @@ namespace SlimeWeb
                 return NotFound();
             }
 
-            var post = await _context.Post.FindAsync(id);
+            var post = await this.postManager.Details(id);
             if (post == null)
             {
                 return NotFound();
             }
-            return View(post);
+            var vpost = new ViewPost();
+            vpost.ImportFromModel(post);
+            MarkDownManager markDownManager = new MarkDownManager();
+            vpost.content = markDownManager.ConvertToHtml(post.content);
+            return View(vpost);
         }
 
         // POST: Posts/Edit/5
@@ -136,7 +140,7 @@ namespace SlimeWeb
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post)
         {
             if (id != post.Id)
             {
@@ -149,7 +153,10 @@ namespace SlimeWeb
                 {
                     //_context.Update(post);
                     //await _context.SaveChangesAsync();
-                    postManager.Edit(post);
+                    var mpost = post.ToModel();
+                    MarkDownManager markDownManager = new MarkDownManager();
+                    mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
+                    postManager.Edit(mpost);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -207,7 +214,7 @@ namespace SlimeWeb
                 FileRecordManager fileRecordManager = new FileRecordManager();
               // string Blogid = bid;
                 var posts = await postManager.List();
-                int postid = posts.ToList().Count + 1;
+                int postid = posts.ToList().Max(x => x.Id)+1;
              
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
                 if(bid==null)
@@ -226,9 +233,10 @@ namespace SlimeWeb
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
-                return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                return Json(new { location = "/" + path });
 
-               // return null;
+                // return null;
             }
             catch (Exception ex)
             {
