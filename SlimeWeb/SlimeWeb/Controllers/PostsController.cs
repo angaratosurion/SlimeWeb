@@ -185,8 +185,11 @@ namespace SlimeWeb
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var mpost = await postManager.Details(id);
+            ViewPost post = new ViewPost();
+            post.ImportFromModel(mpost);
+            MarkDownManager markDownManager = new MarkDownManager();
+            post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
             if (post == null)
             {
                 return NotFound();
@@ -200,9 +203,10 @@ namespace SlimeWeb
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Post.FindAsync(id);
-            _context.Post.Remove(post);
-            await _context.SaveChangesAsync();
+            //var post = await _context.Post.FindAsync(id);
+            //_context.Post.Remove(post);
+            //await _context.SaveChangesAsync();
+           await  this.postManager.Delete(id);
             return RedirectToAction(nameof(Index));
         }
       //  [HttpPost]
@@ -225,7 +229,7 @@ namespace SlimeWeb
                
 
 
-                    var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile);
+                    var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile,User.Identity.Name);
 
 
 

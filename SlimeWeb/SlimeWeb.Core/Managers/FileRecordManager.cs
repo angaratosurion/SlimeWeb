@@ -21,14 +21,15 @@ namespace SlimeWeb.Core.Managers
         //    db = tdb;
         //    postManager = new PostManager(db);
         //}
-        public async Task<string> Create(int? BlogId, int? postid, Files filemodel, IFormFile filedata)
+        public async Task<string> Create(int? BlogId, int? postid, Files filemodel, IFormFile filedata,string user)
         {
             try
             { string ap = null;
-                if((filedata!=null) && (filemodel!=null))
+                if((filedata!=null) && (filemodel!=null) && (!CommonTools.isEmpty(user )))
                 {
                     var blog = await blogmngr.GetBlogByIdAsync(BlogId);
                     var post = await postManager.Details(postid);
+                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
                     if ( (blog !=null) )
                     {
                         var blogpath = FileSystemManager.GetBlogRootDataFolderAbsolutePath(blog.Name);
@@ -40,6 +41,7 @@ namespace SlimeWeb.Core.Managers
                             filemodel.Path = abspath;
                             filemodel.RelativePath = ap;
                             filemodel.BlogId = blog.Id;
+                            filemodel.Owner = usr.UserName;
                             db.Files.Add(filemodel);
                            await  db.SaveChangesAsync();
                         }
