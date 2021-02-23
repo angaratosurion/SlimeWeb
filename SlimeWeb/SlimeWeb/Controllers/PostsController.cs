@@ -147,7 +147,7 @@ namespace SlimeWeb
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+           // if (ModelState.IsValid)
             {
                 try
                 {
@@ -230,6 +230,45 @@ namespace SlimeWeb
 
 
                     var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile,User.Identity.Name);
+
+
+
+
+
+                // return Content(Url.Content(@"~\Uploads\" + fileid));
+                //return Content(path);
+                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                return Json(new { location = "/" + path });
+
+                // return null;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<ActionResult> UploadEdit([FromQuery] string bid, [FromQuery] int? pid)
+        {
+            try
+            {
+                FileRecordManager fileRecordManager = new FileRecordManager();
+                // string Blogid = bid;
+               // var posts = await postManager.List();
+               // int postid = posts.ToList().Max(x => x.Id) + 1;
+
+                IFormFile formFile = (FormFile)Request.Form.Files[0];
+                if (pid == null)
+                {
+                    pid =(int) Request.RouteValues["id"];//.ToString();
+                    
+                }
+                int bid2 = (await postManager.Details((pid))).BlogId;
+
+
+
+                var path = await fileRecordManager.Create(bid2, pid, new Files(), formFile, User.Identity.Name);
 
 
 
