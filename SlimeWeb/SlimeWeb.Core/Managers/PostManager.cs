@@ -140,16 +140,61 @@ namespace SlimeWeb.Core.Managers
 
         }
 
-        public async Task<Post> Edit(Post Post)
+        public async Task<Post> Edit(int ? pid,Post post)
         {
             try
             {
-                if (Post != null)
+                Post vpost = null;
+                if (post != null && pid!=null)
                 {
-                    db.Entry(Post).State = EntityState.Modified;
-                  await  db.SaveChangesAsync();
+                     if (this.Exists(pid))
+                    {
+                        vpost = await this.Details(pid);
+                    }
+                    if (vpost != null)
+                    {
+                         
+
+                        db.Entry(vpost).State = EntityState.Modified;
+
+                        db.Entry(vpost).CurrentValues.SetValues(post);
+                        // db.Post.Update(Post);
+                        await db.SaveChangesAsync();
+                    }
                 }
-                return Post;
+                return post;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is Post)
+                    {
+                        var proposedValues = entry.CurrentValues;
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        foreach (var property in proposedValues.Properties)
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+
+                            // TODO: decide which value should be written to database
+                            proposedValues[property] = proposedValue;
+                        }
+
+                        // Refresh original values to bypass next concurrency check
+                        // entry.OriginalValues.SetValues(databaseValues);
+                        entry.OriginalValues.SetValues(proposedValues);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException(
+                            "Don't know how to handle concurrency conflicts for "
+                            + entry.Metadata.Name);
+                    }
+                }
+                return null;
+
             }
             catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
 

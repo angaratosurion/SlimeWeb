@@ -128,6 +128,10 @@ namespace SlimeWeb
             {
                 return NotFound();
             }
+
+
+            ViewBag.BlogId = post.BlogId;
+            
             var vpost = new ViewPost();
             vpost.ImportFromModel(post);
             MarkDownManager markDownManager = new MarkDownManager();
@@ -156,7 +160,11 @@ namespace SlimeWeb
                     var mpost = post.ToModel();
                     MarkDownManager markDownManager = new MarkDownManager();
                     mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
-                    postManager.Edit(mpost);
+                    mpost=await postManager.Edit(id,mpost);
+                    if (mpost  != null)
+                    {
+                        post.ImportFromModel(mpost);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -171,9 +179,9 @@ namespace SlimeWeb
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Posts", new { id = post.Blog.Name });
             }
-            return View(post);
+            //return View(post);
         }
 
         // GET: Posts/Delete/5
