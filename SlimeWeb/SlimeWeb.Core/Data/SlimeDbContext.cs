@@ -39,6 +39,8 @@ namespace SlimeWeb.Core.Data
         public DbSet<News> News{ get; set; }
         public DbSet<BlogMods>  BlogMods { get; set; }
 
+        public DbSet<CategotyPost> CategoryPosts  { get; set; }
+        public DbSet<TagPost> TagPosts { get; set; }
         //public IStorageContext StorageContext => throw new NotImplementedException();\
 
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)
