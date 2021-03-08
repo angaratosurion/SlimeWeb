@@ -49,7 +49,6 @@ namespace SlimeWeb.Core.Data.ViewModels
             ap.Id = Id;
             ap.Published = Published;
             ap.RowVersion = RowVersion;
-            a
             ap.Title = Title;
             ap.content = content;
 
