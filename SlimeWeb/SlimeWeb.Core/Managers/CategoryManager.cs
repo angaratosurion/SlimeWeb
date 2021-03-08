@@ -267,6 +267,25 @@ namespace SlimeWeb.Core.Managers
 
 
                     }
+                    else if(blg!=null)
+                    {
+                        Category category = new Category();
+                        category.BlogId = blg.Id;
+                        category.Name = categoryname;
+                            
+                        await this.AddNew(category, blogname);
+                        cat =await  this.GetCategory(categoryname, blogname);
+                        if ( cat !=null)
+                        {
+                            CategotyPost categotyPost = new CategotyPost();
+
+                            categotyPost.BlogId = blg.Id;
+                            categotyPost.CategoryId = cat.Id;
+                            categotyPost.PostId = postid;
+                            db.Add(categotyPost);
+                            await db.SaveChangesAsync();
+                        }
+                    }
 
                 }
             }

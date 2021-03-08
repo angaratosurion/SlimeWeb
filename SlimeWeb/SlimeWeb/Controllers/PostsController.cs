@@ -237,14 +237,9 @@ namespace SlimeWeb
                 FileRecordManager fileRecordManager = new FileRecordManager();
               // string Blogid = bid;
                 var posts = await postManager.List();
-                int postid=1;
-                if (posts != null &&posts.Count>0)
-                {  
-                    postid = posts.ToList().Max(x => x.Id) + 1;
-
-                   
-                  
-                }
+                int postid = -1;
+                postid = await  fileRecordManager.PredictLastId("Post")+1;
+                
 
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
                 if(bid==null)
