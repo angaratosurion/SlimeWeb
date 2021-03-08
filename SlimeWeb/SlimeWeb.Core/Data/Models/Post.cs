@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
@@ -8,6 +9,7 @@ namespace SlimeWeb.Core.Data.Models
     public class Post
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         //   public int revision { get; set; }
         public string Title { get; set; }
@@ -22,8 +24,7 @@ namespace SlimeWeb.Core.Data.Models
         public Byte[] RowVersion { get; set; }
         [Required]
         public int BlogId { get; set; }
-        public virtual List<Category> Categories { get; set; }
-        public virtual List<Tag> Tags { get; set; }
+       
 
     }
 }

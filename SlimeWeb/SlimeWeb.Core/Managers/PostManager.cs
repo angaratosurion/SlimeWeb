@@ -37,6 +37,47 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
+        public async Task<List<Post>> ListPostByCategory(string categoryname,string blogname)
+        {
+            try
+            {
+                List<Post> ap = null;
+                CategoryManager categoryManager = new CategoryManager();
+
+                if( await this.blmngr.BlogExists(blogname) && await categoryManager.Exists(categoryname,blogname ))
+                {
+                    Category category = await categoryManager.GetCategory(categoryname, blogname);
+                    List<CategotyPost> categotyPosts;
+                    if(category!=null)
+                    {
+
+                        categotyPosts = ( db.CategoryPosts.ToList()).FindAll(x => x.CategoryId == category.Id).ToList();
+                        if ( categotyPosts !=null)
+                        {
+                            ap = new List<Post>();
+                            foreach(var catp in categotyPosts)
+                            {
+                                var post = await this.Details(catp.PostId);
+                                ap.Add(post);
+
+                            }
+                        }
+
+                    }
+                }
+
+
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<List<Post>> ListByBlogName(string name)
         {
             try
@@ -205,7 +246,9 @@ namespace SlimeWeb.Core.Managers
             {
                 if (id != null)
                 {
-                    Post Post =await  db.Post.FindAsync(id);                    
+                    Post Post =await  db.Post.FindAsync(id);
+                    FileRecordManager fileRecordManager = new FileRecordManager();
+                    
                     db.Post.Remove(Post);
                     db.SaveChanges();
                 }
@@ -247,5 +290,6 @@ namespace SlimeWeb.Core.Managers
             }
         }
     }
+
 }
 

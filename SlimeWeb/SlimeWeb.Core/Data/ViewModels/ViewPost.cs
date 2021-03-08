@@ -18,16 +18,19 @@ namespace SlimeWeb.Core.Data.ViewModels
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }
         public List<IFormFile> Files { get; set; }
+        public  List<Category> Categories { get; set; }
+        public string CategoriesToString { get; set; }
+        public string Tags { get; set; }
         public void  ImportFromModel(Post model)
         {
             this.Author = model.Author;
             this.BlogId = model.BlogId;
-            this.Categories = model.Categories;
+           // this.Categories = model.Categories;
           
             this.Id = model.Id;
             this.Published = model.Published;
             this.RowVersion = model.RowVersion;
-            this.Tags = model.Tags;
+            //this.Tags = model.Tags;
             this.Title = model.Title;
             this.content = model.content;
             Blog = this.bmngr.GetBlogByIdAsync(model.BlogId).Result.ExportToModel();
@@ -41,12 +44,12 @@ namespace SlimeWeb.Core.Data.ViewModels
 
             ap.Author = Author;
             ap.BlogId = BlogId;
-            ap.Categories = Categories;
+            
            
             ap.Id = Id;
             ap.Published = Published;
             ap.RowVersion = RowVersion;
-            ap.Tags = Tags;
+            
             ap.Title = Title;
             ap.content = content;
 

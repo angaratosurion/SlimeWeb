@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using ExtCore.Data.Entities.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace SlimeWeb.Core.Data.Models
     public class Feature : IEntity
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }

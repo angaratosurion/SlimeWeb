@@ -21,6 +21,7 @@ namespace SlimeWeb
         private readonly SlimeDbContext _context;
         PostManager postManager;
         BlogManager blmngr = new BlogManager();
+        CategoryManager CategoryManager = new CategoryManager();
       
          
         public PostsController(SlimeDbContext context)
@@ -65,6 +66,8 @@ namespace SlimeWeb
             post.ImportFromModel(mpost);
             MarkDownManager markDownManager = new MarkDownManager();
             post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
+            post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
+
 
 
             //QuilDeltaManager quilDeltaManager = new QuilDeltaManager();
@@ -108,6 +111,14 @@ namespace SlimeWeb
               
                  
                 await postManager.Create(mpost, this.User.Identity.Name);
+                if( post.CategoriesToString!=null)
+                {
+                    var catgories = post.CategoriesToString.Split(",").ToList();
+                    if(catgories!=null)
+                    {
+                        CategoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
+                    }
+                }
                 //blmngr.GetBlogAsync()
                 return RedirectToAction(nameof(Index),"Posts",new { id = blog.Name });
             }
@@ -226,8 +237,15 @@ namespace SlimeWeb
                 FileRecordManager fileRecordManager = new FileRecordManager();
               // string Blogid = bid;
                 var posts = await postManager.List();
-                int postid = posts.ToList().Max(x => x.Id)+1;
-             
+                int postid=1;
+                if (posts != null &&posts.Count>0)
+                {  
+                    postid = posts.ToList().Max(x => x.Id) + 1;
+
+                   
+                  
+                }
+
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
                 if(bid==null)
                 {

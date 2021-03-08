@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
@@ -9,6 +10,7 @@ namespace SlimeWeb.Core.Data.Models
     public class Category : IEntity
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         [Timestamp]

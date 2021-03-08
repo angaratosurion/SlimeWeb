@@ -144,6 +144,36 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<string> GetCategoryNamesToString( string blogname,int bypostid)
+        {
+            try
+            {
+                string ap = "" ;
+
+
+                if (await this.blgmng.BlogExists(blogname))
+                {
+                    var categories = await this.GetCategoryByPostId(bypostid);
+                    if ( categories!=null)
+                    {
+                        foreach( var cat in categories)
+                        {
+                            ap+=cat.Name+",";
+                        }
+                    }
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
 
 
         public async Task<Boolean> Exists(string category,string blogname)
@@ -174,7 +204,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public  async void AddNew( Category category,string blogname)
+        public  async Task AddNew( Category category,string blogname)
         {
             try
             {
@@ -204,7 +234,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     foreach(var cat in category)
                     {
-                        this.AddNew(cat, blogname);
+                       await  this.AddNew(cat, blogname);
                     }
                 }
 
@@ -216,7 +246,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void AttachCategorytoPost(string categoryname ,string blogname,int postid)
+        public async Task AttachCategorytoPost(string categoryname ,string blogname,int postid)
         {
             try
             {
@@ -256,7 +286,7 @@ namespace SlimeWeb.Core.Managers
                   
                         foreach(var catname in categoryname)
                         {
-                           this.AttachCategorytoPost(catname, blogname, postid);
+                          await AttachCategorytoPost(catname, blogname, postid);
                         }
                    
                 }

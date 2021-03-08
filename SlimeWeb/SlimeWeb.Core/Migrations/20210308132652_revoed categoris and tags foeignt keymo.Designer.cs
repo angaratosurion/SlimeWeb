@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlimeWeb.Core.Data;
 
 namespace SlimeWeb.Core.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    partial class SlimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210308132652_revoed categoris and tags foeignt keymo")]
+    partial class revoedcategorisandtagsfoeigntkeymo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,9 +392,6 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<string>("RelativePath")
                         .IsRequired()

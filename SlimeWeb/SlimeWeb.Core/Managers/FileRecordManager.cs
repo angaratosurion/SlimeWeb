@@ -42,6 +42,7 @@ namespace SlimeWeb.Core.Managers
                             filemodel.RelativePath = ap;
                             filemodel.BlogId = blog.Id;
                             filemodel.Owner = usr.UserName;
+                            filemodel.PostId =(int) postid;
                             db.Files.Add(filemodel);
                            await  db.SaveChangesAsync();
                         }
@@ -107,6 +108,29 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<List<Files>> GetFilesByPostId(int pid)
+        {
+            try
+            {
+                List<Files> ap = new List<Files>();
+
+                var post = await postManager.Details(pid);
+
+                if (post!= null)
+                {
+                    ap = db.Files.Where(x => x.PostId== post.Id).ToList();
+                }
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<Files> Details(int id)
         {
             try
@@ -125,18 +149,19 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
                  
 
-                db.Files.FirstOrDefault(x => x.Id == id);
+              //  db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.Details(id);
                 if (file!=null)
                 {
                     FileSystemManager.DeleteFile(file.RelativePath);
                     db.Files.Remove(file);
+                    await db.SaveChangesAsync();
                 }
 
                  
@@ -147,6 +172,29 @@ namespace SlimeWeb.Core.Managers
 
                 CommonTools.ErrorReporting(ex);
                
+            }
+        }
+        public async Task DeleteByPostId(int pid)
+        {
+            try
+            {
+
+
+
+                var files = await this.GetFilesByPostId(pid);
+                if (files != null)
+                {
+                    await this.Delete(pid);
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+
             }
         }
         public async void DeleteByBlog(string blogname)
