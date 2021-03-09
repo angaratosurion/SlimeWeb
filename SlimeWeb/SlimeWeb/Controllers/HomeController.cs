@@ -34,9 +34,9 @@ namespace SlimeWeb.Controllers
             defaultcon = config.GetValue<string>("DefaultRoot:Controller");
             string webapppname = config.GetValue<string>("ApppSettings:WebAppName");
             
-                if ((CommonTools.isEmpty(defaultcon)== false) && (CommonTools.isEmpty(webapppname) == false))
+                if ((CommonTools.isEmpty(defaultcon)== false)) //&& (CommonTools.isEmpty(webapppname) == false))
             {
-                Response.Redirect(webapppname+"/"+defaultcon);
+               // Response.Redirect(webapppname+"/"+defaultcon);
             }
             else if (CommonTools.isEmpty(defaultcon) == false)
             {

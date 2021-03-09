@@ -22,7 +22,7 @@ namespace SlimeWeb
                 {
                     webBuilder.UseStartup<Startup>()//;
                     //.UseContentRoot(AppContext.BaseDirectory)
-
+                    
                     ;
                 });
     }
