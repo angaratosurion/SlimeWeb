@@ -31,14 +31,9 @@ namespace SlimeWeb.Controllers
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             var config = builder.Build();//
 
-            defaultcon = config.GetValue<string>("DefaultRoot:Controller");
-            string webapppname = config.GetValue<string>("ApppSettings:WebAppName");
-            
-                if ((CommonTools.isEmpty(defaultcon)== false)) //&& (CommonTools.isEmpty(webapppname) == false))
-            {
-               // Response.Redirect(webapppname+"/"+defaultcon);
-            }
-            else if (CommonTools.isEmpty(defaultcon) == false)
+            defaultcon = config.GetValue<string>("ApppSettings:DefaultRoot:Controller");
+           
+                 if (CommonTools.isEmpty(defaultcon) == false)
             {
                 Response.Redirect( defaultcon);
             }

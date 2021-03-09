@@ -76,21 +76,7 @@ namespace SlimeWeb
             app.UseAuthentication();
             app.UseAuthorization();
             
-                                         //
-            string webapppname= config.GetValue<string>("ApppSettings:WebAppName");
-            
-            if (CommonTools.isEmpty(webapppname)==false)
-            {
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern:webapppname+"/"+ "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                });
-            }
-            else
-            {
+           
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(
@@ -98,7 +84,7 @@ namespace SlimeWeb
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });
-            }
+           
         }
     }
 }

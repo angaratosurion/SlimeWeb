@@ -12,6 +12,7 @@ using ExtCore.Data.EntityFramework;
 using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SlimeWeb.Core.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -115,7 +116,15 @@ namespace SlimeWeb.Core.App_Start
                 bool createdb=false, migratedb = false;
                   createdb = config.GetValue<bool>("ApppSettings:DataBaseCreation");
                 migratedb = config.GetValue<bool>("ApppSettings:DataBaseMigration");
-                if (createdb && migratedb )
+                string pathbase;
+                pathbase = config.GetValue<string>("ApppSettings:PathBase");
+                if (pathbase != null)
+                {
+                    PathString turl = new PathString(pathbase);
+                    app.UsePathBase(turl);
+                    
+                }
+                    if (createdb && migratedb )
                 {
 
                     context.Database.EnsureCreated();
