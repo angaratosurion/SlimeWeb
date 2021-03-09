@@ -48,16 +48,23 @@ namespace SlimeWeb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            //return View();
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(path)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Build();//
             base.ConfigureSlime(app, env);
-           //if (env.IsDevelopment())
+            bool errorshowing = config.GetValue<bool>("ApppSettings:ForceErrorShowing");
+            if (env.IsDevelopment() || errorshowing==true)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-         ///  else
+           else
             {
-               // app.UseExceptionHandler("/Home/Error");
+               app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -68,15 +75,10 @@ namespace SlimeWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
-            //return View();
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();//
+            
                                          //
             string webapppname= config.GetValue<string>("ApppSettings:WebAppName");
+            
             if (CommonTools.isEmpty(webapppname)==false)
             {
                 app.UseEndpoints(endpoints =>
