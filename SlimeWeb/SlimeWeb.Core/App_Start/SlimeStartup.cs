@@ -112,11 +112,21 @@ namespace SlimeWeb.Core.App_Start
                                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 var config = builder.Build();//
                 //
-                bool createdb = config.GetValue<bool>("ApppSettings:DataBaseCreation");
-                if (createdb)
+                bool createdb=false, migratedb = false;
+                  createdb = config.GetValue<bool>("ApppSettings:DataBaseCreation");
+                migratedb = config.GetValue<bool>("ApppSettings:DataBaseMigration");
+                if (createdb && migratedb )
                 {
 
                     context.Database.EnsureCreated();
+                    context.Database.Migrate();
+                }
+                else if (createdb)
+                {
+                    context.Database.EnsureCreated();
+                }
+                else if (migratedb)
+                {
                     context.Database.Migrate();
                 }
             }
