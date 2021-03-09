@@ -104,9 +104,21 @@ namespace SlimeWeb.Core.App_Start
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
+                string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                //return View();
+                var builder = new ConfigurationBuilder()
+                                .SetBasePath(path)
+                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                var config = builder.Build();//
+                //
+                bool createdb = config.GetValue<bool>("StartupSettings:DataBaseCreation");
+                if (createdb)
+                {
 
-                context.Database.EnsureCreated();
-                context.Database.Migrate();
+                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
+                }
             }
             if (!Directory.Exists(extensionsPath))
             {
