@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SlimeWeb.Core;
 using SlimeWeb.Models;
 
 namespace SlimeWeb.Controllers
@@ -31,15 +32,20 @@ namespace SlimeWeb.Controllers
             var config = builder.Build();//
 
             defaultcon = config.GetValue<string>("DefaultRoot:Controller");
-            if (String.IsNullOrEmpty(defaultcon) == false)//&& string.IsNullOrEmpty(defaultcon)==false)
+            string webapppname = config.GetValue<string>("ApppSettings:WebAppName");
+            
+                if ((CommonTools.isEmpty(defaultcon)== false) && (CommonTools.isEmpty(webapppname) == false))
             {
-                Response.Redirect(defaultcon);
+                Response.Redirect(webapppname+"/"+defaultcon);
             }
-            else
+            else if (CommonTools.isEmpty(defaultcon) == false)
             {
+                Response.Redirect( defaultcon);
+            }
+              
                 return View();
-            }
-            return View();
+            
+            //return View();
 
         }
 

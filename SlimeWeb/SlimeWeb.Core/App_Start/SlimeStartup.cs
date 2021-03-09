@@ -112,7 +112,7 @@ namespace SlimeWeb.Core.App_Start
                                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 var config = builder.Build();//
                 //
-                bool createdb = config.GetValue<bool>("StartupSettings:DataBaseCreation");
+                bool createdb = config.GetValue<bool>("ApppSettings:DataBaseCreation");
                 if (createdb)
                 {
 

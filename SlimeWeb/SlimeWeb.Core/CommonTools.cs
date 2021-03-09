@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Managers;
+﻿using Microsoft.Extensions.Configuration;
+using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,7 +36,7 @@ namespace SlimeWeb.Core
             //SlimeWeb.Core.Configuration.SlimeWeb.CoreSettingManager conf = new Configuration.SlimeWeb.CoreSettingManager();
             if (ex.GetBaseException() is ValidationException)
             {
-               // ValidationErrorReporting((ValidationException)ex);
+                // ValidationErrorReporting((ValidationException)ex);
 
 
             }
@@ -44,7 +45,7 @@ namespace SlimeWeb.Core
 
                 NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
                 logger.Fatal(ex);
-               // if (conf.ExceptionShownOnBrowser() == true)
+                // if (conf.ExceptionShownOnBrowser() == true)
                 {
 
                     throw (ex);
@@ -55,14 +56,18 @@ namespace SlimeWeb.Core
         public static void ValidationErrorReporting(ValidationException ex)
         {
             //throw (ex);
-          
+
 
 
             NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
             logger.Info(ex);
-         
+
 
         }
+
+  
+
+
     }
 }

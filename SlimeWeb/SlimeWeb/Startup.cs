@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.App_Start;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data;
+using SlimeWeb.Core;
 
 namespace SlimeWeb
 {
@@ -67,14 +68,35 @@ namespace SlimeWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            //return View();
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(path)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Build();//
+                                         //
+            string webapppname= config.GetValue<string>("ApppSettings:WebAppName");
+            if (CommonTools.isEmpty(webapppname)==false)
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern:webapppname+"/"+ "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
+            }
+            else
+            {
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
+            }
         }
     }
 }
