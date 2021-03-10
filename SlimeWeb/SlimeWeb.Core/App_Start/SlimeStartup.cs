@@ -118,13 +118,20 @@ namespace SlimeWeb.Core.App_Start
                 migratedb = config.GetValue<bool>("ApppSettings:DataBaseMigration");
                 string pathbase;
                 pathbase = config.GetValue<string>("ApppSettings:PathBase");
-                if (pathbase != null)
-                {
-                    PathString turl = new PathString(pathbase);
-                    app.UsePathBase(turl);
+                if(CommonTools.isEmpty(pathbase)==false)
+                { 
+//                    app.Use(async(context, next) =>
+//{
+//                        var url = context.Request.Path.Value;
+
+//                          context.Request.Path = pathbase  + url;
+
+//                           await next();
+//                });
                     
                 }
-                    if (createdb && migratedb )
+
+                if (createdb && migratedb )
                 {
 
                     context.Database.EnsureCreated();
