@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.Models;
@@ -86,7 +87,20 @@ namespace SlimeWeb
         {
             string blogname=id;
             var blog = this.blmngr.GetBlogAsync(blogname).Result;
-            
+            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            //return View();
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(path)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Build();//string pathbase;
+            string pathbase = config.GetValue<string>("ApppSettings:PathBase");
+            if ( CommonTools.isEmpty(pathbase)==false)
+            {
+                ViewBag.pathbase = pathbase;
+            }
+
+
             if (blog != null)
             {
 
