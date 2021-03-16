@@ -317,5 +317,87 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
+
+        
+        public async void RemoveCatrgory(string categoryname,string blogname)
+        {
+            try
+            {
+                if(CommonTools.isEmpty(categoryname)==false && CommonTools.isEmpty(blogname)==false && await  this.Exists(categoryname,blogname))
+                {
+                    var cat = await  this.GetCategory(categoryname, blogname);
+                    var capost = db.CategoryPosts.ToList().FindAll(x => x.CategoryId == cat.Id);
+                    if (cat!=null && capost!=null)
+                    {
+                         foreach(var c in capost)
+                        {
+                            db.CategoryPosts.Remove(c);
+                         
+                            await db.SaveChangesAsync();
+                        }
+                         db.Catgories.Remove(cat);
+                        await db.SaveChangesAsync();
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                //return null;
+            }
+
+        } 
+        public async Task DetattachCategoryFromPost(int postid,string categoryname,string blogname)
+        {
+            try
+            {
+
+                if (CommonTools.isEmpty(categoryname) == false && CommonTools.isEmpty(blogname) == false && await this.Exists(categoryname, blogname))
+                {
+                    var cat = await this.GetCategory(categoryname, blogname);
+                    var capost = db.CategoryPosts.ToList().FindAll(x => x.CategoryId == cat.Id && x.PostId==postid);
+                    if (cat != null && capost != null)
+                    {
+                        foreach (var c in capost)
+                        {
+                            db.CategoryPosts.Remove(c);
+                            await db.SaveChangesAsync();
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                //return null;
+            }
+        }
+        public async void DettachCategoryRangetoPost(List<string> categoryname, string blogname, int postid)
+        {
+            try
+            {
+                if ((!CommonTools.isEmpty(blogname) && ((categoryname != null))))
+                {
+
+                    foreach (var catname in categoryname)
+                    {
+                        await DetattachCategoryFromPost(postid,catname, blogname);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                //return null;
+            }
+        }
+
     }
 }

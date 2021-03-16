@@ -68,6 +68,7 @@ namespace SlimeWeb
             MarkDownManager markDownManager = new MarkDownManager();
             post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
             post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
+            post.CategoriesToString = await CategoryManager.GetCategoryNamesToString(post.Blog.Name,(int)id);
 
 
 
@@ -143,6 +144,19 @@ namespace SlimeWeb
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
+            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            //return View();
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(path)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Build();//string pathbase;
+            string pathbase = config.GetValue<string>("ApppSettings:PathBase");
+            if (CommonTools.isEmpty(pathbase) == false)
+            {
+                ViewBag.pathbase = pathbase;
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -155,12 +169,15 @@ namespace SlimeWeb
             }
 
 
+
             ViewBag.BlogId = post.BlogId;
+
             
             var vpost = new ViewPost();
             vpost.ImportFromModel(post);
             MarkDownManager markDownManager = new MarkDownManager();
             vpost.content = markDownManager.ConvertToHtml(post.content);
+            vpost.CategoriesToString = await CategoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
             return View(vpost);
         }
 
@@ -171,26 +188,41 @@ namespace SlimeWeb
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post)
         {
-            if (id != post.Id)
+            try
             {
-                return NotFound();
-            }
-
-           // if (ModelState.IsValid)
-            {
-                try
+                if (id != post.Id)
                 {
+                    return NotFound();
+                }
+
+                // if (ModelState.IsValid)
+              //  {
+
                     //_context.Update(post);
                     //await _context.SaveChangesAsync();
                     var mpost = post.ToModel();
                     MarkDownManager markDownManager = new MarkDownManager();
                     mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
-                    mpost=await postManager.Edit(id,mpost);
-                    if (mpost  != null)
+                    mpost = await postManager.Edit(id, mpost);
+                    var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
+                    if (mpost != null)
                     {
                         post.ImportFromModel(mpost);
                     }
-                }
+                    if (post.CategoriesToString != null)
+                    {
+                        var catgories = post.CategoriesToString.Split(",").ToList();
+                        if (catgories != null)
+                        {
+                            CategoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+                            CategoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+
+                        }
+                    }
+               // }
+            
+              }
+                
                 catch (DbUpdateConcurrencyException)
                 {
 
@@ -205,7 +237,7 @@ namespace SlimeWeb
                     }
                 }
                 return RedirectToAction(nameof(Index), "Posts", new { id = post.Blog.Name });
-            }
+            
             //return View(post);
         }
 

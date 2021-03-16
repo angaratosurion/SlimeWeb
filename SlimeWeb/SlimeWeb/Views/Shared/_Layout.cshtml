@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@using SlimeWeb.Core; 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,7 +39,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - SlimeWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - SlimeWeb - @CommonTools.GetSlimeWebVersion() ( SlimeWeb.Core Version: @CommonTools.GetSlimeWebCoreVersion() )
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

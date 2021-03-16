@@ -10,7 +10,7 @@
         selector: '#content',
         plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
         toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'
-        , images_upload_url: '/Posts/Upload/@(Context.Request.RouteValues["id"])',
+        , images_upload_url: '@ViewBag.pathbase/Posts/Upload/@(Context.Request.RouteValues["id"])',
         automatic_uploads: true,
         images_reuse_filename: true,
         //images_upload_base_path: '~/AppData/AppData/Temp/'
@@ -46,6 +46,11 @@
                 <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <input asp-for="CategoriesToString" class="form-control" />
+                <span asp-validation-for="CategoriesToString" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>

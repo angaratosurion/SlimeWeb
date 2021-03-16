@@ -3,6 +3,7 @@ using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Text;
 
 namespace SlimeWeb.Core
@@ -65,8 +66,39 @@ namespace SlimeWeb.Core
 
 
         }
+        public static string GetSlimeWebVersion()
+        {
+            try
+            { string ap;
+                ap = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
-  
+                return ap;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public static string GetSlimeWebCoreVersion()
+        {
+            try
+            {
+                string ap;
+                ap = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                return ap;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
 
     }
