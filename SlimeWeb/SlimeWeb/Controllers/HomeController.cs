@@ -22,20 +22,28 @@ namespace SlimeWeb.Controllers
 
         public IActionResult Index()
         {
-            string defaultcon="", defautaction="";
+            string defaultcon="", defautaction="",pathbase="";
             string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
             //return View();
+            bool hostedinsubfolder = false;
             var builder = new ConfigurationBuilder()
                             .SetBasePath(path)
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             var config = builder.Build();//
 
             defaultcon = config.GetValue<string>("ApppSettings:DefaultRoot:Controller");
-           
-                 if (CommonTools.isEmpty(defaultcon) == false)
+            pathbase = config.GetValue<string>("ApppSettings:PathBase");
+            hostedinsubfolder = config.GetValue<bool>("ApppSettings:HostedInSubFolder");
+
+            if (CommonTools.isEmpty(defaultcon) == false && hostedinsubfolder 
+                && CommonTools.isEmpty(pathbase) == false)
             {
-                Response.Redirect( defaultcon);
+                Response.Redirect(pathbase+"/"+ defaultcon );
+            }
+                 else
+            {
+                Response.Redirect(defaultcon);
             }
               
                 return View();
