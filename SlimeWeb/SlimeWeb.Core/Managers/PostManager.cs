@@ -37,6 +37,23 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
+        public async Task<List<Post>> ListByPublished()
+        {
+            try
+            {
+                List<Post> ap = null;
+
+                ap = await db.Post.OrderBy(x => x.Published).ToListAsync();
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+
+            }
+
+        }
         public async Task<List<Post>> ListPostByCategory(string categoryname,string blogname)
         {
             try
@@ -92,6 +109,40 @@ namespace SlimeWeb.Core.Managers
                         blog = await this.blmngr.GetBlogAsync(name);
 
                         posts = await db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
+                        if (posts != null)
+                        {
+                            ap = posts;
+                        }
+                    }
+
+
+
+                }
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+
+            }
+
+        }
+        public async Task<List<Post>> ListByBlogNameByPublished(string name)
+        {
+            try
+            {
+                List<Post> ap = null, posts;
+                Blog blog = null;
+                if (name != null)
+                {
+                    ap = new List<Post>();
+                    if ((await this.blmngr.BlogExists(name)) == true)
+                    {
+                        blog = await this.blmngr.GetBlogAsync(name);
+
+                        posts = await db.Post.Where(x => x.BlogId == blog.Id).OrderByDescending(x => x.Published).ToListAsync();
                         if (posts != null)
                         {
                             ap = posts;
@@ -248,9 +299,19 @@ namespace SlimeWeb.Core.Managers
                 {
                     Post Post =await  db.Post.FindAsync(id);
                     FileRecordManager fileRecordManager = new FileRecordManager();
-                    
-                    db.Post.Remove(Post);
-                    db.SaveChanges();
+
+                    bool deleted=await fileRecordManager.DeleteByPostId((int)id);
+                    bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);
+                    if (deleted && posthasfiles)
+                    {
+                        db.Post.Remove(Post);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.Post.Remove(Post);
+                        db.SaveChanges();
+                    }
                 }
 
             }

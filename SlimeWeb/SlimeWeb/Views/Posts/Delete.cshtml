@@ -47,7 +47,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" asp-route-blogname="@Model.Blog.Name" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-route-id="@Model.Blog.Name">Back to List</a>
     </form>
 </div>

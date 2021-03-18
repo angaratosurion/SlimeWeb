@@ -40,10 +40,32 @@ namespace SlimeWeb.Core.Managers
             {
                 string ap = "";
 
-                string pathwithextention = Path.Combine(SlimeStartup.WebRoot, "wwwroot");;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string pathwithextention = Path.Combine(SlimeStartup.WebRoot, "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
                 string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
-                    path= pathwithextention.Replace("file:\\", "");
-                ap = Path.Combine(path,AppDataDir) ;
+                path = pathwithextention.Replace("file:\\", "");
+                ap = Path.Combine(path, AppDataDir);
+
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetAppRootFolderAbsolutePath()
+        {
+            try
+            {
+                string ap = "";
+
+                string pathwithextention = Path.Combine(SlimeStartup.WebRoot, "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+               ap= pathwithextention.Replace("file:\\", "");
+                //ap = Path.Combine(path, AppDataDir);
 
 
 
@@ -221,12 +243,43 @@ namespace SlimeWeb.Core.Managers
      
         #endregion
         #region files
-        public static Boolean FileExists(String relpath)
+        //public static Boolean FileExists(String relpath)
+        //{
+        //    try
+        //    {
+        //        Boolean ap = false;
+        //        String path = Path.Combine(GetAppRootFolderAbsolutePath(), relpath);
+
+        //        if (CommonTools.isEmpty(path) != true && File.Exists(path) == true)
+        //        {
+        //            ap = true;
+        //        }
+        //        return ap;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CommonTools.ErrorReporting(ex);
+
+        //        return false;
+        //    }
+        //}
+        public static Boolean FileExists(String tpath,bool absolupath)
         {
             try
             {
                 Boolean ap = false;
-                String path = Path.Combine(GetAppRootDataFolderAbsolutePath(), relpath);
+                String path = "";
+
+                if (absolupath)
+                {
+                    path = tpath;
+                }
+                else
+                {
+
+                    Path.Combine(GetAppRootFolderAbsolutePath(), tpath);
+                }
 
                 if (CommonTools.isEmpty(path) != true && File.Exists(path) == true)
                 {
@@ -330,9 +383,10 @@ namespace SlimeWeb.Core.Managers
             {
                 string path;
                 Boolean ap = false;
-                if (CommonTools.isEmpty(relpath) != true && FileExists(relpath) == true)
+                if (CommonTools.isEmpty(relpath) != true && FileExists(relpath,true)== true)
                 {
-                    path=Path.Combine(GetAppRootDataFolderAbsolutePath(), relpath);
+                    path = relpath;
+                    //Path.Combine(GetAppRootFolderAbsolutePath(), relpath);
 
                     //MapPath(relpath);
                     File.Delete(path);
@@ -360,7 +414,7 @@ namespace SlimeWeb.Core.Managers
                 string src = relsrc, trg = reltrg;
 
                 if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
-                   && FileExists(src))//&&  Exists(trg))
+                   && FileExists(src,true))//&&  Exists(trg))
                 {
                     src = Path.Combine(GetAppRootDataFolderAbsolutePath(), relsrc);
                     trg = Path.Combine(GetAppRootDataFolderAbsolutePath(), reltrg);
@@ -387,7 +441,7 @@ namespace SlimeWeb.Core.Managers
                 string src = relsrc, trg = reltrg;
 
                 if (CommonTools.isEmpty(src) == false && CommonTools.isEmpty(trg) == false
-                   && FileExists(src))//&&  Exists(trg))
+                   && FileExists(src,true))//&&  Exists(trg))
                 {
                     src = Path.Combine(GetAppRootDataFolderAbsolutePath(), relsrc);
                     trg = Path.Combine(GetAppRootDataFolderAbsolutePath(), reltrg);

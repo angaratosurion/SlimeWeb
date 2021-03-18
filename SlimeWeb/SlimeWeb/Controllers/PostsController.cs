@@ -41,7 +41,7 @@ namespace SlimeWeb
             {
                 return NotFound();
             }
-            var p = await postManager.ListByBlogName(name);
+            var p = await postManager.ListByBlogNameByPublished(name);
             
             List<ViewPost> posts = new List<ViewPost>();
             foreach(var tp in p)
@@ -142,7 +142,7 @@ namespace SlimeWeb
 
         // GET: Posts/Edit/5
         [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string blogname)
         {
             string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
@@ -186,7 +186,7 @@ namespace SlimeWeb
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post, string blogname)
         {
             try
             {
@@ -243,7 +243,7 @@ namespace SlimeWeb
 
         // GET: Posts/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id,string blogname)
         {
             if (id == null)
             {
@@ -259,20 +259,22 @@ namespace SlimeWeb
             {
                 return NotFound();
             }
-
+            ViewBag.BlogName = blogname;
             return View(post);
         }
 
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string blogname)
         {
             //var post = await _context.Post.FindAsync(id);
             //_context.Post.Remove(post);
             //await _context.SaveChangesAsync();
            await  this.postManager.Delete(id);
-            return RedirectToAction(nameof(Index));
+         
+            
+            return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
         }
       //  [HttpPost]
        

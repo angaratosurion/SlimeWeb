@@ -149,51 +149,60 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             try
             {
-                 
 
-              //  db.Files.FirstOrDefault(x => x.Id == id);
+                bool ap = false;
+                //  db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.Details(id);
                 if (file!=null)
                 {
-                    FileSystemManager.DeleteFile(file.RelativePath);
-                    db.Files.Remove(file);
-                    await db.SaveChangesAsync();
-                }
+                    bool deleted=FileSystemManager.DeleteFile(file.Path);
 
-                 
+                    if (deleted)
+                    {
+                        db.Files.Remove(file);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                return ap;
+
 
             }
             catch (Exception ex)
             {
 
                 CommonTools.ErrorReporting(ex);
+                return false;
                
             }
         }
-        public async Task DeleteByPostId(int pid)
+        public async Task<bool> DeleteByPostId(int pid)
         {
             try
             {
-
+                bool ap = false;
 
 
                 var files = await this.GetFilesByPostId(pid);
                 if (files != null)
                 {
-                    await this.Delete(pid);
+                    foreach (var file in files)
+                    {
+                       ap = await this.Delete(file.Id);
+                    }
                 }
 
-
+                return ap;
 
             }
             catch (Exception ex)
             {
 
                 CommonTools.ErrorReporting(ex);
+                return false;
 
             }
         }
@@ -209,7 +218,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     foreach(var file in files)
                     {
-                        this.Delete(file.Id);
+                       await this.Delete(file.Id);
                     }
                 }
 
@@ -223,5 +232,55 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
+
+        public async Task<bool> PostHasFiles(int id)
+        {
+            try
+            {
+
+                bool ap = false;
+                //  db.Files.FirstOrDefault(x => x.Id == id);
+                var file = await this.GetFilesByPostId(id);
+                if (file != null)
+                {
+                    ap = true;
+                }
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+
+            }
+        }
+        public async Task<bool> BlogtHasFiles(string id)
+        {
+            try
+            {
+
+                bool ap = false;
+                //  db.Files.FirstOrDefault(x => x.Id == id);
+                var file = await this.GetFilesByBlogName(id);
+                if (file != null)
+                {
+                    ap = true;
+                }
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+
+            }
+        }
     }
+   
 }

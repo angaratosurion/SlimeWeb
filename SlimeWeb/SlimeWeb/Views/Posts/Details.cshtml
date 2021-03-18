@@ -69,6 +69,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-blogname="@Model.Blog.Name">Edit</a> |
     <a asp-action="Index" asp-route-id="@Model.Blog.Name">Back to List</a>
 </div>
