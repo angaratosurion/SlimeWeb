@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using SlimeWeb.Core.Services;
 using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Managers;
+using Microsoft.Extensions.FileProviders;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -21,6 +22,7 @@ namespace SlimeWeb.Core.App_Start
     {
         string extensionsPath;
         public static string WebRoot;
+        bool Direcotrybrowse = false;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,7 @@ namespace SlimeWeb.Core.App_Start
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceCollection ConfigureServicesSlime(IServiceCollection services)
         {
+            
             services.AddDbContext<SlimeDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -62,8 +65,12 @@ namespace SlimeWeb.Core.App_Start
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
 
             services.AddSingleton<IEmailSender, EmailSender>();
-            
-
+            Direcotrybrowse = AppSettingsManager.GetAllowDirectoryBrowseSetting();
+            if (Direcotrybrowse)
+            {
+                services.AddDirectoryBrowser();
+            }
+          
 
             return services;
 
@@ -101,9 +108,17 @@ namespace SlimeWeb.Core.App_Start
             //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //    endpoints.MapRazorPages();
             //});
-            app.UseStaticFiles();
-            
-            WebRoot=env.ContentRootPath;
+            // app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+             Path.Combine(env.WebRootPath, "App_Data")),
+                RequestPath = "/App_Data"
+            });
+
+
+
+            WebRoot = env.ContentRootPath;
              
 
 
@@ -118,7 +133,7 @@ namespace SlimeWeb.Core.App_Start
                                 
                  //
                 //
-                bool createdb=false, migratedb = false;
+                bool createdb=false, migratedb = false, enablefileserver = false;
                 createdb = AppSettingsManager.GetDataBaseCreationSetting();
                 migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
                 string pathbase;
@@ -152,15 +167,33 @@ namespace SlimeWeb.Core.App_Start
                 {
                     context.Database.Migrate();
                 }
+                enablefileserver = AppSettingsManager.GetEnableFileServer();
+                if (enablefileserver)
+                {
+                    //app.UseFileServer(Direcotrybrowse);
+                    app.UseFileServer(new FileServerOptions
+                    {
+                        FileProvider = new PhysicalFileProvider(
+            Path.Combine(env.ContentRootPath,"wwwroot", "App_Data")),
+                        RequestPath = "/App_Data",
+                        EnableDirectoryBrowsing = Direcotrybrowse
+                    });
+
+                }
             }
             if (!Directory.Exists(extensionsPath))
             {
                 Directory.CreateDirectory(extensionsPath);
             }
+
+
             app.UseExtCore();
-        }
-                
+
 
         }
+         
+
+
+}
     }
 

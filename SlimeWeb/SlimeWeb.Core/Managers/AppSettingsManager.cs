@@ -142,6 +142,35 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public static bool GetAllowDirectoryBrowseSetting()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:AllowDirectoryBrowse");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+
+        }
+        public static bool GetEnableFileServer()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:EnableFileServer");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
 
     }
 }
