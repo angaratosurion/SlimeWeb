@@ -15,6 +15,7 @@ using SlimeWeb.Core.Services;
 using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Managers;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -70,7 +71,9 @@ namespace SlimeWeb.Core.App_Start
             {
                 services.AddDirectoryBrowser();
             }
-          
+
+            services.Configure<KestrelServerOptions>(
+               Configuration.GetSection("Kestrel"));
 
             return services;
 
