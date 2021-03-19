@@ -88,14 +88,14 @@ namespace SlimeWeb
         {
             string blogname=id;
             var blog = this.blmngr.GetBlogAsync(blogname).Result;
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            
+           
             //return View();
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();//string pathbase;
-            string pathbase = config.GetValue<string>("ApppSettings:PathBase");
+            
+                          
+                            
+             //string pathbase;
+            string pathbase =  AppSettingsManager.GetPathBase();
             if ( CommonTools.isEmpty(pathbase)==false)
             {
                 ViewBag.pathbase = pathbase;
@@ -144,14 +144,14 @@ namespace SlimeWeb
         [Authorize]
         public async Task<IActionResult> Edit(int? id, string blogname)
         {
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            
+           
             //return View();
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();//string pathbase;
-            string pathbase = config.GetValue<string>("ApppSettings:PathBase");
+            
+                          
+                            
+             //string pathbase;
+            string pathbase =  AppSettingsManager.GetPathBase();
             if (CommonTools.isEmpty(pathbase) == false)
             {
                 ViewBag.pathbase = pathbase;

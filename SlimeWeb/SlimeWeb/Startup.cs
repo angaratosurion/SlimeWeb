@@ -16,6 +16,7 @@ using SlimeWeb.Core.App_Start;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core;
+using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb
 {
@@ -48,15 +49,15 @@ namespace SlimeWeb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            
+           
             //return View();
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();//
+            
+                          
+                            
+             //
             base.ConfigureSlime(app, env);
-            bool errorshowing = config.GetValue<bool>("ApppSettings:ForceErrorShowing");
+            bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing==true)
             {
                 app.UseDeveloperExceptionPage();

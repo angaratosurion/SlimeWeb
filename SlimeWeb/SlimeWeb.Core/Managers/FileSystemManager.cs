@@ -62,9 +62,52 @@ namespace SlimeWeb.Core.Managers
             {
                 string ap = "";
 
-                string pathwithextention = Path.Combine(SlimeStartup.WebRoot, "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string pathwithextention;
+                if (CommonTools.isEmpty(SlimeStartup.WebRoot))
+                {
+                    pathwithextention = Path.Combine(GetAppRootBinaryFolderAbsolutePath(), "wwwroot");
+                }
+                else
+                {
+                    pathwithextention=Path.Combine(SlimeStartup.WebRoot, "wwwroot");
+                }
+                
+                ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
                 string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                ap= pathwithextention.Replace("file:\\", "");
+                //ap = Path.Combine(path, AppDataDir);
+
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetAppRootBinaryFolderAbsolutePath()
+        {
+            try
+            {
+                string ap = "";
+
+                string pathwithextention;
+                if (CommonTools.isEmpty(SlimeStartup.WebRoot))
+                {
+                    pathwithextention = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
+                        .Replace("file:\\", "");
+                }
+                else
+                {
+                    pathwithextention = SlimeStartup.WebRoot;
+                }
+
+                ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                ap = pathwithextention.Replace("file:\\", "");
                 //ap = Path.Combine(path, AppDataDir);
 
 

@@ -13,6 +13,7 @@ using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SlimeWeb.Core.Services;
 using Microsoft.AspNetCore.Http;
+using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -41,7 +42,11 @@ namespace SlimeWeb.Core.App_Start
             //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //  .AddEntityFrameworkStores<SlimeDbContext>();
             //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
-            this.extensionsPath = Configuration["Extensions:Path"];
+
+
+            this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+                
+                //Configuration["Extensions:Path"];
             if (string.IsNullOrWhiteSpace(extensionsPath) == false)
             {
                 
@@ -105,19 +110,19 @@ namespace SlimeWeb.Core.App_Start
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
-                string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                
+               
                 //return View();
-                var builder = new ConfigurationBuilder()
-                                .SetBasePath(path)
-                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                var config = builder.Build();//
+                
+                              
+                                
+                 //
                 //
                 bool createdb=false, migratedb = false;
-                  createdb = config.GetValue<bool>("ApppSettings:DataBaseCreation");
-                migratedb = config.GetValue<bool>("ApppSettings:DataBaseMigration");
+                createdb = AppSettingsManager.GetDataBaseCreationSetting();
+                migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
                 string pathbase;
-                pathbase = config.GetValue<string>("ApppSettings:PathBase");
+                pathbase =  AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
 
                 if(CommonTools.isEmpty(pathbase)==false)

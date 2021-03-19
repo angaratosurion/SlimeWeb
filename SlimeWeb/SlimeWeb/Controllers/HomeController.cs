@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SlimeWeb.Core;
+using SlimeWeb.Core.Managers;
 using SlimeWeb.Models;
 
 namespace SlimeWeb.Controllers
@@ -23,18 +24,18 @@ namespace SlimeWeb.Controllers
         public IActionResult Index()
         {
             string defaultcon="", defautaction="",pathbase="";
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            
+           
             //return View();
             bool hostedinsubfolder = false;
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();//
+             
+                            
+             //
 
-            defaultcon = config.GetValue<string>("ApppSettings:DefaultRoot:Controller");
-            pathbase = config.GetValue<string>("ApppSettings:PathBase");
-            hostedinsubfolder = config.GetValue<bool>("ApppSettings:HostedInSubFolder");
+            defaultcon = AppSettingsManager.GetDefaultController();
+            pathbase =  AppSettingsManager.GetPathBase();
+            hostedinsubfolder =  AppSettingsManager.GetHostedInSubFolderSetting();
+            
 
             if (CommonTools.isEmpty(defaultcon) == false && hostedinsubfolder 
                 && CommonTools.isEmpty(pathbase) == false)

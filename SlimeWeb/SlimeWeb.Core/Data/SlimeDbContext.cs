@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,20 +61,20 @@ namespace SlimeWeb.Core.Data
 
 
 
+            string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
 
 
-            string pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(path)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var config = builder.Build();
+            
+                          
+                            
+             
             var directory = Path.Combine(path, "App_Data");
             if(Directory.Exists(directory)== false)
             {
                 Directory.CreateDirectory(directory);
             }
-            string olddbConn = config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            string olddbConn = AppSettingsManager.GetDefaultConnectionString();
             if (olddbConn != null)
             {
 
