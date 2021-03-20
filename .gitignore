@@ -348,5 +348,5 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 /Backups
-/SlimeWeb/SlimeWeb/wwwroot/App_Data/*. 
-/SlimeWeb/SlimeWeb/wwwroot/App_Data/
+/SlimeWeb/SlimeWeb/wwwroot/AppData/*. 
+/SlimeWeb/SlimeWeb/wwwroot/AppData/

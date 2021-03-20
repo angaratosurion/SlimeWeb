@@ -17,7 +17,7 @@ namespace SlimeWeb.Core.Managers
         CommonTools cmtools = new CommonTools();
         //  static HttpServerUtilityBase util;
         //const string   filesdir="files",AppDataDir="App_Data";
-        const string AppDataDir = "App_Data";
+        public const string AppDataDir = "AppData";
        //static  IWebHostEnvironment webHostEnvironment;
 
         //[DllImport("kernel32.dll")]
