@@ -21,6 +21,7 @@ namespace SlimeWeb
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
+                    
                     //.ConfigureKestrel(serverOptions =>
                     //{
                     //    // Set properties and call methods on options

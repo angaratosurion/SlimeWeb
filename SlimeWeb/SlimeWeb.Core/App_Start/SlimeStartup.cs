@@ -118,6 +118,12 @@ namespace SlimeWeb.Core.App_Start
              Path.Combine(env.WebRootPath, "App_Data")),
                 RequestPath = "/App_Data"
             });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //  Path.Combine(env.ContentRootPath, "wwwroot")),
+            //    RequestPath = ""
+            //});
 
 
 
@@ -143,18 +149,7 @@ namespace SlimeWeb.Core.App_Start
                 pathbase =  AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
 
-                if(CommonTools.isEmpty(pathbase)==false)
-                { 
-//                    app.Use(async(context, next) =>
-//{
-//                        var url = context.Request.Path.Value;
-
-//                          context.Request.Path = pathbase  + url;
-
-//                           await next();
-//                });
-                    
-                }
+    
 
                 if (createdb && migratedb )
                 {
