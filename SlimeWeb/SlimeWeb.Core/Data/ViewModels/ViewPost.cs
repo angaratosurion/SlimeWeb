@@ -21,9 +21,11 @@ namespace SlimeWeb.Core.Data.ViewModels
         public  List<Category> Categories { get; set; }
         public string CategoriesToString { get; set; }
         public string Tags { get; set; }
+        public ApplicationUser Author { get; set; }
         public void  ImportFromModel(Post model)
         {
-            this.Author = model.Author;
+            this.Author =  BlogManager.db.Users.First(x => x.UserName == model.Author);
+               
             this.BlogId = model.BlogId;
            // this.Categories = model.Categories;
           
@@ -42,7 +44,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         {
             Post ap = new Post();
 
-            ap.Author = Author;
+            ap.Author = Author.UserName; ;
             ap.BlogId = BlogId;
             
            
