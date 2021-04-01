@@ -119,6 +119,7 @@ namespace SlimeWeb
         {
             //if (ModelState.IsValid)
             {
+                post.Author =await PostManager.db.Users.FirstAsync(x=>x.UserName==User.Identity.Name);
                 var mpost = post.ToModel();
                 MarkDownManager markDownManager = new MarkDownManager();
                 mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
