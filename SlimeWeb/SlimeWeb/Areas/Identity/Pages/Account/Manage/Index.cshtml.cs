@@ -36,18 +36,23 @@ namespace SlimeWeb.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Display Name")]
+            public string DisplayName{ get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var displayname = user.DisplayName;
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                DisplayName=displayname
+                
             };
         }
 
@@ -78,6 +83,7 @@ namespace SlimeWeb.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var displaynumber = user.DisplayName;
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -87,7 +93,13 @@ namespace SlimeWeb.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+           
+            if (Input.DisplayName!=null)
+            {
+                user.DisplayName = Input.DisplayName;
+                await _userManager.UpdateAsync(user);
 
+            }
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

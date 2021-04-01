@@ -4,13 +4,21 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-SlimeWeb-95F8EA0A-FF6D-42E6-B098-E619D1EE1FFE</UserSecretsId>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.0.2.0</Version>
+    <Version>0.0.2.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="App_Data\**" />
+    <Compile Remove="wwwroot\AppData\**" />
     <Compile Remove="wwwroot\App_Data\**" />
+    <Content Remove="App_Data\**" />
+    <Content Remove="wwwroot\AppData\**" />
     <Content Remove="wwwroot\App_Data\**" />
+    <EmbeddedResource Remove="App_Data\**" />
+    <EmbeddedResource Remove="wwwroot\AppData\**" />
     <EmbeddedResource Remove="wwwroot\App_Data\**" />
+    <None Remove="App_Data\**" />
+    <None Remove="wwwroot\AppData\**" />
     <None Remove="wwwroot\App_Data\**" />
   </ItemGroup>
 
@@ -45,11 +53,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SlimeWeb.Core\SlimeWeb.Core.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="App_Data\" />
   </ItemGroup>
 
 </Project>
