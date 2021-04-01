@@ -40,11 +40,18 @@ namespace SlimeWeb.Core.Data.ViewModels
             
 
         }
-        public Post ToModel()
+        public Post ToModel(string username)
         {
             Post ap = new Post();
-
-            ap.Author = Author.UserName; ;
+            if (CommonTools.isEmpty(username))
+            {
+                return null; ;
+            }
+            if( this.Author ==null)
+            {
+                Author = BlogManager.db.Users.First(x => x.UserName == username);
+            }
+            ap.Author = this.Author.UserName; 
             ap.BlogId = BlogId;
             
            

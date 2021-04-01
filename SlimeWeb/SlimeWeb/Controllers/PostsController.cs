@@ -120,7 +120,7 @@ namespace SlimeWeb
             //if (ModelState.IsValid)
             {
                 post.Author =await PostManager.db.Users.FirstAsync(x=>x.UserName==User.Identity.Name);
-                var mpost = post.ToModel();
+                var mpost = post.ToModel(User.Identity.Name);
                 MarkDownManager markDownManager = new MarkDownManager();
                 mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
                var blog=await blmngr.GetBlogByIdAsync(mpost.BlogId);
@@ -201,7 +201,7 @@ namespace SlimeWeb
 
                     //_context.Update(post);
                     //await _context.SaveChangesAsync();
-                    var mpost = post.ToModel();
+                    var mpost = post.ToModel(User.Identity.Name);
                     MarkDownManager markDownManager = new MarkDownManager();
                     mpost.content = markDownManager.ConvertFromHtmlToMarkDwon(post.content);
                     mpost = await postManager.Edit(id, mpost);
