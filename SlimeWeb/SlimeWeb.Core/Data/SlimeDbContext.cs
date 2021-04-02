@@ -42,7 +42,7 @@ namespace SlimeWeb.Core.Data
 
         public DbSet<CategotyPost> CategoryPosts  { get; set; }
         public DbSet<TagPost> TagPosts { get; set; }
-        public DbSet<FilesPost> FilesPosts { get; set; }
+        public DbSet<FilesPostBlog> FilesPostsBlog { get; set; }
         //public IStorageContext StorageContext => throw new NotImplementedException();\
 
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)

@@ -128,7 +128,16 @@ namespace SlimeWeb.Core.Managers
                 string ap = "";
 
                 // string wkrotfold = setmngr.blogRootFolderName();
-                ap =  AppDataDir;
+                bool isonsubfolder = AppSettingsManager.GetHostedInSubFolderSetting();
+                if (isonsubfolder)
+                {
+                    ap = "../../"+ AppDataDir;
+
+                }
+                else
+                {
+                    ap = AppDataDir;
+                }
                     //"~/" + AppDataDir ;;
 
 

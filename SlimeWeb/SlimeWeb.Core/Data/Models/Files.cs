@@ -25,8 +25,7 @@ namespace SlimeWeb.Core.Data.Models
 
         public string Owner { get; set; }
 
-        [Required]
-        public int BlogId { get; set; }
+        
 
     }
 }

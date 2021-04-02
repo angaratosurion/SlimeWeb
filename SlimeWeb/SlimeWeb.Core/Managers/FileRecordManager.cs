@@ -40,17 +40,17 @@ namespace SlimeWeb.Core.Managers
                             filemodel.FileName = Path.GetFileName(abspath);
                             filemodel.Path = abspath;
                             filemodel.RelativePath = ap;
-                            filemodel.BlogId = blog.Id;
+                            
                             filemodel.Owner = usr.UserName;
                             //filemodel.PostId =(int) postid;
 
                             db.Files.Add(filemodel);
                            await  db.SaveChangesAsync();
-                            FilesPost filesPost = new FilesPost();
+                            FilesPostBlog filesPost = new FilesPostBlog();
                             filesPost.BlogId = blog.Id;
                             filesPost.FileId = filemodel.Id;
                             filesPost.PostId = (int)postid;
-                            db.FilesPosts.Add(filesPost);
+                            db.FilesPostsBlog.Add(filesPost);
                             await db.SaveChangesAsync();
 
                         }
@@ -80,7 +80,18 @@ namespace SlimeWeb.Core.Managers
                     
                     if( blog !=null )
                     {
-                        ap =  db.Files.Where(x => x.BlogId == blog.Id).ToList();
+                        var filesblog = db.FilesPostsBlog.Where(x => x.BlogId == blog.Id).ToList();
+                        if (filesblog != null)
+                        {
+                            foreach (var fb in filesblog)
+                            {
+                                var file = await this.Details(fb.FileId);
+                                if (file != null)
+                                {
+                                    ap.Add(file);
+                                }
+                            }
+                        }
                     }
 
                 }          
@@ -103,10 +114,19 @@ namespace SlimeWeb.Core.Managers
 
                     if (blog != null)
                     {
-                        ap = db.Files.Where(x => x.BlogId == blog.Id).ToList();
+                    var filesblog = db.FilesPostsBlog.Where(x => x.BlogId == id).ToList();
+                    if (filesblog != null)
+                    {
+                        foreach (var fb in filesblog)
+                        {
+                            var file = await this.Details(fb.FileId);
+                            if (file != null)
+                            {
+                                ap.Add(file);
+                            }
+                        }
                     }
-
-                
+                }
                 return ap;
             }
             catch (Exception ex)
@@ -126,7 +146,7 @@ namespace SlimeWeb.Core.Managers
 
                 if (post!= null)
                 {
-                    var fileposts = db.FilesPosts.Where(x => x.PostId == post.Id).ToList();
+                    var fileposts = db.FilesPostsBlog.Where(x => x.PostId == post.Id).ToList();
                     if (fileposts!=null)
                     {
                         //ap = db.Files.Where(x => x.PostId== post.Id).ToList();

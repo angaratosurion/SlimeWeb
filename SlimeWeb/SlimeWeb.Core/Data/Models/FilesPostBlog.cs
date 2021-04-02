@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data.Models
 {
-   public class FilesPost : IEntity
+   public class FilesPostBlog : IEntity
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
