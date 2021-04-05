@@ -10,7 +10,7 @@ namespace SlimeWeb.Core.Managers
     public class TagManager:DataManager
     {
         BlogManager blgmng = new BlogManager();
-        public async Task<List<Tag>>ListCategories()
+        public async Task<List<Tag>>ListTags()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace SlimeWeb.Core.Managers
 
                 if ((await this.Exists(Tag, blogname)))
                 {
-                    List<Tag> cats = await  this.ListCategories();
+                    List<Tag> cats = await  this.ListTags();
                     Blog blg = await this.blgmng.GetBlogAsync(blogname);
                     
                     if ( cats!=null && blg!=null)
@@ -58,7 +58,7 @@ namespace SlimeWeb.Core.Managers
                 Tag cat = null;
 
                  
-                    List<Tag> cats = await this.ListCategories();
+                    List<Tag> cats = await this.ListTags();
                   
 
                     if (cats != null )
@@ -153,10 +153,10 @@ namespace SlimeWeb.Core.Managers
 
                 if (await this.blgmng.BlogExists(blogname))
                 {
-                    var categories = await this.GetTagByPostId(bypostid);
-                    if ( categories!=null)
+                    var Tags = await this.GetTagByPostId(bypostid);
+                    if ( Tags!=null)
                     {
-                        foreach( var cat in categories)
+                        foreach( var cat in Tags)
                         {
                             ap+=cat.Name+",";
                         }
@@ -185,7 +185,7 @@ namespace SlimeWeb.Core.Managers
 
                 if ((!CommonTools.isEmpty(blogname))&& (!CommonTools.isEmpty(Tag)))
                 {
-                    List<Tag> cat = await this.ListCategories();
+                    List<Tag> cat = await this.ListTags();
                     List<Blog> blgs =  db.Blogs.ToList();
                     if ((cat.Find(x => x.Name == Tag) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
                     {

@@ -23,6 +23,7 @@ namespace SlimeWeb
         PostManager postManager;
         BlogManager blmngr = new BlogManager();
         CategoryManager CategoryManager = new CategoryManager();
+        TagManager TagManager = new TagManager();
       
          
         public PostsController(SlimeDbContext context)
@@ -135,6 +136,14 @@ namespace SlimeWeb
                         CategoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
                     }
                 }
+                if (post.TagsToString != null)
+                {
+                    var tags = post.TagsToString.Split(",").ToList();
+                    if (tags != null)
+                    {
+                       TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
+                    }
+                }
                 //blmngr.GetBlogAsync()
                 return RedirectToAction(nameof(Index),"Posts",new { id = blog.Name });
             }
@@ -220,9 +229,19 @@ namespace SlimeWeb
 
                         }
                     }
-               // }
-            
-              }
+                if (post.TagsToString != null)
+                {
+                    var tags = post.TagsToString.Split(",").ToList();
+                    if (tags != null)
+                    {
+                        TagManager.DettachTagRangetoPost(tags, blog.Name, mpost.Id);
+                        TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
+
+                    }
+                }
+                // }
+
+            }
                 
                 catch (DbUpdateConcurrencyException)
                 {

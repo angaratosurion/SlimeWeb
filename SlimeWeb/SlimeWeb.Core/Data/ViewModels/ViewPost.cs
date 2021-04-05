@@ -20,7 +20,8 @@ namespace SlimeWeb.Core.Data.ViewModels
         public List<IFormFile> Files { get; set; }
         public  List<Category> Categories { get; set; }
         public string CategoriesToString { get; set; }
-        public string Tags { get; set; }
+        public string TagsToString { get; set; }
+        public List<Tag> Tags { get; set; }
         public ApplicationUser Author { get; set; }
         public void  ImportFromModel(Post model)
         {
