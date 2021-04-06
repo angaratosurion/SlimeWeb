@@ -45,12 +45,12 @@ namespace SlimeWeb.Core
             {
 
                 NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-                logger.Fatal(ex);
+               // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)
-                {
-
-                    throw (ex);
-                }
+              //  {
+                    //hrow (ex);
+                    logger.TraceException(ex.Message, ex);
+              //  }
             }
 
         }
