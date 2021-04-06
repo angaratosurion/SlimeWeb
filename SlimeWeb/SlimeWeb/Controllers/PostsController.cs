@@ -31,6 +31,7 @@ namespace SlimeWeb
             _context = context;
             postManager = new PostManager( );
         }
+        
 
         // GET: Posts
         public async Task<IActionResult> Index(string id)
@@ -54,7 +55,51 @@ namespace SlimeWeb
             }
             return View(posts);
         }
+        //ByCategory.
+        public async Task<IActionResult> ByCategory(string id,string categoryname)
+        {
+            string name = id;
 
+
+            if (name == null && categoryname!=null)
+            {
+                return NotFound();
+            }
+            // var p = await postManager.ListByBlogNameByPublished(name);
+            var p = await postManager.ListPostByCategory(categoryname, name);
+            p.OrderByDescending(x => x.Published);
+            List<ViewPost> posts = new List<ViewPost>();
+            foreach (var tp in p)
+            {
+                ViewPost ap = new ViewPost();
+                ap.ImportFromModel(tp);
+                posts.Add(ap);
+
+            }
+            return View(posts);
+        }
+        public async Task<IActionResult> ByTag(string id, string tagname)
+        {
+            string name = id;
+
+
+            if (name == null && tagname != null)
+            {
+                return NotFound();
+            }
+            // var p = await postManager.ListByBlogNameByPublished(name);
+            var p = await postManager.ListPostByTag(tagname, name);
+            p.OrderByDescending(x => x.Published);
+            List<ViewPost> posts = new List<ViewPost>();
+            foreach (var tp in p)
+            {
+                ViewPost ap = new ViewPost();
+                ap.ImportFromModel(tp);
+                posts.Add(ap);
+
+            }
+            return View(posts);
+        }
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {

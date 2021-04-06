@@ -34,11 +34,11 @@ namespace SlimeWeb.Core.Data.ViewModels
                    // if (user != null)
                     {
                         // this.id = md.id;
-                        this.Categories = md.Categories;
+                        //this.Categories = md.Categories;
                         this.content = md.content;
                         this.Published = md.Published;
                         this.Title = md.Title;
-                        this.Tags = md.Tags;
+                        //this.Tags = md.Tags;
                         this.Id = md.Id;
                         this.RowVersion = md.RowVersion;
                         //this.Author = user;
@@ -65,7 +65,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 ap.content = content;
                 ap.Published = Published;
                 ap.Title = Title;
-                ap.Tags = Tags;
+                //ap.Tags = Tags;
                 ap.Id = Id;
                 this.RowVersion = RowVersion;
                 if (Author != null)
@@ -73,10 +73,10 @@ namespace SlimeWeb.Core.Data.ViewModels
                     ap.Author = Author.Id;
                 }
 
-                if (Categories == null)
-                {
-                    ap.Categories = new List<Category>();
-                }
+                //if (Categories == null)
+                //{
+                //    ap.Categories = new List<Category>();
+                //}
 
 
 

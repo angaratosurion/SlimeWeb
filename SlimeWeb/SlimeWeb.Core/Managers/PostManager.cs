@@ -95,6 +95,47 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<List<Post>> ListPostByTag(string tagname, string blogname)
+        {
+            try
+            {
+                List<Post> ap = null;
+                TagManager tagManager = new TagManager();
+
+                if (await this.blmngr.BlogExists(blogname) && await tagManager.Exists(tagname, blogname))
+                {
+                   Tag tag = await tagManager.GetTag(tagname, blogname);
+                    List<TagPost> tagPosts;
+                    if (tag != null)
+                    {
+
+                        tagPosts = (db.TagPosts.ToList()).FindAll(x => x.TagId == tag.Id).ToList();
+                        if (tagPosts != null)
+                        {
+                            ap = new List<Post>();
+                            foreach (var tagp in tagPosts)
+                            {
+                                var post = await this.Details(tagp.PostId);
+                                ap.Add(post);
+
+                            }
+                        }
+
+                    }
+                }
+
+
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<List<Post>> ListByBlogName(string name)
         {
             try

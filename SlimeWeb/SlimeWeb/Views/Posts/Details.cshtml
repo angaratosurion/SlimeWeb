@@ -38,14 +38,14 @@
         <dd class="col-sm-10">
             @*@Html.DisplayFor(model => model.content)*@
 
-            @Html.DisplayFor(model => model.Categories)
+            @Html.DisplayNameFor(model => model.Categories)
             @{
                 var Categories = Model.Categories;
                 if (Categories != null)
                 {
                     foreach (var cat in Categories)
                     {
-                        <a>@cat.Name</a>
+                        <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a>
                     }
 
                 }
@@ -56,14 +56,14 @@
         <dd class="col-sm-10">
           
 
-            @Html.DisplayFor(model => model.Tags)
+            @Html.DisplayNameFor(model => model.Tags)
             @{
                 var Tags = Model.Tags;
                 if (Tags != null)
                 {
                     foreach (var tag in Tags)
                     {
-                        <a>@tag.Name</a>
+                        <a sp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
                     }
 
                 }
