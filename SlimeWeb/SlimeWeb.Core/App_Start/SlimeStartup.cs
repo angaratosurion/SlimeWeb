@@ -116,7 +116,7 @@ namespace SlimeWeb.Core.App_Start
             {
                 FileProvider = new PhysicalFileProvider(
              Path.Combine(env.WebRootPath,  FileSystemManager.AppDataDir)),
-                RequestPath = "/App_Data"
+                RequestPath = "/"+ FileSystemManager.AppDataDir
             });
             //app.UseStaticFiles(new StaticFileOptions
             //{
@@ -173,7 +173,7 @@ namespace SlimeWeb.Core.App_Start
                     {
                         FileProvider = new PhysicalFileProvider(
             Path.Combine(env.ContentRootPath,"wwwroot", FileSystemManager.AppDataDir)),
-                        RequestPath = "/App_Data",
+                        RequestPath = "/"+ FileSystemManager.AppDataDir,
                         EnableDirectoryBrowsing = Direcotrybrowse
                     });
 

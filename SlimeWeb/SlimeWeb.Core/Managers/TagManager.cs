@@ -296,7 +296,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void AttachTagRangetoPost(List<string>Tagname, string blogname, int postid)
+        public async Task AttachTagRangetoPost(List<string>Tagname, string blogname, int postid)
         {
             try
             {

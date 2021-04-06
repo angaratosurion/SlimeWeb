@@ -296,7 +296,8 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
+        public async         Task
+AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
         {
             try
             {

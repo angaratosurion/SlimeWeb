@@ -133,7 +133,7 @@ namespace SlimeWeb
                     var catgories = post.CategoriesToString.Split(",").ToList();
                     if(catgories!=null)
                     {
-                        CategoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
+                       await  CategoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
                     }
                 }
                 if (post.TagsToString != null)
@@ -141,7 +141,7 @@ namespace SlimeWeb
                     var tags = post.TagsToString.Split(",").ToList();
                     if (tags != null)
                     {
-                       TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
+                       await TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
                     }
                 }
                 //blmngr.GetBlogAsync()
