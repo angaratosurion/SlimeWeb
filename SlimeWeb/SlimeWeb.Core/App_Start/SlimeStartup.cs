@@ -49,9 +49,8 @@ namespace SlimeWeb.Core.App_Start
 
 
             this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
-
-            //Configuration["Extensions:Path"];
-            System.Console.WriteLine("ExtentionsPath:{0}",extensionsPath);
+                
+                //Configuration["Extensions:Path"];
             if (string.IsNullOrWhiteSpace(extensionsPath) == false)
             {
                 
