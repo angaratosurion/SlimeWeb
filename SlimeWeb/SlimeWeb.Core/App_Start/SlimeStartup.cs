@@ -49,8 +49,9 @@ namespace SlimeWeb.Core.App_Start
 
 
             this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
-                
-                //Configuration["Extensions:Path"];
+
+            //Configuration["Extensions:Path"];
+            System.Console.WriteLine("ExtentionsPath:{0}",extensionsPath);
             if (string.IsNullOrWhiteSpace(extensionsPath) == false)
             {
                 
@@ -151,13 +152,13 @@ namespace SlimeWeb.Core.App_Start
 
     
 
-                if (createdb && migratedb )
-                {
+                //if (createdb && migratedb )
+                //{
 
-                    context.Database.EnsureCreated();
-                    context.Database.Migrate();
-                }
-                else if (createdb)
+                //    context.Database.EnsureCreated();
+                //    context.Database.Migrate();
+                //}
+                 if (createdb &&!migratedb)
                 {
                     context.Database.EnsureCreated();
                 }

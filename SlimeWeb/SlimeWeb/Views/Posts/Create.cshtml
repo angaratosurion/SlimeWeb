@@ -6,9 +6,21 @@
 <script src="~/lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
+    tinymce.IconManager.add('markdown-labs-demo', {
+        icons: {
+            markdown: `<?xml version="1.0" encoding="UTF-8"?>
+        <svg width="24px" height="24px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="markdown-mark" transform="translate(2.000000, 12.000000)" fill="#222f3e" fill-rule="nonzero">
+                    <path d="M0.5,16 L0.5,0 L5.40322581,0 L10.3064516,5.88235294 L15.2096774,0 L20.1129032,0 L20.1129032,16 L15.2096774,16 L15.2096774,6.82352941 L10.3064516,12.7058824 L5.40322581,6.82352941 L5.40322581,16 L0.5,16 Z M31.1451613,16 L23.7903226,8.23529412 L28.6935484,8.23529412 L28.6935484,0 L33.5967742,0 L33.5967742,8.23529412 L38.5,8.23529412 L31.1451613,16 Z" id="Shape"></path>
+                </g>
+            </g>
+        </svg>`
+        }
+    });
     tinymce.init({
         selector: '#content',
-        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
+        plugins: 'markdown a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
         toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'        
         , images_upload_url: '@ViewBag.pathbase/Posts/Upload/@(Context.Request.RouteValues["id"])',
         automatic_uploads: true,
