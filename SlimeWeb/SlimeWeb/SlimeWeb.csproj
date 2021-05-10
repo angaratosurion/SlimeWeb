@@ -46,6 +46,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="NLog" Version="4.7.8" />
+    <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />
     <PackageReference Include="ReverseMarkdown" Version="3.19.0" />
   </ItemGroup>
