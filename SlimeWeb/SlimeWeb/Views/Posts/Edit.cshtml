@@ -3,19 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<script src="~/lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
-
-<script>
-    tinymce.init({
-        selector: '#content',
-        plugins: 'bbcode code a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image imagetools',
-        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table link|image'
-        , images_upload_url: '@ViewBag.pathbase/Posts/Upload/@(Context.Request.RouteValues["id"])',
-        automatic_uploads: true,
-        images_reuse_filename: true,
-        //images_upload_base_path: '~/AppData/AppData/Temp/'
-    })
-</script>
+@Html.Partial("CreateandEditPostJavaScriptPart_Partial")
 <h1>Edit</h1>
 
 <h4>Post</h4>

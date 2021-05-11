@@ -171,6 +171,20 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public static string GetAppWideCMSEngine()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<string>("ApppSettings:AppWideCMSEngine");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
 
     }
 }
