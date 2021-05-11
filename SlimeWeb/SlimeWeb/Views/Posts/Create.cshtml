@@ -1,10 +1,17 @@
 ﻿@model SlimeWeb.Core.Data.ViewModels.ViewPost
+@using SlimeWeb.Core.Managers
+@using SlimeWeb.Core.Managers.Markups
 
 @{
     ViewData["Title"] = "Create";
+    var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
+}
+@if (cmsengine != enumMarkupEngine.QUIL.ToString())
+{
+    await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
 }
 
-@Html.Partial("CreateandEditPostJavaScriptPart_Partial")
+
 <h1>Create</h1>
 
 <h4>Post</h4>
@@ -25,38 +32,46 @@
                 <span asp-validation-for="Published" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="content" class="control-label"></label>
+                <label asp-for="content" class="control-label">  </label>
 
-                <textarea asp-for="content" class="form-control" id="content" name="content">
-</textarea>
+                <input asp-for="content" class="form-control" id="content" name="content" />
+                @if (cmsengine == enumMarkupEngine.QUIL.ToString())
+                {
+                    <div class="form-group" id="editor" name="editor"> </div>
+                }
 
+                @*<textarea asp-for="content" class="form-control" id="content" name="content">
+                    </textarea>*@
+
+                @*@Html.Partial("CreateandEditPostJavaScriptPart_Partial")*@
 
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Categories" class="control-label"></label>
-                <input asp-for="CategoriesToString"class="form-control" />
+                <input asp-for="CategoriesToString" class="form-control" />
                 <span asp-validation-for="CategoriesToString" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Tags" class="control-label"></label>
                 <input asp-for="TagsToString" class="form-control" />
                 <span asp-validation-for="TagsToString" class="text-danger"></span>
-            </div
-            @*<div class="form-group">
-            <label asp-for="Files" class="col-lg-2 control-label" ></label>
-            <div class="col-lg-9">
-                <input type="file" name="Img" id="file_upload" />
+
             </div>
-        </div>*@
             @*<div class="form-group">
-            <label asp-for="Author" class="control-label"></label>
-            <input asp-for="Author" class="form-control" />
-            <span asp-validation-for="Author" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Author" class="control-label"></label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+            *@
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="BlogId" class="control-label"></label>
-                @*<select asp-for="BlogId" class ="form-control" asp-items="ViewBag.BlogId"></select>*@
+
                 <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden" />
             </div>
 
@@ -66,12 +81,18 @@
         </form>
     </div>
 </div>
+ 
+@if (cmsengine == enumMarkupEngine.QUIL.ToString())
+{
+   await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
+}
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@Context.Request.RouteValues["id"]">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
 

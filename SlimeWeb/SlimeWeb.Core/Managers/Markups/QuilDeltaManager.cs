@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json.Linq;
 using Quill.Delta;
+using SlimeWeb.Core.Managers.Markups.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SlimeWeb.Core.Managers
+namespace SlimeWeb.Core.Managers.Markups
 {
-   public  class QuilDeltaManager
+    public  class QuilDeltaManager : IMarkupManager
     {
+        public string ConvertFromHtmlToMarkUp(string htmlcode)
+        {
+            throw new NotImplementedException();
+        }
 
-        public string ToHrml(string quildelta)
+        public string ConvertToHtml(string quildelta)
         {
             try
             {

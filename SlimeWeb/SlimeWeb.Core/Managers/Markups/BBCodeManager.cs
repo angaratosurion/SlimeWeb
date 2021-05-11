@@ -1,14 +1,16 @@
 ﻿using Q101.BbCodeNetCore;
+using SlimeWeb.Core.Managers.Markups.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SlimeWeb.Core.Managers
+namespace SlimeWeb.Core.Managers.Markups
 {
-   public  class BBCodeManager
+    public  class BBCodeManager : IMarkupManager
     {
+        public string ConvertFromHtmlToMarkUp(string htmlcode)
+        {
+            throw new NotImplementedException();
+        }
+
         public string ConvertToHtml(string bbcodeValue)
         {
             try

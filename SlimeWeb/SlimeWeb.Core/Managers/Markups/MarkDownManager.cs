@@ -1,14 +1,11 @@
 ﻿using Markdig;
 using ReverseMarkdown;
+using SlimeWeb.Core.Managers.Markups.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SlimeWeb.Core.Managers
+namespace SlimeWeb.Core.Managers.Markups
 {
-    public class MarkDownManager
+    public class MarkDownManager : IMarkupManager
     {
         MarkdownPipeline pipeline;
         public string ConvertToHtml(string markdowncode)
@@ -31,7 +28,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public string ConvertFromHtmlToMarkDwon(string htmlcode)
+        public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
             try
             {
