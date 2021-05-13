@@ -2,6 +2,7 @@
 using Quill.Delta;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
 using System;
+using System.Text;
 
 namespace SlimeWeb.Core.Managers.Markups
 {
@@ -9,7 +10,27 @@ namespace SlimeWeb.Core.Managers.Markups
     {
         public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string ap = null;
+                if (CommonTools.isEmpty(htmlcode) == false)
+                {
+
+                    ap = htmlcode;
+
+
+                }
+
+
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
         }
 
         public string ConvertToHtml(string quildelta)
@@ -19,9 +40,31 @@ namespace SlimeWeb.Core.Managers.Markups
                 string ap = null;
                  if ( CommonTools.isEmpty(quildelta)==false)
                 {
-                    var deltaOps = JArray.Parse(quildelta);
-                  
+
+
+
+
+                    //var aquildelta = quildelta.ToCharArray();
+                    //if (aquildelta != null)
+                    //{
+                    //    aquildelta[0] = '[';
+                    //    aquildelta[aquildelta.Length - 1] = ']';
+
+                    //    StringBuilder stringBuilder = new StringBuilder();
+                    //    stringBuilder.Append(aquildelta);
+                    //    quildelta = stringBuilder.ToString();
+
+
+                    //}
+
+
+                    quildelta = quildelta.Replace("{\"ops\":", "");
+                    quildelta=quildelta.Remove(quildelta.Length - 1, 1);
+                   var deltaOps = JArray.Parse(quildelta);
+                    
                     var htmlConverter = new HtmlConverter(deltaOps);
+                    
+                
                     ap = htmlConverter.Convert();
                     
 

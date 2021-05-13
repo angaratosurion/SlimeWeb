@@ -244,6 +244,7 @@ namespace SlimeWeb
             //vpost.HTMLcontent = bBCodeManager.ConvertToHtml(post.content);
             MarkUpManager markUpManager = new MarkUpManager();
             vpost.HTMLcontent = markUpManager.ConvertToHtml(post.content);
+             
             vpost.CategoriesToString = await CategoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
             return View(vpost);
         }

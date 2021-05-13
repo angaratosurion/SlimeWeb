@@ -79,17 +79,32 @@
                         modules: {
                             //  toolbar: '#toolbar'
                         },
-                        placeholder: 'Compose an epic...',
+                        //placeholder: 'Compose an epic...',
                         // readOnly: true,
                         theme: 'snow'
                     };
-                    var editor = new Quill(container, options);
-                    var form = document.querySelector('form');
-                    form.onsubmit = function () {
-                        // Populate hidden form on submit
-                        var description = document.querySelector('input[name=content');
-                        description.value = editor.getContents();
-                    }
+                var editor = new Quill(container, options);
+                editor.on('text-change', function (delta, oldDelta, source) {
+                    //if (source == 'api') {
+                    //    console.log("An API call triggered this change.");
+                    //} else if (source == 'user') {
+                    //    console.log("A user action triggered this change.");
+                    //}
+                    //var content = document.querySelector('input[name=content');
+                    var content = document.querySelector('textarea[name=content');
+                    // content.value = editor.getContents();
+                    var deltaobject = editor.getContents();
+                    var json = JSON.stringify(deltaobject);
+                    content.value = json;
+                });
+                
+                    //var form = document.querySelector('form');
+                    //form.onsubmit = function () {
+                    //    // Populate hidden form on submit
+                    //    var content = document.querySelector('input[name=content');
+
+                    //    content.value = editor.getContents();
+                    //}
 
 
                     //var elementothide = document.getElementById('content');
