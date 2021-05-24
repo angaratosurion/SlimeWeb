@@ -70,7 +70,7 @@
         {
             <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
             <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-            <script src="~/lib/quill-image-upload/image-upload.min.js"></script>
+            @*<script src="~/lib/quill-image-upload/image-upload.min.js"></script>*@
 
             <script>
 
@@ -101,7 +101,7 @@
         theme: 'snow',
         modules: {
             toolbar: toolbarOptions
-            ,
+            @*,
            imageUpload: {
                 url: '', // server url. If the url is empty then the base64 returns
                 method: 'POST', // change query method, default 'POST'
@@ -133,7 +133,7 @@
                     next(file); // go back to component and send to the server
                 }
 
-            }
+            }*@
         }
     };
                 var editor = new Quill(container, options);
@@ -161,23 +161,25 @@
                     input.value = ''
                     input.click()
                     input.onchange = uploadImage;
-                 //   await this.uploadImage2();
+                 // await this.uploadImage2();
 
 
                 }
                 async function uploadImage(event)
                 {
                   //  alert('test2')
-                           var form = new FormData()
+                    var form = new FormData()
+                    //enctype="multipart/form-data"
+                   
                     form.append('upload_file', event.target.files[0]);
 
                    // alert();
-                    $.ajax({
+                    await $.ajax({
                         url: '@ViewBag.pathbase/Posts/Upload/@(Context.Request.RouteValues["id"])',
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
-                        data: form,
+                        data: form['upload_file'],
                         success: function (result)
                         {
                             //alert(result);
@@ -198,9 +200,9 @@
 
 
 
-                 editor.register('modules/imageUpload', ImageUpload);
+                 /*editor.register('modules/imageUpload', ImageUpload);*/
 
-              /* this.editor.getModule("toolbar").addHandler("image", this.uploadImageHandler)*/
+              // this.editor.getModule("toolbar").addHandler("image", this.uploadImageHandler)
 
 
 

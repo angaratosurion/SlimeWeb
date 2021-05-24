@@ -3,6 +3,7 @@ using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -90,6 +91,23 @@ namespace SlimeWeb.Core
 
                 return ap;
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public static void saveFileFRombase64string(string filedata, string filename)
+        {
+            try
+            {
+                if ( isEmpty(filedata) && isEmpty(filename))
+                {
+                    byte[] bytes = Convert.FromBase64String(filedata);
+                    // Image image;
+                    File.WriteAllBytes( filename, bytes);
+                }
             }
             catch (Exception)
             {
