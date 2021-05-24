@@ -359,7 +359,7 @@ namespace SlimeWeb
             
             return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
         }
-      //  [HttpPost]
+       [HttpPost]
        
         public async Task<ActionResult> Upload([FromQuery]string bid)
         {
