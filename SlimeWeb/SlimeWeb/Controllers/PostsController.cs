@@ -447,7 +447,7 @@ namespace SlimeWeb
             }
         }
        
-        public async Task<ActionResult> UploadQuill([FromQuery] string bid)//,[FromBody]IFormFile file)
+        public async Task<ActionResult> UploadQuill(/*[FromQuery] string bid*/)//,[FromBody]IFormFile file)
         {
             try
             {
@@ -460,7 +460,7 @@ namespace SlimeWeb
                 {
                     return NoContent();
                 }
-
+                string bid=null;
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
 
                 if (bid == null)
@@ -476,7 +476,7 @@ namespace SlimeWeb
 
 
 
-
+                
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
                 //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
