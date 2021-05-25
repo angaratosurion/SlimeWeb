@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -359,7 +360,7 @@ namespace SlimeWeb
             
             return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
         }
-       //[HttpPost]
+       [HttpPost()]
        
         public async Task<ActionResult> Upload([FromQuery]string bid)
         {
@@ -370,9 +371,13 @@ namespace SlimeWeb
                 var posts = await postManager.List();
                 int postid = -1;
                 postid = await  fileRecordManager.PredictLastId("Post")+1;
-                
+                //if(Request.Form.Files.Count==0)
+                //{
+                //    return null;
+                //}
 
                 IFormFile formFile = (FormFile)Request.Form.Files[0];
+                
                 if(bid==null)
                 {
                     bid = Request.RouteValues["id"].ToString();
@@ -401,6 +406,7 @@ namespace SlimeWeb
                 return null;
             }
         }
+
         public async Task<ActionResult> UploadEdit([FromQuery] string bid, [FromQuery] int? pid)
         {
             try
@@ -440,6 +446,52 @@ namespace SlimeWeb
                 return null;
             }
         }
+       
+        public async Task<ActionResult> UploadQuill([FromQuery] string bid)//,[FromBody]IFormFile file)
+        {
+            try
+            {
+                FileRecordManager fileRecordManager = new FileRecordManager();
+                // string Blogid = bid;
+                var posts = await postManager.List();
+                int postid = -1;
+                postid = await fileRecordManager.PredictLastId("Post") + 1;
+                if (Request.Form.Files.Count == 0)
+                {
+                    return NoContent();
+                }
+
+                IFormFile formFile = (FormFile)Request.Form.Files[0];
+
+                if (bid == null)
+                {
+                    bid = Request.RouteValues["id"].ToString();
+                }
+                var blog = await this.blmngr.GetBlogAsync(bid);
+
+
+
+                var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile, User.Identity.Name);
+
+
+
+
+
+                // return Content(Url.Content(@"~\Uploads\" + fileid));
+                //return Content(path);
+                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                return Json(new { location = "/" + path });
+
+                // return null;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+
         //private bool PostExists(int id)
         //{
         //    return _context.Post.Any(e => e.Id == id);

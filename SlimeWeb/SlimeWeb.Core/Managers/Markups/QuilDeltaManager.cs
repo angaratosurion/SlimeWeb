@@ -61,6 +61,7 @@ namespace SlimeWeb.Core.Managers.Markups
                     quildelta = quildelta.Replace("{\"ops\":", "");
                     quildelta=quildelta.Remove(quildelta.Length - 1, 1);
                    var deltaOps = JArray.Parse(quildelta);
+                
                     
                     var htmlConverter = new HtmlConverter(deltaOps);
                     

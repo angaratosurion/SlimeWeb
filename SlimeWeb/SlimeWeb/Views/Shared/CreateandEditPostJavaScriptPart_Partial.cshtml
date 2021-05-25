@@ -151,7 +151,7 @@
                     content.value = json;
                 });
 
-
+               this.editor.getModule("toolbar").addHandler("image", this.uploadImageHandler);
 
         function uploadImageHandler()
                 {
@@ -165,24 +165,26 @@
 
 
                 }
-                async function uploadImage(event)
-                {
-                  //  alert('test2')
-                    var form = new FormData()
-                    //enctype="multipart/form-data"
-                   
+                async function uploadImage(event) {
+                    //  alert('test2')
+                    var form = new FormData();
+                    
+
                     form.append('upload_file', event.target.files[0]);
 
-                   // alert();
+                    // alert();
                     await $.ajax({
-                        url: '@ViewBag.pathbase/Posts/Upload/@(Context.Request.RouteValues["id"])',
+                        url: '@ViewBag.pathbase/Posts/UploadQuill/@(Context.Request.RouteValues["id"])',
                         type: "POST",
-                        contentType: false, // Not to set any content header
+                      contentType: false, // Not to set any content header
                         processData: false, // Not to process data
-                        data: form['upload_file'],
-                        success: function (result)
-                        {
-                            //alert(result);
+                       // enctype: 'multipart/form-data',
+                        data: form,//event.target.files[0],
+                        cache: false,
+                   // contentType: 'multipart/form-data'   ,
+                        processData: false,
+                        success: function (result) {
+                            alert(result);
                             var imgurl = JSON.parse(result);
                             const addImageRange = this.editor.getSelection()
                             const newRange = 0 + (addImageRange !== null ? addImageRange.index : 0)
@@ -192,7 +194,25 @@
                         },
                         error: function (err) {
                             alert(err.statusText);
+                        },
+                         headers: {
+                         //    "Content-Type": "multipart/form-data"
                         }
+                        //xhr: function () {
+                        //    var myXhr = $.ajaxSettings.xhr();
+                        //    if (myXhr.upload) {
+                        //        // For handling the progress of the upload
+                        //        myXhr.upload.addEventListener('progress', function (e) {
+                        //            //if (e.lengthComputable) {
+                        //            //    $('progress').attr({
+                        //            //        value: e.loaded,
+                        //            //        max: e.total,
+                        //            //    });
+                        //            //}
+                        //        }, false);
+                        //    }
+                        //    return myXhr;
+                        //}
                     });
 
 
@@ -202,7 +222,7 @@
 
                  /*editor.register('modules/imageUpload', ImageUpload);*/
 
-              // this.editor.getModule("toolbar").addHandler("image", this.uploadImageHandler)
+              
 
 
 
@@ -221,7 +241,7 @@
 
 
             </script>
-            @*<input id="uploadImg" type="file" style="display:none" accept="image/png, image/jpeg, image/gif" onchange="uploadImage" />*@
+            <input id="uploadImg" type="file" style="display:none" accept="image/png, image/jpeg, image/gif" onchange="uploadImage" />
             
 
         }
