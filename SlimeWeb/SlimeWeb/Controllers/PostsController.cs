@@ -142,10 +142,10 @@ namespace SlimeWeb
         {
             string blogname=id;
             var blog = this.blmngr.GetBlogAsync(blogname).Result;
-            
-           
+
+
             //return View();
-            
+            ViewBag.CreateAction = true;
                           
                             
              //string pathbase;
@@ -208,13 +208,13 @@ namespace SlimeWeb
         [Authorize]
         public async Task<IActionResult> Edit(int? id, string blogname)
         {
-            
-           
+
+
             //return View();
-            
-                          
-                            
-             //string pathbase;
+
+            ViewBag.CreateAction = 0;
+
+            //string pathbase;
             string pathbase =  AppSettingsManager.GetPathBase();
             if (CommonTools.isEmpty(pathbase) == false)
             {
@@ -245,7 +245,12 @@ namespace SlimeWeb
             //vpost.HTMLcontent = bBCodeManager.ConvertToHtml(post.content);
             MarkUpManager markUpManager = new MarkUpManager();
             vpost.HTMLcontent = markUpManager.ConvertToHtml(post.content);
-             
+            var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
+            if ( cmsengine==enumMarkupEngine.QUIL.ToString())
+            {
+                vpost.content = vpost.content.Replace("{\"ops\":", "");
+                vpost.content = vpost.content.Remove(vpost.content.Length - 1, 1);
+            }
             vpost.CategoriesToString = await CategoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
             return View(vpost);
         }
@@ -476,12 +481,13 @@ namespace SlimeWeb
 
 
 
-                
+
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
                 //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
-                return Json(new { location = "/" + path });
+                //return Json(new { location = "/" + path });
 
+                return Content("/" + path);
                 // return null;
             }
             catch (Exception ex)

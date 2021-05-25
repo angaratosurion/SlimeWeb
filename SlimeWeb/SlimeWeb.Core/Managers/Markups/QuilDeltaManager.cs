@@ -15,7 +15,8 @@ namespace SlimeWeb.Core.Managers.Markups
                 string ap = null;
                 if (CommonTools.isEmpty(htmlcode) == false)
                 {
-
+                    //htmlcode=htmlcode.Replace("{\"ops\":", "");
+                    //htmlcode=htmlcode.Remove(htmlcode.Length - 1, 1);
                     ap = htmlcode;
 
 
