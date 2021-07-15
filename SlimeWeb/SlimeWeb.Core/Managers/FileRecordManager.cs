@@ -40,10 +40,10 @@ namespace SlimeWeb.Core.Managers
                             filemodel.FileName = Path.GetFileName(abspath);
                             filemodel.Path = abspath;
                             filemodel.RelativePath = ap;
-                            
+                            filemodel.ContentType = filedata.ContentType; 
                             filemodel.Owner = usr.UserName;
                             //filemodel.PostId =(int) postid;
-
+                           
                             db.Files.Add(filemodel);
                            await  db.SaveChangesAsync();
                             FilesPostBlog filesPost = new FilesPostBlog();

@@ -22,6 +22,8 @@ namespace SlimeWeb.Core.Data.Models
         public string RelativePath { get; set; }
         [Timestamp]
         public Byte[] RowVersion { get; set; }
+        [Required]
+        public string ContentType { get; set; }
 
         public string Owner { get; set; }
 
