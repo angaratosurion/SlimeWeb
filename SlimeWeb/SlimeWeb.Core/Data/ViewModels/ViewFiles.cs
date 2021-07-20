@@ -24,6 +24,7 @@ namespace SlimeWeb.Core.Data.ViewModels
             this.Path = model.Path;
             this.RelativePath = model.RelativePath;      
             this.RowVersion = model.RowVersion;
+          
 
             using (SlimeDbContext db = new SlimeDbContext())
             {
