@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.0.5.86</Version>
-    <AssemblyVersion>0.0.5.86</AssemblyVersion>
+    <Version>0.0.5.9</Version>
+    <AssemblyVersion>0.0.5.9</AssemblyVersion>
     <FileVersion>0.0.5.86</FileVersion>
   </PropertyGroup>
 
@@ -35,6 +35,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />

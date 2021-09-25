@@ -23,7 +23,7 @@ namespace SlimeWeb.Core.App_Start
     public class SlimeStartup
     {
         string extensionsPath;
-        public static string WebRoot;
+        //public static string WebRoot;
         bool Direcotrybrowse = false;
         public SlimeStartup(IConfiguration configuration)
         {
@@ -35,27 +35,42 @@ namespace SlimeWeb.Core.App_Start
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceCollection ConfigureServicesSlime(IServiceCollection services)
         {
-            
-            services.AddDbContext<SlimeDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-              .AddEntityFrameworkStores<SlimeDbContext>()
-              .AddDefaultTokenProviders();
-            services.AddMvcCore().AddControllersAsServices()
+            if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
+            {
+                services.AddDbContext<SlimeDbContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection")));
+                services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                  .AddEntityFrameworkStores<SlimeDbContext>()
+                  .AddDefaultTokenProviders();
+            }
+            else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+            {
+
+                services.AddDbContext<SlimeDbContext>(options =>
+                    options.UseMySQL(
+                        Configuration.GetConnectionString("DefaultConnection")));
+                services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                  .AddEntityFrameworkStores<SlimeDbContext>()
+                  .AddDefaultTokenProviders();
+            }
+
+                services.AddMvcCore().AddControllersAsServices()
                 .AddRazorPages();
             //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //  .AddEntityFrameworkStores<SlimeDbContext>();
             //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
-
-
+           // Console.WriteLine("Code Base: {0}", System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
-
+            Console.WriteLine("Applications's Root  Path : {0}", FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
             Console.WriteLine("Extention's Path : {0}",this.extensionsPath);
                 //Configuration["Extensions:Path"];
             if (string.IsNullOrWhiteSpace(extensionsPath) == false)
             {
-                
+                if(Directory.Exists(this.extensionsPath)==false)
+                {
+                    Directory.CreateDirectory(this.extensionsPath);
+                }
                 services.AddExtCore(this.extensionsPath);
             }
             services.Configure<StorageContextOptions>(options =>
@@ -86,7 +101,7 @@ namespace SlimeWeb.Core.App_Start
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            this.extensionsPath = Path.Combine(env.ContentRootPath, Configuration["Extensions:Path"]);
+            this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
             //if (env.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
@@ -114,6 +129,14 @@ namespace SlimeWeb.Core.App_Start
             //    endpoints.MapRazorPages();
             //});
             // app.UseStaticFiles();
+            if (Directory.Exists(FileSystemManager.GetAppRootDataFolderAbsolutePath())==false)
+            {
+                Directory.CreateDirectory(FileSystemManager.GetAppRootDataFolderAbsolutePath());
+            }
+            //if (Directory.Exists(Path.Combine(env.ContentRootPath, "wwwroot", FileSystemManager.AppDataDir)) == false)
+            //{
+            //    Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "wwwroot", FileSystemManager.AppDataDir));
+            //}
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
@@ -129,7 +152,7 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-            WebRoot = env.ContentRootPath;
+           
              
 
 
@@ -173,6 +196,7 @@ namespace SlimeWeb.Core.App_Start
                     //app.UseFileServer(Direcotrybrowse);
                     app.UseFileServer(new FileServerOptions
                     {
+                       
                         FileProvider = new PhysicalFileProvider(
             Path.Combine(env.ContentRootPath,"wwwroot", FileSystemManager.AppDataDir)),
                         RequestPath = "/"+ FileSystemManager.AppDataDir,
@@ -181,10 +205,10 @@ namespace SlimeWeb.Core.App_Start
 
                 }
             }
-            if (!Directory.Exists(extensionsPath))
-            {
-                Directory.CreateDirectory(extensionsPath);
-            }
+            //if (!Directory.Exists(extensionsPath))
+            //{
+            //    Directory.CreateDirectory(extensionsPath);
+            //}
 
 
             app.UseExtCore();

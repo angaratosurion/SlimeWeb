@@ -33,15 +33,10 @@ namespace SlimeWeb
         public void ConfigureServices(IServiceCollection services)
         {
            services= base.ConfigureServicesSlime(services);
-            services.AddDbContext<SlimeDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //  .AddEntityFrameworkStores< ApplicationDbContext > ();
+            //services.AddDbContext<SlimeDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+           
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

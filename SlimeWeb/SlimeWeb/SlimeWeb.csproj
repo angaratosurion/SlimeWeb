@@ -45,6 +45,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="MySql.Data" Version="8.0.26" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />

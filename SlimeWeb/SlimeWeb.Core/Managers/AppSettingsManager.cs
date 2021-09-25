@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace SlimeWeb.Core.Managers
     public static class AppSettingsManager
     {
         static string pathwithextention;//= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-        static string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+       // static string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                            //return View();
 
         static ConfigurationBuilder builder;
@@ -18,9 +19,18 @@ namespace SlimeWeb.Core.Managers
         public static void Init()
         {
             pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
-            //return View();
-            builder = (ConfigurationBuilder)new ConfigurationBuilder()
+
+            string path="";//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+            }
+            else
+            {
+                path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:", "");
+            }
+             //return View();
+             builder = (ConfigurationBuilder)new ConfigurationBuilder()
                        .SetBasePath(path)
                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             //  var config = builder.Build();//
@@ -177,6 +187,20 @@ namespace SlimeWeb.Core.Managers
             {
                 Init();
                 return config.GetValue<string>("ApppSettings:AppWideCMSEngine");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetDBEngine()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<string>("ApppSettings:DBEngine");
             }
             catch (Exception ex)
             {
