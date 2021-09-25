@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Managers;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -49,7 +50,8 @@ namespace SlimeWeb.Core.App_Start
 
 
             this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
-                
+
+            Console.WriteLine("Extention's Path : {0}",this.extensionsPath);
                 //Configuration["Extensions:Path"];
             if (string.IsNullOrWhiteSpace(extensionsPath) == false)
             {
