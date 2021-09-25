@@ -72,7 +72,7 @@ namespace SlimeWeb.Core.Data
                           
                             
              
-            var directory = Path.Combine(path, "AppData");
+            var directory =FileSystemManager.GetAppRootDataFolderAbsolutePath();
             if(Directory.Exists(directory)== false)
             {
                 Directory.CreateDirectory(directory);
@@ -84,8 +84,15 @@ namespace SlimeWeb.Core.Data
                 string dbCon = olddbConn.Replace("|DataDirectory|", directory);
                 if (dbCon != null)
                 {
-                    optionsBuilder.UseSqlServer(dbCon);
-                    
+                    if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
+                    {
+                        optionsBuilder.UseSqlServer(dbCon);
+                    }
+                    else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                    {
+                        optionsBuilder.UseMySQL(dbCon);
+
+                    }
                 }
             }
             
