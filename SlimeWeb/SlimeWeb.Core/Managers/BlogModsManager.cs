@@ -11,7 +11,28 @@ namespace SlimeWeb.Core.Managers
     public class BlogModsManager : DataManager
     {
         BlogManager blmngr = new BlogManager();
-        public async Task<List<BlogMods>> ListMods(string blogname)
+        SlimeWebsUserManager userManager= new SlimeWebsUserManager();
+        public async Task<List<BlogMods>> ListMods()
+        {
+            try
+            {
+                List<BlogMods> ap = null;
+
+
+                 ap = DataManager.db.BlogMods.ToList();
+               
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<List<BlogMods>> ListModsByBlogName(string blogname)
         {
             try
             {
@@ -19,17 +40,12 @@ namespace SlimeWeb.Core.Managers
                 if(CommonTools.isEmpty(blogname)!=false && (await blmngr.BlogExists(blogname)))
                 {
                     Blog blog = await blmngr.GetBlogAsync(blogname);
-                    List<BlogMods> tap= DataManager.db.BlogMods.Where(x => x.BlogId == blog.Id).ToList();
-                    if( tap!=null)
+                    List<BlogMods> tap =await this.ListMods();
+                    
+                    if ( tap!=null && (tap.Where(x => x.BlogId == blog.Id).ToList()!=null))
                     {
-                        ap = new List<BlogMods>();
-                        foreach(var b in tap)
-                        {
-                            ViewBlogMods viewBlog = new ViewBlogMods();
-                            viewBlog.ImportFromModel(b);
-                            ap.Add(viewBlog.ToModel());
-                        }
-
+                        var mods= tap.Where(x => x.BlogId == blog.Id).ToList();
+                        ap = mods;
                     }
                 }
 
@@ -42,5 +58,87 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<List<BlogMods>> ListModsByModName(string modname)
+        {
+            try
+            {
+                List<BlogMods> ap = null;
+                if (CommonTools.isEmpty(modname) != false &&  userManager.GetUser(modname)!=null)
+                {
+                    ApplicationUser applicationUser = userManager.GetUser(modname);
+                    List<BlogMods> tap = await this.ListMods();
+
+                    if (tap != null && (tap.Where(x => x.ModeratorId==applicationUser.UserName).ToList() != null))
+                    {
+                        var mods = tap.Where(x => x.ModeratorId == applicationUser.UserName).ToList();
+                        ap = mods;
+                    }
+                }
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async void RegisterMods(string blogname,string modname)
+        {
+            try
+            {
+                if(CommonTools.isEmpty(blogname) != false && CommonTools.isEmpty(modname) != false && (await blmngr.BlogExists(blogname))
+                    && (userManager.UserExists(modname)))
+                {
+                    var blog =await  blmngr.GetBlogAsync(blogname);
+                    var user = userManager.GetUser(modname);
+                    BlogMods blogmod = new BlogMods();
+                    blogmod.BlogId = blog.ExportToModel().Id;
+                    blogmod.ModeratorId = user.UserName;
+                    db.BlogMods.Add(blogmod);
+                    await db.SaveChangesAsync();
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+               // return null;
+            }
+        }
+        public async void UnRegisterMods(string blogname, string modname)
+        {
+            try
+            {
+                if (CommonTools.isEmpty(blogname) != false && CommonTools.isEmpty(modname) != false && (await blmngr.BlogExists(blogname))
+                    && (userManager.UserExists(modname)))
+                {
+                    var lstblogmod = (await this.ListModsByModName(modname)).ToList();
+                    if (lstblogmod != null)
+                    {
+                        var blog =await blmngr.GetBlogAsync(blogname);
+                        var blogmod = lstblogmod.First(x => x.BlogId==blog.ExportToModel().Id);
+                        if (blogmod != null)
+                        {
+                            db.BlogMods.Remove(blogmod);
+                            await db.SaveChangesAsync();
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                // return null;
+            }
+        }
+
     }
 }
