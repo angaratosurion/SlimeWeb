@@ -5,28 +5,28 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Data.DBContexts;
 
 namespace SlimeWeb.Core.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    [Migration("20210126125923_remoa of dispalyname from applicationuser model")]
-    partial class remoaofdispalynamefromapplicationusermodel
+    [Migration("20210926012445_MySQlMigration")]
+    partial class MySQlMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -50,7 +50,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -165,6 +165,9 @@ namespace SlimeWeb.Core.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -223,7 +226,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BannedBy")
                         .IsRequired()
@@ -251,12 +254,9 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Administrator")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AuthorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -274,9 +274,6 @@ namespace SlimeWeb.Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("engine")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Blogs");
@@ -287,9 +284,9 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BlogId")
+                    b.Property<int?>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Moderator")
@@ -308,19 +305,13 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NewsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -329,13 +320,49 @@ namespace SlimeWeb.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("NewsId");
-
-                    b.HasIndex("PostId");
-
                     b.ToTable("Catgories");
+                });
+
+            modelBuilder.Entity("SlimeWeb.Core.Data.Models.CategotyNews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryNews");
+                });
+
+            modelBuilder.Entity("SlimeWeb.Core.Data.Models.CategotyPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryPosts");
                 });
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Feature", b =>
@@ -343,7 +370,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
@@ -364,45 +391,20 @@ namespace SlimeWeb.Core.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.FileType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Extention")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileTypes");
-                });
-
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Files", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("FileTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Owner")
                         .HasColumnType("nvarchar(max)");
@@ -422,11 +424,28 @@ namespace SlimeWeb.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("FileTypeId");
-
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("SlimeWeb.Core.Data.Models.FilesPostBlog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FilesPostsBlog");
                 });
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.GeneralSettings", b =>
@@ -434,7 +453,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
@@ -459,7 +478,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
@@ -488,7 +507,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
@@ -510,12 +529,7 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("engine")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
 
                     b.ToTable("Post");
                 });
@@ -525,19 +539,13 @@ namespace SlimeWeb.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NewsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -546,11 +554,49 @@ namespace SlimeWeb.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NewsId");
-
-                    b.HasIndex("PostId");
-
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("SlimeWeb.Core.Data.Models.TagNews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TagNews");
+                });
+
+            modelBuilder.Entity("SlimeWeb.Core.Data.Models.TagPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TagPosts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -607,89 +653,10 @@ namespace SlimeWeb.Core.Migrations
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.BlogMods", b =>
                 {
                     b.HasOne("SlimeWeb.Core.Data.Models.Blog", "Blog")
-                        .WithMany("Moderators")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BlogId");
 
                     b.Navigation("Blog");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Category", b =>
-                {
-                    b.HasOne("SlimeWeb.Core.Data.Models.Blog", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SlimeWeb.Core.Data.Models.News", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("NewsId");
-
-                    b.HasOne("SlimeWeb.Core.Data.Models.Post", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("PostId");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Files", b =>
-                {
-                    b.HasOne("SlimeWeb.Core.Data.Models.Blog", null)
-                        .WithMany("Files")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SlimeWeb.Core.Data.Models.FileType", "FileType")
-                        .WithMany()
-                        .HasForeignKey("FileTypeId");
-
-                    b.Navigation("FileType");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Post", b =>
-                {
-                    b.HasOne("SlimeWeb.Core.Data.Models.Blog", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Tag", b =>
-                {
-                    b.HasOne("SlimeWeb.Core.Data.Models.News", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("NewsId");
-
-                    b.HasOne("SlimeWeb.Core.Data.Models.Post", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("PostId");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Blog", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Files");
-
-                    b.Navigation("Moderators");
-
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.News", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.Post", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

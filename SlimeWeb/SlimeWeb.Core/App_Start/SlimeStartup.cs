@@ -17,6 +17,7 @@ using SlimeWeb.Core.Managers;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System;
+using SlimeWeb.Core.Data.DBContexts;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -47,7 +48,7 @@ namespace SlimeWeb.Core.App_Start
             else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
             {
 
-                services.AddDbContext<SlimeDbContext>(options =>
+                services.AddDbContext<MySQLSlimeDbContext>(options =>
                     options.UseMySQL(
                         Configuration.GetConnectionString("DefaultConnection")));
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -140,7 +141,7 @@ namespace SlimeWeb.Core.App_Start
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-             Path.Combine(env.WebRootPath,  FileSystemManager.AppDataDir)),
+             Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(),  FileSystemManager.AppDataDir)),
                 RequestPath = "/"+ FileSystemManager.AppDataDir
             });
             //app.UseStaticFiles(new StaticFileOptions
@@ -198,7 +199,7 @@ namespace SlimeWeb.Core.App_Start
                     {
                        
                         FileProvider = new PhysicalFileProvider(
-            Path.Combine(env.ContentRootPath,"wwwroot", FileSystemManager.AppDataDir)),
+            Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),"wwwroot", FileSystemManager.AppDataDir)),
                         RequestPath = "/"+ FileSystemManager.AppDataDir,
                         EnableDirectoryBrowsing = Direcotrybrowse
                     });

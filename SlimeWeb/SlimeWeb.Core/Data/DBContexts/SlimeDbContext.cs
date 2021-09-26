@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlimeWeb.Core.Data
+namespace SlimeWeb.Core.Data.DBContexts
 {    //
     public class SlimeDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IStorageContext
     {
@@ -67,7 +67,7 @@ namespace SlimeWeb.Core.Data
             string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
 
 
-            string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
+         //   string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
             
                           
                             
@@ -88,11 +88,11 @@ namespace SlimeWeb.Core.Data
                     {
                         optionsBuilder.UseSqlServer(dbCon);
                     }
-                    else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-                    {
-                        optionsBuilder.UseMySQL(dbCon);
+                    //else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                    //{
+                    //    optionsBuilder.UseMySQL(dbCon);
 
-                    }
+                    //}
                 }
             }
             
