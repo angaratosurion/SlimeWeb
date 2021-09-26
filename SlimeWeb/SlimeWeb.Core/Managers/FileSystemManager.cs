@@ -199,7 +199,7 @@ namespace SlimeWeb.Core.Managers
             {
                 Boolean ap = false;
                 
-                path = path = Path.Combine(GetAppRootDataFolderAbsolutePath(), path);
+                //path = path = Path.Combine(GetAppRootDataFolderAbsolutePath(), path);
                 if (!CommonTools.isEmpty(path) && Directory.Exists(path))
                 {
                     ap = true;
@@ -214,16 +214,18 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public static Boolean CreateDirectory(string relpath)
+        public static Boolean CreateDirectory(string abspath)
         {
             try
             {
                 Boolean ap = false;
 
-                if (DirectoryExists(relpath) == false)
+                if (DirectoryExists(abspath) == false)
                 {
-                    string t =  Path.Combine(GetAppRootDataFolderAbsolutePath(), relpath);
-                    Directory.CreateDirectory(t);
+                    // string t =  Path.Combine(GetAppRootDataFolderAbsolutePath(), relpath);
+                    //Directory.CreateDirectory(t);
+
+                    Directory.CreateDirectory(abspath);
                     ap = true;
                 }
 

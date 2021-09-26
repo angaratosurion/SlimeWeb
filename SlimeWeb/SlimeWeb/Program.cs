@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb
 {
@@ -20,20 +22,21 @@ namespace SlimeWeb
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder
+                  
+                        webBuilder
+
+                        //.ConfigureKestrel(serverOptions =>
+                        //{
+                        //    // Set properties and call methods on options
+                        //})
+                        .UseStartup<Startup>()
+                        //   webBuilder.UseStartup<Startup>()//;
+                        //.UseContentRoot(AppContext.BaseDirectory)
+
+
+                        ;
                     
-                    //.ConfigureKestrel(serverOptions =>
-                    //{
-                    //    // Set properties and call methods on options
-                    //})
-                    .UseStartup<Startup>()
-                    //   webBuilder.UseStartup<Startup>()//;
-                    //.UseContentRoot(AppContext.BaseDirectory)
 
-
-                    ;
-                   
-                   
 
                 });
     }

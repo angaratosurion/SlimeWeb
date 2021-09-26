@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SlimeWeb.Core.Migrations
+namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 {
-    public partial class MyMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

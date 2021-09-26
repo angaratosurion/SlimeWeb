@@ -48,7 +48,7 @@ namespace SlimeWeb.Core.App_Start
             else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
             {
 
-                services.AddDbContext<MySQLSlimeDbContext>(options =>
+                services.AddDbContext<SlimeDbContext>(options =>
                     options.UseMySQL(
                         Configuration.GetConnectionString("DefaultConnection")));
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)

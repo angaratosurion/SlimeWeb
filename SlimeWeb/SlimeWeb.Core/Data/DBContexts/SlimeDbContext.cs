@@ -64,7 +64,7 @@ namespace SlimeWeb.Core.Data.DBContexts
 
 
 
-            string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            //string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
 
 
          //   string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
@@ -88,11 +88,11 @@ namespace SlimeWeb.Core.Data.DBContexts
                     {
                         optionsBuilder.UseSqlServer(dbCon);
                     }
-                    //else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-                    //{
-                    //    optionsBuilder.UseMySQL(dbCon);
+                    else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                    {
+                        optionsBuilder.UseMySQL(dbCon);
 
-                    //}
+                    }
                 }
             }
             
