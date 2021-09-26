@@ -269,7 +269,7 @@ namespace SlimeWeb.Core.Managers
                     {
                         foreach (var m in mods)
                         {
-                            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.Moderator);
+                            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.ModeratorId);
                             if (md != null)
                             {
                                 ap.Add(md);

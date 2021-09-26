@@ -1,4 +1,4 @@
-@model SlimeWeb.Core.Data.Models.BlogMods
+@model SlimeWeb.Core.Data.ViewModels.ViewBlogMods
 
 @{
     Layout = null;
@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Moderator)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Moderator)
+            @Html.DisplayFor(model => model.Moderator.UserName)
         </dd>
     </dl>
 </div>

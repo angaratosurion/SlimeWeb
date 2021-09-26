@@ -1,4 +1,4 @@
-@model IEnumerable<SlimeWeb.Core.Data.Models.BlogMods>
+@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewBlogMods>
 
 @{
     Layout = null;
@@ -28,7 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Moderator)
+                @Html.DisplayFor(modelItem => item.Moderator.UserName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
