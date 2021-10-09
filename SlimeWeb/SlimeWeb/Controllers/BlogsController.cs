@@ -15,6 +15,8 @@ namespace SlimeWeb.Controllers
     {
        private readonly SlimeDbContext _context;
         private readonly BlogManager blogmnger;// = new BlogManager();
+        AccessManager accessManager = new AccessManager();
+
         public BlogsController(SlimeDbContext context)
         {
             _context = context;
@@ -67,13 +69,15 @@ namespace SlimeWeb.Controllers
 
         // GET: Blogs/Create
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
 
 
           
 
-
+                   
+           
+               
            
 
                     
@@ -103,6 +107,10 @@ namespace SlimeWeb.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             string name = id;
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, id) == false)
+            {
+                return RedirectToAction(nameof(Details), new { id =id});
+            }
             if (name == null)
             {
                 return NotFound();
@@ -162,6 +170,10 @@ namespace SlimeWeb.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             string name = id;
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, name) == false)
+            {
+                return RedirectToAction(nameof(Details), new { id = name });
+            }
             if (name == null)
             {
                 return NotFound();

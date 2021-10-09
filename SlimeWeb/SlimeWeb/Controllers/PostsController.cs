@@ -27,8 +27,9 @@ namespace SlimeWeb
         BlogManager blmngr = new BlogManager();
         CategoryManager CategoryManager = new CategoryManager();
         TagManager TagManager = new TagManager();
-      
-         
+        AccessManager accessManager = new AccessManager();
+
+
         public PostsController(SlimeDbContext context)
         {
             _context = context;
@@ -139,9 +140,15 @@ namespace SlimeWeb
 
         // GET: Posts/Create
         [Authorize]
-        public IActionResult Create(string id)
+        public async Task<IActionResult> CreateAsync(string id)
         {
             string blogname=id;
+
+
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            {
+                return RedirectToAction(nameof(Index), "Posts", new { id = blogname});
+            }
             var blog = this.blmngr.GetBlogAsync(blogname).Result;
 
 
@@ -210,6 +217,10 @@ namespace SlimeWeb
         public async Task<IActionResult> Edit(int? id, string blogname)
         {
 
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            {
+                return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
+            }
 
             //return View();
 
@@ -331,10 +342,15 @@ namespace SlimeWeb
         [Authorize]
         public async Task<IActionResult> Delete(int? id,string blogname)
         {
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            {
+                return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
+            }
             if (id == null)
             {
                 return NotFound();
             }
+
 
             var mpost = await postManager.Details(id);
             ViewPost post = new ViewPost();
