@@ -18,6 +18,8 @@ namespace SlimeWeb.Controllers
     {
         private readonly SlimeDbContext _context;
         private readonly FileRecordManager fileRecordManager;
+        AccessManager accessManager = new AccessManager();
+        BlogManager blogManager = new BlogManager();
         public FilesController(SlimeDbContext context)
         {
             _context = context;
@@ -108,6 +110,11 @@ namespace SlimeWeb.Controllers
                 return NotFound();
             }
 
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            {
+                return RedirectToAction(nameof(Details), "Files", new { id = id});
+            }
+
             var files = await this.fileRecordManager.Details((int)id);
             ViewFiles ap = new ViewFiles();
             if (files == null)
@@ -129,6 +136,8 @@ namespace SlimeWeb.Controllers
             {
                 return NotFound();
             }
+
+            
 
             if (ModelState.IsValid)
             {
@@ -161,11 +170,21 @@ namespace SlimeWeb.Controllers
                 return NotFound();
             }
 
-            var files = await _context.Files
-                .FirstOrDefaultAsync(m => m.Id == id);
+            
+            var files = await this.fileRecordManager.Details((int)id);
             if (files == null)
             {
                 return NotFound();
+            }
+
+            var blog = await this.fileRecordManager.GetBlofByFileId((int)id);
+            if (blog==null)
+            {
+                return NotFound();
+            }
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name,blog.Name) == false)
+            {
+                return RedirectToAction(nameof(Details), "Files", new { id =id });
             }
 
             return View(files);

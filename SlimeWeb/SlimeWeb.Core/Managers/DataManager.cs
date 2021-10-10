@@ -12,7 +12,7 @@ namespace SlimeWeb.Core.Managers
    public  class DataManager
     {
        public static  SlimeDbContext db= new SlimeDbContext();
-        public AccessManager accessManager = new AccessManager();
+        public static AccessManager accessManager = new AccessManager();
         public DataManager()
         {
             try

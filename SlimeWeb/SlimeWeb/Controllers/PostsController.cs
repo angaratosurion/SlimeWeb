@@ -217,7 +217,7 @@ namespace SlimeWeb
         public async Task<IActionResult> Edit(int? id, string blogname)
         {
 
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) ==false)
             {
                 return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
             }

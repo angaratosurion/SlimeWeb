@@ -322,6 +322,63 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
+        public async Task<Post> GetPostByFileId(int id)
+        {
+            try
+            {
+                Post post= null;
+
+                 
+               var tpost = db.FilesPostsBlog.FirstOrDefault(x => x.FileId == id);
+                
+                if (   tpost != null)
+                {
+                    post = await postManager.Details(tpost.PostId);
+
+                }
+
+
+                return post;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+
+            }
+
+        }
+
+        public async Task<Blog> GetBlofByFileId(int id)
+        {
+            try
+            {
+                Blog blog=null;
+                
+                var file= await this.GetBlofByFileId(id);
+                var post = await this.GetPostByFileId(id);
+                if ( file!=null &&   post!=null)
+                {
+                    blog = await this.blogmngr.GetBlogByIdAsync(post.BlogId);
+
+
+                }
+
+
+                return blog;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+
+            }
+
+        }
     }
    
 }

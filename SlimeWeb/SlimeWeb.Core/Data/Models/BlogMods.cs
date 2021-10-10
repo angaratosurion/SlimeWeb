@@ -19,5 +19,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         //  [Key]
         public string ModeratorId { get; set; }
+        [Required]
+        public Boolean Active { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace SlimeWeb.Core.Managers
     public class AccessManager:DataManager
     {
         BlogModsManager blogModsManager = new BlogModsManager();
-        BlogManager blogManager = new BlogManager();
+       BlogManager blogManager = new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
         public async Task<Boolean> DoesUserHasAccess(string username,string blogname)
         {
@@ -42,10 +42,11 @@ namespace SlimeWeb.Core.Managers
 
                 return ap;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                CommonTools.ErrorReporting(ex);
+                return false;
             }
         }
     }

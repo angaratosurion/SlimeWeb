@@ -11,7 +11,7 @@ namespace SlimeWeb.Core.Managers
     public class BlogModsManager : DataManager
     {
         BlogManager blmngr = new BlogManager();
-        SlimeWebsUserManager userManager= new SlimeWebsUserManager();
+        SlimeWebsUserManager userManager = CommonTools.usrmng;
         public async Task<List<BlogMods>> ListMods()
         {
             try
@@ -21,6 +21,26 @@ namespace SlimeWeb.Core.Managers
 
                  ap = DataManager.db.BlogMods.ToList();
                
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task< BlogMods >Details(int id)
+        {
+            try
+            {
+                 BlogMods ap = null;
+
+
+                ap = (await this.ListMods()).FirstOrDefault(x => x.Id==id);
+
 
 
                 return ap;
@@ -96,6 +116,7 @@ namespace SlimeWeb.Core.Managers
                     BlogMods blogmod = new BlogMods();
                     blogmod.BlogId = blog.ExportToModel().Id;
                     blogmod.ModeratorId = user.UserName;
+                    blogmod.Active = false;
                     db.BlogMods.Add(blogmod);
                     await db.SaveChangesAsync();
 

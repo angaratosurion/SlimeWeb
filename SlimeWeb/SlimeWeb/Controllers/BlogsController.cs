@@ -76,10 +76,7 @@ namespace SlimeWeb.Controllers
           
 
                    
-           
-               
-           
-
+            
                     
            
             return View();

@@ -51,7 +51,8 @@
             </td>
            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Name">Edit</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.Name">Edit</a>|*@
+                <a asp-controller="AdminHome" asp-action="Index" asp-route-id="@item.Name">Blog Administration</a>|
                 <a asp-action="Details" asp-route-id="@item.Name">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Name">Delete</a>
             </td>

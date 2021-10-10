@@ -7,22 +7,42 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.ViewModels;
+using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Controllers
 {
     public class BlogModsController : Controller
     {
-        private readonly SlimeDbContext _context;
+        //private readonly SlimeDbContext _context;
+        BlogModsManager blogModsManager = new BlogModsManager();
+        AccessManager accessManager = new AccessManager();
+
 
         public BlogModsController(SlimeDbContext context)
         {
-            _context = context;
+           // _context = context;
         }
 
         // GET: BlogMods
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string blogname)
         {
-            return View(await _context.BlogMods.ToListAsync());
+            List<ViewBlogMods> viewBlogMods = new List<ViewBlogMods>();
+            var blogmod = await this.blogModsManager.ListModsByBlogName(blogname);
+            if(blogmod==null)
+            {
+                return NotFound();
+
+            }
+
+           foreach(var bm in blogmod)
+            {
+                ViewBlogMods vblog = new ViewBlogMods();
+                vblog.ImportFromModel(bm);
+                viewBlogMods.Add(vblog);
+            }
+            
+            return View(viewBlogMods);
         }
 
         // GET: BlogMods/Details/5
@@ -32,15 +52,17 @@ namespace SlimeWeb.Controllers
             {
                 return NotFound();
             }
-
-            var blogMods = await _context.BlogMods
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var blogMods = await blogModsManager.Details((int)id);
             if (blogMods == null)
             {
                 return NotFound();
             }
+            ViewBlogMods vblog = new ViewBlogMods();
+            vblog.ImportFromModel(blogMods);
+             
+           
 
-            return View(blogMods);
+            return View(vblog);
         }
 
         // GET: BlogMods/Create
@@ -54,12 +76,12 @@ namespace SlimeWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Moderator")] BlogMods blogMods)
+        public async Task<IActionResult> Create([Bind("Id,Moderator")] ViewBlogMods blogMods)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blogMods);
-                await _context.SaveChangesAsync();
+               
+                  this.blogModsManager.RegisterMods(blogMods.Blog.Name,(string)User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(blogMods);
@@ -73,10 +95,16 @@ namespace SlimeWeb.Controllers
                 return NotFound();
             }
 
-            var blogMods = await _context.BlogMods.FindAsync(id);
+            var blogMods = await blogModsManager.Details((int) id);
             if (blogMods == null)
             {
                 return NotFound();
+            }
+            ViewBlogMods vblog = new ViewBlogMods();
+            vblog.ImportFromModel(blogMods);
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, vblog.Blog.Name) == false)
+            {
+                return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
             }
             return View(blogMods);
         }
@@ -97,19 +125,19 @@ namespace SlimeWeb.Controllers
             {
                 try
                 {
-                    _context.Update(blogMods);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(blogMods);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogModsExists(blogMods.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //if (!BlogModsExists(blogMods.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -124,14 +152,21 @@ namespace SlimeWeb.Controllers
                 return NotFound();
             }
 
-            var blogMods = await _context.BlogMods
-                .FirstOrDefaultAsync(m => m.Id == id);
+
+            var blogMods = await this.blogModsManager.Details((int)id);
             if (blogMods == null)
             {
                 return NotFound();
             }
+            ViewBlogMods vblog = new ViewBlogMods();
+            vblog.ImportFromModel(blogMods);
+            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name,vblog.Blog.Name) == false)
+            {
+                return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
+            }
 
-            return View(blogMods);
+
+            return View(vblog);
         }
 
         // POST: BlogMods/Delete/5
@@ -139,15 +174,20 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var blogMods = await _context.BlogMods.FindAsync(id);
-            _context.BlogMods.Remove(blogMods);
-            await _context.SaveChangesAsync();
+            var blogMods = await this.blogModsManager.Details((int)id);
+            if (blogMods == null)
+            {
+                return NotFound();
+            }
+            ViewBlogMods vblog = new ViewBlogMods();
+            vblog.ImportFromModel(blogMods);
+            blogModsManager.UnRegisterMods(vblog.Blog.Name, vblog.Moderator.UserName);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogModsExists(int id)
-        {
-            return _context.BlogMods.Any(e => e.Id == id);
-        }
+        //private bool BlogModsExists(int id)
+        //{
+        //    return _context.BlogMods.Any(e => e.Id == id);
+        //}
     }
 }
