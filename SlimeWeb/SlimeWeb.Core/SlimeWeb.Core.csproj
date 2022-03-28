@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <Version>0.0.7.0</Version>
     <AssemblyVersion>0.0.7.0</AssemblyVersion>
@@ -16,32 +16,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExtCore.Data" Version="6.0.0" />
-    <PackageReference Include="ExtCore.Data.Abstractions" Version="6.0.0" />
-    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="6.0.0" />
-    <PackageReference Include="ExtCore.Data.EntityFramework" Version="6.0.0" />
-    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="6.0.0" />
+    <PackageReference Include="ExtCore.Data" Version="7.0.0" />
+    <PackageReference Include="ExtCore.Data.Abstractions" Version="7.0.0" />
+    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="7.0.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework" Version="7.0.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="7.0.0" />
     <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
-    <PackageReference Include="ExtCore.Mvc" Version="6.0.0" />
-    <PackageReference Include="ExtCore.WebApplication" Version="6.0.0" />
-    <PackageReference Include="Markdig" Version="0.26.0" />
+    <PackageReference Include="ExtCore.Mvc" Version="7.0.0" />
+    <PackageReference Include="ExtCore.WebApplication" Version="7.0.0" />
+    <PackageReference Include="Markdig" Version="0.28.1" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MySql.Data" Version="8.0.26" />
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.5" />
-    <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="NLog" Version="4.7.15" />
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />
-    <PackageReference Include="ReverseMarkdown" Version="3.20.0" />
-    <PackageReference Include="System.Composition.AttributedModel" Version="5.0.1" />
+    <PackageReference Include="ReverseMarkdown" Version="3.23.0" />
+    <PackageReference Include="System.Composition.AttributedModel" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
