@@ -296,7 +296,7 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(Blogname) == false 
                     && await this.BlogExists(Blogname))
                 {
-                    Blog bl = await this.GetBlogAsync(Blogname);
+                    Blog bl = (await this.GetBlogAsync(Blogname)).ExportToModel();
                     string adm = bl.Administrator;
                   //  if (CommonTools.isEmpty(adm) == false)
                     {

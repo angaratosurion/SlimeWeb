@@ -20,16 +20,25 @@ namespace SlimeWeb.Core.Managers
                     && ( userManager.UserExists(username)) && await blogManager.BlogExists(blogname) )
                 {
                     var blogbymods = await blogManager.GetBlogModerators(blogname);
-                    if( blogbymods!=null )
+                    var blogadm = await blogManager.GetBlogAdministrator(blogname);
+                    if ( blogbymods!=null )
                     {
-                        var blogadm = await  blogManager.GetBlogAdministrator(blogname);
+                       
                         var user =  userManager.GetUser(username);
                          
                         if ( blogadm !=null && user!=null)
                         {
                             var blogmod = blogbymods.FirstOrDefault(x => x.UserName == user.UserName);
                           
-                            if ( blogmod!=null ||  blogadm.UserName==user.UserName  || userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles,username) )
+                            if ( blogmod!=null ||  blogadm.UserName==user.UserName  || 
+                                userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles,username) )
+                            {
+                                ap = true;
+                            }
+                        }
+                        else if (user!=null)
+                        {
+                            if (userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles, username))
                             {
                                 ap = true;
                             }

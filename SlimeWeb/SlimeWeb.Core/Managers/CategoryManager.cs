@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,29 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 return db.Catgories.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<List<Category>> ListCategoriesByBlog(string blogname)
+        {
+            try
+            {
+                List<Category> ap = null;
+                   var blog=await this.blgmng.GetBlogAsync(blogname);
+                if (blog != null)
+                {
+                    ap= new List<Category>();
+                    var categories = await this.ListCategories();
+                   ap= categories.FindAll(x => x.BlogId == blog.Id).ToList();
+
+                 }
+
+                    return ap;
             }
             catch (Exception ex)
             {
@@ -188,6 +212,35 @@ namespace SlimeWeb.Core.Managers
                     List<Category> cat = await this.ListCategories();
                     List<Blog> blgs =  db.Blogs.ToList();
                     if ((cat.Find(x => x.Name == category) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
+                    {
+                        ap = true;
+                    }
+
+                }
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
+        public async Task<Boolean> Exists(int categoryid, string blogname)
+
+        {
+            try
+            {
+                Boolean ap = false;
+
+                if ((!CommonTools.isEmpty(blogname)))
+                {
+                    List<Category> cat = await this.ListCategories();
+                    List<Blog> blgs = db.Blogs.ToList();
+                    if ((cat.Find(x => x.Id == categoryid) != null) &&
+                        (blgs.Find(x => x.Name == blogname) != null))
                     {
                         ap = true;
                     }
@@ -398,6 +451,65 @@ AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
                 CommonTools.ErrorReporting(ex);
                 //return null;
             }
+        }
+        public async Task<Category> Edit(int cid, Category category,string blogname)
+        {
+            try
+            {
+                Category vcategory = null;
+                if (category != null && !CommonTools.isEmpty(blogname))
+                {
+                    if (await this.Exists(cid,blogname))
+                    {
+                        vcategory = await this.GetCategoryById(cid);
+                    }
+                    if (vcategory != null)
+                    {
+                        category.BlogId=vcategory.BlogId;
+
+                        db.Entry(vcategory).State = EntityState.Modified;
+
+                        db.Entry(vcategory).CurrentValues.SetValues(category);
+                        // db.Post.Update(Post);
+                        await db.SaveChangesAsync();
+                    }
+                }
+                return category;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is Category)
+                    {
+                        var proposedValues = entry.CurrentValues;
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        foreach (var property in proposedValues.Properties)
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+
+                            // TODO: decide which value should be written to database
+                            proposedValues[property] = proposedValue;
+                        }
+
+                        // Refresh original values to bypass next concurrency check
+                        // entry.OriginalValues.SetValues(databaseValues);
+                        entry.OriginalValues.SetValues(proposedValues);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException(
+                            "Don't know how to handle concurrency conflicts for "
+                            + entry.Metadata.Name);
+                    }
+                }
+                return null;
+
+            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
+
         }
 
     }

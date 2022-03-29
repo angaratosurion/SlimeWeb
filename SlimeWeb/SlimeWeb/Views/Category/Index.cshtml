@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewCategory>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Posts</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogName)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.BlogTitle)
+            </th>
+          
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   @Html.DisplayFor(modelItem => item.Id);
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+               
+                <td>
+                    <a asp-controller="Posts" asp-action="Index" asp-route-id="@item.BlogName">@Html.DisplayFor(modelItem => item.BlogName)</a>
+                    
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.BlogTitle)
+                </td>
+               
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-blogname="@item.BlogName">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Name" asp-route-blogname="@item.BlogName">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-blogname="@item.BlogName">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
