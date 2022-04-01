@@ -63,7 +63,7 @@
                 {
                     foreach (var tag in Tags)
                     {
-                        <a sp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
+                        <a asp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
                     }
 
                 }

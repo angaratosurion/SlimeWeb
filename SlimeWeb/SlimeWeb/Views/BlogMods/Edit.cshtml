@@ -1,7 +1,7 @@
 @model SlimeWeb.Core.Data.ViewModels.ViewBlogMods
 
 @{
-    Layout = null;
+   
 }
 
 <!DOCTYPE html>
@@ -22,11 +22,16 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Moderator" class="control-label"></label>
-                <input asp-for="Moderator.UserName" class="form-control" value="@User.Identity.Name" readonly="readonly" />
+                <input asp-for="Moderator" class="form-control" value="@User.Identity.Name" readonly="readonly" />
                 <span asp-validation-for="Moderator" class="text-danger"></span>
                 <label asp-for="Active" class="control-label"></label>
                 <input asp-for="Active" class="form-control" />
                 <span asp-validation-for="Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              @*  <label asp-for="BlogId" class="control-label"></label>*@
+
+                <input type="text" asp-for="ModeratorId" value="@User.Identity.Name" readonly="readonly" hidden="hidden" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

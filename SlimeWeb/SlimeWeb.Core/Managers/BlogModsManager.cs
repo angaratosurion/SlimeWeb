@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,14 +33,20 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task< BlogMods >Details(int id)
+        public async Task< BlogMods >Details(string blogname,string modname)
         {
             try
             {
                  BlogMods ap = null;
+                Boolean blogexists = await blmngr.BlogExists(blogname);
+                if (!CommonTools.isEmpty(blogname) && (blogexists))
+                {
+                    List<BlogMods> mods = (await this.ListModsByBlogName(blogname)).ToList();
+                    ap=mods.Find(x=>x.ModeratorId==modname);
 
-
-                ap = (await this.ListMods()).FirstOrDefault(x => x.Id==id);
+                   
+                    
+                }
 
 
 
@@ -57,7 +64,8 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<BlogMods> ap = null;
-                if(CommonTools.isEmpty(blogname)!=false && (await blmngr.BlogExists(blogname)))
+                Boolean blogexists = await blmngr.BlogExists(blogname);
+                if (!CommonTools.isEmpty(blogname) && (blogexists))
                 {
                     Blog blog = await blmngr.GetBlogAsync(blogname);
                     List<BlogMods> tap =await this.ListMods();
@@ -68,6 +76,32 @@ namespace SlimeWeb.Core.Managers
                         ap = mods;
                     }
                 }
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<BlogMods> ListModByBlogId(int id)
+        {
+            try
+            {
+              BlogMods ap = null;
+             
+                
+                     
+                    List<BlogMods> tap = await this.ListMods();
+
+                    if (tap != null && tap.Find(x => x.Id == id) != null)
+                    {
+                    var mods = tap.Find(x=>x.Id==id);
+                        ap = mods;
+                    }
+                
 
                 return ap;
             }
@@ -108,8 +142,9 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                if(CommonTools.isEmpty(blogname) != false && CommonTools.isEmpty(modname) != false && (await blmngr.BlogExists(blogname))
-                    && (userManager.UserExists(modname)))
+                if (!CommonTools.isEmpty(blogname)  && !CommonTools.isEmpty(modname) 
+                    && (await blmngr.BlogExists(blogname))
+                    && userManager.UserExists(modname))
                 {
                     var blog =await  blmngr.GetBlogAsync(blogname);
                     var user = userManager.GetUser(modname);
@@ -159,6 +194,70 @@ namespace SlimeWeb.Core.Managers
                 CommonTools.ErrorReporting(ex);
                 // return null;
             }
+        }
+        public async Task<BlogMods> Edit(string modname,BlogMods mods, string blogname)
+        {
+            try
+            {
+               BlogMods vmods = null;
+                if (mods != null && !CommonTools.isEmpty(blogname) && !CommonTools.isEmpty(modname))
+                {
+                     
+                    
+                       var lstmods = await this.ListModsByBlogName(blogname);
+                    if (lstmods != null)
+                    {
+                        vmods= lstmods.First(x=>x.ModeratorId==modname);
+                        if (vmods != null)
+                        {
+                            mods.BlogId = vmods.BlogId;
+
+                            db.Entry(vmods).State = EntityState.Modified;
+                            mods.Id=vmods.Id;
+                            mods.BlogId=vmods.BlogId;
+
+                            db.Entry(vmods).CurrentValues.SetValues(mods);
+                            // db.Post.Update(Post);
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                }
+                return mods;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is BlogMods)
+                    {
+                        var proposedValues = entry.CurrentValues;
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        foreach (var property in proposedValues.Properties)
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+
+                            // TODO: decide which value should be written to database
+                            proposedValues[property] = proposedValue;
+                        }
+
+                        // Refresh original values to bypass next concurrency check
+                        // entry.OriginalValues.SetValues(databaseValues);
+                        entry.OriginalValues.SetValues(proposedValues);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException(
+                            "Don't know how to handle concurrency conflicts for "
+                            + entry.Metadata.Name);
+                    }
+                }
+                return null;
+
+            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
+
         }
 
     }

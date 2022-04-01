@@ -1,7 +1,7 @@
 @model SlimeWeb.Core.Data.ViewModels.ViewBlogMods
 
 @{
-    Layout = null;
+    
 }
 
 <!DOCTYPE html>
@@ -21,9 +21,25 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Moderator" class="control-label"></label>
-                <input asp-for="Moderator.UserName" class="form-control" value="@User.Identity.Name" readonly="readonly" />
-                <span asp-validation-for="Moderator" class="text-danger"></span>
+                <input asp-for="Moderator" class="form-control" value="@User.Identity.Name" readonly="readonly" />
+              @*  <span asp-validation-for="Moderator.UserName" class="text-danger"></span>*@
             </div>
+             <div class="form-group">
+                 
+                <input asp-for="Active" class="form-control" value="false"   readonly="readonly" hidden="hidden"  />
+                <span asp-validation-for="Active" class="text-danger"></span>
+                </div>
+                  <div class="form-group">
+              @*  <label asp-for="BlogId" class="control-label"></label>*@
+
+                <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden" />
+            </div>
+             <div class="form-group">
+              @*  <label asp-for="BlogId" class="control-label"></label>*@
+
+                <input type="text" asp-for="ModeratorId" value="@User.Identity.Name" readonly="readonly" hidden="hidden" />
+            </div>
+          
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

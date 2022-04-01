@@ -19,7 +19,7 @@ namespace SlimeWeb.Core.Managers
                 if (string .IsNullOrEmpty(username)==false && string.IsNullOrEmpty(blogname)==false  
                     && ( userManager.UserExists(username)) && await blogManager.BlogExists(blogname) )
                 {
-                    var blogbymods = await blogManager.GetBlogModerators(blogname);
+                    var blogbymods = await blogManager.GetBlogActiveModerators(blogname);
                     var blogadm = await blogManager.GetBlogAdministrator(blogname);
                     if ( blogbymods!=null )
                     {
@@ -28,7 +28,7 @@ namespace SlimeWeb.Core.Managers
                          
                         if ( blogadm !=null && user!=null)
                         {
-                            var blogmod = blogbymods.FirstOrDefault(x => x.UserName == user.UserName);
+                            var blogmod = blogbymods.FirstOrDefault(x => x.UserName == user.UserName  );
                           
                             if ( blogmod!=null ||  blogadm.UserName==user.UserName  || 
                                 userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles,username) )

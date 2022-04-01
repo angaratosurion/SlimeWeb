@@ -125,6 +125,8 @@ namespace SlimeWeb
 
             post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
             post.CategoriesToString = await CategoryManager.GetCategoryNamesToString(post.Blog.Name,(int)id);
+            post.Tags=await TagManager.GetTagByPostId((int)id);
+            post.TagsToString=await TagManager.GetTagNamesToString(post.Blog.Name,(int)id);
 
 
 
@@ -149,7 +151,7 @@ namespace SlimeWeb
             {
                 return RedirectToAction(nameof(Index), "Posts", new { id = blogname});
             }
-            var blog = this.blmngr.GetBlogAsync(blogname).Result;
+            var blog =await  this.blmngr.GetBlogAsync(blogname);
 
 
             //return View();
@@ -177,7 +179,7 @@ namespace SlimeWeb
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine,CategoriesToString")] ViewPost post)
+        public async Task<IActionResult> Create(string blogname,[Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine,CategoriesToString", "TagsToString")] ViewPost post)
         {
             //if (ModelState.IsValid)
             {

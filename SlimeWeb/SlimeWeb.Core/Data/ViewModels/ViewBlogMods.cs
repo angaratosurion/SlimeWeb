@@ -12,21 +12,26 @@ namespace SlimeWeb.Core.Data.ViewModels
     {
         BlogManager bmngr = new BlogManager();
         SlimeWebsUserManager userManager = new SlimeWebsUserManager();
-        public ApplicationUser Moderator { get; set; }
+        public string Moderator { get; set; }
         public Blog Blog { get; set; }
         public async void ImportFromModel(BlogMods model)
         {
             if (model != null)
             {
-                Blog = await this.bmngr.GetBlogByIdAsync(BlogId);
-                Moderator =  this.userManager.GetUser(model.ModeratorId);
+                Blog = await this.bmngr.GetBlogByIdAsync(model.BlogId);
+                Moderator =  this.userManager.GetUser(model.ModeratorId).UserName;
+                Active= model.Active;
+                BlogId = model.BlogId;
+                this.ModeratorId = this.userManager.GetUser(model.ModeratorId).UserName;
             }
         }
         public BlogMods ToModel()
         {
             BlogMods ap = new BlogMods();
-            ap.BlogId = Blog.Id;
-            ap.ModeratorId = Moderator.Id;
+            ap.BlogId = BlogId;
+            ap.ModeratorId = this.userManager.GetUser(ModeratorId).UserName;
+            ap.Active = Active;
+            
             return ap;
         }
     }

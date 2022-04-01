@@ -1,7 +1,7 @@
 @model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewBlogMods>
 
 @{
-    Layout = null;
+    
 }
 
 <!DOCTYPE html>
@@ -12,9 +12,7 @@
     <title>Index</title>
 </head>
 <body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+ 
 <table class="table">
     <thead>
         <tr>
@@ -28,12 +26,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Moderator.UserName)
+                @Html.DisplayFor(modelItem => item.Moderator)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId")>Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId">Delete</a>
             </td>
         </tr>
 }

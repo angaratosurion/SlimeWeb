@@ -287,6 +287,40 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<List<ApplicationUser>> GetBlogActiveModerators(string Blogname)
+        {
+            try
+            {
+                List<ApplicationUser> ap = new List<ApplicationUser>();
+
+                if (CommonTools.isEmpty(Blogname) == false
+                    && await this.BlogExists(Blogname))
+                {
+                    Blog bl = await this.GetBlogAsync(Blogname);
+
+                    List<BlogMods> mods = db.BlogMods.ToList().FindAll(x => x.Id == bl.Id && x.Active==true).ToList();
+                    if (mods != null)
+                    {
+                        foreach (var m in mods)
+                        {
+                            ApplicationUser md = CommonTools.usrmng.GetUserbyID(m.ModeratorId);
+                            if (md != null)
+                            {
+                                ap.Add(md);
+                            }
+                        }
+                    }
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<ApplicationUser> GetBlogAdministrator(string Blogname)
         {
             try
