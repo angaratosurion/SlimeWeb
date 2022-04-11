@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Quill.Delta;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
+using SlimeWeb.Core.Tools;
 using System;
 using System.Text;
 

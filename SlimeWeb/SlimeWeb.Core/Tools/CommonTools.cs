@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace SlimeWeb.Core
+namespace SlimeWeb.Core.Tools
 {
     public class CommonTools
     {

@@ -1,6 +1,7 @@
 ﻿using Markdig;
 using ReverseMarkdown;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
+using SlimeWeb.Core.Tools;
 using System;
 
 namespace SlimeWeb.Core.Managers.Markups

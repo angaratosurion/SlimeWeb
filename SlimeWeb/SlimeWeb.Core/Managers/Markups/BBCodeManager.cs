@@ -1,5 +1,6 @@
 ﻿using Q101.BbCodeNetCore;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
+using SlimeWeb.Core.Tools;
 using System;
 
 namespace SlimeWeb.Core.Managers.Markups

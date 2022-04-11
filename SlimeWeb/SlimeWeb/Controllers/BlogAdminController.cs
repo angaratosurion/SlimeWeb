@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
 {
-    public class AdminHomeController : Controller
+    public class BlogAdminController : Controller
     {
         AccessManager accessManager = new AccessManager();
 
