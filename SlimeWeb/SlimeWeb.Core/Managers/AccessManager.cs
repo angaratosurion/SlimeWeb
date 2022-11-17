@@ -59,5 +59,48 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public async Task<Boolean> DoesUserHasAccess(string username )
+        {
+            try
+            {
+                Boolean ap = false;
+                if (string.IsNullOrEmpty(username) == false 
+                    && (userManager.UserExists(username)) )
+                {
+                     
+
+                        var user = userManager.GetUser(username);
+
+                        if (  user != null)
+                        {
+                            
+
+                            if ( 
+                                userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles, username))
+                            {
+                                ap = true;
+                            }
+                        }
+                        else if (user != null)
+                        {
+                            if (userManager.UserExistsInRole(SlimeWebsUserManager.AdminRoles, username))
+                            {
+                                ap = true;
+                            }
+                        }
+
+                    }
+
+ 
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
     }
 }

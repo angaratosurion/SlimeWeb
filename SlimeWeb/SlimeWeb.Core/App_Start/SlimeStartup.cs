@@ -18,6 +18,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System;
 using SlimeWeb.Core.Data.DBContexts;
+using Google.Protobuf.WellKnownTypes;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -44,6 +45,19 @@ namespace SlimeWeb.Core.App_Start
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
                   .AddDefaultTokenProviders();
+                services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.Cookie.Name = ".SlimeWeb";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    options.SlidingExpiration = true;
+                });
+                services.AddAuthorization(opts => {
+                    opts.AddPolicy("Administrator", policy => {
+                        policy.RequireRole(SlimeWebsUserManager.AdminRoles);
+                        policy.RequireClaim("Administration", "Administration");
+                    });
+                });
             }
             else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
             {
@@ -92,7 +106,7 @@ namespace SlimeWeb.Core.App_Start
 
             services.Configure<KestrelServerOptions>(
                Configuration.GetSection("Kestrel"));
-
+           
             return services;
 
 
@@ -205,6 +219,12 @@ namespace SlimeWeb.Core.App_Start
                     });
 
                 }
+                if (AppSettingsManager.GetisFirstRun())
+                {
+                    
+                    InstallManager installManager = new InstallManager(serviceScope.ServiceProvider);
+                    installManager.CrreateInitalAdmin();
+                }
             }
             //if (!Directory.Exists(extensionsPath))
             //{
@@ -213,6 +233,7 @@ namespace SlimeWeb.Core.App_Start
 
 
             app.UseExtCore();
+           
 
 
         }

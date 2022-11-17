@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
@@ -15,9 +17,9 @@ namespace SlimeWeb.Core.Managers
     {
         SlimeDbContext db = new SlimeDbContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
 
-        public SlimeWebsUserManager(UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
+        public SlimeWebsUserManager(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
             SlimeDbContext tdb)
         {
             this._userManager = usrmngr;
@@ -26,13 +28,38 @@ namespace SlimeWeb.Core.Managers
         }
         public SlimeWebsUserManager()
         {
-
+           
         }
-
+      
         public SlimeDbContext Context { get { return db; } set { db = value; } }
         //WikiManager wkmngr = CommonTools.wkmngr;
-        public static string AdminRoles = "Administrators";
+        public   const string AdminRoles = "Administrators";
+
         #region User
+        public void CreateUser(string username, string testUserPw)
+        {
+            try
+            {
+               
+
+                if (CommonTools.isEmpty(username) == false   &&
+                    !this.UserExists(username))
+                {
+                     var  user = new ApplicationUser
+                    {
+                        UserName = username,
+                        EmailConfirmed = true
+                    };
+                   this._userManager.CreateAsync(user, testUserPw);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
         public ApplicationUser GetUser(string id)
         {
             try
@@ -280,10 +307,10 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                if (role != null && this.RoleExists(role.Name) == false)
+               if (role != null && this.RoleExists(role.Name) == false)
                 {
                     this.db.Roles.Add(role);
-                    this.db.SaveChanges();
+                    this.db.SaveChangesAsync();
                 }
 
             }
@@ -446,25 +473,27 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 Boolean ap = false;
-                //if (CommonTools.isEmpty(rolename) == false
-                //     && CommonTools.isEmpty(username) == false &&
-                //     this.RoleExists(rolename) && this.UserExists(username) == true)
-                //{
-                //    ApplicationUser us = this.GetUser(username);
-                //    ApplicationRole or = this.GetRole(rolename);
-                //    IdentityUserRole r = or.Users.FirstOrDefault(x => x.UserId == us.Id && x.RoleId == or.Id);
-                //    ApplicationRole r1 = null;
-                //    List<ApplicationRole> rls = this.GetRolesOfUser(username);
-                //    if (rls != null)
-                //    {
-                //        r1 = rls.FirstOrDefault(x => x.Name == rolename);
-                //    }
-                //    if (r != null && r1 != null)
-                //    {
-                //        ap = true;
-                //    }
+                if (CommonTools.isEmpty(rolename) == false
+                     && CommonTools.isEmpty(username) == false &&
+                     this.RoleExists(rolename) && this.UserExists(username) == true)
+                {
+                    ApplicationUser us = this.GetUser(username);
+                    ApplicationRole or = this.GetRole(rolename);
+                    
+                    ApplicationRole r1 = null;
+                    List<ApplicationRole> rls = this.GetRolesOfUser(username);
+                    if (rls != null)
+                    {
+                        r1 = rls.FirstOrDefault(x => x.Name == rolename);
+                    }
+                    var ur = db.UserRoles.FirstOrDefault(x => x.UserId == us.Id);
+                    if ( r1 != null && ur!=null)
+                    {
+                        
+                        ap = true;
+                    }
 
-                //}
+                }
 
                 return ap;
             }

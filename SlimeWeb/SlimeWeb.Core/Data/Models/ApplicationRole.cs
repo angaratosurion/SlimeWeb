@@ -8,4 +8,5 @@ namespace SlimeWeb.Core.Data.Models
     public class ApplicationRole : IdentityRole<string>
     {
     }
+
 }

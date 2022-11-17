@@ -39,6 +39,49 @@ namespace SlimeWeb.Core.Managers
 
             config = builder.Build();//
         }
+        public static string GetDefaultAdminUserName()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<string>("ApppSettings:AdminUserName");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetDefaultAdminUserPassword()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<string>("ApppSettings:AdminUserPassword");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static bool GetisFirstRun()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:firstRun");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
+       
         public static string GetPathBase()
         {
             try

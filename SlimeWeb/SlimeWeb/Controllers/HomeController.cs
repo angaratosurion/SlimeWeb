@@ -36,7 +36,7 @@ namespace SlimeWeb.Controllers
             defaultcon = AppSettingsManager.GetDefaultController();
             pathbase =  AppSettingsManager.GetPathBase();
             hostedinsubfolder =  AppSettingsManager.GetHostedInSubFolderSetting();
-            
+           
 
             if (CommonTools.isEmpty(defaultcon) == false && hostedinsubfolder 
                 && CommonTools.isEmpty(pathbase) == false)
