@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
+﻿ 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data;
@@ -18,12 +18,13 @@ namespace SlimeWeb.Core.Managers
         SlimeDbContext db = new SlimeDbContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
-
+        private Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager;
         public SlimeWebsUserManager(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
-            SlimeDbContext tdb)
+            SlimeDbContext tdb, RoleManager<IdentityRole> roleMgr)
         {
             this._userManager = usrmngr;
             this._signInManager = singmngr;
+            roleManager = roleMgr;
             this.Context = tdb;
         }
         public SlimeWebsUserManager()
@@ -307,7 +308,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-               if (role != null && this.RoleExists(role.Name) == false)
+              // if (role != null && this.RoleExists(role.Name) == false)
                 {
                     this.db.Roles.Add(role);
                     this.db.SaveChangesAsync();

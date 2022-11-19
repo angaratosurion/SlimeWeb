@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System;
 using SlimeWeb.Core.Data.DBContexts;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authorization;
+using SlimeWeb.Core.CustomPolicy;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -56,6 +58,21 @@ namespace SlimeWeb.Core.App_Start
                     opts.AddPolicy("Administrator", policy => {
                         policy.RequireRole(SlimeWebsUserManager.AdminRoles);
                         policy.RequireClaim("Administration", "Administration");
+                    });
+                });
+                services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
+                services.AddAuthorization(opts => {
+                    opts.AddPolicy("AllowTom", policy => {
+                        policy.AddRequirements(new AllowUserPolicy("tom"));
+                    });
+                });
+
+                services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
+                services.AddAuthorization(opts =>
+                {
+                    opts.AddPolicy("PrivateAccess", policy =>
+                    {
+                        policy.AddRequirements(new AllowPrivatePolicy());
                     });
                 });
             }
