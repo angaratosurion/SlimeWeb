@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -14,9 +15,9 @@ namespace SlimeWeb.Core.Managers
 
 
             AspuserManager = serviceProvider.GetService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+            _roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            //  RoleStore<ApplicationRole> roleStore = serviceProvider.GetRequiredService<RoleStore<ApplicationRole>>();
 
-          //  RoleStore<ApplicationRole> roleStore = serviceProvider.GetRequiredService<RoleStore<ApplicationRole>>();
-            
         }
         // 
         public void  CrreateInitalAdmin()
@@ -45,10 +46,10 @@ namespace SlimeWeb.Core.Managers
                     {
                         ApplicationRole adminrol = new ApplicationRole();
                         adminrol.Name = SlimeWebsUserManager.AdminRoles;
-                        //var  res=_roleManager.CreateAsync(adminrol).Result;
-                        adminrol.Id = SlimeWebsUserManager.AdminRoles;
-                        db.Roles.Add(adminrol);
-                        db.SaveChangesAsync();
+                     var  res=_roleManager.CreateAsync(adminrol).Result;
+                        //adminrol.Id = SlimeWebsUserManager.AdminRoles;
+                        //db.Roles.Add(adminrol);
+                        //db.SaveChangesAsync();
 
                     }
                     userManager.AddUserToRole(SlimeWebsUserManager.AdminRoles, adminname);

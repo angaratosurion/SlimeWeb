@@ -27,11 +27,17 @@ namespace SlimeWeb.Core.Managers
             roleManager = roleMgr;
             this.Context = tdb;
         }
-        public SlimeWebsUserManager()
-        {
-           
+        public SlimeWebsUserManager(IServiceProvider serviceProvider)
+        { 
+            _userManager = serviceProvider.GetService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+            roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            _signInManager= serviceProvider.GetService<Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser>>();
         }
-      
+        //public SlimeWebsUserManager()
+        //{
+
+        //}
+
         public SlimeDbContext Context { get { return db; } set { db = value; } }
         //WikiManager wkmngr = CommonTools.wkmngr;
         public   const string AdminRoles = "Administrators";
@@ -294,7 +300,8 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                List<ApplicationRole> ap = this.db.Roles.ToList();
+                List<ApplicationRole> ap;
+                ap=this.roleManager.Roles.ToList();
                 return ap;
             }
             catch (Exception ex)
@@ -308,10 +315,9 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-              // if (role != null && this.RoleExists(role.Name) == false)
+               if (role != null && this.RoleExists(role.Name) == false)
                 {
-                    this.db.Roles.Add(role);
-                    this.db.SaveChangesAsync();
+                  roleManager.CreateAsync(role);
                 }
 
             }
@@ -356,8 +362,7 @@ namespace SlimeWeb.Core.Managers
                     ApplicationRole or = this.GetRole(rolename);
                     if (or != null && rolename != "Administrators")
                     {
-                        this.db.Roles.Remove(or);
-                        this.db.SaveChanges();
+                        this.roleManager.DeleteAsync(or);
                     }
                 }
 

@@ -6,9 +6,11 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using SlimeWeb.Core.Data.NonDataModels.UserAndRoles;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SlimeWeb.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class RoleController : Controller
     {
         private RoleManager<ApplicationRole> roleManager;

@@ -21,6 +21,7 @@ using SlimeWeb.Core.Data.DBContexts;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using SlimeWeb.Core.CustomPolicy;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -211,7 +212,8 @@ namespace SlimeWeb.Core.App_Start
                 pathbase =  AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
 
-    
+
+                CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
 
                 //if (createdb && migratedb )
                 //{
@@ -244,6 +246,7 @@ namespace SlimeWeb.Core.App_Start
                 if (AppSettingsManager.GetisFirstRun())
                 {
                     
+
                     InstallManager installManager = new InstallManager(serviceScope.ServiceProvider);
                     installManager.CrreateInitalAdmin();
                 }

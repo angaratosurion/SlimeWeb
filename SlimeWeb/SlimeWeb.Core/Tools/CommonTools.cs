@@ -11,7 +11,7 @@ namespace SlimeWeb.Core.Tools
 {
     public class CommonTools
     {
-        public static SlimeWebsUserManager usrmng = new SlimeWebsUserManager();
+        public static SlimeWebsUserManager usrmng;
         public static FileRecordManager FileRecordManager = new FileRecordManager();
         public static Boolean isEmpty(string str)
         {

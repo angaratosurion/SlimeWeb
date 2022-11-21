@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.NonDataModels.UserAndRoles;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class UserAdminController : Controller
     {
         private UserManager<ApplicationUser> userManager;

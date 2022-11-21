@@ -17,6 +17,7 @@ using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core;
 using SlimeWeb.Core.Managers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SlimeWeb
 {
@@ -71,15 +72,17 @@ namespace SlimeWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
-           
-                app.UseEndpoints(endpoints =>
+
+             
+            app.UseEndpoints(endpoints =>
                 {
+                   
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });
+
            
         }
     }
