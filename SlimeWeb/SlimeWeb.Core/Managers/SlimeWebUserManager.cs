@@ -18,9 +18,9 @@ namespace SlimeWeb.Core.Managers
         SlimeDbContext db = new SlimeDbContext();
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
-        private Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager;
+        private Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> roleManager;
         public SlimeWebsUserManager(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
-            SlimeDbContext tdb, RoleManager<IdentityRole> roleMgr)
+            SlimeDbContext tdb, RoleManager<ApplicationRole> roleMgr)
         {
             this._userManager = usrmngr;
             this._signInManager = singmngr;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SlimeWeb.Controllers
 {
     
-    //[Authorize(Roles ="Administrators")]
+    [Authorize(Roles ="Administrators")]
     public class AdminController : Controller
     {
         AccessManager accessManager = new AccessManager();
@@ -18,10 +18,10 @@ namespace SlimeWeb.Controllers
         // GET: AdminHomeController
         public async Task<ActionResult> IndexAsync()
         {
-            if (await accessManager.DoesUserHasAccess(User.Identity.Name ) == false)
-            {
-                return RedirectToAction(nameof(Index),"Blogs");
-            }
+            //if (await accessManager.DoesUserHasAccess(User.Identity.Name ) == false)
+            //{
+            //    return RedirectToAction(nameof(Index),"Blogs");
+            //}
             return View();
         }
 

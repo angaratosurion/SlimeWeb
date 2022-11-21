@@ -44,6 +44,14 @@ namespace SlimeWeb.Core.App_Start
                 services.AddDbContext<SlimeDbContext>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+            {
+
+                services.AddDbContext<SlimeDbContext>(options =>
+                    options.UseMySQL(
+                        Configuration.GetConnectionString("DefaultConnection")));
+            }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
                   .AddDefaultTokenProviders();
@@ -54,38 +62,35 @@ namespace SlimeWeb.Core.App_Start
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                     options.SlidingExpiration = true;
                 });
-                services.AddAuthorization(opts => {
-                    opts.AddPolicy("Administrator", policy => {
+                services.AddAuthorization(opts =>
+                {
+                    opts.AddPolicy("Administrator", policy =>
+                    {
                         policy.RequireRole(SlimeWebsUserManager.AdminRoles);
                         policy.RequireClaim("Administration", "Administration");
                     });
                 });
-                services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
-                services.AddAuthorization(opts => {
-                    opts.AddPolicy("AllowTom", policy => {
+            services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
+            services.AddAuthorization(opts =>
+                {
+                    opts.AddPolicy("AllowTom", policy =>
+                    {
                         policy.AddRequirements(new AllowUserPolicy("tom"));
                     });
                 });
 
-                services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
-                services.AddAuthorization(opts =>
+            services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
+            services.AddAuthorization(opts =>
                 {
                     opts.AddPolicy("PrivateAccess", policy =>
                     {
                         policy.AddRequirements(new AllowPrivatePolicy());
                     });
                 });
-            }
-            else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-            {
-
-                services.AddDbContext<SlimeDbContext>(options =>
-                    options.UseMySQL(
-                        Configuration.GetConnectionString("DefaultConnection")));
-                services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                  .AddEntityFrameworkStores<SlimeDbContext>()
-                  .AddDefaultTokenProviders();
-            }
+            
+           
+              
+            
 
                 services.AddMvcCore().AddControllersAsServices()
                 .AddRazorPages();
