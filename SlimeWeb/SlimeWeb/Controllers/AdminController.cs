@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
 {
+
+    // [Authorize(Roles = SlimeWebsUserManager.AdminRoles)]
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
     
-    [Authorize(Roles ="Administrators")]
     public class AdminController : Controller
     {
         AccessManager accessManager = new AccessManager();

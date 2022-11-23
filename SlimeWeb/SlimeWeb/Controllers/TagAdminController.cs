@@ -11,19 +11,20 @@ using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Controllers
 {
-    public class CategoryController : Controller
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
+    public class TagAdminController : Controller
     {
        private readonly SlimeDbContext _context;
         private readonly BlogManager blogmnger;// = new BlogManager();
-        private readonly CategoryManager categoryManager;
+        private readonly TagManager TagManager;
         private readonly PostManager postManager;
         AccessManager accessManager = new AccessManager();
 
-        public CategoryController(SlimeDbContext context)
+        public TagAdminController(SlimeDbContext context)
         {
             _context = context;
             blogmnger = new BlogManager();
-            categoryManager = new CategoryManager();
+            TagManager = new TagManager();
             postManager = new PostManager();    
         }
 
@@ -34,19 +35,33 @@ namespace SlimeWeb.Controllers
             {
                 
            
-            List<ViewCategory> lstCategorys = new List<ViewCategory>();
-                var list = await categoryManager.ListCategoriesByBlog(id);
-                if (list != null)
+            List<ViewTag> lstTags = new List<ViewTag>();
+
+
+                if (id == null)
                 {
+                    var list = await TagManager.ListTags();
 
                     foreach (var bl in list)
                     {
-                        ViewCategory vb = new ViewCategory();
+                        ViewTag vb = new ViewTag();
                         vb.ImportFromModel(bl);
-                        lstCategorys.Add(vb);
+                        lstTags.Add(vb);
+                    }
+
+                }
+                else
+                {
+                    var list = await TagManager.GetTagsByBlog(id);
+
+                    foreach (var bl in list)
+                    {
+                        ViewTag vb = new ViewTag();
+                        vb.ImportFromModel(bl);
+                        lstTags.Add(vb);
                     }
                 }
-            return View(lstCategorys);
+            return View(lstTags);
             }
             catch (Exception)
             {
@@ -55,7 +70,7 @@ namespace SlimeWeb.Controllers
             }
         }
 
-        // GET: Categorys/Details/5
+        // GET: Tags/Details/5
         public async Task<IActionResult> Details(string  id,string blogname)
         {
             //string name = id;
@@ -64,19 +79,19 @@ namespace SlimeWeb.Controllers
             //    return NotFound();
             //}
 
-            ////var Category = await _context.Categorys
+            ////var Tag = await _context.Tags
             ////    .FirstOrDefaultAsync(m => m.Id == id);
-            //var Category = await  categoryManager.GetCategory(id,blogname);
-            //if (Category == null)
+            //var Tag = await  TagManager.GetTag(id,blogname);
+            //if (Tag == null)
             //{
             //    return NotFound();
             //}
 
-            //return View(Category);
-            return RedirectToAction("ByCategory", "Posts", new { id = blogname, categoryname=id });
+            //return View(Tag);
+            return RedirectToAction("ByTag", "Posts", new { id = blogname, Tagname=id });
         }
 
-        //// GET: Categorys/Create
+        //// GET: Tags/Create
         //[Authorize]
         //public async Task<IActionResult> Create(string id)
         //{
@@ -91,51 +106,51 @@ namespace SlimeWeb.Controllers
         //    return View();
         //}
 
-        //// POST: Categorys/Create
+        //// POST: Tags/Create
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,Title,LastUpdate,Created")] Category Category,string blogname)
+        //public async Task<IActionResult> Create([Bind("Id,Name,Title,LastUpdate,Created")] Tag Tag,string blogname)
         //{
         //    //if (ModelState.IsValid)
         //    {
-        //        //_context.Add(Category);
+        //        //_context.Add(Tag);
         //        //await _context.SaveChangesAsync();
-        //        await this. categoryManager.AddNew(Category, blogname);
+        //        await this. TagManager.AddNew(Tag, blogname);
         //        return RedirectToAction(nameof(Index));
         //    }
-        //    //return View(Category);
+        //    //return View(Tag);
         //}
 
-        // GET: Categorys/Edit/5
+        // GET: Tags/Edit/5
         [Authorize]
         public async Task<IActionResult> Edit(int id,string blogname)
         {
            // string name = blogname;
             
 
-            // var Category = await _context.Categorys.FindAsync(id);
-            var Category = await this. categoryManager.GetCategoryById(id);
-            if (Category == null)
+            // var Tag = await _context.Tags.FindAsync(id);
+            var tag = await this. TagManager.GetTagById(id);
+            if (tag == null)
             {
                 return NotFound();
             }
             if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
             {
-                return RedirectToAction(nameof(Details), new { id = Category.Name, blogname = blogname });
+                return RedirectToAction(nameof(Details), new { id = tag.Name, blogname = blogname });
             }
-            ViewCategory viewCategory = new ViewCategory();
-            viewCategory.ImportFromModel(Category);
-            return View(viewCategory);
+            ViewTag viewTag = new ViewTag();
+            viewTag.ImportFromModel(tag);
+            return View(viewTag);
         }
 
-        // POST: Categorys/Edit/5
+        // POST: Tags/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category Category,string blogname)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Tag tag,string blogname)
         {
 
            // string name = id;
@@ -145,19 +160,19 @@ namespace SlimeWeb.Controllers
             {
                 try
                 {
-                    //_context.Update(Category);
+                    //_context.Update(Tag);
                     if(blogname == null)
                     {
-                       var cat =await categoryManager.GetCategoryById(id);
+                       var cat =await TagManager.GetTagById(id);
                         var blog = await blogmnger.GetBlogByIdAsync(cat.BlogId);
                         blogname = blog.Name;
                     }
                    
-                await this. categoryManager.Edit(id,Category, blogname); ;
+                await this. TagManager.Edit(id,tag, blogname); ;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await  categoryManager.Exists(id,blogname))
+                    if (!await  TagManager.Exists(id,blogname))
                     {
                         return NotFound();
                     }
@@ -169,20 +184,20 @@ namespace SlimeWeb.Controllers
                 return RedirectToAction(nameof(Index),new { id = blogname });
             }
 
-            //return View(Category);
+            //return View(Tag);
         }
 
-        // GET: Categorys/Delete/5
+        // GET: Tags/Delete/5
         [Authorize]
         public async Task<IActionResult> Delete(int id,string blogname)
         {
            //.. string name = id;
-            var Category = await this.categoryManager.GetCategoryById(id);
+            var Tag = await this.TagManager.GetTagById(id);
             //if (id == null)
             //{
             //    return NotFound();
             //}
-            if (Category == null)
+            if (Tag == null)
             {
                 return NotFound();
             }
@@ -192,34 +207,33 @@ namespace SlimeWeb.Controllers
             }
           
 
-            //var Category = await _context.Categorys
+            //var Tag = await _context.Tags
             //    .FirstOrDefaultAsync(m => m.Id == id);
          
-            ViewCategory viewCategory = new ViewCategory();
-            viewCategory.ImportFromModel(Category);
-            return View(viewCategory);
+
+            return View(Tag);
         }
 
-        // POST: Categorys/Delete/5
+        // POST: Tags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id,string blogname)
         {
             string name = id;
-            //var Category = await _context.Categorys.FindAsync(id);
-            //_context.Categorys.Remove(Category);
+            //var Tag = await _context.Tags.FindAsync(id);
+            //_context.Tags.Remove(Tag);
             //await _context.SaveChangesAsync();
-          var posts= await  postManager.ListPostByCategory(name,blogname);
+          var posts= await  postManager.ListPostByTag(name,blogname);
             if(posts != null)
             {
                 foreach(var post in posts)
                 {
-                    await categoryManager.DetattachCategoryFromPost(post.Id, id, blogname);
+                    await TagManager.DetattachTagFromPost(post.Id, id, blogname);
 
                 }
             }
             
-             this.categoryManager.RemoveCatrgory(name, blogname);
+             this.TagManager.RemoveTag(name, blogname);
             return RedirectToAction(nameof(Index),new { id =  blogname });
         }
     }

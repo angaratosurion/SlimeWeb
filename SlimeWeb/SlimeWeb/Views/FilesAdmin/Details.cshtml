@@ -1,0 +1,71 @@
+﻿@model SlimeWeb.Core.Data.ViewModels.ViewFiles
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Files</h4>
+    <hr />
+    @if (Model.ContentType.Contains("image") || Model.ContentType.Contains("video"))
+    {
+        <dl class="col-sm-2">
+            @if (Model.ContentType.Contains("image"))
+            {
+                <img src="@Model.RelativePath" />
+            }
+            else if (Model.ContentType.Contains("video"))
+            {
+                <video src="@Model.RelativePath" />
+            }
+
+
+        </dl>
+        <hr />
+    }
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Path)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Path)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RelativePath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RelativePath)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ContentType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContentType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Owner)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Owner.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

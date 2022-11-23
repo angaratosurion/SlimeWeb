@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -248,12 +249,14 @@ namespace SlimeWeb.Core.Managers
                 ApplicationRole ap = null;
                 if (Name != null)
                 {
-                    List<ApplicationRole> rols = this.GetRoles();
+                    //List<ApplicationRole> rols = this.GetRoles();
 
-                    if (rols != null)
-                    {
-                        ap = rols.FirstOrDefault(r => r.Name == Name);
-                    }
+
+                    //if (rols != null)
+                    //{
+                    //    ap = rols.FirstOrDefault(r => r.Name == Name);
+                    //}
+                    ap = roleManager.FindByNameAsync(Name).Result;
                 }
                 return ap;
             }
@@ -268,21 +271,35 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                List<ApplicationRole> ap = null;
+                List<ApplicationRole> ap = null, roles;
                 if (UserName != null && this.UserExists(UserName))
                 {
                     ApplicationUser usr = this.GetUser(UserName);
 
-                    /* if (usr != null && usr.Roles != null)
+                    roles = this.GetRoles();
+                     if (usr != null &&roles!= null)
                      {
                          ap = new List<ApplicationRole>();
-                         foreach (IdentityUserRole<ApplicationUser> rl in usr.Roles)
+                        var userroles = this.db.UserRoles.ToList();
+                        foreach (ApplicationRole rl in roles)
                          {
-                             ApplicationRole r = this.db.Roles.FirstOrDefault(x => x.Id == rl.RoleId);
-                             ap.Add(r);
-                         }
+                            
+                            if (userroles != null)
+                            {
+                                var usrrole = userroles.FindAll(x => x.UserId == usr.Id).ToList();
+                                foreach (var rol in usrrole)
+                                {
 
-                     }*/
+
+                                    ApplicationRole r = this.db.Roles.FirstOrDefault(x => x.Id == rol.RoleId);
+                                    ap.Add(r);
+                                }
+                            }
+                         }
+                        
+
+                     }
+                    
                 }
 
 
@@ -337,9 +354,10 @@ namespace SlimeWeb.Core.Managers
                     this.RoleExists(rolename))
                 {
                     ApplicationRole or = this.GetRole(rolename);
-                    if (or != null && or.Name != "Administrators"
-                        && rolename != "Administrators")
+                    if (or != null && or.Name !=SlimeWebsUserManager.AdminRoles
+                        && rolename != SlimeWebsUserManager.AdminRoles)
                     {
+                        
                         this.db.Entry(or).CurrentValues.SetValues(role);
                         this.db.SaveChanges();
                     }
@@ -360,7 +378,7 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(rolename) == false)
                 {
                     ApplicationRole or = this.GetRole(rolename);
-                    if (or != null && rolename != "Administrators")
+                    if (or != null && rolename != SlimeWebsUserManager.AdminRoles)
                     {
                         this.roleManager.DeleteAsync(or);
                     }
@@ -380,19 +398,18 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<ApplicationUser> ap = null;
-                //if (Name != null && this.RoleExists(Name))
-                //{
-                //    ApplicationRole rol = this.GetRole(Name);
-                //    if (rol != null && rol.Users != null && rol.Users.Count > 0)
-                //    {
-                //        ap = new List<ApplicationUser>();
-                //        foreach (var u in rol.Users)
-                //        {
-                //            ApplicationUser t = this.db.Users.FirstOrDefault(x => x.Id == u.UserId);
-                //            ap.Add(t);
-                //        }
-                //    }
-                //}
+                if (Name != null && this.UserExists(Name))
+                {
+                    ApplicationUser usr = this.GetUser(Name);
+
+                  var  roles = this.GetRoles();
+                    if (usr != null && roles != null)
+                    {
+                        ap = _userManager.GetUsersInRoleAsync(Name).Result.ToList();
+                        
+                    }
+
+                }
                 return ap;
             }
             catch (Exception ex)
@@ -406,29 +423,22 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                //    if (CommonTools.isEmpty(rolename) == false
-                //        && CommonTools.isEmpty(username) == false &&
-                //        this.RoleExists(rolename) && this.UserExists(username) == true)
+                    if (CommonTools.isEmpty(rolename) == false
+                        && CommonTools.isEmpty(username) == false &&
+                 this.RoleExists(rolename) && this.UserExists(username) == true)
+                {
+                        ApplicationRole or = this.GetRole(rolename);
+                        ApplicationUser user = this.GetUser(username);
+                    if (this.UserExistsInRole(rolename, username) == false)
+                    {
 
 
-                //    {
-                //        ApplicationRole or = this.GetRole(rolename);
-                //        ApplicationUser user = this.GetUser(username);
-                //        if (this.UserExistsInRole(rolename, username) == false)
-                //        {
-                //            IdentityUserRole = new IdentityUserRole<ApplicationUser>();
-                //            r.RoleId = or.Id;
-                //            r.UserId = user.Id;
-                //            if (or.Users != null)
-                //            {
-                //                or.Users.Add(r);
-                //                this.db.Entry(or).CurrentValues.SetValues(or);
-                //                this.db.SaveChanges();
+                        var res=this._userManager.AddToRoleAsync(user, rolename).Result;
+                    }
 
-                //            }
 
-                //        }
-                //    }
+                
+                    }
 
             }
             catch (Exception ex)
@@ -442,30 +452,18 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                //    if (CommonTools.isEmpty(rolename) == false
-                //        && CommonTools.isEmpty(username) == false &&
-                //        this.RoleExists(rolename) && this.UserExists(username) == true)
-                //    {
-                //        ApplicationRole or = this.GetRole(rolename);
-                //        ApplicationUser user = this.GetUser(username);
-                //        if (this.UserExistsInRole(rolename, username) != false)
-                //        {
-                //            IdentityUserRole r = new IdentityUserRole();
-                //            r.RoleId = or.Id;
-                //            r.UserId = user.Id;
-                //            if (or.Users != null)
-                //            {
-                //                or.Users.Remove(r);
-                //                user.Roles.Remove(r);
-                //                this.db.Entry(GetRole(rolename)).CurrentValues.SetValues(or);
-                //                this.db.Entry(user).CurrentValues.SetValues(user);
+                if (CommonTools.isEmpty(rolename) == false
+                    && CommonTools.isEmpty(username) == false &&
+                    this.RoleExists(rolename) && this.UserExists(username) == true)
+                {
+                    ApplicationRole or = this.GetRole(rolename);
+                    ApplicationUser user = this.GetUser(username);
+                    if (this.UserExistsInRole(rolename, username) != false)
+                    {
+                        _userManager.RemoveFromRoleAsync(user, rolename);
+                    }
 
-
-                //                this.db.SaveChanges();
-                //            }
-                //        }
-
-                //}
+                }
             }
             catch (Exception ex)
             {
@@ -484,20 +482,8 @@ namespace SlimeWeb.Core.Managers
                      this.RoleExists(rolename) && this.UserExists(username) == true)
                 {
                     ApplicationUser us = this.GetUser(username);
-                    ApplicationRole or = this.GetRole(rolename);
-                    
-                    ApplicationRole r1 = null;
-                    List<ApplicationRole> rls = this.GetRolesOfUser(username);
-                    if (rls != null)
-                    {
-                        r1 = rls.FirstOrDefault(x => x.Name == rolename);
-                    }
-                    var ur = db.UserRoles.FirstOrDefault(x => x.UserId == us.Id);
-                    if ( r1 != null && ur!=null)
-                    {
-                        
-                        ap = true;
-                    }
+                   
+                    ap= _userManager.IsInRoleAsync(us, username).Result;
 
                 }
 
@@ -510,6 +496,12 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+
+        #endregion
+
+        #region claims
+
+
 
         #endregion
     }

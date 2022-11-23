@@ -22,6 +22,25 @@ namespace SlimeWeb.Core.Managers
         //    db = tdb;
         //    postManager = new PostManager(db);
         //}
+
+        public async Task<List<Files>> GetFiles()
+        {
+            try
+            {
+                List<Files> ap = null;
+
+                ap = db.Files.ToList();
+                       
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<string> Create(int? BlogId, int? postid, Files filemodel, IFormFile filedata,string user)
         {
             try

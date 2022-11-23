@@ -11,7 +11,8 @@ using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Controllers
 {
-    public class CategoryController : Controller
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
+    public class CategoryAdminController : Controller
     {
        private readonly SlimeDbContext _context;
         private readonly BlogManager blogmnger;// = new BlogManager();
@@ -19,7 +20,7 @@ namespace SlimeWeb.Controllers
         private readonly PostManager postManager;
         AccessManager accessManager = new AccessManager();
 
-        public CategoryController(SlimeDbContext context)
+        public CategoryAdminController(SlimeDbContext context)
         {
             _context = context;
             blogmnger = new BlogManager();
@@ -35,15 +36,32 @@ namespace SlimeWeb.Controllers
                 
            
             List<ViewCategory> lstCategorys = new List<ViewCategory>();
-                var list = await categoryManager.ListCategoriesByBlog(id);
-                if (list != null)
+                if (id == null)
                 {
-
-                    foreach (var bl in list)
+                    var lists=await categoryManager.ListCategories();
+                    if (lists != null)
                     {
-                        ViewCategory vb = new ViewCategory();
-                        vb.ImportFromModel(bl);
-                        lstCategorys.Add(vb);
+
+                        foreach (var bl in lists)
+                        {
+                            ViewCategory vb = new ViewCategory();
+                            vb.ImportFromModel(bl);
+                            lstCategorys.Add(vb);
+                        }
+                    }
+                }
+                else
+                {
+                    var list = await categoryManager.ListCategoriesByBlog(id);
+                    if (list != null)
+                    {
+
+                        foreach (var bl in list)
+                        {
+                            ViewCategory vb = new ViewCategory();
+                            vb.ImportFromModel(bl);
+                            lstCategorys.Add(vb);
+                        }
                     }
                 }
             return View(lstCategorys);

@@ -21,7 +21,8 @@ using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
-    public class PostsController : Controller
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
+    public class PostsAdminController : Controller
     {
         private readonly SlimeDbContext _context;
         PostManager postManager;
@@ -31,7 +32,7 @@ namespace SlimeWeb.Controllers
         AccessManager accessManager = new AccessManager();
 
 
-        public PostsController(SlimeDbContext context)
+        public PostsAdminController(SlimeDbContext context)
         {
             _context = context;
             postManager = new PostManager( );
@@ -43,20 +44,32 @@ namespace SlimeWeb.Controllers
         {
             string name = id;
 
-            
+            List<ViewPost> posts = new List<ViewPost>();
             if (name == null)
             {
-                return NotFound();
-            }
-            var p = await postManager.ListByBlogNameByPublished(name);
-            
-            List<ViewPost> posts = new List<ViewPost>();
-            foreach(var tp in p)
-            {
-                ViewPost ap = new ViewPost();
-                ap.ImportFromModel(tp);
-                posts.Add(ap);
+                var p = await postManager.List();
 
+               
+                foreach (var tp in p)
+                {
+                    ViewPost ap = new ViewPost();
+                    ap.ImportFromModel(tp);
+                    posts.Add(ap);
+
+                }
+            }
+            else
+            {
+                var p = await postManager.ListByBlogNameByPublished(name);
+
+                 
+                foreach (var tp in p)
+                {
+                    ViewPost ap = new ViewPost();
+                    ap.ImportFromModel(tp);
+                    posts.Add(ap);
+
+                }
             }
             return View(posts);
         }

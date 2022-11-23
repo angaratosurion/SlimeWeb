@@ -63,14 +63,15 @@ namespace SlimeWeb.Core.App_Start
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                     options.SlidingExpiration = true;
                 });
-                services.AddAuthorization(opts =>
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy(SlimeWebsUserManager.AdminRoles, policy =>
                 {
-                    opts.AddPolicy("Administrator", policy =>
-                    {
-                        policy.RequireRole(SlimeWebsUserManager.AdminRoles);
-                        policy.RequireClaim("Administration", "Administration");
-                    });
+                    policy.RequireRole(SlimeWebsUserManager.AdminRoles);
+                    //  policy.RequireClaim("Administration", "Administration");
+
                 });
+            });
             services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
             services.AddAuthorization(opts =>
                 {
@@ -88,12 +89,12 @@ namespace SlimeWeb.Core.App_Start
                         policy.AddRequirements(new AllowPrivatePolicy());
                     });
                 });
-            
-           
-              
-            
 
-                services.AddMvcCore().AddControllersAsServices()
+
+
+
+
+            services.AddMvcCore().AddControllersAsServices()
                 .AddRazorPages();
             //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //  .AddEntityFrameworkStores<SlimeDbContext>();

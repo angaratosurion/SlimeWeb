@@ -9,7 +9,8 @@ using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
     public class ClaimsController : Controller
     {
         private UserManager<ApplicationUser> userManager;

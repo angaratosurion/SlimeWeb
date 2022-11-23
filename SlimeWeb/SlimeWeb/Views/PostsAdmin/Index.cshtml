@@ -1,0 +1,67 @@
+﻿@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewPost>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<h1>Posts</h1>
+
+
+<p>
+   @* <a asp-action="Create" asp-route-id="@Context.Request.RouteValues["Id"].ToString()">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Published)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.content)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.RowVersion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.engine)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Published)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.content)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.DisplayName)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.RowVersion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.engine)
+                </td>*@
+                <td>
+                    <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Edit</a> |
+                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

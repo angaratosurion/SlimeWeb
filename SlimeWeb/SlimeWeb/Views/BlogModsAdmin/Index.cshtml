@@ -1,0 +1,41 @@
+@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewBlogMods>
+
+@{
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+ 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Moderator)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Moderator)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId")>Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Blog.Name" asp-route-moderator="@item.ModeratorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

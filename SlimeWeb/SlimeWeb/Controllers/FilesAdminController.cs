@@ -14,18 +14,47 @@ using SlimeWeb.Core.Managers;
 
 namespace SlimeWeb.Controllers
 {
-    public class FilesController : Controller
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
+    public class FilesAdminController : Controller
     {
         private readonly SlimeDbContext _context;
         private readonly FileRecordManager fileRecordManager;
         AccessManager accessManager = new AccessManager();
         BlogManager blogManager = new BlogManager();
-        public FilesController(SlimeDbContext context)
+        public FilesAdminController(SlimeDbContext context)
         {
             _context = context;
             fileRecordManager = new FileRecordManager();
         }
       
+        public async Task<IActionResult> IndexAdmin()
+        {
+
+            try
+            {
+                List<ViewFiles> lstFiles = new List<ViewFiles>();
+
+
+
+
+
+                var files = await this.fileRecordManager.GetFiles();
+                foreach (var f in files)
+                {
+                    ViewFiles vf = new ViewFiles();
+                    vf.ImportFromModel(f);
+                    lstFiles.Add(vf);
+
+                }
+                return View(lstFiles);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         // GET: Files
         public async Task<IActionResult> Index(string id)
         {
@@ -39,14 +68,26 @@ namespace SlimeWeb.Controllers
 
                 if (name == null)
                 {
-                    return NotFound();
+                    var files1 = await this.fileRecordManager.GetFiles();
+                    foreach (var f in files1)
+                    {
+                        ViewFiles vf = new ViewFiles();
+                        vf.ImportFromModel(f);
+                        lstFiles.Add(vf);
+
+                    }
+                    // return NotFound();
                 }
-                var files = await this.fileRecordManager.GetFilesByBlogName(name);
-                foreach(var f in files)
+                else
                 {
-                    ViewFiles vf = new ViewFiles();
-                    vf.ImportFromModel(f);
-                    lstFiles.Add(vf);
+                    var files = await this.fileRecordManager.GetFilesByBlogName(name);
+                    foreach (var f in files)
+                    {
+                        ViewFiles vf = new ViewFiles();
+                        vf.ImportFromModel(f);
+                        lstFiles.Add(vf);
+
+                    }
 
                 }
                 return View(lstFiles);

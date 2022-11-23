@@ -39,17 +39,15 @@ namespace SlimeWeb.Core.Managers
                             EmailConfirmed = true,
                            Email=adminname
                         };
-                        AspuserManager.CreateAsync(user, adminapss);
+                      //  AspuserManager.CreateAsync(user, adminapss);
+                        userManager.CreateUser(adminname, adminapss);
 
                     }
                     if(!userManager.RoleExists(SlimeWebsUserManager.AdminRoles))
                     {
                         ApplicationRole adminrol = new ApplicationRole();
                         adminrol.Name = SlimeWebsUserManager.AdminRoles;
-                     var  res=_roleManager.CreateAsync(adminrol).Result;
-                        //adminrol.Id = SlimeWebsUserManager.AdminRoles;
-                        //db.Roles.Add(adminrol);
-                        //db.SaveChangesAsync();
+                       userManager.CreateNewRole(adminrol);
 
                     }
                     userManager.AddUserToRole(SlimeWebsUserManager.AdminRoles, adminname);

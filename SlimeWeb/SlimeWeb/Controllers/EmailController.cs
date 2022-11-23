@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
 {
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
     public class EmailController : Controller
     {
         
