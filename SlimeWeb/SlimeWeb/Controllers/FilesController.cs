@@ -42,12 +42,15 @@ namespace SlimeWeb.Controllers
                     return NotFound();
                 }
                 var files = await this.fileRecordManager.GetFilesByBlogName(name);
-                foreach(var f in files)
+                if (files != null)
                 {
-                    ViewFiles vf = new ViewFiles();
-                    vf.ImportFromModel(f);
-                    lstFiles.Add(vf);
+                    foreach (var f in files)
+                    {
+                        ViewFiles vf = new ViewFiles();
+                        vf.ImportFromModel(f);
+                        lstFiles.Add(vf);
 
+                    }
                 }
                 return View(lstFiles);
 

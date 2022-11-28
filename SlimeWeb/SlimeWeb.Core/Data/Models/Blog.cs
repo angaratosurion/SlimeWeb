@@ -13,7 +13,8 @@ namespace SlimeWeb.Core.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]        
+        [Required]
+        [RegularExpression(@"^[\w\-. ]+$")]
         public string Name  { get; set; }
         //[Required]
         // public string AuthorId { get; set; }

@@ -10,5 +10,11 @@ namespace SlimeWeb.Controllers
             return LocalRedirect("/Identity/Account/AccessDenied");
              
         }
+        public IActionResult Login(string ReturnUrl)
+        {
+
+            return LocalRedirect("/Identity/Account/Login?ReturnUrl=" + ReturnUrl);
+
+        }
     }
 }

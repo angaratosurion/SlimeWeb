@@ -32,12 +32,15 @@ namespace SlimeWeb.Controllers
            
             List<ViewBlog> lstblogs = new List<ViewBlog>();
             var list = await blogmnger.ListBlog();
-            foreach (var bl in list )
-            {
-                ViewBlog vb = new ViewBlog();
-                vb.ImportFromModel(bl);
-                lstblogs.Add(vb);
-            }
+                if (list != null)
+                {
+                    foreach (var bl in list)
+                    {
+                        ViewBlog vb = new ViewBlog();
+                        vb.ImportFromModel(bl);
+                        lstblogs.Add(vb);
+                    }
+                }
             return View(lstblogs);
             }
             catch (Exception)

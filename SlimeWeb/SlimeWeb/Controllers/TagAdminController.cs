@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReverseMarkdown.Converters;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
@@ -41,24 +42,29 @@ namespace SlimeWeb.Controllers
                 if (id == null)
                 {
                     var list = await TagManager.ListTags();
-
-                    foreach (var bl in list)
+                    if (list != null)
                     {
-                        ViewTag vb = new ViewTag();
-                        vb.ImportFromModel(bl);
-                        lstTags.Add(vb);
+
+                        foreach (var bl in list)
+                        {
+                            ViewTag vb = new ViewTag();
+                            vb.ImportFromModel(bl);
+                            lstTags.Add(vb);
+                        }
                     }
 
                 }
                 else
                 {
                     var list = await TagManager.GetTagsByBlog(id);
-
-                    foreach (var bl in list)
+                    if (list != null)
                     {
-                        ViewTag vb = new ViewTag();
-                        vb.ImportFromModel(bl);
-                        lstTags.Add(vb);
+                        foreach (var bl in list)
+                        {
+                            ViewTag vb = new ViewTag();
+                            vb.ImportFromModel(bl);
+                            lstTags.Add(vb);
+                        }
                     }
                 }
             return View(lstTags);

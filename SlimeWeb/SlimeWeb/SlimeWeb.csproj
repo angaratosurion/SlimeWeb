@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-SlimeWeb-95F8EA0A-FF6D-42E6-B098-E619D1EE1FFE</UserSecretsId>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.0.3.9</Version>
+    <Version>0.0.5.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

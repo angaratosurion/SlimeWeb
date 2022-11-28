@@ -27,34 +27,7 @@ namespace SlimeWeb.Controllers
             fileRecordManager = new FileRecordManager();
         }
       
-        public async Task<IActionResult> IndexAdmin()
-        {
 
-            try
-            {
-                List<ViewFiles> lstFiles = new List<ViewFiles>();
-
-
-
-
-
-                var files = await this.fileRecordManager.GetFiles();
-                foreach (var f in files)
-                {
-                    ViewFiles vf = new ViewFiles();
-                    vf.ImportFromModel(f);
-                    lstFiles.Add(vf);
-
-                }
-                return View(lstFiles);
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
         // GET: Files
         public async Task<IActionResult> Index(string id)
         {

@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastUpdate" class="control-label"></label>
-                <input asp-for="LastUpdate" class="form-control" value="@DateTime.Now" readonly="readonly" />
+                <input asp-for="LastUpdate" class="form-control" value="@DateTime.Now" />@*readonly="readonly" />*@
                 <span asp-validation-for="LastUpdate" class="text-danger"></span>
             </div>
             <div class="form-group">

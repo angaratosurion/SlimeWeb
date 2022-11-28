@@ -51,12 +51,15 @@ namespace SlimeWeb.Controllers
             var p = await postManager.ListByBlogNameByPublished(name);
             
             List<ViewPost> posts = new List<ViewPost>();
-            foreach(var tp in p)
+            if (p != null)
             {
-                ViewPost ap = new ViewPost();
-                ap.ImportFromModel(tp);
-                posts.Add(ap);
+                foreach (var tp in p)
+                {
+                    ViewPost ap = new ViewPost();
+                    ap.ImportFromModel(tp);
+                    posts.Add(ap);
 
+                }
             }
             return View(posts);
         }
@@ -74,12 +77,15 @@ namespace SlimeWeb.Controllers
             var p = await postManager.ListPostByCategory(categoryname, name);
             p.OrderByDescending(x => x.Published);
             List<ViewPost> posts = new List<ViewPost>();
-            foreach (var tp in p)
+            if (p != null)
             {
-                ViewPost ap = new ViewPost();
-                ap.ImportFromModel(tp);
-                posts.Add(ap);
+                foreach (var tp in p)
+                {
+                    ViewPost ap = new ViewPost();
+                    ap.ImportFromModel(tp);
+                    posts.Add(ap);
 
+                }
             }
             return View(posts);
         }
@@ -96,12 +102,15 @@ namespace SlimeWeb.Controllers
             var p = await postManager.ListPostByTag(tagname, name);
             p.OrderByDescending(x => x.Published);
             List<ViewPost> posts = new List<ViewPost>();
-            foreach (var tp in p)
+            if (p != null)
             {
-                ViewPost ap = new ViewPost();
-                ap.ImportFromModel(tp);
-                posts.Add(ap);
+                foreach (var tp in p)
+                {
+                    ViewPost ap = new ViewPost();
+                    ap.ImportFromModel(tp);
+                    posts.Add(ap);
 
+                }
             }
             return View(posts);
         }

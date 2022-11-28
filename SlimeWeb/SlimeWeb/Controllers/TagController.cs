@@ -36,13 +36,15 @@ namespace SlimeWeb.Controllers
            
             List<ViewTag> lstTags = new List<ViewTag>();
                 var list = await TagManager.GetTagsByBlog(id);
-
-            foreach (var bl in list )
-            {
-                ViewTag vb = new ViewTag();
-                vb.ImportFromModel(bl);
-                lstTags.Add(vb);
-            }
+                if (list != null)
+                {
+                    foreach (var bl in list)
+                    {
+                        ViewTag vb = new ViewTag();
+                        vb.ImportFromModel(bl);
+                        lstTags.Add(vb);
+                    }
+                }
             return View(lstTags);
             }
             catch (Exception)
