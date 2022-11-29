@@ -129,7 +129,10 @@ namespace SlimeWeb.Core.Managers
                 bool isonsubfolder = AppSettingsManager.GetHostedInSubFolderSetting();
                 if (isonsubfolder)
                 {
-                    ap = "../../" + AppDataDir;
+                   // ap = "../../" + AppDataDir;
+				   string pathbase;
+					pathbase = AppSettingsManager.GetPathBase();
+				   ap=pathbase+"/"+AppDataDir;
 
 
                 }
