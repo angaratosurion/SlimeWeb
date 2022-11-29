@@ -132,7 +132,7 @@ namespace SlimeWeb.Core.Managers
                    // ap = "../../" + AppDataDir;
 				   string pathbase;
 					pathbase = AppSettingsManager.GetPathBase();
-				   ap=pathbase+"/"+AppDataDir;
+				   ap="/"+pathbase+"/"+AppDataDir;
 
 
                 }
