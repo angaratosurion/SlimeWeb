@@ -176,12 +176,25 @@ namespace SlimeWeb.Core.App_Start
             //{
             //    Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "wwwroot", FileSystemManager.AppDataDir));
             //}
+            
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-             Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(),  FileSystemManager.AppDataDir)),
-                RequestPath = "/"+ FileSystemManager.AppDataDir
+                Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), FileSystemManager.AppDataDir)),
+                RequestPath = "/" + FileSystemManager.AppDataDir
+
             });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+            Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath())),
+                RequestPath = ""
+            }); ;
+            string pathbase;
+            pathbase = AppSettingsManager.GetPathBase();
+            app.UsePathBase(pathbase);
+
+
             //app.UseStaticFiles(new StaticFileOptions
             //{
             //    FileProvider = new PhysicalFileProvider(
@@ -191,8 +204,8 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-           
-             
+
+
 
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
@@ -209,10 +222,7 @@ namespace SlimeWeb.Core.App_Start
                 bool createdb=false, migratedb = false, enablefileserver = false;
                 createdb = AppSettingsManager.GetDataBaseCreationSetting();
                 migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
-                string pathbase;
-                pathbase =  AppSettingsManager.GetPathBase();
-                app.UsePathBase(pathbase);
-
+            
 
                 CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
 

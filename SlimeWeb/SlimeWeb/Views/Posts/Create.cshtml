@@ -37,7 +37,11 @@
                 @*<input asp-for="content" class="form-control" id="content" name="content" />*@
                 @if (cmsengine == enumMarkupEngine.QUIL.ToString())
                 {
-                    <div class="form-group" id="editor" name="editor"> </div>
+                    <div id="scrolling-container" class="container-fluid">
+                        <div class="form-group" id="editor" name="editor" > </div>
+                        </div>
+                        
+                    
                 }
 
                 <textarea asp-for="content" class="form-control" id="content" name="content" hidden="hidden">

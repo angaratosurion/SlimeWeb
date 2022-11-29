@@ -1,4 +1,14 @@
-﻿
+﻿@*<style>
+
+    #scrolling-container, #editor ,#content {
+        min-width: 500px;
+        height: 500px;
+      
+      /*min-height: auto;*/
+        overflow-y: auto;
+        overflow-x:auto;
+    }
+</style>*@
 @{
     @using SlimeWeb.Core.Managers.Markups;
     var cmsengine = SlimeWeb.Core.Managers.AppSettingsManager.GetAppWideCMSEngine();
@@ -141,7 +151,8 @@
                 var container = document.getElementById('editor');
     var options = {
         debug: 'info',
-        theme: 'snow',
+                    theme: 'snow',
+                     scrollingContainer: '#scrolling-container',
         modules: {
             toolbar: toolbarOptions
             ,
