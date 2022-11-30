@@ -1,5 +1,6 @@
 ﻿using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.NonDataModels;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
 using System;
@@ -16,6 +17,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         public int PostId { get; set; }
         FileRecordManager filmngr = new FileRecordManager();
         public ApplicationUser Owner { get; set; }
+        public ExifModel ExifData { get; set; }
         public void ImportFromModel(Files model)
         {
             int blogid, postid;

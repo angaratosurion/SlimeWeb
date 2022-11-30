@@ -4,7 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-SlimeWeb-95F8EA0A-FF6D-42E6-B098-E619D1EE1FFE</UserSecretsId>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.0.5.0</Version>
+    <Version>0.0.6.0</Version>
+    <Authors>Angarato Surion</Authors>
+    <Copyright>Angarato Surion</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,7 +46,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="MySql.Data" Version="8.0.28" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="NLog" Version="4.7.15" />

@@ -240,6 +240,46 @@ namespace SlimeWeb.Core.Managers
                
             }
         }
+        public async Task<bool> DeleteFromPosts(int id)
+        {
+            try
+            {
+
+                bool ap = false;
+                //  db.Files.FirstOrDefault(x => x.Id == id);
+                var file = await this.Details(id);
+                if (file != null)
+                {
+                    bool deleted = FileSystemManager.DeleteFile(file.Path);
+
+                    if (deleted)
+                    {
+                        db.Files.Remove(file);
+                        var filear = db.FilesPostsBlog.Where(x => x.FileId == id).ToList();
+                        if (filear != null)
+                        {
+                            foreach (var x in filear)
+                            {
+                               db.FilesPostsBlog.Remove(x);
+
+
+                            }
+                        }
+                        await db.SaveChangesAsync();
+                    }
+                }
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+
+            }
+        }
         public async Task<bool> DeleteByPostId(int pid)
         {
             try

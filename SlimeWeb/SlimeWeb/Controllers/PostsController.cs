@@ -276,6 +276,7 @@ namespace SlimeWeb.Controllers
                 vpost.content = vpost.content.Remove(vpost.content.Length - 1, 1);
             }
             vpost.CategoriesToString = await CategoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
+            vpost.TagsToString= await TagManager.GetTagNamesToString(vpost.Blog.Name, (int) id);
             return View(vpost);
         }
 

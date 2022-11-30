@@ -5,7 +5,6 @@
 }
 
 <h1>Details</h1>
-
 <div>
     <h4>Post</h4>
     <hr />
@@ -22,69 +21,70 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Published)
         </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.content)
-        </dt>*@
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Author.DisplayName)
-        </dd>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.content)*@
-            @Html.Raw(Model.HTMLcontent)
-        </dd>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.content)*@
+    </dl>
+    <div class="righpanel">
+        <dl class="row">
+            <dt>
+                @*class="col-sm-2">*@
+                @Html.DisplayNameFor(model => model.Author)
+                <br />
+            </dt>
+            <dd class="col">
+                @Html.DisplayFor(model => model.Author.DisplayName)
+            </dd>
+            <dt class="col">
 
-            @Html.DisplayNameFor(model => model.Categories)
-            @{
-                var Categories = Model.Categories;
-                if (Categories != null)
-                {
-                    foreach (var cat in Categories)
+
+                @Html.DisplayNameFor(model => model.Categories)
+                <br />
+            </dt>
+            <dd>
+                @{
+                    var Categories = Model.Categories;
+                    if (Categories != null)
                     {
-                        <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a>
+                        foreach (var cat in Categories)
+                        {
+                            <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a>
+                        }
+
                     }
 
+
                 }
+            </dd>
+            <dt class="col">
 
 
-            }
-        </dd>
-        <dd class="col-sm-10">
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+            <dd>
+                @{
+                    var Tags = Model.Tags;
+                    if (Tags != null)
+                    {
+                        foreach (var tag in Tags)
+                        {
+                            <a asp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
+                        }
+
+                    }
+
+
+                }
+            </dd>
+    </div>
+
+    <div class="article">
+        <dl class="row">
+           
+
+                @Html.Raw(Model.HTMLcontent)
           
 
-            @Html.DisplayNameFor(model => model.Tags)
-            @{
-                var Tags = Model.Tags;
-                if (Tags != null)
-                {
-                    foreach (var tag in Tags)
-                    {
-                        <a asp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
-                    }
 
-                }
-
-
-            }
-        </dd>
-
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RowVersion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RowVersion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.engine)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.engine)
-        </dd>*@
-    </dl>
+        </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-blogname="@Model.Blog.Name">Edit</a> |

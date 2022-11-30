@@ -30,7 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Owner)
             </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -54,8 +54,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Owner)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            
+        </tr>
+        <tr>
+            <td colspan="6">
+               @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

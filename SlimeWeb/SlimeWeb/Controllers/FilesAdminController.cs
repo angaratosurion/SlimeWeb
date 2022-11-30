@@ -11,6 +11,7 @@ using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
@@ -89,6 +90,16 @@ namespace SlimeWeb.Controllers
             ViewFiles ap = new ViewFiles();
           
             ap.ImportFromModel(files);
+            if(files.ContentType.Contains("image"))
+            {
+                ImageTools imageTools= new ImageTools();
+                var exif =imageTools.GetMetadata(files.Path);
+                if (exif != null) 
+                {
+                    ap.ExifData= exif;
+                }
+                //ap.ExifData =;
+            }
            
 
             return View(ap);
@@ -115,66 +126,66 @@ namespace SlimeWeb.Controllers
         //    }
         //    return View(files);
         //}
-        [Authorize]
-        // GET: Files/Edit/5
-        public async Task<IActionResult> Edit(int? id, string blogname)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[Authorize]
+        //// GET: Files/Edit/5
+        //public async Task<IActionResult> Edit(int? id, string blogname)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
-            {
-                return RedirectToAction(nameof(Details), "Files", new { id = id});
-            }
+        //    if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+        //    {
+        //        return RedirectToAction(nameof(Details), "Files", new { id = id});
+        //    }
 
-            var files = await this.fileRecordManager.Details((int)id);
-            ViewFiles ap = new ViewFiles();
-            if (files == null)
-            {
-                return NotFound();
-            }
-            ap.ImportFromModel(files);           
-            return View(ap);
-        }
+        //    var files = await this.fileRecordManager.Details((int)id);
+        //    ViewFiles ap = new ViewFiles();
+        //    if (files == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ap.ImportFromModel(files);           
+        //    return View(ap);
+        //}
 
-        // POST: Files/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FileName,Path,RelativePath,RowVersion,ContentType,Owner")] Files files)
-        {
-            if (id != files.Id)
-            {
-                return NotFound();
-            }
+        //// POST: Files/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,FileName,Path,RelativePath,RowVersion,ContentType,Owner")] Files files)
+        //{
+        //    if (id != files.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
             
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(files);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FilesExists(files.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(files);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(files);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!FilesExists(files.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(files);
+        //}
         [Authorize]
         // GET: Files/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -191,17 +202,18 @@ namespace SlimeWeb.Controllers
                 return NotFound();
             }
 
-            var blog = await this.fileRecordManager.GetBlofByFileId((int)id);
-            if (blog==null)
-            {
-                return NotFound();
-            }
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name,blog.Name) == false)
-            {
-                return RedirectToAction(nameof(Details), "Files", new { id =id });
-            }
-
-            return View(files);
+            //var blog = await this.fileRecordManager.GetBlofByFileId((int)id);
+            //if (blog==null)
+            //{
+            //    return NotFound();
+            //}
+            ////if (await this.accessManager.DoesUserHasAccess(User.Identity.Name) == false)
+            //{
+            //    return RedirectToAction(nameof(Details), "Files", new { id =id });
+            //}
+            ViewFiles viewFiles = new ViewFiles();
+            viewFiles.ImportFromModel(files);
+            return View(viewFiles);
         }
 
         // POST: Files/Delete/5
@@ -209,9 +221,10 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var files = await _context.Files.FindAsync(id);
-            _context.Files.Remove(files);
-            await _context.SaveChangesAsync();
+            //var files = await _context.Files.FindAsync(id);
+            //_context.Files.Remove(files);
+            //await _context.SaveChangesAsync();
+            await this.fileRecordManager.DeleteFromPosts(id);
             return RedirectToAction(nameof(Index));
         }
 

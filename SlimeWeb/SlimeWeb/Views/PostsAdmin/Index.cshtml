@@ -39,7 +39,7 @@
         {
             <tr>
                 <td>
-                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                    <a asp-controller="PostsAdmin" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Published)
@@ -57,9 +57,9 @@
                     @Html.DisplayFor(modelItem => item.engine)
                 </td>*@
                 <td>
-                    <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Edit</a> |
-                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Delete</a>
+                    <a asp-controller="PostsAdmin" asp-action="Edit" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Edit</a> |
+                    <a asp-controller="PostsAdmin" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="PostsAdmin" asp-action="Delete" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Delete</a>
                 </td>
             </tr>
         }

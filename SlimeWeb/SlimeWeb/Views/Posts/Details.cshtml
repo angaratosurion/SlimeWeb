@@ -22,30 +22,30 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Published)
         </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.content)
-        </dt>*@
-        <dt class="col-sm-2">
+    </dl>
+    <div class="righpanel">
+    <dl class="row" >
+        <dt> @*class="col-sm-2">*@
             @Html.DisplayNameFor(model => model.Author)
+            <br/>
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col">
             @Html.DisplayFor(model => model.Author.DisplayName)
         </dd>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.content)*@
-            @Html.Raw(Model.HTMLcontent)
-        </dd>
-        <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.content)*@
+          <dt class="col">
+            
 
             @Html.DisplayNameFor(model => model.Categories)
+                @*<br />*@
+                </dt>
+                <dd>
             @{
                 var Categories = Model.Categories;
                 if (Categories != null)
                 {
                     foreach (var cat in Categories)
                     {
-                        <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a>
+                        <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a> 
                     }
 
                 }
@@ -53,10 +53,10 @@
 
             }
         </dd>
-        <dd class="col-sm-10">
-          
-
+        <dt class="col">
             @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+            <dd >
             @{
                 var Tags = Model.Tags;
                 if (Tags != null)
@@ -71,20 +71,18 @@
 
             }
         </dd>
-
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RowVersion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RowVersion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.engine)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.engine)
-        </dd>*@
+        </div>
+        
+        <div class="article">
+    <dl class="row">
+      
+            
+            @Html.Raw(Model.HTMLcontent)
+        
+      
+ 
     </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-blogname="@Model.Blog.Name">Edit</a> |
