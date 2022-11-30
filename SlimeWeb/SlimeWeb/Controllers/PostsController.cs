@@ -331,8 +331,8 @@ namespace SlimeWeb.Controllers
                         
                       
                             categoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
-                        CategoryManager.db.Database.CloseConnection();
-                        CategoryManager.db = new SlimeDbContext();
+                        CategoryManager.DiconnectAndReconnectToDB();
+                         
                         await categoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
 
                         }

@@ -41,6 +41,20 @@ namespace SlimeWeb.Core.Managers
         //        throw;
         //    }
         //}
+        public static void DiconnectAndReconnectToDB()
+        {
+            try
+            {
+                 db.Database.CloseConnection();
+               db = new SlimeDbContext();
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                 ;
+            }
+        }
         public  async Task<int> PredictLastId(string tablename)
         {
             try
