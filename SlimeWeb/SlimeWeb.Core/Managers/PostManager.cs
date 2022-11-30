@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -12,14 +13,20 @@ namespace SlimeWeb.Core.Managers
 {
    public  class PostManager:DataManager
     {
-      
-        BlogManager blmngr = new BlogManager();
-        //public PostManager(dbContext dbContext)
+
+        BlogManager blmngr;
+
+        //public PostManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
         //{
-        //    db = dbContext;
-        //    blmngr = new BlogManager();
+        //    db = slimeDbContext;
+        //    blmngr = new BlogManager(slimeDbContext);
         //}
-    
+        public PostManager( ) 
+        {
+            
+            blmngr = new BlogManager( );
+        }
+
 
         public async Task<List<Post>> List()
         {
@@ -60,7 +67,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<Post> ap = null;
-                CategoryManager categoryManager = new CategoryManager();
+                CategoryManager categoryManager = new CategoryManager( );
 
                 if( await this.blmngr.BlogExists(blogname) && await categoryManager.Exists(categoryname,blogname ))
                 {
@@ -101,7 +108,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<Post> ap = null;
-                TagManager tagManager = new TagManager();
+                TagManager tagManager = new TagManager( );
 
                 if (await this.blmngr.BlogExists(blogname) && await tagManager.Exists(tagname, blogname))
                 {
@@ -340,7 +347,7 @@ namespace SlimeWeb.Core.Managers
                 if (id != null)
                 {
                     Post Post =await  db.Post.FindAsync(id);
-                    FileRecordManager fileRecordManager = new FileRecordManager();
+                    FileRecordManager fileRecordManager = new FileRecordManager( );
 
                     bool deleted=await fileRecordManager.DeleteByPostId((int)id);
                     bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);

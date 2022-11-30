@@ -14,7 +14,7 @@ namespace SlimeWeb.Core.Data.ViewModels
    public class ViewPost:Post
     {
 
-        BlogManager bmngr = new BlogManager();
+        BlogManager bmngr = new BlogManager( );
         [DataType(DataType.Html)]
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }

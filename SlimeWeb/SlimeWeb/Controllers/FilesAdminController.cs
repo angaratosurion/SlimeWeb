@@ -20,14 +20,23 @@ namespace SlimeWeb.Controllers
     {
         private readonly SlimeDbContext _context;
         private readonly FileRecordManager fileRecordManager;
-        AccessManager accessManager = new AccessManager();
-        BlogManager blogManager = new BlogManager();
-        public FilesAdminController(SlimeDbContext context)
+        AccessManager accessManager;
+        BlogManager blogManager;
+        //public FilesAdminController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    fileRecordManager = new FileRecordManager(context);
+        //    accessManager = new AccessManager(context);
+        //    blogManager = new BlogManager(context);
+        //}
+        public FilesAdminController( )
         {
-            _context = context;
-            fileRecordManager = new FileRecordManager();
+          
+            fileRecordManager = new FileRecordManager( );
+            accessManager = new AccessManager( );
+            blogManager = new BlogManager( );
         }
-      
+
 
         // GET: Files
         public async Task<IActionResult> Index(string id)

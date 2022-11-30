@@ -13,14 +13,20 @@ namespace SlimeWeb.Controllers
 {
     public class BlogsController : Controller
     {
-       private readonly SlimeDbContext _context;
+       //private readonly SlimeDbContext _context;
         private readonly BlogManager blogmnger;// = new BlogManager();
-        AccessManager accessManager = new AccessManager();
-
-        public BlogsController(SlimeDbContext context)
+        AccessManager accessManager;
+        //public BlogsController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    blogmnger = new BlogManager(context);
+        //    accessManager = new AccessManager(context);
+        //}
+        public BlogsController( )
         {
-            _context = context;
-            blogmnger = new BlogManager();
+           
+            blogmnger = new BlogManager( );
+            accessManager = new AccessManager( );
         }
 
         // GET: Blogs

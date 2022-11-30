@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,15 @@ namespace SlimeWeb.Controllers
 {
     public class BlogAdminController : Controller
     {
-        AccessManager accessManager = new AccessManager();
 
+        AccessManager accessManager;
+        //public BlogAdminController(SlimeDbContext slimeDbContext) {
+        //    accessManager = new AccessManager(slimeDbContext);
+        //}
+        public BlogAdminController( )
+        {
+            accessManager = new AccessManager( );
+        }
         // GET: AdminHomeController
         public async Task<ActionResult> IndexAsync(string id)
         {

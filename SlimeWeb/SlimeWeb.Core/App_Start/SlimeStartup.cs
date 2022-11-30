@@ -44,14 +44,14 @@ namespace SlimeWeb.Core.App_Start
             {
                 services.AddDbContext<SlimeDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("DefaultConnection")));
+                        Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             }
             else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
             {
 
                 services.AddDbContext<SlimeDbContext>(options =>
                     options.UseMySQL(
-                        Configuration.GetConnectionString("DefaultConnection")));
+                        Configuration.GetConnectionString("DefaultConnection")) ,ServiceLifetime.Transient);
             }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
@@ -117,7 +117,8 @@ namespace SlimeWeb.Core.App_Start
                // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
             });
-            services.AddScoped<IStorageContext, SlimeDbContext>();
+            //services.AddScoped<IStorageContext, SlimeDbContext>();
+            services.AddTransient<IStorageContext, SlimeDbContext>();
             //services.AddSingleton<IStorageContext, SlimeDbContext>();
             //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
 
@@ -258,7 +259,7 @@ namespace SlimeWeb.Core.App_Start
                 {
                     
 
-                    InstallManager installManager = new InstallManager(serviceScope.ServiceProvider);
+                    InstallManager installManager = new InstallManager(serviceScope.ServiceProvider );
                     installManager.CrreateInitalAdmin();
                 }
             }

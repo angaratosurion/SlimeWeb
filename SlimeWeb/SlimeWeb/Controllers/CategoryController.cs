@@ -12,19 +12,29 @@ using SlimeWeb.Core.Managers;
 namespace SlimeWeb.Controllers
 {
     public class CategoryController : Controller
-    {
-       private readonly SlimeDbContext _context;
+ {
+    //   private readonly SlimeDbContext _context;
         private readonly BlogManager blogmnger;// = new BlogManager();
         private readonly CategoryManager categoryManager;
         private readonly PostManager postManager;
-        AccessManager accessManager = new AccessManager();
+        AccessManager accessManager;
 
-        public CategoryController(SlimeDbContext context)
+        //public CategoryController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    blogmnger = new BlogManager(context);
+        //    categoryManager = new CategoryManager(context);
+        //    accessManager = new AccessManager(context);
+        //    postManager = new PostManager(context);    
+        //}
+
+        public CategoryController( )
         {
-            _context = context;
-            blogmnger = new BlogManager();
-            categoryManager = new CategoryManager();
-            postManager = new PostManager();    
+             
+            blogmnger = new BlogManager( );
+            categoryManager = new CategoryManager( );
+            accessManager = new AccessManager( );
+            postManager = new PostManager( );
         }
 
         // GET: Blogs
@@ -203,23 +213,25 @@ namespace SlimeWeb.Controllers
         // POST: Categorys/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id,string blogname)
+        public async Task<IActionResult> DeleteConfirmed(int id,string blogname)
         {
-            string name = id;
+
             //var Category = await _context.Categorys.FindAsync(id);
             //_context.Categorys.Remove(Category);
             //await _context.SaveChangesAsync();
+            var cat = await categoryManager.GetCategoryById(id);
+            string name = cat.Name;
           var posts= await  postManager.ListPostByCategory(name,blogname);
             if(posts != null)
             {
                 foreach(var post in posts)
                 {
-                    await categoryManager.DetattachCategoryFromPost(post.Id, id, blogname);
+                    await categoryManager.DetattachCategoryFromPost(post.Id, name, blogname);
 
                 }
             }
             
-             this.categoryManager.RemoveCatrgory(name, blogname);
+             this.categoryManager.RemoveCategory(id, blogname);
             return RedirectToAction(nameof(Index),new { id =  blogname });
         }
     }

@@ -25,18 +25,32 @@ namespace SlimeWeb.Controllers
     {
         private readonly SlimeDbContext _context;
         PostManager postManager;
-        BlogManager blmngr = new BlogManager();
-        CategoryManager CategoryManager = new CategoryManager();
-        TagManager TagManager = new TagManager();
-        AccessManager accessManager = new AccessManager();
-
-
-        public PostsController(SlimeDbContext context)
+        BlogManager blmngr;
+        CategoryManager categoryManager;
+        TagManager TagManager;
+        AccessManager accessManager;
+        FileRecordManager fileRecordManager;
+        //public PostsController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    postManager = new PostManager( context);
+        //    CategoryManager = new CategoryManager(context);
+        //    accessManager = new AccessManager(context);
+        //    blmngr = new BlogManager(context);
+        //    TagManager = new TagManager(context);
+        //    fileRecordManager = new FileRecordManager(context);
+        //}
+        public PostsController()
         {
-            _context = context;
+            
             postManager = new PostManager( );
+            categoryManager = new CategoryManager( );
+            accessManager = new AccessManager( );
+            blmngr = new BlogManager( );
+            TagManager = new TagManager( );
+            fileRecordManager = new FileRecordManager( );
         }
-        
+
 
         // GET: Posts
         public async Task<IActionResult> Index(string id)
@@ -133,8 +147,8 @@ namespace SlimeWeb.Controllers
             post.HTMLcontent = markUpManager.ConvertToHtml(mpost.content);
 
 
-            post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
-            post.CategoriesToString = await CategoryManager.GetCategoryNamesToString(post.Blog.Name,(int)id);
+            post.Categories = await categoryManager.GetCategoryByPostId((int)id);
+            post.CategoriesToString = await categoryManager.GetCategoryNamesToString(post.Blog.Name,(int)id);
             post.Tags=await TagManager.GetTagByPostId((int)id);
             post.TagsToString=await TagManager.GetTagNamesToString(post.Blog.Name,(int)id);
 
@@ -207,7 +221,7 @@ namespace SlimeWeb.Controllers
                     var catgories = post.CategoriesToString.Split(",").ToList();
                     if(catgories!=null)
                     {
-                       await  CategoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
+                       await  categoryManager.AttachCategoryRangetoPost(catgories,blog.Name, mpost.Id);
                     }
                 }
                 if (post.TagsToString != null)
@@ -275,7 +289,7 @@ namespace SlimeWeb.Controllers
                 vpost.content = vpost.content.Replace("{\"ops\":", "");
                 vpost.content = vpost.content.Remove(vpost.content.Length - 1, 1);
             }
-            vpost.CategoriesToString = await CategoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
+            vpost.CategoriesToString = await categoryManager.GetCategoryNamesToString(vpost.Blog.Name,(int) id);
             vpost.TagsToString= await TagManager.GetTagNamesToString(vpost.Blog.Name, (int) id);
             return View(vpost);
         }
@@ -285,7 +299,7 @@ namespace SlimeWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewPost post, string blogname)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine, CategoriesToString", "TagsToString")] ViewPost post, string blogname)
         {
             try
             {
@@ -314,8 +328,12 @@ namespace SlimeWeb.Controllers
                         var catgories = post.CategoriesToString.Split(",").ToList();
                         if (catgories != null)
                         {
-                            CategoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
-                            CategoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+                        
+                      
+                            categoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+                        CategoryManager.db.Database.CloseConnection();
+                        CategoryManager.db = new SlimeDbContext();
+                        await categoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
 
                         }
                     }
@@ -325,7 +343,7 @@ namespace SlimeWeb.Controllers
                     if (tags != null)
                     {
                         TagManager.DettachTagRangetoPost(tags, blog.Name, mpost.Id);
-                        TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
+                        await TagManager.AttachTagRangetoPost(tags, blog.Name, mpost.Id);
 
                     }
                 }
@@ -401,7 +419,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+               
               // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
@@ -446,7 +464,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+               
                 // string Blogid = bid;
                // var posts = await postManager.List();
                // int postid = posts.ToList().Max(x => x.Id) + 1;
@@ -486,7 +504,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+                
                 // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;

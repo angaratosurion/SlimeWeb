@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -11,7 +12,16 @@ namespace SlimeWeb.Core.Managers
 {
     public class TagManager:DataManager
     {
-        BlogManager blgmng = new BlogManager();
+        BlogManager blgmng;
+
+        //public TagManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
+        //{
+        //    blgmng = new BlogManager(slimeDbContext);
+        //}
+        public TagManager()
+        {
+            blgmng = new BlogManager( );
+        }
         public async Task<List<Tag>>ListTags()
         {
             try
@@ -276,7 +286,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     List<Tag> cat = await this.ListTags();
                     List<Blog> blgs =  db.Blogs.ToList();
-                    if ((cat.Find(x => x.Name == tag) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
+                    if ((cat!=null)&&(cat.Find(x => x.Name == tag) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
                     {
                         ap = true;
                     }
@@ -367,11 +377,38 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                if ((!CommonTools.isEmpty(Tagname)&&(!CommonTools.isEmpty(blogname) && ((await this.Exists(Tagname, blogname)) == false))))
+                if ((!CommonTools.isEmpty(Tagname) && (!CommonTools.isEmpty(blogname) && ((await this.Exists(Tagname, blogname)) == false))))
                 {
-                    Tag cat =await  this.GetTag(Tagname, blogname);
+                    
                     Blog blg = await this.blgmng.GetBlogAsync(blogname);
-                    if (cat != null && blg!=null)
+                   
+                     if(blg != null)
+                    {
+                        Tag tag = new Tag();
+                        tag.BlogId = blg.Id;
+                        tag.Name = Tagname;
+
+                        await this.AddNew(tag, blogname);
+                        tag = await this.GetTag(Tagname, blogname);
+                        if (tag != null)
+                        {
+                            TagPost TagPost = new TagPost();
+
+                            TagPost.BlogId = blg.Id;
+                            TagPost.TagId = tag.Id;
+                            TagPost.PostId = postid;
+                            db.Add(TagPost);
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                  
+
+                }
+                else if ((!CommonTools.isEmpty(Tagname) && (!CommonTools.isEmpty(blogname) && ((await this.Exists(Tagname, blogname)) ))))
+                {
+                    Tag cat = await this.GetTag(Tagname, blogname);
+                    Blog blg = await this.blgmng.GetBlogAsync(blogname);
+                    if (cat != null && blg != null)
                     {
                         TagPost TagPost = new TagPost();
 
@@ -380,28 +417,9 @@ namespace SlimeWeb.Core.Managers
                         TagPost.PostId = postid;
                         db.Add(TagPost);
                         await db.SaveChangesAsync();
-                        
 
 
-                    }
-                    else if(blg!=null)
-                    {
-                        Tag Tag = new Tag();
-                        Tag.BlogId = blg.Id;
-                        Tag.Name = Tagname;
-                            
-                        await this.AddNew(Tag, blogname);
-                        cat =await  this.GetTag(Tagname, blogname);
-                        if ( cat !=null)
-                        {
-                            TagPost TagPost = new TagPost();
 
-                            TagPost.BlogId = blg.Id;
-                            TagPost.TagId = cat.Id;
-                            TagPost.PostId = postid;
-                            db.Add(TagPost);
-                            await db.SaveChangesAsync();
-                        }
                     }
 
                 }

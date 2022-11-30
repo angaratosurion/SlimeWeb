@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Tools;
@@ -19,11 +20,14 @@ namespace SlimeWeb.Core.Managers
 
         
         FileRecordManager fileRecordManager;
-        public BlogManager()
-        {
+        //public BlogManager(SlimeDbContext context):base(context) 
+        //{
 
-            fileRecordManager = CommonTools.FileRecordManager;
-        }
+        //    fileRecordManager = new FileRecordManager(context);
+        //}
+
+     
+
         public async  Task<List<Blog>> ListBlog()
         {
             try
@@ -155,6 +159,10 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(name))
                 {
                     List<Blog> blgs = await this.ListBlog();
+                    if(blgs == null)
+                    {
+                        return false;
+                    }
                     if(blgs.Find(x => x.Name == name)!=null)
                     {
                         ap = true;
@@ -374,7 +382,7 @@ namespace SlimeWeb.Core.Managers
                     Blog blog = await this.GetBlogAsync(Blogname);
 
                     this.fileRecordManager.DeleteByBlog(Blogname);
-                    PostManager postManager = new PostManager();
+                    PostManager postManager = new PostManager( );
                     await postManager.DeleteByBlogId(blog.Id);
                     FileSystemManager.DeleteDirectory(path);
                     db.Blogs.Remove(blog); 

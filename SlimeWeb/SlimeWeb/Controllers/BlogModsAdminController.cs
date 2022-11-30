@@ -17,14 +17,26 @@ namespace SlimeWeb.Controllers
     public class BlogModsAdminController : Controller
     {
         //private readonly SlimeDbContext _context;
-        BlogModsManager blogModsManager = new BlogModsManager();
-        AccessManager accessManager = new AccessManager();
-        BlogManager blmngr = new BlogManager();
+        BlogModsManager blogModsManager;
+        AccessManager accessManager;
+        BlogManager blmngr;
 
 
-        public BlogModsAdminController(SlimeDbContext context)
+        //public BlogModsAdminController(SlimeDbContext context)
+        //{
+        //    accessManager = new AccessManager(context);
+        //    // _context = context;
+        //    blogModsManager = new BlogModsManager(context);
+        //    blmngr = new BlogManager(context);
+
+        //}
+        public BlogModsAdminController(  )
         {
-           // _context = context;
+            accessManager = new AccessManager( );
+            // _context = context;
+            blogModsManager = new BlogModsManager( );
+            blmngr = new BlogManager( );
+
         }
 
         // GET: BlogMods

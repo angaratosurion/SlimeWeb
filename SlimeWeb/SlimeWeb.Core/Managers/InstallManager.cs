@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -19,6 +20,11 @@ namespace SlimeWeb.Core.Managers
             //  RoleStore<ApplicationRole> roleStore = serviceProvider.GetRequiredService<RoleStore<ApplicationRole>>();
 
         }
+
+        //public InstallManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
+        //{
+        //}
+
         // 
         public void  CrreateInitalAdmin()
         {

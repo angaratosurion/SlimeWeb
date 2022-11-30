@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -13,15 +14,22 @@ namespace SlimeWeb.Core.Managers
 {
     public class FileRecordManager : DataManager
     {
-        BlogManager blogmngr = new BlogManager();
+        BlogManager blogmngr;
 
 
-        PostManager postManager = new PostManager();
-        //public FileRecordManager(SlimeDbContext tdb)
+        PostManager postManager;
+        //public FileRecordManager(SlimeDbContext tdb):base(tdb) 
         //{
         //    db = tdb;
         //    postManager = new PostManager(db);
+        //    blogmngr = new BlogManager(db);
         //}
+        public FileRecordManager()
+        {
+           
+            postManager = new PostManager( );
+            blogmngr = new BlogManager( );
+        }
 
         public async Task<List<Files>> GetFiles()
         {

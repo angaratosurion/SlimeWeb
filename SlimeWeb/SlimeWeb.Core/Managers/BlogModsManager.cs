@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Tools;
@@ -12,8 +13,14 @@ namespace SlimeWeb.Core.Managers
 {
     public class BlogModsManager : DataManager
     {
-        BlogManager blmngr = new BlogManager();
+        BlogManager blmngr=new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
+
+        //public BlogModsManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
+        //{
+        //    blmngr = new BlogManager(slimeDbContext);
+        //}
+
         public async Task<List<BlogMods>> ListMods()
         {
             try

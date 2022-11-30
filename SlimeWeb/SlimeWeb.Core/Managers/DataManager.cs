@@ -12,8 +12,11 @@ namespace SlimeWeb.Core.Managers
 {
    public  class DataManager
     {
-       public static  SlimeDbContext db= new SlimeDbContext();
-        public static AccessManager accessManager = new AccessManager();
+        public static SlimeDbContext db  = new SlimeDbContext();
+                                        // public static AccessManager accessManager = new AccessManager();
+
+
+
         public DataManager()
         {
             try
@@ -26,6 +29,18 @@ namespace SlimeWeb.Core.Managers
                 throw;
             }
         }
+        //public DataManager(SlimeDbContext slimeDbContext)
+        //{
+        //    try
+        //    {
+        //        db = slimeDbContext;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
         public  async Task<int> PredictLastId(string tablename)
         {
             try

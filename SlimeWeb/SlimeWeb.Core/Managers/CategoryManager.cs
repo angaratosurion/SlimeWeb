@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
@@ -11,12 +12,17 @@ namespace SlimeWeb.Core.Managers
 {
     public class CategoryManager:DataManager
     {
-        BlogManager blgmng = new BlogManager();
+        BlogManager blgmng = new BlogManager( );
+        //public CategoryManager(SlimeDbContext slimeDbContext):base(slimeDbContext)
+        //{
+        //    db=slimeDbContext;
+        //    blgmng = new BlogManager(db);
+        //}
         public async Task<List<Category>>ListCategories()
         {
             try
             {
-                return db.Catgories.ToList();
+                return  db.Catgories.ToList();
             }
             catch (Exception ex)
             {
@@ -212,7 +218,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     List<Category> cat = await this.ListCategories();
                     List<Blog> blgs =  db.Blogs.ToList();
-                    if ((cat.Find(x => x.Name == category) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
+                    if ((cat!=null&& cat.Find(x => x.Name == category) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
                     {
                         ap = true;
                     }
@@ -306,28 +312,15 @@ namespace SlimeWeb.Core.Managers
             {
                 if ((!CommonTools.isEmpty(categoryname)&&(!CommonTools.isEmpty(blogname) && ((await this.Exists(categoryname, blogname)) == false))))
                 {
-                    Category cat =await  this.GetCategory(categoryname, blogname);
+                  
                     Blog blg = await this.blgmng.GetBlogAsync(blogname);
-                    if (cat != null && blg!=null)
+                   if(blg!=null)
                     {
-                        CategotyPost categotyPost = new CategotyPost();
-
-                        categotyPost.BlogId = blg.Id;
-                        categotyPost.CategoryId = cat.Id;
-                        categotyPost.PostId = postid;
-                        db.Add(categotyPost);
-                        await db.SaveChangesAsync();
-                        
-
-
-                    }
-                    else if(blg!=null)
-                    {
-                        Category category = new Category();
-                        category.BlogId = blg.Id;
-                        category.Name = categoryname;
+                        Category cat  = new Category();
+                        cat.BlogId = blg.Id;
+                        cat.Name = categoryname;
                             
-                        await this.AddNew(category, blogname);
+                        await this.AddNew(cat, blogname);
                         cat =await  this.GetCategory(categoryname, blogname);
                         if ( cat !=null)
                         {
@@ -342,6 +335,28 @@ namespace SlimeWeb.Core.Managers
                     }
 
                 }
+                else if ((!CommonTools.isEmpty(categoryname) && (!CommonTools.isEmpty(blogname) && ((await this.Exists(categoryname, blogname)) ))))
+                {
+
+                    Category cat = await this.GetCategory(categoryname, blogname);
+                    Blog blg = await this.blgmng.GetBlogAsync(blogname);
+                    if (cat != null && blg != null)
+                    {
+                        CategotyPost categotyPost = new CategotyPost();
+
+                        categotyPost.BlogId = blg.Id;
+                        categotyPost.CategoryId = cat.Id;
+                        categotyPost.PostId = postid;
+                        db.Add(categotyPost);
+                        await db.SaveChangesAsync();
+
+
+
+                    }
+
+
+
+                }
             }
             catch (Exception ex)
             {
@@ -350,8 +365,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async         Task
-AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
+        public async  Task AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
         {
             try
             {
@@ -374,7 +388,7 @@ AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
         }
 
         
-        public async void RemoveCatrgory(string categoryname,string blogname)
+        public async void RemoveCategory(string categoryname,string blogname)
         {
             try
             {
@@ -404,7 +418,38 @@ AttachCategoryRangetoPost(List<string>categoryname, string blogname, int postid)
                 //return null;
             }
 
-        } 
+        }
+        public async void RemoveCategory(int categoryname, string blogname)
+        {
+            try
+            {
+                if ( CommonTools.isEmpty(blogname) == false && await this.Exists(categoryname, blogname))
+                {
+                    var cat = await this.GetCategoryById(categoryname) ;
+                    var capost = db.CategoryPosts.ToList().FindAll(x => x.CategoryId == cat.Id);
+                    if (cat != null && capost != null)
+                    {
+                        foreach (var c in capost)
+                        {
+                            db.CategoryPosts.Remove(c);
+
+                            await db.SaveChangesAsync();
+                        }
+                        db.Catgories.Remove(cat);
+                        await db.SaveChangesAsync();
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                //return null;
+            }
+
+        }
         public async Task DetattachCategoryFromPost(int postid,string categoryname,string blogname)
         {
             try

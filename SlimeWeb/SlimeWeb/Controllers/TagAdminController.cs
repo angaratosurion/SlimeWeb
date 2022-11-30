@@ -19,16 +19,24 @@ namespace SlimeWeb.Controllers
         private readonly BlogManager blogmnger;// = new BlogManager();
         private readonly TagManager TagManager;
         private readonly PostManager postManager;
-        AccessManager accessManager = new AccessManager();
+        AccessManager accessManager;
 
-        public TagAdminController(SlimeDbContext context)
+        //public TagAdminController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    blogmnger = new BlogManager(context);
+        //    TagManager = new TagManager(context);
+        //    postManager = new PostManager(context);
+        //    accessManager = new AccessManager(context);
+        //}
+        public TagAdminController( )
         {
-            _context = context;
-            blogmnger = new BlogManager();
-            TagManager = new TagManager();
-            postManager = new PostManager();    
+            
+            blogmnger = new BlogManager( );
+            TagManager = new TagManager( );
+            postManager = new PostManager( );
+            accessManager = new AccessManager( );
         }
-
         // GET: Blogs
         public async Task<IActionResult> Index(string id)
         {

@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Tools;
+﻿using SlimeWeb.Core.Data.DBContexts;
+using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,23 @@ namespace SlimeWeb.Core.Managers
 {
     public class AccessManager:DataManager
     {
-        BlogModsManager blogModsManager = new BlogModsManager();
-       BlogManager blogManager = new BlogManager();
+        BlogModsManager blogModsManager;
+        BlogManager blogManager;
         SlimeWebsUserManager userManager = CommonTools.usrmng;
+
+        //public AccessManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
+        //{
+        //    db = slimeDbContext;
+        //    blogManager=new BlogManager(db);
+        //    blogModsManager = new BlogModsManager(db);
+        //}
+        public AccessManager( )  
+        {
+            
+            blogManager = new BlogManager();
+            blogModsManager = new BlogModsManager();
+        }
+
         public async Task<Boolean> DoesUserHasAccess(string username,string blogname)
         {
             try

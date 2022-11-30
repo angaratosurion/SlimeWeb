@@ -15,7 +15,7 @@ namespace SlimeWeb.Core.Data.ViewModels
     {
         public int BlogId { get; set; }
         public int PostId { get; set; }
-        FileRecordManager filmngr = new FileRecordManager();
+        FileRecordManager filmngr = new FileRecordManager( );
         public ApplicationUser Owner { get; set; }
         public ExifModel ExifData { get; set; }
         public void ImportFromModel(Files model)

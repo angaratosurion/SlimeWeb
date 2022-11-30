@@ -26,18 +26,36 @@ namespace SlimeWeb.Controllers
     {
         private readonly SlimeDbContext _context;
         PostManager postManager;
-        BlogManager blmngr = new BlogManager();
-        CategoryManager CategoryManager = new CategoryManager();
-        TagManager TagManager = new TagManager();
-        AccessManager accessManager = new AccessManager();
+        BlogManager blmngr;
+        CategoryManager CategoryManager;
+        TagManager TagManager;
+        AccessManager accessManager;
+        FileRecordManager fileRecordManager;
 
 
-        public PostsAdminController(SlimeDbContext context)
+        //public PostsAdminController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    postManager = new PostManager( context);
+        //    CategoryManager = new CategoryManager(context);
+        //    accessManager = new AccessManager(context);
+        //    blmngr = new BlogManager(context);
+        //    TagManager = new TagManager(context);
+        //    fileRecordManager = new FileRecordManager(context);
+            
+        //}
+        public PostsAdminController( )
         {
-            _context = context;
+            
             postManager = new PostManager( );
+            CategoryManager = new CategoryManager( );
+            accessManager = new AccessManager( );
+            blmngr = new BlogManager();
+            TagManager = new TagManager( );
+            fileRecordManager = new FileRecordManager( );
+
         }
-        
+
 
         // GET: Posts
         public async Task<IActionResult> Index(string id)
@@ -417,7 +435,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+               
               // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
@@ -462,7 +480,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+               
                 // string Blogid = bid;
                // var posts = await postManager.List();
                // int postid = posts.ToList().Max(x => x.Id) + 1;
@@ -502,7 +520,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                FileRecordManager fileRecordManager = new FileRecordManager();
+               
                 // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;

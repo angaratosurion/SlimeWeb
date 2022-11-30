@@ -11,7 +11,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 {
     public class ViewBlogMods : BlogMods
     {
-        BlogManager bmngr = new BlogManager();
+        BlogManager bmngr = new BlogManager( );
         SlimeWebsUserManager userManager = CommonTools.usrmng;
         public string Moderator { get; set; }
         public Blog Blog { get; set; }

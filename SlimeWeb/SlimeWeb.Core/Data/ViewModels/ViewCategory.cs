@@ -22,7 +22,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                     //ApplicationUser user = CommonTools.Blusrmng.GetUserbyID(md.Author);
                     // if (user != null)
                     {
-                        BlogManager blgman = new BlogManager();
+                        BlogManager blgman = new BlogManager( );
 
                         this.Id = md.Id;
 

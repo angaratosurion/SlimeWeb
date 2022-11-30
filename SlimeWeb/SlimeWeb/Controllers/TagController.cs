@@ -17,14 +17,23 @@ namespace SlimeWeb.Controllers
         private readonly BlogManager blogmnger;// = new BlogManager();
         private readonly TagManager TagManager;
         private readonly PostManager postManager;
-        AccessManager accessManager = new AccessManager();
+        AccessManager accessManager;
 
-        public TagController(SlimeDbContext context)
+        //public TagController(SlimeDbContext context)
+        //{
+        //    _context = context;
+        //    blogmnger = new BlogManager(context);
+        //    TagManager = new TagManager(context);
+        //    postManager = new PostManager(context);
+        //    accessManager = new AccessManager(context);
+        //}
+        public TagController( )
         {
-            _context = context;
-            blogmnger = new BlogManager();
-            TagManager = new TagManager();
-            postManager = new PostManager();    
+            
+            blogmnger = new BlogManager( );
+            TagManager = new TagManager( );
+            postManager = new PostManager( );
+            accessManager = new AccessManager( );
         }
 
         // GET: Blogs
@@ -190,12 +199,14 @@ namespace SlimeWeb.Controllers
                 return RedirectToAction(nameof(Details), new { id = id , blogname =blogname});
             }
           
+            ViewTag viewTag =new ViewTag();
+            viewTag.ImportFromModel(Tag);
 
             //var Tag = await _context.Tags
             //    .FirstOrDefaultAsync(m => m.Id == id);
          
 
-            return View(Tag);
+            return View(viewTag);
         }
 
         // POST: Tags/Delete/5
