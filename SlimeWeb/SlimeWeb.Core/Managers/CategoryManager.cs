@@ -270,6 +270,12 @@ namespace SlimeWeb.Core.Managers
             {
                 if((category!=null )&& (!CommonTools.isEmpty(blogname) &&((await this.Exists(category.Name,blogname))==false)))
                 {
+
+                    if (CommonTools.isEmpty(category.BlogAndCategory) || !(category.BlogAndCategory.StartsWith(blogname) || 
+                        !(category.BlogAndCategory.EndsWith(category.Name))))
+                    {
+                        category.BlogAndCategory = String.Format("{0]_{1}", blogname, category.Name);
+                    }
                     db.Catgories.Add(category);
                     await db.SaveChangesAsync();
                 }

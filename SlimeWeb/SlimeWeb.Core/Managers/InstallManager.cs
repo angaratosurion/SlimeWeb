@@ -44,9 +44,12 @@ namespace SlimeWeb.Core.Managers
                             UserName = adminname ,
                             EmailConfirmed = true,
                            Email=adminname
+                           
                         };
-                      //  AspuserManager.CreateAsync(user, adminapss);
-                        userManager.CreateUser(adminname, adminapss);
+                        user.DisplayName = "Administrator";
+                        user.NormalizedUserName = adminname;
+                       
+                         userManager.CreateUser(adminname, adminapss);
 
                     }
                     if(!userManager.RoleExists(SlimeWebsUserManager.AdminRoles))

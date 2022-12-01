@@ -335,8 +335,12 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                if((Tag!=null )&& (!CommonTools.isEmpty(blogname) &&((await this.Exists(Tag.Name,blogname))==false)))
+                if ((Tag != null) && (!CommonTools.isEmpty(blogname) && ((await this.Exists(Tag.Name, blogname)) == false)))
                 {
+                    if (CommonTools.isEmpty(Tag.BlogAndTag) ||!(Tag.BlogAndTag.StartsWith(blogname)|| !(Tag.BlogAndTag.EndsWith(Tag.Name))))
+                    {
+                        Tag.BlogAndTag = String.Format("{0]_{1}",blogname,Tag.Name);
+                    }
                     db.Tags.Add(Tag);
                     await db.SaveChangesAsync();
                 }

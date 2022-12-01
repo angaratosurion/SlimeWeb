@@ -1,4 +1,5 @@
-﻿ 
+﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
@@ -48,17 +50,25 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-               
 
-                if (CommonTools.isEmpty(username) == false   &&
+
+                if (CommonTools.isEmpty(username) == false &&
                     !this.UserExists(username))
                 {
-                     var  user = new ApplicationUser
+                    var user = new ApplicationUser
                     {
                         UserName = username,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        Email = username
+
                     };
-                   this._userManager.CreateAsync(user, testUserPw);
+
+                    user.NormalizedUserName = username;
+
+                    while (this._userManager.CreateAsync(user, testUserPw).Result != IdentityResult.Success)
+                    {
+                        this._userManager.CreateAsync(user, testUserPw);
+                    }
                 }
             }
             catch (Exception ex)
@@ -334,7 +344,10 @@ namespace SlimeWeb.Core.Managers
             {
                if (role != null && this.RoleExists(role.Name) == false)
                 {
-                  roleManager.CreateAsync(role);
+                  while(roleManager.CreateAsync(role).Result!=IdentityResult.Success)
+                    {
+                        roleManager.CreateAsync(role);
+                    }
                 }
 
             }
@@ -433,7 +446,10 @@ namespace SlimeWeb.Core.Managers
                     {
 
 
-                        var res=this._userManager.AddToRoleAsync(user, rolename).Result;
+                      while(this._userManager.AddToRoleAsync(user, rolename).Result!=IdentityResult.Success) 
+                        {
+                            this._userManager.AddToRoleAsync(user, rolename);
+                        }
                     }
 
 

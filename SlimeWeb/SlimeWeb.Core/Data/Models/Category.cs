@@ -17,6 +17,9 @@ namespace SlimeWeb.Core.Data.Models
         public Byte[] RowVersion { get; set; }
         [Required]
         public int BlogId { get; set; }
+        [Required]
+        [Key]
+        public string BlogAndCategory { get; set; } 
 
     }
 }
