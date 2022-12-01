@@ -88,4 +88,18 @@ body {
 img{
     max-width:95%;
 }
-
+#editor {
+    height: 80vh; /* For 100% screen height */
+    width: 80vw; /* For 100% screen width */
+    /*Colors for testing purposes*/
+  /*  background-color: black;
+    color: white;*/
+    padding:0px;
+}
+#scrolling-container {
+    height: 89vh; /* For 100% screen height */
+    width: 80vw; /* For 100% screen width */
+    /*Colors for testing purposes*/
+  /*  background-color: blue;
+    color: white;*/
+}
