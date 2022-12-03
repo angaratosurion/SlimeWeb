@@ -30,6 +30,8 @@ namespace SlimeWeb.Core.Data.ViewModels
             this.Title = model.Title;
             this.content = model.content;
             this.Name=model.Name;
+            this.TopPosition = model.TopPosition;
+            this.BottomPosition = model.BottomPosition;
            
 
 
@@ -54,6 +56,8 @@ namespace SlimeWeb.Core.Data.ViewModels
             ap.Title = Title;
             ap.content = content;
             ap.Name= Name;
+            ap.TopPosition = this.TopPosition;
+            ap.BottomPosition = this.BottomPosition;
 
 
             return ap;

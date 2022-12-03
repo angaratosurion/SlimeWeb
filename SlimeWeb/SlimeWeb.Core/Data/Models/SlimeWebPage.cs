@@ -31,5 +31,8 @@ namespace SlimeWeb.Core.Data.Models
 
         [Timestamp]
         public Byte[] RowVersion { get; set; }
+
+        public Boolean TopPosition { get; set; }
+        public Boolean BottomPosition { get; set; }
     }
 }

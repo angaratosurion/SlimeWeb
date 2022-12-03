@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Data.Models;
@@ -101,9 +102,11 @@ namespace SlimeWeb.Controllers
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<IActionResult> Create()
         {
-            SlimeWebPage pages=new SlimeWebPage();
+            SlimeWebPage page=new SlimeWebPage();
+
             ViewSlimeWebPage viewSlimeWebPage= new ViewSlimeWebPage();
-            viewSlimeWebPage.ImportFromModel(pages);
+            page.Author = CommonTools.usrmng.GetUser(User.Identity.Name).UserName;
+            viewSlimeWebPage.ImportFromModel(page);
             ViewBag.CreateAction = true;
 
 
