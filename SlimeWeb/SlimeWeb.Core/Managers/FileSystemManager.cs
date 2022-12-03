@@ -196,6 +196,48 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public static string GetPagesRootDataFolderRelativePath(string pagename)
+        {
+            try
+            {
+                string ap = "";
+                if (CommonTools.isEmpty(pagename) == false)
+                {
+
+                    ap = GetAppRootDataFolderRelativePath() + "/" + pagename;
+                }
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetPagesRootDataFolderAbsolutePath(string pagename)
+        {
+            try
+            {
+                string ap = "";
+                if (CommonTools.isEmpty(pagename) == false)
+                {
+
+                    ap = Path.Combine(GetAppRootDataFolderAbsolutePath(), pagename);
+                }
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         #endregion
         #region Directory
         public static Boolean DirectoryExists(String path)

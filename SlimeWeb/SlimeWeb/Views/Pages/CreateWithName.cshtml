@@ -1,4 +1,4 @@
-﻿@model SlimeWeb.Core.Data.ViewModels.ViewPost
+﻿@model SlimeWeb.Core.Data.ViewModels.ViewSlimeWebPage
 @using SlimeWeb.Core.Managers
 @using SlimeWeb.Core.Managers.Markups
 
@@ -8,19 +8,24 @@
 }
 @*@if (cmsengine != enumMarkupEngine.QUIL.ToString())
 {
-    await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
+    await Html.RenderPartialAsync("PageCreateandEditPostJavaScriptPart_Partial");
 }*@
 
 
 <h1>Create</h1>
 
-<h4>Post</h4>
+<h4>Page</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" value="@Model.Name" readonly="readonly" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -37,7 +42,11 @@
                 @*<input asp-for="content" class="form-control" id="content" name="content" />*@
                 @if (cmsengine == enumMarkupEngine.QUIL.ToString())
                 {
-                    <div class="form-group" id="editor" name="editor"> </div>
+                    <div id="scrolling-container">
+                        <div class="form-group" id="editor" name="editor" > </div>
+                        </div>
+                        
+                    
                 }
 
                 <textarea asp-for="content" class="form-control" id="content" name="content" hidden="hidden">
@@ -47,17 +56,7 @@
 
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Categories" class="control-label"></label>
-                <input asp-for="CategoriesToString" class="form-control" />
-                <span asp-validation-for="CategoriesToString" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="TagsToString" class="form-control" />
-                <span asp-validation-for="TagsToString" class="text-danger"></span>
-
-            </div>
+            
             @*<div class="form-group">
                     <label asp-for="Author" class="control-label"></label>
                     <input asp-for="Author" class="form-control" />
@@ -69,11 +68,7 @@
                 <input asp-for="Author" class="form-control" value="@User.Identity.Name" readonly="readonly" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
-            <div class="form-group">
-              @*  <label asp-for="BlogId" class="control-label"></label>*@
-
-                <input type="text" asp-for="BlogId" value="@ViewBag.BlogId" readonly="readonly" hidden="hidden" />
-            </div>
+            
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -84,7 +79,7 @@
  
 @if (cmsengine == enumMarkupEngine.QUIL.ToString())
 {
-   await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
+   await Html.RenderPartialAsync("PageCreateandEditPostJavaScriptPart_Partial");
 }
 
 <div>

@@ -339,7 +339,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     if (CommonTools.isEmpty(Tag.BlogAndTag) ||!(Tag.BlogAndTag.StartsWith(blogname)|| !(Tag.BlogAndTag.EndsWith(Tag.Name))))
                     {
-                        Tag.BlogAndTag = String.Format("{0]_{1}",blogname,Tag.Name);
+                        Tag.BlogAndTag = blogname + "_" + Tag.Name;
                     }
                     db.Tags.Add(Tag);
                     await db.SaveChangesAsync();

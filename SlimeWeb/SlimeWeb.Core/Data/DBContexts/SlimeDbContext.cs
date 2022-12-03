@@ -45,6 +45,9 @@ namespace SlimeWeb.Core.Data.DBContexts
         public DbSet<FilesPostBlog> FilesPostsBlog { get; set; }
         public DbSet<CategotyNews> CategoryNews { get; set; }
         public DbSet<TagNews> TagNews { get; set; }
+        public DbSet< SlimeWebPage> Pages { get; set; }
+        public DbSet<FilesPages> FilesPages { get; set; }
+
         //public IStorageContext StorageContext => throw new NotImplementedException();\
 
         public SlimeDbContext(DbContextOptions<SlimeDbContext> options)

@@ -6,11 +6,12 @@
     ViewData["Title"] = "Create";
     var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
 }
+@*
 @if (cmsengine != enumMarkupEngine.QUIL.ToString())
 {
-    await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
+    await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
 }
-
+*@
 
 <h1>Create</h1>
 
@@ -47,7 +48,6 @@
                 <textarea asp-for="content" class="form-control" id="content" name="content" hidden="hidden">
                     </textarea>
 
-              @*  @Html.Partial("CreateandEditPostJavaScriptPart_Partial")*@
 
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
@@ -88,7 +88,7 @@
  
 @if (cmsengine == enumMarkupEngine.QUIL.ToString())
 {
-   await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
+   await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
 }
 
 <div>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlimeWeb.Core.Data.DBContexts;
 
@@ -11,9 +12,10 @@ using SlimeWeb.Core.Data.DBContexts;
 namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    partial class SlimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221203174113_added filepages model")]
+    partial class addedfilepagesmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -440,25 +442,6 @@ namespace SlimeWeb.Core.Migrations.SqlServerMigrations
                     b.HasKey("Id");
 
                     b.ToTable("Files");
-                });
-
-            modelBuilder.Entity("SlimeWeb.Core.Data.Models.FilesPages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FileId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FilesPages");
                 });
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.FilesPostBlog", b =>

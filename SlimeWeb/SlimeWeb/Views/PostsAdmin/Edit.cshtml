@@ -6,10 +6,10 @@
     ViewData["Title"] = "Edit";
     var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
 }
-@if (cmsengine != enumMarkupEngine.QUIL.ToString())
+@*@if (cmsengine != enumMarkupEngine.QUIL.ToString())
 {
-    await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
-}
+    await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
+}*@
 <h1>Edit</h1>
 
 <h4>Post</h4>
@@ -71,7 +71,7 @@
 
 @if (cmsengine == enumMarkupEngine.QUIL.ToString())
 {
-    await Html.RenderPartialAsync("CreateandEditPostJavaScriptPart_Partial");
+    await Html.RenderPartialAsync("PostCreateandEditPostJavaScriptPart_Partial");
 }
 <div>
     <a asp-action="Index" asp-route-id="@Model.Blog.Name">Back to List</a>

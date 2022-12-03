@@ -18,6 +18,7 @@ namespace SlimeWeb.Core.Managers
 
 
         PostManager postManager;
+        SlimeWebPageManager pageManager;
         //public FileRecordManager(SlimeDbContext tdb):base(tdb) 
         //{
         //    db = tdb;
@@ -29,6 +30,7 @@ namespace SlimeWeb.Core.Managers
            
             postManager = new PostManager( );
             blogmngr = new BlogManager( );
+            pageManager= new SlimeWebPageManager( );
         }
 
         public async Task<List<Files>> GetFiles()
@@ -49,7 +51,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> Create(int? BlogId, int? postid, Files filemodel, IFormFile filedata,string user)
+        public async Task<string> CreateForBlog(int? BlogId, int? postid, Files filemodel, IFormFile filedata,string user)
         {
             try
             { string ap = null;
@@ -83,6 +85,115 @@ namespace SlimeWeb.Core.Managers
 
                         }
                        
+
+                    }
+
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<string> CreateForPage(string pagename, Files filemodel, IFormFile filedata, string user)
+        {
+            try
+            {
+                string ap = null;
+                if ((filedata != null) && (filemodel != null) && (!CommonTools.isEmpty(user)))
+                {
+                    var page = await pageManager.Details(pagename);
+                    
+                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    if ((page != null))
+                    {
+
+                        var blogpath = FileSystemManager.GetPagesRootDataFolderAbsolutePath(pagename);
+                        
+                        if (FileSystemManager.DirectoryExists(blogpath) == false)
+                        {
+                            FileSystemManager.CreateDirectory(blogpath);
+                        }
+                        string abspath = await FileSystemManager.CreateFile(blogpath, filedata);
+                        if (!CommonTools.isEmpty(abspath))
+                        {
+                            ap = FileSystemManager.GetPagesRootDataFolderRelativePath(pagename) + "/" + Path.GetFileName(abspath);
+                            filemodel.FileName = Path.GetFileName(abspath);
+                            filemodel.Path = abspath;
+                            filemodel.RelativePath = ap;
+                            filemodel.ContentType = filedata.ContentType;
+                            filemodel.Owner = usr.UserName;
+                            //filemodel.PostId =(int) postid;
+
+                            db.Files.Add(filemodel);
+                            await db.SaveChangesAsync();
+                            FilesPages filesPost = new FilesPages();
+                           
+                            filesPost.FileId = filemodel.Id;
+                            filesPost.PageId = page.Id;
+                            db.FilesPages.Add(filesPost);
+                            await db.SaveChangesAsync();
+
+                        }
+
+
+                    }
+
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<string> CreateForPage(int pid, Files filemodel, IFormFile filedata, string user)
+        {
+            try
+            {
+                string ap = null;
+                if ((filedata != null) && (filemodel != null) && (!CommonTools.isEmpty(user)))
+                {
+                    var page = await pageManager.Details(pid);
+
+                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    if ((page != null))
+                    {
+                        var blogpath = FileSystemManager.GetPagesRootDataFolderAbsolutePath(page.Name) ;
+                        if (FileSystemManager.DirectoryExists(blogpath) == false)
+                        {
+                            FileSystemManager.CreateDirectory(blogpath );
+                        }
+
+                            string abspath = await FileSystemManager.CreateFile(blogpath, filedata);
+                        if (!CommonTools.isEmpty(abspath))
+                        {
+                            ap = FileSystemManager.GetPagesRootDataFolderRelativePath(page.Name) + "/" + Path.GetFileName(abspath);
+                            filemodel.FileName = Path.GetFileName(abspath);
+                            filemodel.Path = abspath;
+                            filemodel.RelativePath = ap;
+                            filemodel.ContentType = filedata.ContentType;
+                            filemodel.Owner = usr.UserName;
+                            //filemodel.PostId =(int) postid;
+
+                            db.Files.Add(filemodel);
+                            await db.SaveChangesAsync();
+                            FilesPages filesPost = new FilesPages();
+
+                            filesPost.FileId = filemodel.Id;
+                            filesPost.PageId = page.Id;
+                            db.FilesPages.Add(filesPost);
+                            await db.SaveChangesAsync();
+
+                        }
+
 
                     }
 
@@ -269,6 +380,46 @@ namespace SlimeWeb.Core.Managers
                             foreach (var x in filear)
                             {
                                db.FilesPostsBlog.Remove(x);
+
+
+                            }
+                        }
+                        await db.SaveChangesAsync();
+                    }
+                }
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+
+            }
+        }
+        public async Task<bool> DeleteFromPages(int id)
+        {
+            try
+            {
+
+                bool ap = false;
+                //  db.Files.FirstOrDefault(x => x.Id == id);
+                var file = await this.Details(id);
+                if (file != null)
+                {
+                    bool deleted = FileSystemManager.DeleteFile(file.Path);
+
+                    if (deleted)
+                    {
+                        db.Files.Remove(file);
+                        var filear = db.FilesPages.Where(x => x.FileId == id).ToList();
+                        if (filear != null)
+                        {
+                            foreach (var x in filear)
+                            {
+                                db.FilesPages.Remove(x);
 
 
                             }

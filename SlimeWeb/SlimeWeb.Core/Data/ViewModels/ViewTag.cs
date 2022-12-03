@@ -33,6 +33,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                         Blog blog= (await blgman.GetBlogByIdAsync(this.BlogId)).ExportToModel();
                         this.BlogName = blog.Name;
                         this.BlogTitle = BlogTitle;
+                        this.BlogAndTag = BlogName + "_" + Name;
 
 
 
@@ -63,6 +64,8 @@ namespace SlimeWeb.Core.Data.ViewModels
                 ap.BlogId = this.BlogId;
 
                 ap.Name = this.Name;
+                ap.BlogAndTag= this.BlogAndTag;
+                ap.RowVersion= this.RowVersion;
 
 
 

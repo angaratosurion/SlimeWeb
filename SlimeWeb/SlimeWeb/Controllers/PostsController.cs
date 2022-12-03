@@ -439,7 +439,7 @@ namespace SlimeWeb.Controllers
                
 
 
-                    var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile,User.Identity.Name);
+                    var path = await fileRecordManager.CreateForBlog(blog.Id, postid, new Files(), formFile,User.Identity.Name);
 
 
 
@@ -479,7 +479,7 @@ namespace SlimeWeb.Controllers
 
 
 
-                var path = await fileRecordManager.Create(bid2, pid, new Files(), formFile, User.Identity.Name);
+                var path = await fileRecordManager.CreateForBlog(bid2, pid, new Files(), formFile, User.Identity.Name);
 
 
 
@@ -524,7 +524,7 @@ namespace SlimeWeb.Controllers
 
 
 
-                var path = await fileRecordManager.Create(blog.Id, postid, new Files(), formFile, User.Identity.Name);
+                var path = await fileRecordManager.CreateForBlog(blog.Id, postid, new Files(), formFile, User.Identity.Name);
 
 
 

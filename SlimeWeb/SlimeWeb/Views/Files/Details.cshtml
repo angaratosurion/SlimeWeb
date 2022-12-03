@@ -1,4 +1,6 @@
-﻿@model SlimeWeb.Core.Data.ViewModels.ViewFiles
+﻿@using SlimeWeb.Core.Managers
+@model SlimeWeb.Core.Data.ViewModels.ViewFiles
+
 
 @{
     ViewData["Title"] = "Details";
@@ -14,13 +16,18 @@
         <dl class="row">
             @if (Model.ContentType.Contains("image"))
             {
-                <img src="@Model.RelativePath" />
+                var appdatapath = AppSettingsManager.GetPathBase();
+                string imgpath = @Model.RelativePath.Replace("./"+appdatapath+"/"+appdatapath,"/"+appdatapath); 
+             
+                <img src="@imgpath.Replace("./","/")" />
                 <br />
                 await Html.RenderPartialAsync("ExifDataView", Model.ExifData);
             }
             else if (Model.ContentType.Contains("video"))
             {
-                <video src="@Model.RelativePath" />
+                var appdatapath = AppSettingsManager.GetPathBase();
+                string imgpath = @Model.RelativePath.Replace("./" + appdatapath + "/" + appdatapath, "/" + appdatapath);
+                <video src="@imgpath.Replace("./","/")" />
             }
 
 
