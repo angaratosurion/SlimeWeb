@@ -16,6 +16,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         [DataType(DataType.Html)]
         public string HTMLcontent { get; set; }
         public ApplicationUser Author { get; set; }
+
         public void ImportFromModel(SlimeWebPage model)
         {
             this.Author = SlimeWebPageManager.db.Users.First(x => x.UserName == model.Author);

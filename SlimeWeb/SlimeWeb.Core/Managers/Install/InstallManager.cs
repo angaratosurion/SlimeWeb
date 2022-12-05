@@ -5,17 +5,17 @@ using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Tools;
 using System;
 
-namespace SlimeWeb.Core.Managers
+namespace SlimeWeb.Core.Managers.Install
 {
-    public class InstallManager:DataManager
+    public class InstallManager : DataManager
     {
-        Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> AspuserManager;
-        private readonly Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> _roleManager;
-        public InstallManager(IServiceProvider serviceProvider) 
+        UserManager<ApplicationUser> AspuserManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        public InstallManager(IServiceProvider serviceProvider)
         {
 
 
-            AspuserManager = serviceProvider.GetService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+            AspuserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             _roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
             //  RoleStore<ApplicationRole> roleStore = serviceProvider.GetRequiredService<RoleStore<ApplicationRole>>();
 
@@ -26,37 +26,37 @@ namespace SlimeWeb.Core.Managers
         //}
 
         // 
-        public void  CrreateInitalAdmin()
+        public void CrreateInitalAdmin()
         {
             try
-            { 
-                string adminname=null, adminapss=null;
+            {
+                string adminname = null, adminapss = null;
                 adminname = AppSettingsManager.GetDefaultAdminUserName();
                 adminapss = AppSettingsManager.GetDefaultAdminUserPassword();
                 SlimeWebsUserManager userManager = CommonTools.usrmng;
-                if ( userManager != null )
+                if (userManager != null)
                 {
-                    if ((!CommonTools.isEmpty(adminname))&& (!CommonTools.isEmpty(adminapss))&&
-                        (!userManager.UserExists(adminname)))
+                    if (!CommonTools.isEmpty(adminname) && !CommonTools.isEmpty(adminapss) &&
+                        !userManager.UserExists(adminname))
                     {
-                       var  user = new ApplicationUser
+                        var user = new ApplicationUser
                         {
-                            UserName = adminname ,
+                            UserName = adminname,
                             EmailConfirmed = true,
-                           Email=adminname
-                           
+                            Email = adminname
+
                         };
                         user.DisplayName = "Administrator";
                         user.NormalizedUserName = adminname;
-                       
-                         userManager.CreateUser(adminname, adminapss);
+
+                        userManager.CreateUser(adminname, adminapss);
 
                     }
-                    if(!userManager.RoleExists(SlimeWebsUserManager.AdminRoles))
+                    if (!userManager.RoleExists(SlimeWebsUserManager.AdminRoles))
                     {
                         ApplicationRole adminrol = new ApplicationRole();
                         adminrol.Name = SlimeWebsUserManager.AdminRoles;
-                       userManager.CreateNewRole(adminrol);
+                        userManager.CreateNewRole(adminrol);
 
                     }
                     userManager.AddUserToRole(SlimeWebsUserManager.AdminRoles, adminname);

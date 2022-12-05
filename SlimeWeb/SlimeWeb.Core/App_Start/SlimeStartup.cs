@@ -22,6 +22,7 @@ using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using SlimeWeb.Core.CustomPolicy;
 using SlimeWeb.Core.Tools;
+using SlimeWeb.Core.Managers.Install;
 
 namespace SlimeWeb.Core.App_Start
 {

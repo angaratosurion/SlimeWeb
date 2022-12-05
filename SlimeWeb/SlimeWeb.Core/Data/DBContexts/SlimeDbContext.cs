@@ -108,6 +108,8 @@ namespace SlimeWeb.Core.Data.DBContexts
             builder.Entity<ApplicationUser>()
                  .Property(e => e.Id)
                 .ValueGeneratedOnAdd();
+            builder.Entity<SlimeWebPage>().HasIndex(e => e.Name).IsUnique();
+               
 
         }
 

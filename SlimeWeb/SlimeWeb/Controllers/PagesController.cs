@@ -173,11 +173,11 @@ namespace SlimeWeb.Controllers
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string name, [Bind("Id,Title,Published,content,Author,RowVersion,BlogId,engine")] ViewSlimeWebPage page)
+        public async Task<ActionResult> Edit(string Name, [Bind("Id,Title,Name,Published,content,Author,RowVersion,engine,TopPosition,BottomPosition")] ViewSlimeWebPage page)
         {
             try
             {
-                if (name != page.Name)
+                if (Name != page.Name)
                 {
                     return NotFound();
                 }
@@ -185,7 +185,7 @@ namespace SlimeWeb.Controllers
                 var mpage = page.ToModel(User.Identity.Name);
                 MarkUpManager markDownManager = new MarkUpManager();
                 mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
-                mpage = await pageManager.Edit(name, mpage);
+                mpage = await pageManager.Edit( Name, mpage);
 
                  
             }
@@ -202,24 +202,44 @@ namespace SlimeWeb.Controllers
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index), "Page");
+            return RedirectToAction(nameof(Index), "Pages");
 
 
         }
 
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteAsync( string Name)
         {
-            return View();
+
+
+            if (Name == null)
+            {
+                return NotFound();
+            }
+            var mpage = await pageManager.Details(Name);
+            ViewSlimeWebPage page = new ViewSlimeWebPage();
+            page.ImportFromModel(mpage);
+            MarkUpManager markUpManager = new MarkUpManager();
+            page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
+            if (page== null)
+            {
+                return NotFound();
+            }
+
+
+
+            return View(page);
         }
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         // POST: PagesController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string Name )
         {
             try
             {
+
+                await this.pageManager.Delete(Name);
                 return RedirectToAction(nameof(Index ));
             }
             catch

@@ -19,7 +19,7 @@ namespace SlimeWeb.Core.Data.Models
     
         public string Title { get; set; }
         [Required]
-        [Key]
+        //[Key]
         
         public string Name { get; set; }
         [DataType(DataType.DateTime)]
@@ -31,8 +31,9 @@ namespace SlimeWeb.Core.Data.Models
 
         [Timestamp]
         public Byte[] RowVersion { get; set; }
-
+        [Display(Name = "Top")]
         public Boolean TopPosition { get; set; }
+        [Display(Name = "Bottom")]
         public Boolean BottomPosition { get; set; }
     }
 }

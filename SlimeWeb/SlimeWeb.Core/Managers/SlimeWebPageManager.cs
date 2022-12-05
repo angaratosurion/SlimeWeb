@@ -194,18 +194,19 @@ namespace SlimeWeb.Core.Managers
                     SlimeWebPage page = await this.Details(name);
                     FileRecordManager fileRecordManager = new FileRecordManager();
 
-                    ////bool deleted = await fileRecordManager.DeleteByPostId((int)id);
-                    ////bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);
-                    //if (deleted && posthasfiles)
-                    //{
-                    //    db.Pages.Remove(page);
-                    //    db.SaveChanges();
-                    //}
-                    //else
-                    //{
-                    //    db.Pages.Remove(page);
-                    //    db.SaveChanges();
-                    //}
+                    bool deleted = await fileRecordManager.DeleteFromPages((int)page.Id);
+                    // bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);
+                    bool posthasfiles = true;
+                    if (deleted && posthasfiles)
+                    {
+                        db.Pages.Remove(page);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.Pages.Remove(page);
+                        db.SaveChanges();
+                    }
                 }
 
             }

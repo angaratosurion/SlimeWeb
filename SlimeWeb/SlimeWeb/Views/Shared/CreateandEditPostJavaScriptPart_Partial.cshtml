@@ -3,7 +3,7 @@
     @using SlimeWeb.Core.Managers.Markups;
     var cmsengine = SlimeWeb.Core.Managers.AppSettingsManager.GetAppWideCMSEngine();
 
- 
+
 
     if (cmsengine == null)
     {
@@ -192,7 +192,7 @@
 
                     // alert();
                     await $.ajax({
-                        url: '@ViewBag.pathbase/Pages/UploadQuill/@(Context.Request.RouteValues["name"])',
+                        url: '@ViewBag.pathbase/Posts/UploadQuill/@(Context.Request.RouteValues["id"])',
                         type: "POST",
                       contentType: false, // Not to set any content header
                         processData: false, // Not to process data
@@ -225,28 +225,23 @@
 
 
                 }
-            </script>
-            
-                if (@ViewBag.CreateAction != true)
-                    {
-                 <script>
-       window.addEventListener('load', function () {
-             
-            //   window.setTimeout(function()
-              //{ 
-                   var content = document.querySelector('textarea[name=content');
-                   
+
+    if ( @ViewBag.CreateAction == false)
+    {
+        window.addEventListener('load', function () {
+                var content = document.querySelector('textarea[name=content');
+            //alert(@ViewBag.CreateAction);
+           // editor.setText(content.value)
+
             editor.setContents(JSON.parse(content.value));
-       //},1000);
 
-            });
-                   </script>
+             });
 
 
 
 
 
-    //}
+    }
 
 
 
@@ -258,7 +253,7 @@
                // $.("#content").hide();
 
 
-            //</script>
+            </script>
             @*<input id="uploadImg" type="file" style="display:none" accept="image/png, image/jpeg, image/gif" onchange="uploadImage" />*@
             <input id="uploadImg" type="file" accept="image/png, image/jpeg, image/gif" onchange="uploadImage"  
             hidden="hidden"/>
@@ -268,7 +263,7 @@
         }
     }
 }
-}
+
 
 
 
