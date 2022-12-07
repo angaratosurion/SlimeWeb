@@ -56,6 +56,28 @@ namespace SlimeWeb.Controllers
             page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
             return View(page);
         }
+        [AllowAnonymous]
+        public async Task<ActionResult> View(string name)
+        {
+
+
+            SlimeWebPageManager pageManager = new SlimeWebPageManager();
+            SlimeWebPage page = pageManager.Details(name).Result;
+            if (page == null)
+            {
+                return RedirectToAction("CreateWithName", "Pages", new { name = name });
+            }
+            else
+            {
+                ViewSlimeWebPage vpage = new ViewSlimeWebPage();
+                MarkUpManager markUpManager = new MarkUpManager();
+                vpage.ImportFromModel(page);
+                vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
+                return View(vpage);
+
+            }
+
+        }
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<IActionResult> CreateWithName(string name)
         {

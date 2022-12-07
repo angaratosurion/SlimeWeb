@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 @using SlimeWeb.Core; 
+@using SlimeWeb.Core.Data.NonDataModels.Navigation
 @using SlimeWeb.Core.Tools
+@using SlimeWeb.Core.Managers
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,7 +33,70 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Adminstration</a>
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                            @{
+                                List<SlimeWebMenu> topMenus = NavigationManager.GetTopMenu();
+                               
+                                    @foreach (SlimeWebMenu menuitem in topMenus)
+                                    {
+                                         
+                                            @if (menuitem.MenuItems != null)
+                                            {
+                                               <div class="dropdown show">
+                                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                               @menuitem.Title
+                                            </a>
+                                               <div class="dropdown-menu  aria-labelledby="dropdownMenuButton">
+                                                   
+                                                    @foreach (SlimeWebMenu submenuitem in menuitem.MenuItems)
+                                                    {
+                                                        if(submenuitem.Path==null)
+                                                        {
+                                                        <a class="dropdown-item" asp-area="" asp-controller="@submenuitem.ControllerName"
+                                                          asp-action="@submenuitem.ActionName">@submenuitem.Title</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="dropdown-item" 
+                                                        href="~/@submenuitem.ControllerName/@submenuitem.ActionName/@submenuitem.Path" >
+                                                            @submenuitem.Title
+                                                        </a>
+
+                                                    }
+
+                                                    }
+                                                 </div>
+                                                 </div>
+
+
+                                            }
+                                            else
+                                            {
+                                    <li class="nav-item">
+                                        @if(menuitem.Path==null)
+                                        {
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="@menuitem.ControllerName"
+                                                asp-action="@menuitem.ActionName">@menuitem.Title</a>
+                                        }
+                                        else
+                                        {
+                                              <a class="dropdown-item" 
+                                                        href="~/@menuitem.ControllerName/@menuitem.ActionName/@menuitem.Path" >
+                                                            @menuitem.Title
+                                                        </a>
+                                        }
+                                            </li>
+                                            }
+                                        
+                                    }
+                               
+                            }
+                            </li>
+                            </ul>
+                           
+                    
+                  
                 </div>
             </div>
         </nav>
@@ -44,8 +109,43 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
             &copy; @DateTime.Now.Year - SlimeWeb - @CommonTools.GetSlimeWebVersion() ( SlimeWeb.Core Version: @CommonTools.GetSlimeWebCoreVersion() )
-            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                &nbsp;&nbsp;  <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> &nbsp;&nbsp;
+           
+                <ul class="navbar-nav flex-grow-1">
+                @{
+                    List<SlimeWebMenu> botomMenu = NavigationManager.GetBottomMenu();
+                    foreach(SlimeWebMenu menu in botomMenu)
+                    {
+
+
+                        <li class="nav-item">
+                            @if (menu.Path == null)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@menu.ControllerName" 
+                                asp-action="@menu.ActionName">@menu.Title</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark"
+                       href="~/@menu.ControllerName/@menu.ActionName/@menu.Path" >
+                                                            @menu.Title
+                                                        </a>
+                            }
+                        </li>
+                    }
+
+                    }
+
+
+            </ul>
+            </div>
+
+
+                   
+                    
+                        
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

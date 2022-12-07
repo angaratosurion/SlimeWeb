@@ -58,8 +58,13 @@ namespace SlimeWeb.Controllers
             //return View();
 
         }
+        public IActionResult AboutSoftware()
+        {
 
-        public IActionResult Privacy()
+            return View();
+        }
+
+            public IActionResult Privacy()
         {
             SlimeWebPageManager pageManager= new SlimeWebPageManager();
            SlimeWebPage page = pageManager.Details("Privacy").Result;

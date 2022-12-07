@@ -271,6 +271,9 @@ namespace SlimeWeb.Core.App_Start
 
 
             app.UseExtCore();
+
+            NavigationManager.AddDefaultMenusOnTopMenu();
+            NavigationManager.AddDefaultMenusOnBottomMenu();
            
 
 

@@ -1,0 +1,66 @@
+﻿@using SlimeWeb.Core.Tools
+@{
+    ViewData["Title"] = "About Software";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            
+            Application Name: 
+        </dt>
+        <dd class="col-sm-10">
+           Slime Web
+        </dd>
+        <dt class="col-sm-2">
+            Application Version:
+        </dt>
+        <dd class="col-sm-10">
+            @CommonTools.GetSlimeWebVersion()
+        </dd>
+        <dt class="col-sm-2">
+            Company:
+        </dt>
+        <dd class="col-sm-10">
+            @CommonTools.GetSlimeWebDeveloper()
+        </dd>
+        <dt class="col-sm-2">
+            Copyright:
+        </dt>
+        <dd class="col-sm-10">
+            @CommonTools.GetSlimeWebCopyright();
+        </dd>
+    </dl>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-3">
+
+            Application Core Name: 
+        </dt>
+        <dd class="col-sm-9">
+           Slime Web Core 
+        </dd>
+        <dt class="col-sm-3">
+            Application Core Version:
+        </dt>
+        <dd class="col-sm-9">
+            @CommonTools.GetSlimeWebCoreVersion()
+        </dd>
+        <dt class="col-sm-3">
+            Company:
+        </dt>
+        <dd class="col-sm-9">
+            @CommonTools.GetSlimeWebCoreDeveloper()
+        </dd>
+        <dt class="col-sm-3">
+           Copyright:
+        </dt>
+        <dd class="col-sm-9">
+            @CommonTools.GetSlimeWebCoreCopyright();
+        </dd>
+    </dl>
+
+</div>
