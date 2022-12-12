@@ -1,36 +1,33 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Serilog;
-using Serilog.Core;
-using Serilog.Formatting.Compact;
-using Serilog.Formatting.Json;
+using NLog;
+using NLog.Extensions.Logging;
+using NLog.Fluent;
+using NLog.Web;
 using SlimeWeb.Core.Managers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace SlimeWeb.Core.Tools
 {
     public class CommonTools
     {
         public static SlimeWebsUserManager usrmng;
-        public static Logger logger;
-
+       public static Logger logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         public static void CreateLogger()
         {
             try
             {
-                LoggerConfiguration loggerConfiguration = new LoggerConfiguration();
-              var logfile=  Path.Combine(FileSystemManager.GetAppRootDataFolderAbsolutePath(), "logs","log.txt");
-                loggerConfiguration.WriteTo.File(new  JsonFormatter(), logfile,Serilog.Events.LogEventLevel.Information);
+                var config = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+                var tlogger = LogManager.Setup()
+                       .LoadConfigurationFromSection(config)
+                       .GetCurrentClassLogger();
                 
-                loggerConfiguration.Enrich.FromLogContext();
-               
-                logger = loggerConfiguration.CreateLogger();
-                Log.Logger = logger;
+                logger = tlogger;
             }
             catch (Exception ex)
             {
@@ -68,7 +65,7 @@ namespace SlimeWeb.Core.Tools
             if (ex.GetBaseException() is ValidationException)
             {
                 // ValidationErrorReporting((ValidationException)ex);
-
+                logger.Fatal(ex);
 
             }
             else
@@ -78,7 +75,7 @@ namespace SlimeWeb.Core.Tools
                 CreateLogger();
 
 
-                    //(new CompactJsonFormatter());
+                //(new CompactJsonFormatter());
 
 
 
@@ -88,11 +85,11 @@ namespace SlimeWeb.Core.Tools
                 // .WriteTo.File(new CompactJsonFormatter(), "/wwwroot/AppData/logs/logs.json"))
                 //.CreateBootstrapLogger())
 
-                logger.Fatal(ex,"Application crashed");
+                logger.Fatal(ex.ToString());
                 // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)
                 //  {
-                Console.WriteLine(ex.ToString());
+              //  Console.WriteLine(ex.ToString());
                 //throw (ex);
                  //   logger.TraceException(ex.Message, ex);
               //  }

@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using SlimeWeb.Core;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Tools;
 using SlimeWeb.Models;
+using System;
+using System.Diagnostics;
 
 namespace SlimeWeb.Controllers
 {
@@ -38,6 +31,7 @@ namespace SlimeWeb.Controllers
                 //return View();
                 bool hostedinsubfolder = false;
 
+                 
 
                 //
 
