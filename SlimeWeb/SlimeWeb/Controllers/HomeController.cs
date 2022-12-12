@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using SlimeWeb.Core;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
@@ -29,59 +30,85 @@ namespace SlimeWeb.Controllers
 
         public IActionResult Index()
         {
-            string defaultcon="", defautaction="",pathbase="";
-            
-           
-            //return View();
-            bool hostedinsubfolder = false;
-             
-                            
-             //
-
-            defaultcon = AppSettingsManager.GetDefaultController();
-            pathbase =  AppSettingsManager.GetPathBase();
-            hostedinsubfolder =  AppSettingsManager.GetHostedInSubFolderSetting();
-           
-
-            if (CommonTools.isEmpty(defaultcon) == false && hostedinsubfolder 
-                && CommonTools.isEmpty(pathbase) == false)
+            try
             {
-                Response.Redirect(pathbase+"/"+ defaultcon );
-            }
-                 else
-            {
-                Response.Redirect(defaultcon);
-            }
-              
+                string defaultcon = "", defautaction = "", pathbase = "";
+
+
+                //return View();
+                bool hostedinsubfolder = false;
+
+
+                //
+
+                defaultcon = AppSettingsManager.GetDefaultController();
+                pathbase = AppSettingsManager.GetPathBase();
+                hostedinsubfolder = AppSettingsManager.GetHostedInSubFolderSetting();
+
+
+                if (CommonTools.isEmpty(defaultcon) == false && hostedinsubfolder
+                    && CommonTools.isEmpty(pathbase) == false)
+                {
+                    Response.Redirect(pathbase + "/" + defaultcon);
+                }
+                else
+                {
+                    Response.Redirect(defaultcon);
+                }
+
                 return View();
-            
-            //return View();
+
+                //return View();
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
 
         }
         public IActionResult AboutSoftware()
         {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
 
-            return View();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
             public IActionResult Privacy()
         {
-            SlimeWebPageManager pageManager= new SlimeWebPageManager();
-           SlimeWebPage page = pageManager.Details("Privacy").Result;
-            if (page == null)
+            try
             {
-               return RedirectToAction("CreateWithName", "Pages", new { name = "Privacy" });
-            }
-            else
-            {
-                ViewSlimeWebPage vpage= new ViewSlimeWebPage();
-                MarkUpManager markUpManager = new MarkUpManager();
-                vpage.ImportFromModel(page);
-               vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
-                return View(vpage);
+                SlimeWebPageManager pageManager = new SlimeWebPageManager();
+                SlimeWebPage page = pageManager.Details("Privacy").Result;
+                if (page == null)
+                {
+                    return RedirectToAction("CreateWithName", "Pages", new { name = "Privacy" });
+                }
+                else
+                {
+                    ViewSlimeWebPage vpage = new ViewSlimeWebPage();
+                    MarkUpManager markUpManager = new MarkUpManager();
+                    vpage.ImportFromModel(page);
+                    vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
+                    return View(vpage);
 
+                }
             }
-           
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+
 
         }
 

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
+using System;
 using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
@@ -19,12 +22,21 @@ namespace SlimeWeb.Controllers
 
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var user = await userManager.FindByEmailAsync(email);
-            if (user == null)
-                return View("Error");
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null)
+                    return View("Error");
 
-            var result = await userManager.ConfirmEmailAsync(user, token);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+                var result = await userManager.ConfirmEmailAsync(user, token);
+                return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

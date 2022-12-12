@@ -40,8 +40,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }
@@ -57,8 +58,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }
@@ -173,8 +175,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }
@@ -207,8 +210,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }
@@ -235,8 +239,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }

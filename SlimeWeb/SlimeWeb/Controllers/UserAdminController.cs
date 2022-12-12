@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.NonDataModels.UserAndRoles;
+using SlimeWeb.Core.Tools;
+using System;
 using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
@@ -29,81 +32,108 @@ namespace SlimeWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserViewModel user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                ApplicationUser ApplicationUser = new ApplicationUser
+                if (ModelState.IsValid)
                 {
-                    UserName = user.Name,
-                    Email = user.Email,
-                    //TwoFactorEnabled = true
-                };
+                    ApplicationUser ApplicationUser = new ApplicationUser
+                    {
+                        UserName = user.Name,
+                        Email = user.Email,
+                        //TwoFactorEnabled = true
+                    };
 
-                IdentityResult result = await userManager.CreateAsync(ApplicationUser, user.Password);
-                
-                // uncomment for email confirmation (link - https://www.yogihosting.com/aspnet-core-identity-email-confirmation/)
-                /*if (result.Succeeded)
-                {
-                    var token = await userManager.GenerateEmailConfirmationTokenAsync(ApplicationUser);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
-                    EmailHelper emailHelper = new EmailHelper();
-                    bool emailResponse = emailHelper.SendEmail(user.Email, confirmationLink);
+                    IdentityResult result = await userManager.CreateAsync(ApplicationUser, user.Password);
 
-                    if (emailResponse)
+                    // uncomment for email confirmation (link - https://www.yogihosting.com/aspnet-core-identity-email-confirmation/)
+                    /*if (result.Succeeded)
+                    {
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(ApplicationUser);
+                        var confirmationLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+                        EmailHelper emailHelper = new EmailHelper();
+                        bool emailResponse = emailHelper.SendEmail(user.Email, confirmationLink);
+
+                        if (emailResponse)
+                            return RedirectToAction("Index");
+                        else
+                        {
+                            // log email failed 
+                        }
+                    }*/
+
+                    if (result.Succeeded)
                         return RedirectToAction("Index");
                     else
                     {
-                        // log email failed 
+                        foreach (IdentityError error in result.Errors)
+                            ModelState.AddModelError("", error.Description);
                     }
-                }*/
-                
-                if (result.Succeeded)
-                    return RedirectToAction("Index");
-                else
-                {
-                    foreach (IdentityError error in result.Errors)
-                        ModelState.AddModelError("", error.Description);
                 }
+                return View(user);
             }
-            return View(user);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         public async Task<IActionResult> Update(string id)
         {
-            ApplicationUser user = await userManager.FindByIdAsync(id);
-            if (user != null)
-                return View(user);
-            else
-                return RedirectToAction("Index");
+            try
+            {
+                ApplicationUser user = await userManager.FindByIdAsync(id);
+                if (user != null)
+                    return View(user);
+                else
+                    return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(string id, string email, string password)
         {
-            ApplicationUser user = await userManager.FindByIdAsync(id);
-            if (user != null)
+            try
             {
-                if (!string.IsNullOrEmpty(email))
-                    user.Email = email;
-                else
-                    ModelState.AddModelError("", "Email cannot be empty");
-
-                if (!string.IsNullOrEmpty(password))
-                    user.PasswordHash = passwordHasher.HashPassword(user, password);
-                else
-                    ModelState.AddModelError("", "Password cannot be empty");
-
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+                ApplicationUser user = await userManager.FindByIdAsync(id);
+                if (user != null)
                 {
-                    IdentityResult result = await userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                        return RedirectToAction("Index");
+                    if (!string.IsNullOrEmpty(email))
+                        user.Email = email;
                     else
-                        Errors(result);
+                        ModelState.AddModelError("", "Email cannot be empty");
+
+                    if (!string.IsNullOrEmpty(password))
+                        user.PasswordHash = passwordHasher.HashPassword(user, password);
+                    else
+                        ModelState.AddModelError("", "Password cannot be empty");
+
+                    if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+                    {
+                        IdentityResult result = await userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                            return RedirectToAction("Index");
+                        else
+                            Errors(result);
+                    }
                 }
+                else
+                    ModelState.AddModelError("", "User Not Found");
+                return View(user);
             }
-            else
-                ModelState.AddModelError("", "User Not Found");
-            return View(user);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         private void Errors(IdentityResult result)
@@ -115,18 +145,27 @@ namespace SlimeWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            ApplicationUser user = await userManager.FindByIdAsync(id);
-            if (user != null)
+            try
             {
-                IdentityResult result = await userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                    return RedirectToAction("Index");
+                ApplicationUser user = await userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    IdentityResult result = await userManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                        return RedirectToAction("Index");
+                    else
+                        Errors(result);
+                }
                 else
-                    Errors(result);
+                    ModelState.AddModelError("", "User Not Found");
+                return View("Index", userManager.Users);
             }
-            else
-                ModelState.AddModelError("", "User Not Found");
-            return View("Index", userManager.Users);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

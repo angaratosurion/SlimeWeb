@@ -20,7 +20,7 @@ namespace SlimeWeb.Core.Data.Models
         public string Title { get; set; }
         [Required]
         //[Key]
-        
+        [RegularExpression(@"^[\w\-. ]+$")]
         public string Name { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Published { get; set; }

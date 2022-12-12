@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -76,42 +77,52 @@ namespace SlimeWeb.Controllers
                 return View(lstFiles);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
-                throw;
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         // GET: Files/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-
-            var files = await this.fileRecordManager.Details((int)id);
-            if (files == null)
-            {
-                return NotFound();
-            }
-            ViewFiles ap = new ViewFiles();
-          
-            ap.ImportFromModel(files);
-            if(files.ContentType.Contains("image"))
-            {
-                ImageTools imageTools= new ImageTools();
-                var exif =imageTools.GetMetadata(files.Path);
-                if (exif != null) 
+                if (id == null)
                 {
-                    ap.ExifData= exif;
+                    return NotFound();
                 }
-                //ap.ExifData =;
-            }
-           
 
-            return View(ap);
+                var files = await this.fileRecordManager.Details((int)id);
+                if (files == null)
+                {
+                    return NotFound();
+                }
+                ViewFiles ap = new ViewFiles();
+
+                ap.ImportFromModel(files);
+                if (files.ContentType.Contains("image"))
+                {
+                    ImageTools imageTools = new ImageTools();
+                    var exif = imageTools.GetMetadata(files.Path);
+                    if (exif != null)
+                    {
+                        ap.ExifData = exif;
+                    }
+                    //ap.ExifData =;
+                }
+
+
+                return View(ap);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
         //[Authorize]
         //// GET: Files/Create
@@ -199,30 +210,39 @@ namespace SlimeWeb.Controllers
         // GET: Files/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            
-            var files = await this.fileRecordManager.Details((int)id);
-            if (files == null)
+
+                var files = await this.fileRecordManager.Details((int)id);
+                if (files == null)
+                {
+                    return NotFound();
+                }
+
+                //var blog = await this.fileRecordManager.GetBlofByFileId((int)id);
+                //if (blog==null)
+                //{
+                //    return NotFound();
+                //}
+                ////if (await this.accessManager.DoesUserHasAccess(User.Identity.Name) == false)
+                //{
+                //    return RedirectToAction(nameof(Details), "Files", new { id =id });
+                //}
+                ViewFiles viewFiles = new ViewFiles();
+                viewFiles.ImportFromModel(files);
+                return View(viewFiles);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
-            }
+                CommonTools.ErrorReporting(ex);
 
-            //var blog = await this.fileRecordManager.GetBlofByFileId((int)id);
-            //if (blog==null)
-            //{
-            //    return NotFound();
-            //}
-            ////if (await this.accessManager.DoesUserHasAccess(User.Identity.Name) == false)
-            //{
-            //    return RedirectToAction(nameof(Details), "Files", new { id =id });
-            //}
-            ViewFiles viewFiles = new ViewFiles();
-            viewFiles.ImportFromModel(files);
-            return View(viewFiles);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: Files/Delete/5
@@ -230,16 +250,22 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var files = await _context.Files.FindAsync(id);
-            //_context.Files.Remove(files);
-            //await _context.SaveChangesAsync();
-            await this.fileRecordManager.DeleteFromPosts(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                //var files = await _context.Files.FindAsync(id);
+                //_context.Files.Remove(files);
+                //await _context.SaveChangesAsync();
+                await this.fileRecordManager.DeleteFromPosts(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        private bool FilesExists(int id)
-        {
-            return _context.Files.Any(e => e.Id == id);
-        }
+        
     }
 }

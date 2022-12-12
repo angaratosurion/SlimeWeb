@@ -23,11 +23,7 @@ namespace SlimeWeb.Core.Managers
             {
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex); }
         }
         //public DataManager(SlimeDbContext slimeDbContext)
         //{

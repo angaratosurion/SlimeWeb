@@ -30,6 +30,7 @@ namespace SlimeWeb.Core.Managers.Markups
             }
             catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
                 return null;
             }
@@ -80,6 +81,7 @@ namespace SlimeWeb.Core.Managers.Markups
             }
             catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
                 return null;
             }

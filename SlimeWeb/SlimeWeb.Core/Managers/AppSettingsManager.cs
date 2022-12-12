@@ -19,25 +19,35 @@ namespace SlimeWeb.Core.Managers
         static IConfigurationRoot config;//= builder.Build();//
         public static void Init()
         {
-            pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-
-            string path="";//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            try
             {
-                path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+
+                string path = "";//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                }
+                else
+                {
+                    path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:", "");
+                }
+                //return View();
+                builder = (ConfigurationBuilder)new ConfigurationBuilder()
+                          .SetBasePath(path)
+                          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                //  var config = builder.Build();//
+
+
+                config = builder.Build();//
             }
-            else
+            catch (Exception ex)
             {
-                path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:", "");
+                CommonTools.ErrorReporting(ex);
+
+                 
             }
-             //return View();
-             builder = (ConfigurationBuilder)new ConfigurationBuilder()
-                       .SetBasePath(path)
-                       .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            //  var config = builder.Build();//
 
-
-            config = builder.Build();//
         }
         public static string GetDefaultAdminUserName()
         {
@@ -49,7 +59,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -63,7 +73,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -77,7 +87,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
         }
@@ -106,7 +116,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -120,7 +130,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
         }
@@ -134,7 +144,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
         }
@@ -148,7 +158,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
         }
@@ -162,7 +172,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
         }
@@ -177,7 +187,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -192,7 +202,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -206,7 +216,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false;
             }
 
@@ -235,7 +245,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -249,7 +259,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }

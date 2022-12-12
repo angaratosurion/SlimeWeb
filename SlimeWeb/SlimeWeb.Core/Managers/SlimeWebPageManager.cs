@@ -23,8 +23,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
 
         }
@@ -48,8 +49,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
         }
         public async Task<SlimeWebPage> Details(int id)
@@ -72,8 +74,9 @@ namespace SlimeWeb.Core.Managers
             }
             catch (Exception ex)
             {
-                return null;
+                CommonTools.ErrorReporting(ex);
 
+                return null;
             }
         }
         public async Task<bool> Exists(String name)
@@ -122,7 +125,9 @@ namespace SlimeWeb.Core.Managers
                 
                 
                 CommonTools.ErrorReporting(ex);
-                return null; }
+                return null;
+            }
+
         }
         public async Task<SlimeWebPage> Edit(string name ,SlimeWebPage page)
         {
@@ -181,8 +186,9 @@ namespace SlimeWeb.Core.Managers
 
             }
             catch (Exception ex) { 
-                CommonTools.ErrorReporting(ex);
-                return null; }
+                CommonTools.ErrorReporting(ex); return null;
+            }
+
 
         }
         public async Task Delete(string name)

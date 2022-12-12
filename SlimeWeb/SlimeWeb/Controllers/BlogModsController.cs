@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
@@ -40,56 +42,84 @@ namespace SlimeWeb.Controllers
         // GET: BlogMods
         public async Task<IActionResult> Index(string id)
         {
-            List<ViewBlogMods> viewBlogMods = new List<ViewBlogMods>();
-            var blogmod = await this.blogModsManager.ListModsByBlogName(id);
-            
-            if (blogmod != null)
+            try
             {
-                foreach (var bm in blogmod)
+                List<ViewBlogMods> viewBlogMods = new List<ViewBlogMods>();
+                var blogmod = await this.blogModsManager.ListModsByBlogName(id);
+
+                if (blogmod != null)
                 {
-                    ViewBlogMods vblog = new ViewBlogMods();
-                    vblog.ImportFromModel(bm);
-                    viewBlogMods.Add(vblog);
+                    foreach (var bm in blogmod)
+                    {
+                        ViewBlogMods vblog = new ViewBlogMods();
+                        vblog.ImportFromModel(bm);
+                        viewBlogMods.Add(vblog);
+                    }
                 }
+
+                return View(viewBlogMods);
             }
-            
-            return View(viewBlogMods);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: BlogMods/Details/5
         public async Task<IActionResult> Details(string id, string moderator)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-            var blogMods = await blogModsManager.Details(id,moderator);
-            if (blogMods == null)
-            {
-                return NotFound();
-            }
-            ViewBlogMods vblog = new ViewBlogMods();
-            vblog.ImportFromModel(blogMods);
-             
-           
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                var blogMods = await blogModsManager.Details(id, moderator);
+                if (blogMods == null)
+                {
+                    return NotFound();
+                }
+                ViewBlogMods vblog = new ViewBlogMods();
+                vblog.ImportFromModel(blogMods);
 
-            return View(vblog);
+
+
+                return View(vblog);
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
         
         // GET: BlogMods/Create
         public async Task<IActionResult> CreateAsync(string id)
         {
-            string blogname = id;
-
-            var blog = await this.blmngr.GetBlogAsync(blogname);
-
-
-            if (blog != null)
+            try
             {
+                string blogname = id;
 
-                ViewBag.BlogId = blog.Id;
+                var blog = await this.blmngr.GetBlogAsync(blogname);
+
+
+                if (blog != null)
+                {
+
+                    ViewBag.BlogId = blog.Id;
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: BlogMods/Create
@@ -99,35 +129,53 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Moderator,ModeratorId")] ViewBlogMods blogMods,string id)
         {
-            if (ModelState.IsValid)
+            try
             {
-               
-                  this.blogModsManager.RegisterMods(id,(string)User.Identity.Name);
-                return RedirectToAction(nameof(Index),new { id = id });
+                if (ModelState.IsValid)
+                {
+
+                    this.blogModsManager.RegisterMods(id, (string)User.Identity.Name);
+                    return RedirectToAction(nameof(Index), new { id = id });
+                }
+                return View(blogMods);
             }
-            return View(blogMods);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Authorize]
         public async Task<IActionResult> Edit(string id,string moderator)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var blogMods = await blogModsManager.Details( id,moderator);
-            if (blogMods == null)
-            {
-                return NotFound();
+                var blogMods = await blogModsManager.Details(id, moderator);
+                if (blogMods == null)
+                {
+                    return NotFound();
+                }
+                ViewBlogMods vblog = new ViewBlogMods();
+                vblog.ImportFromModel(blogMods);
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, vblog.Blog.Name) == false)
+                {
+                    return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
+                }
+                return View(vblog);
             }
-            ViewBlogMods vblog = new ViewBlogMods();
-            vblog.ImportFromModel(blogMods);
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, vblog.Blog.Name) == false)
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-            return View(vblog);
         }
 
         // POST: BlogMods/Edit/5
@@ -139,63 +187,80 @@ namespace SlimeWeb.Controllers
             string id, 
             string moderator)
         {
-            
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (ModelState.IsValid)
                 {
-                   var blog=await blmngr.GetBlogAsync(id);
-                    if (blog != null)
+                    try
                     {
+                        var blog = await blmngr.GetBlogAsync(id);
+                        if (blog != null)
+                        {
 
 
-                        BlogMods mods = blogMods.ToModel();
-                        mods.BlogId= blog.Id;
-                       
+                            BlogMods mods = blogMods.ToModel();
+                            mods.BlogId = blog.Id;
 
-                        await blogModsManager.Edit(moderator, mods, id);
+
+                            await blogModsManager.Edit(moderator, mods, id);
+                        }
                     }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        //if (!BlogModsExists(blogMods.Id))
+                        //{
+                        //    return NotFound();
+                        //}
+                        //else
+                        //{
+                        //    throw;
+                        //}
+                    }
+                    return RedirectToAction(nameof(Index), new { id = id });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if (!BlogModsExists(blogMods.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
-                }
-                return RedirectToAction(nameof(Index),new { id = id });
+                return View(blogMods);
             }
-            return View(blogMods);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: BlogMods/Delete/5
         public async Task<IActionResult> Delete(string id, string moderator)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+
+                var blogMods = await this.blogModsManager.Details(id, moderator);
+                if (blogMods == null)
+                {
+                    return NotFound();
+                }
+                ViewBlogMods vblog = new ViewBlogMods();
+                vblog.ImportFromModel(blogMods);
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, vblog.Blog.Name) == false)
+                {
+                    return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
+                }
+
+
+                return View(vblog);
             }
-
-
-            var blogMods = await this.blogModsManager.Details(id,moderator);
-            if (blogMods == null)
+            catch (Exception ex)
             {
-                return NotFound();
-            }
-            ViewBlogMods vblog = new ViewBlogMods();
-            vblog.ImportFromModel(blogMods);
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name,vblog.Blog.Name) == false)
-            {
-                return RedirectToAction(nameof(Index), "BlogMods", new { id = id });
-            }
+                CommonTools.ErrorReporting(ex);
 
-
-            return View(vblog);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: BlogMods/Delete/5
@@ -203,15 +268,24 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id, string moderator)
         {
-            var blogMods = await this.blogModsManager.Details(id, moderator);
-            if (blogMods == null)
+            try
             {
-                return NotFound();
+                var blogMods = await this.blogModsManager.Details(id, moderator);
+                if (blogMods == null)
+                {
+                    return NotFound();
+                }
+                ViewBlogMods vblog = new ViewBlogMods();
+                vblog.ImportFromModel(blogMods);
+                blogModsManager.UnRegisterMods(vblog.Blog.Name, vblog.Moderator);
+                return RedirectToAction(nameof(Index));
             }
-            ViewBlogMods vblog = new ViewBlogMods();
-            vblog.ImportFromModel(blogMods);
-            blogModsManager.UnRegisterMods(vblog.Blog.Name, vblog.Moderator);
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         //private bool BlogModsExists(int id)

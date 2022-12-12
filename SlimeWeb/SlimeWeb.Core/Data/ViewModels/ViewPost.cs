@@ -26,45 +26,63 @@ namespace SlimeWeb.Core.Data.ViewModels
         public ApplicationUser Author { get; set; }
         public void  ImportFromModel(Post model)
         {
-            this.Author =  BlogManager.db.Users.First(x => x.UserName == model.Author);
-               
-            this.BlogId = model.BlogId;
-           // this.Categories = model.Categories;
-          
-            this.Id = model.Id;
-            this.Published = model.Published;
-            this.RowVersion = model.RowVersion;
-            //this.Tags = model.Tags;
-            this.Title = model.Title;
-            this.content = model.content;
-            Blog = this.bmngr.GetBlogByIdAsync(model.BlogId).Result.ExportToModel();
+            try
+            {
+                this.Author = BlogManager.db.Users.First(x => x.UserName == model.Author);
 
-            
+                this.BlogId = model.BlogId;
+                // this.Categories = model.Categories;
+
+                this.Id = model.Id;
+                this.Published = model.Published;
+                this.RowVersion = model.RowVersion;
+                //this.Tags = model.Tags;
+                this.Title = model.Title;
+                this.content = model.content;
+                Blog = this.bmngr.GetBlogByIdAsync(model.BlogId).Result.ExportToModel();
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                
+            }
+
+
 
         }
         public Post ToModel(string username)
         {
-            Post ap = new Post();
-            if (CommonTools.isEmpty(username))
+            try
             {
-                return null; ;
-            }
-            if( this.Author ==null)
-            {
-                Author = BlogManager.db.Users.First(x => x.UserName == username);
-            }
-            ap.Author = this.Author.UserName; 
-            ap.BlogId = BlogId;
-            
-           
-            ap.Id = Id;
-            ap.Published = Published;
-            ap.RowVersion = RowVersion;
-            ap.Title = Title;
-            ap.content = content;
+                Post ap = new Post();
+                if (CommonTools.isEmpty(username))
+                {
+                    return null; ;
+                }
+                if (this.Author == null)
+                {
+                    Author = BlogManager.db.Users.First(x => x.UserName == username);
+                }
+                ap.Author = this.Author.UserName;
+                ap.BlogId = BlogId;
 
 
-            return ap;
+                ap.Id = Id;
+                ap.Published = Published;
+                ap.RowVersion = RowVersion;
+                ap.Title = Title;
+                ap.content = content;
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
         }
        
 

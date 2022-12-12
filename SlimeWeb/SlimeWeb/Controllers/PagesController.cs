@@ -24,83 +24,117 @@ namespace SlimeWeb.Controllers
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<ActionResult> Index()
         {
-            var p = await pageManager.List();
-
-            List<ViewSlimeWebPage> pages = new List<ViewSlimeWebPage>();
-            if (p != null)
+            try
             {
-                foreach (var tp in p)
-                {
-                    ViewSlimeWebPage ap = new ViewSlimeWebPage();
-                    ap.ImportFromModel(tp);
-                    pages.Add(ap);
+                var p = await pageManager.List();
 
+                List<ViewSlimeWebPage> pages = new List<ViewSlimeWebPage>();
+                if (p != null)
+                {
+                    foreach (var tp in p)
+                    {
+                        ViewSlimeWebPage ap = new ViewSlimeWebPage();
+                        ap.ImportFromModel(tp);
+                        pages.Add(ap);
+
+                    }
                 }
+                return View(pages);
             }
-            return View(pages);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: PagesController1/Details/5
         public async Task<ActionResult> Details (string name)
         {
-
-            if (name == null)
+            try
             {
-                return NotFound();
-            }
+                if (name == null)
+                {
+                    return NotFound();
+                }
 
-            var mpage = await pageManager.Details(name);
-            ViewSlimeWebPage page = new ViewSlimeWebPage();
-            page.ImportFromModel(mpage);
-            MarkUpManager markUpManager = new MarkUpManager();
-            page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
-            return View(page);
+                var mpage = await pageManager.Details(name);
+                ViewSlimeWebPage page = new ViewSlimeWebPage();
+                page.ImportFromModel(mpage);
+                MarkUpManager markUpManager = new MarkUpManager();
+                page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
+                return View(page);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
         [AllowAnonymous]
         public async Task<ActionResult> View(string name)
         {
 
-
-            SlimeWebPageManager pageManager = new SlimeWebPageManager();
-            SlimeWebPage page = pageManager.Details(name).Result;
-            if (page == null)
+            try
             {
-                return RedirectToAction("CreateWithName", "Pages", new { name = name });
+                SlimeWebPageManager pageManager = new SlimeWebPageManager();
+                SlimeWebPage page = pageManager.Details(name).Result;
+                if (page == null)
+                {
+                    return RedirectToAction("CreateWithName", "Pages", new { name = name });
+                }
+                else
+                {
+                    ViewSlimeWebPage vpage = new ViewSlimeWebPage();
+                    MarkUpManager markUpManager = new MarkUpManager();
+                    vpage.ImportFromModel(page);
+                    vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
+                    return View(vpage);
+
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewSlimeWebPage vpage = new ViewSlimeWebPage();
-                MarkUpManager markUpManager = new MarkUpManager();
-                vpage.ImportFromModel(page);
-                vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
-                return View(vpage);
+                CommonTools.ErrorReporting(ex);
 
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
         }
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<IActionResult> CreateWithName(string name)
         {
-            SlimeWebPage pages = new SlimeWebPage();
-            ViewSlimeWebPage viewSlimeWebPage = new ViewSlimeWebPage();
-            pages.Name = name;
-            pages.Author = CommonTools.usrmng.GetUser(User.Identity.Name).UserName;
-            viewSlimeWebPage.ImportFromModel(pages);
-            ViewBag.CreateAction = true;
-            var blpath = FileSystemManager.GetPagesRootDataFolderAbsolutePath(name);
-            //   if (FileSystemManager.DirectoryExists(blpath) == false)
+            try
             {
-                FileSystemManager.CreateDirectory(blpath);
-
-                //string pathbase;
-                string pathbase = AppSettingsManager.GetPathBase();
-                if (CommonTools.isEmpty(pathbase) == false)
+                SlimeWebPage pages = new SlimeWebPage();
+                ViewSlimeWebPage viewSlimeWebPage = new ViewSlimeWebPage();
+                pages.Name = name;
+                pages.Author = CommonTools.usrmng.GetUser(User.Identity.Name).UserName;
+                viewSlimeWebPage.ImportFromModel(pages);
+                ViewBag.CreateAction = true;
+                var blpath = FileSystemManager.GetPagesRootDataFolderAbsolutePath(name);
+                //   if (FileSystemManager.DirectoryExists(blpath) == false)
                 {
-                    ViewBag.pathbase = pathbase;
+                    FileSystemManager.CreateDirectory(blpath);
+
+                    //string pathbase;
+                    string pathbase = AppSettingsManager.GetPathBase();
+                    if (CommonTools.isEmpty(pathbase) == false)
+                    {
+                        ViewBag.pathbase = pathbase;
+                    }
+
                 }
-                
+                return View(viewSlimeWebPage);
             }
-            return View(viewSlimeWebPage);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
@@ -108,15 +142,24 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWithName(string name,[Bind("Id,Title,Name,Published,content,Author,RowVersion,engine")] ViewSlimeWebPage page)
         {
-            page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
-            page.Name = name;
-            var mpage = page.ToModel(page.Author.UserName);
-            MarkUpManager markDownManager = new MarkUpManager();
-            mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
+            try
+            {
+                page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
+                page.Name = name;
+                var mpage = page.ToModel(page.Author.UserName);
+                MarkUpManager markDownManager = new MarkUpManager();
+                mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
 
-            await pageManager.Create(page, User.Identity.Name);
+                await pageManager.Create(page, User.Identity.Name);
 
-            return RedirectToAction(nameof(Index), "Pages");
+                return RedirectToAction(nameof(Index), "Pages");
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
 
         }
 
@@ -124,21 +167,30 @@ namespace SlimeWeb.Controllers
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<IActionResult> Create()
         {
-            SlimeWebPage page=new SlimeWebPage();
-
-            ViewSlimeWebPage viewSlimeWebPage= new ViewSlimeWebPage();
-            page.Author = CommonTools.usrmng.GetUser(User.Identity.Name).UserName;
-            viewSlimeWebPage.ImportFromModel(page);
-            ViewBag.CreateAction = true;
-
-
-            //string pathbase;
-            string pathbase = AppSettingsManager.GetPathBase();
-            if (CommonTools.isEmpty(pathbase) == false)
+            try
             {
-                ViewBag.pathbase = pathbase;
+                SlimeWebPage page = new SlimeWebPage();
+
+                ViewSlimeWebPage viewSlimeWebPage = new ViewSlimeWebPage();
+                page.Author = CommonTools.usrmng.GetUser(User.Identity.Name).UserName;
+                viewSlimeWebPage.ImportFromModel(page);
+                ViewBag.CreateAction = true;
+
+
+                //string pathbase;
+                string pathbase = AppSettingsManager.GetPathBase();
+                if (CommonTools.isEmpty(pathbase) == false)
+                {
+                    ViewBag.pathbase = pathbase;
+                }
+                return View(viewSlimeWebPage);
             }
-            return View(viewSlimeWebPage);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
@@ -146,20 +198,32 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Name,Published,content,Author,RowVersion,engine")] ViewSlimeWebPage page)
         {
-            page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
-            var mpage = page.ToModel(page.Author.UserName);
-            MarkUpManager markDownManager = new MarkUpManager();
-            mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
+            try
 
-           await  pageManager.Create(page, User.Identity.Name);
+            {
+                page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
+                var mpage = page.ToModel(page.Author.UserName);
+                MarkUpManager markDownManager = new MarkUpManager();
+                mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
 
-            return RedirectToAction(nameof(Index), "Pages" );
+                await pageManager.Create(page, User.Identity.Name);
+
+                return RedirectToAction(nameof(Index), "Pages");
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
 
         }
 
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<ActionResult> Edit(string name)
         {
+            try
+            { 
             ViewBag.CreateAction = false;
 
 
@@ -179,7 +243,7 @@ namespace SlimeWeb.Controllers
             {
                 return NotFound();
             }
-            ViewSlimeWebPage vpage= new ViewSlimeWebPage();
+            ViewSlimeWebPage vpage = new ViewSlimeWebPage();
             vpage.ImportFromModel(page);
             MarkUpManager markUpManager = new MarkUpManager();
             vpage.HTMLcontent = markUpManager.ConvertToHtml(page.content);
@@ -191,6 +255,11 @@ namespace SlimeWeb.Controllers
             }
             return View(vpage);
         }
+        catch (Exception ex) { CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+    }
+}
 
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         [HttpPost]
@@ -208,8 +277,9 @@ namespace SlimeWeb.Controllers
                 MarkUpManager markDownManager = new MarkUpManager();
                 mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
                 mpage = await pageManager.Edit( Name, mpage);
+                return RedirectToAction(nameof(Index), "Pages");
 
-                 
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -224,7 +294,13 @@ namespace SlimeWeb.Controllers
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index), "Pages");
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+           
 
 
         }
@@ -232,25 +308,33 @@ namespace SlimeWeb.Controllers
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<ActionResult> DeleteAsync( string Name)
         {
-
-
-            if (Name == null)
+            try
             {
-                return NotFound();
+
+                if (Name == null)
+                {
+                    return NotFound();
+                }
+                var mpage = await pageManager.Details(Name);
+                ViewSlimeWebPage page = new ViewSlimeWebPage();
+                page.ImportFromModel(mpage);
+                MarkUpManager markUpManager = new MarkUpManager();
+                page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
+                if (page == null)
+                {
+                    return NotFound();
+                }
+
+
+
+                return View(page);
             }
-            var mpage = await pageManager.Details(Name);
-            ViewSlimeWebPage page = new ViewSlimeWebPage();
-            page.ImportFromModel(mpage);
-            MarkUpManager markUpManager = new MarkUpManager();
-            page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
-            if (page== null)
+            catch (Exception ex)
             {
-                return NotFound();
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-
-
-
-            return View(page);
         }
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         // POST: PagesController1/Delete/5
@@ -264,9 +348,11 @@ namespace SlimeWeb.Controllers
                 await this.pageManager.Delete(Name);
                 return RedirectToAction(nameof(Index ));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -310,9 +396,9 @@ namespace SlimeWeb.Controllers
             }
             catch (Exception ex)
             {
-
                 CommonTools.ErrorReporting(ex);
-                return null;
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }

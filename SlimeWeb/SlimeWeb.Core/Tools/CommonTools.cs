@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Core;
+using Serilog.Formatting.Compact;
+using Serilog.Formatting.Json;
 using SlimeWeb.Core.Managers;
 using System;
 using System.Collections.Generic;
@@ -13,7 +17,30 @@ namespace SlimeWeb.Core.Tools
     public class CommonTools
     {
         public static SlimeWebsUserManager usrmng;
-      
+        public static Logger logger;
+
+        public static void CreateLogger()
+        {
+            try
+            {
+                LoggerConfiguration loggerConfiguration = new LoggerConfiguration();
+              var logfile=  Path.Combine(FileSystemManager.GetAppRootDataFolderAbsolutePath(), "logs","log.txt");
+                loggerConfiguration.WriteTo.File(new  JsonFormatter(), logfile,Serilog.Events.LogEventLevel.Information);
+                
+                loggerConfiguration.Enrich.FromLogContext();
+               
+                logger = loggerConfiguration.CreateLogger();
+                Log.Logger = logger;
+            }
+            catch (Exception ex)
+            {
+                 ErrorReporting(ex);
+
+                 
+            }
+
+        }
+       
         //public static FileRecordManager FileRecordManager = new FileRecordManager(usrmng.Context);
         public static Boolean isEmpty(string str)
         {
@@ -27,10 +54,10 @@ namespace SlimeWeb.Core.Tools
 
                 return ap;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
-                throw;
                 return true;
             }
         }
@@ -47,7 +74,21 @@ namespace SlimeWeb.Core.Tools
             else
             {
 
-                NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+                CreateLogger();
+
+
+                    //(new CompactJsonFormatter());
+
+
+
+                //.ReadFrom.Services(services)
+                //  .Enrich.FromLogContext()
+
+                // .WriteTo.File(new CompactJsonFormatter(), "/wwwroot/AppData/logs/logs.json"))
+                //.CreateBootstrapLogger())
+
+                logger.Fatal(ex,"Application crashed");
                 // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)
                 //  {
@@ -61,12 +102,10 @@ namespace SlimeWeb.Core.Tools
         public static void ValidationErrorReporting(ValidationException ex)
         {
             //throw (ex);
+            logger.Error(ex, "Validation Exception");
 
 
-
-            NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-
-            logger.Info(ex);
+          
 
 
         }
@@ -79,10 +118,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+               ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static string GetSlimeWebDeveloper()
@@ -102,10 +142,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+               ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static string GetSlimeWebCopyright()
@@ -125,10 +166,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static string GetSlimeWebCoreVersion()
@@ -141,10 +183,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static string GetSlimeWebCoreDeveloper()
@@ -164,10 +207,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static string GetSlimeWebCoreCopyright()
@@ -187,10 +231,11 @@ namespace SlimeWeb.Core.Tools
                 return ap;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorReporting(ex);
 
-                throw;
+                return null;
             }
         }
         public static void saveFileFRombase64string(string filedata, string filename)
@@ -204,10 +249,11 @@ namespace SlimeWeb.Core.Tools
                     File.WriteAllBytes( filename, bytes);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorReporting(ex);
 
-                throw;
+                
             }
         }
 

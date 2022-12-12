@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authorization;
 using SlimeWeb.Core.CustomPolicy;
 using SlimeWeb.Core.Tools;
 using SlimeWeb.Core.Managers.Install;
+using Serilog;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -207,7 +208,7 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-
+            
 
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
@@ -274,6 +275,7 @@ namespace SlimeWeb.Core.App_Start
 
             NavigationManager.AddDefaultMenusOnTopMenu();
             NavigationManager.AddDefaultMenusOnBottomMenu();
+            
            
 
 

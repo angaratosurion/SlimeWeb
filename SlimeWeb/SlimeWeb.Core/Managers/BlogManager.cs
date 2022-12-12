@@ -63,7 +63,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -115,7 +115,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -147,7 +147,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -177,7 +177,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return false; ;
             }
         }
@@ -228,7 +228,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 //return null;
             }
         }
@@ -260,7 +260,8 @@ namespace SlimeWeb.Core.Managers
 
                 CommonTools.ErrorReporting(ex);
                 return null;
-            }
+            
+        }
         }
         public async Task<List<ApplicationUser>> GetBlogModerators(string Blogname)
         {
@@ -326,7 +327,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }
@@ -353,7 +354,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex)
             {
 
-                CommonTools.ErrorReporting(ex);
+                CommonTools.ErrorReporting(ex); 
                 return null;
             }
         }

@@ -13,7 +13,7 @@ namespace SlimeWeb.Core.Managers
 {
     public class BlogModsManager : DataManager
     {
-        BlogManager blmngr=new BlogManager();
+        BlogManager blmngr = new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
 
         //public BlogModsManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
@@ -28,8 +28,8 @@ namespace SlimeWeb.Core.Managers
                 List<BlogMods> ap = null;
 
 
-                 ap = DataManager.db.BlogMods.ToList();
-               
+                ap = DataManager.db.BlogMods.ToList();
+
 
 
                 return ap;
@@ -41,19 +41,19 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task< BlogMods >Details(string blogname,string modname)
+        public async Task<BlogMods> Details(string blogname, string modname)
         {
             try
             {
-                 BlogMods ap = null;
+                BlogMods ap = null;
                 Boolean blogexists = await blmngr.BlogExists(blogname);
                 if (!CommonTools.isEmpty(blogname) && (blogexists))
                 {
                     List<BlogMods> mods = (await this.ListModsByBlogName(blogname)).ToList();
-                    ap=mods.Find(x=>x.ModeratorId==modname);
+                    ap = mods.Find(x => x.ModeratorId == modname);
 
-                   
-                    
+
+
                 }
 
 
@@ -76,11 +76,11 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(blogname) && (blogexists))
                 {
                     Blog blog = await blmngr.GetBlogAsync(blogname);
-                    List<BlogMods> tap =await this.ListMods();
-                    
-                    if ( tap!=null && (tap.Where(x => x.BlogId == blog.Id).ToList()!=null))
+                    List<BlogMods> tap = await this.ListMods();
+
+                    if (tap != null && (tap.Where(x => x.BlogId == blog.Id).ToList() != null))
                     {
-                        var mods= tap.Where(x => x.BlogId == blog.Id).ToList();
+                        var mods = tap.Where(x => x.BlogId == blog.Id).ToList();
                         ap = mods;
                     }
                 }
@@ -98,18 +98,18 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-              BlogMods ap = null;
-             
-                
-                     
-                    List<BlogMods> tap = await this.ListMods();
+                BlogMods ap = null;
 
-                    if (tap != null && tap.Find(x => x.Id == id) != null)
-                    {
-                    var mods = tap.Find(x=>x.Id==id);
-                        ap = mods;
-                    }
-                
+
+
+                List<BlogMods> tap = await this.ListMods();
+
+                if (tap != null && tap.Find(x => x.Id == id) != null)
+                {
+                    var mods = tap.Find(x => x.Id == id);
+                    ap = mods;
+                }
+
 
                 return ap;
             }
@@ -125,12 +125,12 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<BlogMods> ap = null;
-                if (CommonTools.isEmpty(modname) != false &&  userManager.GetUser(modname)!=null)
+                if (CommonTools.isEmpty(modname) != false && userManager.GetUser(modname) != null)
                 {
                     ApplicationUser applicationUser = userManager.GetUser(modname);
                     List<BlogMods> tap = await this.ListMods();
 
-                    if (tap != null && (tap.Where(x => x.ModeratorId==applicationUser.UserName).ToList() != null))
+                    if (tap != null && (tap.Where(x => x.ModeratorId == applicationUser.UserName).ToList() != null))
                     {
                         var mods = tap.Where(x => x.ModeratorId == applicationUser.UserName).ToList();
                         ap = mods;
@@ -146,15 +146,15 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async void RegisterMods(string blogname,string modname)
+        public async void RegisterMods(string blogname, string modname)
         {
             try
             {
-                if (!CommonTools.isEmpty(blogname)  && !CommonTools.isEmpty(modname) 
+                if (!CommonTools.isEmpty(blogname) && !CommonTools.isEmpty(modname)
                     && (await blmngr.BlogExists(blogname))
                     && userManager.UserExists(modname))
                 {
-                    var blog =await  blmngr.GetBlogAsync(blogname);
+                    var blog = await blmngr.GetBlogAsync(blogname);
                     var user = userManager.GetUser(modname);
                     BlogMods blogmod = new BlogMods();
                     blogmod.BlogId = blog.ExportToModel().Id;
@@ -171,7 +171,7 @@ namespace SlimeWeb.Core.Managers
             {
 
                 CommonTools.ErrorReporting(ex);
-               // return null;
+                // return null;
             }
         }
         public async void UnRegisterMods(string blogname, string modname)
@@ -184,8 +184,8 @@ namespace SlimeWeb.Core.Managers
                     var lstblogmod = (await this.ListModsByModName(modname)).ToList();
                     if (lstblogmod != null)
                     {
-                        var blog =await blmngr.GetBlogAsync(blogname);
-                        var blogmod = lstblogmod.First(x => x.BlogId==blog.ExportToModel().Id);
+                        var blog = await blmngr.GetBlogAsync(blogname);
+                        var blogmod = lstblogmod.First(x => x.BlogId == blog.ExportToModel().Id);
                         if (blogmod != null)
                         {
                             db.BlogMods.Remove(blogmod);
@@ -203,26 +203,26 @@ namespace SlimeWeb.Core.Managers
                 // return null;
             }
         }
-        public async Task<BlogMods> Edit(string modname,BlogMods mods, string blogname)
+        public async Task<BlogMods> Edit(string modname, BlogMods mods, string blogname)
         {
             try
             {
-               BlogMods vmods = null;
+                BlogMods vmods = null;
                 if (mods != null && !CommonTools.isEmpty(blogname) && !CommonTools.isEmpty(modname))
                 {
-                     
-                    
-                       var lstmods = await this.ListModsByBlogName(blogname);
+
+
+                    var lstmods = await this.ListModsByBlogName(blogname);
                     if (lstmods != null)
                     {
-                        vmods= lstmods.First(x=>x.ModeratorId==modname);
+                        vmods = lstmods.First(x => x.ModeratorId == modname);
                         if (vmods != null)
                         {
                             mods.BlogId = vmods.BlogId;
 
                             db.Entry(vmods).State = EntityState.Modified;
-                            mods.Id=vmods.Id;
-                            mods.BlogId=vmods.BlogId;
+                            mods.Id = vmods.Id;
+                            mods.BlogId = vmods.BlogId;
 
                             db.Entry(vmods).CurrentValues.SetValues(mods);
                             // db.Post.Update(Post);
@@ -264,9 +264,14 @@ namespace SlimeWeb.Core.Managers
                 return null;
 
             }
-            catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+            
 
         }
 
+        }
     }
 }

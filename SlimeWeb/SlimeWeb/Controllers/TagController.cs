@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
@@ -56,10 +58,11 @@ namespace SlimeWeb.Controllers
                 }
             return View(lstTags);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
-                throw;
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -120,22 +123,30 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int id,string blogname)
         {
-           // string name = blogname;
-            
+            try
+            {// string name = blogname;
 
-            // var Tag = await _context.Tags.FindAsync(id);
-            var tag = await this. TagManager.GetTagById(id);
-            if (tag == null)
-            {
-                return NotFound();
+
+                // var Tag = await _context.Tags.FindAsync(id);
+                var tag = await this.TagManager.GetTagById(id);
+                if (tag == null)
+                {
+                    return NotFound();
+                }
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = tag.Name, blogname = blogname });
+                }
+                ViewTag viewTag = new ViewTag();
+                viewTag.ImportFromModel(tag);
+                return View(viewTag);
             }
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Details), new { id = tag.Name, blogname = blogname });
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-            ViewTag viewTag = new ViewTag();
-            viewTag.ImportFromModel(tag);
-            return View(viewTag);
         }
 
         // POST: Tags/Edit/5
@@ -145,36 +156,45 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Tag tag,string blogname)
         {
-
-           // string name = id;
-            
-
-            // if (ModelState.IsValid)
+            try
             {
-                try
+
+                // string name = id;
+
+
+                // if (ModelState.IsValid)
                 {
-                    //_context.Update(Tag);
-                    if(blogname == null)
+                    try
                     {
-                       var cat =await TagManager.GetTagById(id);
-                        var blog = await blogmnger.GetBlogByIdAsync(cat.BlogId);
-                        blogname = blog.Name;
+                        //_context.Update(Tag);
+                        if (blogname == null)
+                        {
+                            var cat = await TagManager.GetTagById(id);
+                            var blog = await blogmnger.GetBlogByIdAsync(cat.BlogId);
+                            blogname = blog.Name;
+                        }
+
+                        await this.TagManager.Edit(id, tag, blogname); ;
                     }
-                   
-                await this. TagManager.Edit(id,tag, blogname); ;
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!await TagManager.Exists(id, blogname))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index), new { id = blogname });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await  TagManager.Exists(id,blogname))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw; 
-                    }
-                }
-                return RedirectToAction(nameof(Index),new { id = blogname });
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             //return View(Tag);
@@ -184,29 +204,38 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id,string blogname)
         {
-           //.. string name = id;
-            var Tag = await this.TagManager.GetTagById(id);
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-            if (Tag == null)
+            try
             {
-                return NotFound();
+                //.. string name = id;
+                var Tag = await this.TagManager.GetTagById(id);
+                //if (id == null)
+                //{
+                //    return NotFound();
+                //}
+                if (Tag == null)
+                {
+                    return NotFound();
+                }
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = id, blogname = blogname });
+                }
+
+                ViewTag viewTag = new ViewTag();
+                viewTag.ImportFromModel(Tag);
+
+                //var Tag = await _context.Tags
+                //    .FirstOrDefaultAsync(m => m.Id == id);
+
+
+                return View(viewTag);
             }
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Details), new { id = id , blogname =blogname});
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-          
-            ViewTag viewTag =new ViewTag();
-            viewTag.ImportFromModel(Tag);
-
-            //var Tag = await _context.Tags
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-         
-
-            return View(viewTag);
         }
 
         // POST: Tags/Delete/5
@@ -214,22 +243,31 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id,string blogname)
         {
-            string name = id;
-            //var Tag = await _context.Tags.FindAsync(id);
-            //_context.Tags.Remove(Tag);
-            //await _context.SaveChangesAsync();
-          var posts= await  postManager.ListPostByTag(name,blogname);
-            if(posts != null)
+            try
             {
-                foreach(var post in posts)
+                string name = id;
+                //var Tag = await _context.Tags.FindAsync(id);
+                //_context.Tags.Remove(Tag);
+                //await _context.SaveChangesAsync();
+                var posts = await postManager.ListPostByTag(name, blogname);
+                if (posts != null)
                 {
-                    await TagManager.DetattachTagFromPost(post.Id, id, blogname);
+                    foreach (var post in posts)
+                    {
+                        await TagManager.DetattachTagFromPost(post.Id, id, blogname);
 
+                    }
                 }
+
+                this.TagManager.RemoveTag(name, blogname);
+                return RedirectToAction(nameof(Index), new { id = blogname });
             }
-            
-             this.TagManager.RemoveTag(name, blogname);
-            return RedirectToAction(nameof(Index),new { id =  blogname });
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

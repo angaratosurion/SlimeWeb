@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
@@ -49,11 +51,13 @@ namespace SlimeWeb.Controllers
                 }
             return View(lstblogs);
             }
-            catch (Exception)
-            {
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex);
+            
+                
 
-                throw;
-            }
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            
+        }
         }
 
         // GET: Blogs/Details/5
@@ -98,37 +102,55 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Title,LastUpdate,Created")] Blog blog)
         {
-            //if (ModelState.IsValid)
+            try
             {
-                //_context.Add(blog);
-                //await _context.SaveChangesAsync();
-                this.blogmnger.CreateBlog(blog, this.User.Identity.Name);
-                return RedirectToAction(nameof(Index));
+                //if (ModelState.IsValid)
+                {
+                    //_context.Add(blog);
+                    //await _context.SaveChangesAsync();
+                    this.blogmnger.CreateBlog(blog, this.User.Identity.Name);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(blog);
             }
-            return View(blog);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: Blogs/Edit/5
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            string name = id;
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, id) == false)
+            try
             {
-                return RedirectToAction(nameof(Details), new { id =id});
-            }
-            if (name == null)
-            {
-                return NotFound();
-            }
+                string name = id;
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, id) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = id });
+                }
+                if (name == null)
+                {
+                    return NotFound();
+                }
 
-            // var blog = await _context.Blogs.FindAsync(id);
-            var blog = await this.blogmnger.GetBlogAsync(name);
-            if (blog == null)
-            {
-                return NotFound();
+                // var blog = await _context.Blogs.FindAsync(id);
+                var blog = await this.blogmnger.GetBlogAsync(name);
+                if (blog == null)
+                {
+                    return NotFound();
+                }
+                return View(blog);
             }
-            return View(blog);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: Blogs/Edit/5
@@ -138,34 +160,42 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Administrator, Title,Created")] Blog blog)
         {
-
-            string name = id;
-            if (name != blog.Name)
+            try
             {
-                return NotFound();
+                string name = id;
+                if (name != blog.Name)
+                {
+                    return NotFound();
+                }
+
+                // if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        //_context.Update(blog);
+                        //await _context.SaveChangesAsync();
+                        blog.LastUpdate = DateTime.Now;
+                        await this.blogmnger.EditBasicInfo(blog, name); ;
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!await blogmnger.BlogExists(name))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
-            // if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                try
-                {
-                    //_context.Update(blog);
-                    //await _context.SaveChangesAsync();
-                    blog.LastUpdate = DateTime.Now;
-                    await this.blogmnger.EditBasicInfo(blog, name); ;
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await blogmnger.BlogExists(name))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             //return View(blog);
@@ -175,26 +205,35 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
-            string name = id;
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, name) == false)
+            try
             {
-                return RedirectToAction(nameof(Details), new { id = name });
+                string name = id;
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, name) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = name });
+                }
+                if (name == null)
+                {
+                    return NotFound();
+                }
+
+                //var blog = await _context.Blogs
+                //    .FirstOrDefaultAsync(m => m.Id == id);
+                var blog = await this.blogmnger.GetBlogAsync(name);
+
+                if (blog == null)
+                {
+                    return NotFound();
+                }
+
+                return View(blog);
             }
-            if (name == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-
-            //var blog = await _context.Blogs
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            var blog = await this.blogmnger.GetBlogAsync(name);
-
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            return View(blog);
         }
 
         // POST: Blogs/Delete/5
@@ -202,12 +241,21 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            string name = id;
-            //var blog = await _context.Blogs.FindAsync(id);
-            //_context.Blogs.Remove(blog);
-            //await _context.SaveChangesAsync();
-            var blog = this.blogmnger.DeleteBlogAsync(name);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                string name = id;
+                //var blog = await _context.Blogs.FindAsync(id);
+                //_context.Blogs.Remove(blog);
+                //await _context.SaveChangesAsync();
+                var blog = this.blogmnger.DeleteBlogAsync(name);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

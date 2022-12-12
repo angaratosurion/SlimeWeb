@@ -17,23 +17,41 @@ namespace SlimeWeb.Core.Data.ViewModels
         public Blog Blog { get; set; }
         public async void ImportFromModel(BlogMods model)
         {
-            if (model != null)
+            try
             {
-                Blog = await this.bmngr.GetBlogByIdAsync(model.BlogId);
-                Moderator =  this.userManager.GetUser(model.ModeratorId).UserName;
-                Active= model.Active;
-                BlogId = model.BlogId;
-                this.ModeratorId = this.userManager.GetUser(model.ModeratorId).UserName;
+                if (model != null)
+                {
+                    Blog = await this.bmngr.GetBlogByIdAsync(model.BlogId);
+                    Moderator = this.userManager.GetUser(model.ModeratorId).UserName;
+                    Active = model.Active;
+                    BlogId = model.BlogId;
+                    this.ModeratorId = this.userManager.GetUser(model.ModeratorId).UserName;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                
             }
         }
         public BlogMods ToModel()
         {
-            BlogMods ap = new BlogMods();
-            ap.BlogId = BlogId;
-            ap.ModeratorId = this.userManager.GetUser(ModeratorId).UserName;
-            ap.Active = Active;
-            
-            return ap;
+            try
+            {
+                BlogMods ap = new BlogMods();
+                ap.BlogId = BlogId;
+                ap.ModeratorId = this.userManager.GetUser(ModeratorId).UserName;
+                ap.Active = Active;
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
         }
     }
 }

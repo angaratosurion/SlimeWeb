@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,51 +66,67 @@ namespace SlimeWeb.Core.Data.DBContexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-
-
-            //string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-
-
-         //   string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
-            
-                          
-                            
-             
-            var directory =FileSystemManager.GetAppRootDataFolderAbsolutePath();
-            if(Directory.Exists(directory)== false)
-            {
-                Directory.CreateDirectory(directory);
-            }
-            string olddbConn = AppSettingsManager.GetDefaultConnectionString();
-            if (olddbConn != null)
+            try
             {
 
-                string dbCon = olddbConn.Replace("|DataDirectory|", directory);
-                if (dbCon != null)
+                //string pathwithextention= System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+
+
+                //   string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
+
+
+
+
+                var directory = FileSystemManager.GetAppRootDataFolderAbsolutePath();
+                if (Directory.Exists(directory) == false)
                 {
-                    if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
-                    {
-                        optionsBuilder.UseSqlServer(dbCon);
-                    }
-                    else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-                    {
-                        optionsBuilder.UseMySQL(dbCon);
+                    Directory.CreateDirectory(directory);
+                }
+                string olddbConn = AppSettingsManager.GetDefaultConnectionString();
+                if (olddbConn != null)
+                {
 
+                    string dbCon = olddbConn.Replace("|DataDirectory|", directory);
+                    if (dbCon != null)
+                    {
+                        if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
+                        {
+                            optionsBuilder.UseSqlServer(dbCon);
+                        }
+                        else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                        {
+                            optionsBuilder.UseMySQL(dbCon);
+
+                        }
                     }
                 }
             }
-            
-               
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                 
+            }
+
+
 
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            builder.Entity<ApplicationUser>()
-                 .Property(e => e.Id)
-                .ValueGeneratedOnAdd();
-            builder.Entity<SlimeWebPage>().HasIndex(e => e.Name).IsUnique();
-               
+            try
+            {
+                base.OnModelCreating(builder);
+                builder.Entity<ApplicationUser>()
+                     .Property(e => e.Id)
+                    .ValueGeneratedOnAdd();
+                builder.Entity<SlimeWebPage>().HasIndex(e => e.Name).IsUnique();
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                 
+            }
+
 
         }
 

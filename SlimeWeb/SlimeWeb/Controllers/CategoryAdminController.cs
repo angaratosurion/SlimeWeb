@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Controllers
 {
@@ -75,10 +77,11 @@ namespace SlimeWeb.Controllers
                 }
             return View(lstCategorys);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CommonTools.ErrorReporting(ex);
 
-                throw;
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -139,22 +142,29 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int id,string blogname)
         {
-           // string name = blogname;
-            
+            // string name = blogname;
+            try
+            {
+                // var Category = await _context.Categorys.FindAsync(id);
+                var Category = await this.categoryManager.GetCategoryById(id);
+                if (Category == null)
+                {
+                    return NotFound();
+                }
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = Category.Name, blogname = blogname });
+                }
+                ViewCategory viewCategory = new ViewCategory();
+                viewCategory.ImportFromModel(Category);
+                return View(viewCategory);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
 
-            // var Category = await _context.Categorys.FindAsync(id);
-            var Category = await this. categoryManager.GetCategoryById(id);
-            if (Category == null)
-            {
-                return NotFound();
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
-            {
-                return RedirectToAction(nameof(Details), new { id = Category.Name, blogname = blogname });
-            }
-            ViewCategory viewCategory = new ViewCategory();
-            viewCategory.ImportFromModel(Category);
-            return View(viewCategory);
         }
 
         // POST: Categorys/Edit/5
@@ -165,35 +175,43 @@ namespace SlimeWeb.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category Category,string blogname)
         {
 
-           // string name = id;
-            
-
-            // if (ModelState.IsValid)
+            // string name = id;
+            try
             {
-                try
+
+                // if (ModelState.IsValid)
                 {
-                    //_context.Update(Category);
-                    if(blogname == null)
+                    try
                     {
-                       var cat =await categoryManager.GetCategoryById(id);
-                        var blog = await blogmnger.GetBlogByIdAsync(cat.BlogId);
-                        blogname = blog.Name;
+                        //_context.Update(Category);
+                        if (blogname == null)
+                        {
+                            var cat = await categoryManager.GetCategoryById(id);
+                            var blog = await blogmnger.GetBlogByIdAsync(cat.BlogId);
+                            blogname = blog.Name;
+                        }
+
+                        await this.categoryManager.Edit(id, Category, blogname); ;
                     }
-                   
-                await this. categoryManager.Edit(id,Category, blogname); ;
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!await categoryManager.Exists(id, blogname))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index), new { id = blogname });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await  categoryManager.Exists(id,blogname))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw; 
-                    }
-                }
-                return RedirectToAction(nameof(Index),new { id = blogname });
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             //return View(Category);
@@ -203,28 +221,37 @@ namespace SlimeWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id,string blogname)
         {
-           //.. string name = id;
-            var Category = await this.categoryManager.GetCategoryById(id);
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-            if (Category == null)
+            try
             {
-                return NotFound();
-            }
-            if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
-            {
-                return RedirectToAction(nameof(Details), new { id = id , blogname =blogname});
-            }
-          
+                //.. string name = id;
+                var Category = await this.categoryManager.GetCategoryById(id);
+                //if (id == null)
+                //{
+                //    return NotFound();
+                //}
+                if (Category == null)
+                {
+                    return NotFound();
+                }
+                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                {
+                    return RedirectToAction(nameof(Details), new { id = id, blogname = blogname });
+                }
 
-            //var Category = await _context.Categorys
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-         
-            ViewCategory viewCategory = new ViewCategory();
-            viewCategory.ImportFromModel(Category);
-            return View(viewCategory);
+
+                //var Category = await _context.Categorys
+                //    .FirstOrDefaultAsync(m => m.Id == id);
+
+                ViewCategory viewCategory = new ViewCategory();
+                viewCategory.ImportFromModel(Category);
+                return View(viewCategory);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: Categorys/Delete/5
@@ -232,24 +259,32 @@ namespace SlimeWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id,string blogname)
         {
-
-            //var Category = await _context.Categorys.FindAsync(id);
-            //_context.Categorys.Remove(Category);
-            //await _context.SaveChangesAsync();
-            var cat = await categoryManager.GetCategoryById(id);
-            string name = cat.Name;
-            var posts= await  postManager.ListPostByCategory(name,blogname);
-            if(posts != null)
+            try
             {
-                foreach(var post in posts)
+                //var Category = await _context.Categorys.FindAsync(id);
+                //_context.Categorys.Remove(Category);
+                //await _context.SaveChangesAsync();
+                var cat = await categoryManager.GetCategoryById(id);
+                string name = cat.Name;
+                var posts = await postManager.ListPostByCategory(name, blogname);
+                if (posts != null)
                 {
-                    await categoryManager.DetattachCategoryFromPost(post.Id, name, blogname);
+                    foreach (var post in posts)
+                    {
+                        await categoryManager.DetattachCategoryFromPost(post.Id, name, blogname);
 
+                    }
                 }
+
+                this.categoryManager.RemoveCategory(name, blogname);
+                return RedirectToAction(nameof(Index), new { id = blogname });
             }
-            
-             this.categoryManager.RemoveCategory(name, blogname);
-            return RedirectToAction(nameof(Index),new { id =  blogname });
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

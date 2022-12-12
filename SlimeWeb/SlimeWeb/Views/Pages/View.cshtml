@@ -1,13 +1,13 @@
 ﻿@model SlimeWeb.Core.Data.ViewModels.ViewSlimeWebPage
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Details</h1>
+<h1>model.Title</h1>
 
 <div>
-    <h4>Page</h4>
+    @*<h4>Page</h4>*@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -37,14 +37,14 @@
         </div>
         
         <div class="article">
-    <dl class="row">
+    @*<dl class="row">*@
       
             
             @Html.Raw(Model.HTMLcontent)
         
       
  
-    </dl>
+  @*  </dl>*@
    
     </div>
 </div>

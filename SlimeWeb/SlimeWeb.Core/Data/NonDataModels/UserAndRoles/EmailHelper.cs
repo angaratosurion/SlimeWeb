@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlimeWeb.Core.Tools;
+using System;
 using System.Net.Mail;
 
 namespace SlimeWeb.Core.Data.NonDataModels.UserAndRoles
@@ -27,9 +28,11 @@ namespace SlimeWeb.Core.Data.NonDataModels.UserAndRoles
             }
             catch (Exception ex)
             {
-                // log exception
+                CommonTools.ErrorReporting(ex);
+
+                return false;
             }
-            return false;
+           
         }
 
         public bool SendEmail(string userEmail, string confirmationLink)
@@ -54,13 +57,17 @@ namespace SlimeWeb.Core.Data.NonDataModels.UserAndRoles
             }
             catch (Exception ex)
             {
-                // log exception
+                CommonTools.ErrorReporting(ex);
+
+                return false;
             }
-            return false;
+            
         }
 
         public bool SendEmailPasswordReset(string userEmail, string link)
         {
+            try
+            { 
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress("care@yogihosting.com");
             mailMessage.To.Add(new MailAddress(userEmail));
@@ -74,16 +81,17 @@ namespace SlimeWeb.Core.Data.NonDataModels.UserAndRoles
             client.Host = "smtpout.secureserver.net";
             client.Port = 80;
 
-            try
-            {
+         
                 client.Send(mailMessage);
                 return true;
             }
             catch (Exception ex)
             {
-                // log exception
+                CommonTools.ErrorReporting(ex);
+
+                return false;
             }
-            return false;
+            
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
+using System;
 
 namespace SlimeWeb.Controllers
 {
@@ -8,35 +10,51 @@ namespace SlimeWeb.Controllers
     {
         public IActionResult AccessDenied(string ReturnUrl)
         {
-            var pathbase = AppSettingsManager.GetPathBase();
+            try
+            {
+                var pathbase = AppSettingsManager.GetPathBase();
 
-            if (CommonTools.isEmpty(pathbase) == false)
-            {
-                return LocalRedirect(pathbase + "/Identity/Account/AccessDenied?ReturnUrl=" + ReturnUrl);
-           // return LocalRedirect("/Identity/Account/AccessDenied");
-           }
-           else
-            {
-                return LocalRedirect("/Identity/Account/AccessDenied?ReturnUrl=" + ReturnUrl);
+                if (CommonTools.isEmpty(pathbase) == false)
+                {
+                    return LocalRedirect(pathbase + "/Identity/Account/AccessDenied?ReturnUrl=" + ReturnUrl);
+                    // return LocalRedirect("/Identity/Account/AccessDenied");
+                }
+                else
+                {
+                    return LocalRedirect("/Identity/Account/AccessDenied?ReturnUrl=" + ReturnUrl);
+                }
+            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
            
         }
         public IActionResult Login(string ReturnUrl)
         {
-            var pathbase = AppSettingsManager.GetPathBase();
-
-            if (CommonTools.isEmpty(pathbase) == false)
+            try
             {
+                var pathbase = AppSettingsManager.GetPathBase();
 
-                return LocalRedirect(pathbase + "/Identity/Account/Login?ReturnUrl=" + ReturnUrl);
-              
+                if (CommonTools.isEmpty(pathbase) == false)
+                {
 
+                    return LocalRedirect(pathbase + "/Identity/Account/Login?ReturnUrl=" + ReturnUrl);
+
+
+                }
+                else
+                {
+                    return LocalRedirect("/Identity/Account/Login?ReturnUrl=" + ReturnUrl);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return LocalRedirect("/Identity/Account/Login?ReturnUrl=" + ReturnUrl);
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
-           
+
 
         }
     }

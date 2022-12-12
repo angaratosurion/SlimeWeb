@@ -19,49 +19,66 @@ namespace SlimeWeb.Core.Data.ViewModels
 
         public void ImportFromModel(SlimeWebPage model)
         {
-            this.Author = SlimeWebPageManager.db.Users.First(x => x.UserName == model.Author);
+            try
+            {
+                this.Author = SlimeWebPageManager.db.Users.First(x => x.UserName == model.Author);
 
-            
-            // this.Categories = model.Categories;
 
-            this.Id = model.Id;
-            this.Published = model.Published;
-            this.RowVersion = model.RowVersion;
-            //this.Tags = model.Tags;
-            this.Title = model.Title;
-            this.content = model.content;
-            this.Name=model.Name;
-            this.TopPosition = model.TopPosition;
-            this.BottomPosition = model.BottomPosition;
-           
+                // this.Categories = model.Categories;
 
+                this.Id = model.Id;
+                this.Published = model.Published;
+                this.RowVersion = model.RowVersion;
+                //this.Tags = model.Tags;
+                this.Title = model.Title;
+                this.content = model.content;
+                this.Name = model.Name;
+                this.TopPosition = model.TopPosition;
+                this.BottomPosition = model.BottomPosition;
+            }
+
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                 
+            }
 
         }
         public SlimeWebPage ToModel(string username)
         {
-            SlimeWebPage ap = new SlimeWebPage();
-            if (CommonTools.isEmpty(username))
+            try
             {
-                return null; ;
+                SlimeWebPage ap = new SlimeWebPage();
+                if (CommonTools.isEmpty(username))
+                {
+                    return null; ;
+                }
+                if (this.Author == null)
+                {
+                    Author = SlimeWebPageManager.db.Users.First(x => x.UserName == username);
+                }
+                ap.Author = this.Author.UserName;
+
+
+                ap.Id = Id;
+                ap.Published = Published;
+                ap.RowVersion = RowVersion;
+                ap.Title = Title;
+                ap.content = content;
+                ap.Name = Name;
+                ap.TopPosition = this.TopPosition;
+                ap.BottomPosition = this.BottomPosition;
+
+
+                return ap;
             }
-            if (this.Author == null)
+            catch (Exception ex)
             {
-                Author = SlimeWebPageManager.db.Users.First(x => x.UserName == username);
+                CommonTools.ErrorReporting(ex);
+
+                return null;
             }
-            ap.Author = this.Author.UserName;
-          
-
-            ap.Id = Id;
-            ap.Published = Published;
-            ap.RowVersion = RowVersion;
-            ap.Title = Title;
-            ap.content = content;
-            ap.Name= Name;
-            ap.TopPosition = this.TopPosition;
-            ap.BottomPosition = this.BottomPosition;
-
-
-            return ap;
         }
     }
 }

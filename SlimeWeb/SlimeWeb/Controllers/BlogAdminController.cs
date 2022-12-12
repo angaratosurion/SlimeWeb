@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,20 @@ namespace SlimeWeb.Controllers
         // GET: AdminHomeController
         public async Task<ActionResult> IndexAsync(string id)
         {
-            if (await accessManager.DoesUserHasAccess(User.Identity.Name,   id) == false)
+            try
             {
-                return RedirectToAction(nameof(Index),"Blogs", new { id = id });
+                if (await accessManager.DoesUserHasAccess(User.Identity.Name, id) == false)
+                {
+                    return RedirectToAction(nameof(Index), "Blogs", new { id = id });
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
         }
 
        

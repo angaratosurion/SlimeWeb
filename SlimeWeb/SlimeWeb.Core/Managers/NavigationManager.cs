@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Data.NonDataModels.Navigation;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using SlimeWeb.Core.Data.NonDataModels.Navigation;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace SlimeWeb.Core.Managers
                 SlimeWebMenu ap = null;
 
 
-                if( TopMenu!=null && TopMenu.Count>0 && !CommonTools.isEmpty(name))
+                if (TopMenu != null && TopMenu.Count > 0 && !CommonTools.isEmpty(name))
                 {
 
                     ap = TopMenu.FirstOrDefault(x => x.Name == name);
@@ -34,11 +35,8 @@ namespace SlimeWeb.Core.Managers
                 return ap;
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex);
+                return null; }
 
         }
         public static SlimeWebMenu FindParentInBottomMenu(string name)
@@ -56,11 +54,7 @@ namespace SlimeWeb.Core.Managers
                 return ap;
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex); return null; }
 
         }
         public static void AddToTopMenu(SlimeWebMenu menu,string parent )
@@ -84,11 +78,7 @@ namespace SlimeWeb.Core.Managers
                 }
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex); }
         }
         public static void AddToBottomMenu(SlimeWebMenu menu, string parent)
         {
@@ -111,11 +101,7 @@ namespace SlimeWeb.Core.Managers
                 }
             }
             
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex); }
         }
         public static List<SlimeWebMenu> GetTopMenu() { 
         
@@ -168,11 +154,7 @@ namespace SlimeWeb.Core.Managers
 
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex); }
 
         }
         public static void AddDefaultMenusOnBottomMenu()
@@ -192,11 +174,7 @@ namespace SlimeWeb.Core.Managers
 
 
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            catch (Exception ex)  {CommonTools.ErrorReporting(ex);  }
 
         }
         //public static void AddPagestMenusOnTopMenu()
