@@ -14,7 +14,7 @@ namespace SlimeWeb.Core.Tools
     public class CommonTools
     {
         public static SlimeWebsUserManager usrmng;
-       public static Logger logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        public static Logger logger;//= LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         public static void CreateLogger()
         {
             try
@@ -86,6 +86,7 @@ namespace SlimeWeb.Core.Tools
                 //.CreateBootstrapLogger())
 
                 logger.Fatal(ex.ToString());
+                LogManager.Flush();
                 // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)
                 //  {

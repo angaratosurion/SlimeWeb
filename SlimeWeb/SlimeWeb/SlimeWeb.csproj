@@ -49,6 +49,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="MySql.Data" Version="8.0.28" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NLog.Extensions.Logging" Version="5.2.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.0" />
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
