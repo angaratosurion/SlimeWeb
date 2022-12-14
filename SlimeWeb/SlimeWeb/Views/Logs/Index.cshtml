@@ -1,8 +1,10 @@
-﻿
+﻿@using SlimeWeb.Core.Managers;
+
 @model IEnumerable<SlimeWeb.Core.Data.NonDataModels.ExceptionModel>
 
 @{
     ViewData["Title"] = "Logs";
+    string pathbase = AppSettingsManager.GetPathBase();
 }
 
 <h1>Logs</h1>
@@ -38,12 +40,12 @@
 <div id="grid"></div>
 @section scripts{
 <script>
-        $('#grid').load('/Logs/OnGetLogListPartial');
+        $('#grid').load('@pathbase' + '/Logs/OnGetLogListPartial');
         $(function () {
             $('#load').on('click', function () {
                var lvl= $('#level').val();
-              
-                $('#grid').load('/Logs/OnGetLogPartial?level='+lvl);
+         
+                $('#grid').load('@pathbase' + '/Logs/OnGetLogPartial?level=' + lvl);
             });
         });
     </script>
