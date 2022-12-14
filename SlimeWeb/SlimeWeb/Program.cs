@@ -9,8 +9,8 @@ namespace SlimeWeb
     {
         public static void Main(string[] args)
         {  CommonTools.CreateLogger();
-            CreateHostBuilder(args)                
-                
+            CreateHostBuilder(args)
+                .UseNLog()
                 .Build().Run();
         }
 

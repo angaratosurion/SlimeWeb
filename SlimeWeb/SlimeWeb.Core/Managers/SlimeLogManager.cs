@@ -29,6 +29,34 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<String> GetLogDirecotry()
+        {
+            try
+            {
+                return Path.Combine(FileSystemManager.GetAppRootDataFolderAbsolutePath(), "logs");
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async Task<String> GetLogArchiveDirecotry()
+        {
+            try
+            {
+                return Path.Combine(await this.GetLogDirecotry(), "Archives");
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<bool> LogFileExists()
         {
             try
@@ -81,5 +109,99 @@ namespace SlimeWeb.Core.Managers
 				return null;
 			}
         }
+
+        public   List<ExceptionModel> ListByLevel(string level)
+        {
+            try
+            {
+                List<ExceptionModel> list = null; ;
+                if (!CommonTools.isEmpty(level))
+                {
+                    List<ExceptionModel> tlist = this.List();
+                    list = tlist.FindAll(x => x.Level == level);
+
+                }
+
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public  ExceptionModel  Details(string timestamp)
+        {
+            try
+            {
+                 ExceptionModel  list = null; ;
+                DateTime dateTime;
+               if (!CommonTools.isEmpty(timestamp))
+                
+                {
+                    
+                    List<ExceptionModel> tlist = this.List();
+                    list = tlist.Find (x => x.TimeStamp.ToString()== timestamp);
+
+                }
+
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public async void DeleteLog()
+        {
+            try
+            {
+                string logile=await this.GetLogFileName();  
+                if(await this.LogFileExists())
+                {
+                    File.Delete(logile);
+                }
+                 
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                
+            }
+        }
+        public async void DeleteLogArchive()
+        {
+            try
+            {
+                string logile = await this.GetLogFileName();
+                string logarch = await this.GetLogArchiveDirecotry();
+                if (Directory.Exists(logarch))
+
+                {
+                    if(Directory.GetFiles(logarch).Length > 0)
+                    {
+                        foreach(var file in Directory.GetFiles(logarch))
+                        {
+                            File.Delete(file);
+                        }
+                    }
+                   
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
     }
 }
+

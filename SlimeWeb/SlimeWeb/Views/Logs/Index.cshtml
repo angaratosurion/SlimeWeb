@@ -1,0 +1,52 @@
+﻿
+@model IEnumerable<SlimeWeb.Core.Data.NonDataModels.ExceptionModel>
+
+@{
+    ViewData["Title"] = "Logs";
+}
+
+<h1>Logs</h1>
+<dl class="row">
+         <dt class = "col-sm-2">
+        Log Level
+        </dt>
+        <dt class = "col-sm-2">
+         
+        <select id="level">
+
+            <option value="Trace">Trace</option>
+            <option value="Debug">Debug</option>
+            <option value="Info">Info</option>
+            <option value="Warn">Warn</option>
+            <option value="Error">Error</option>
+            <option value="Fatal">Fatal</option>
+        </select>
+        <button class="btn btn-primary" id="load">Load</button>
+     
+        </dt>
+        <dt class = "col-sm-2">
+        <a asp-action="Delete">Delete Log File</a>
+        </dt>
+        <dt class = "col-sm-2">
+        <a asp-action="DeleteArchive">Delete Log Archive</a>
+        </dt>
+        
+        </dl>
+    
+   
+    
+<div id="grid"></div>
+@section scripts{
+<script>
+        $('#grid').load('/Logs/OnGetLogListPartial');
+        $(function () {
+            $('#load').on('click', function () {
+               var lvl= $('#level').val();
+              
+                $('#grid').load('/Logs/OnGetLogPartial?level='+lvl);
+            });
+        });
+    </script>
+}
+
+

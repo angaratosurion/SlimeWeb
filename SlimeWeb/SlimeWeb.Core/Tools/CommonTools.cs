@@ -86,7 +86,7 @@ namespace SlimeWeb.Core.Tools
                 //.CreateBootstrapLogger())
 
                 logger.Fatal(ex.ToString());
-                LogManager.Flush();
+                NLog.LogManager.Flush();
                 // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)
                 //  {

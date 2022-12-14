@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
@@ -6,6 +7,7 @@ using System;
 
 namespace SlimeWeb.Controllers
 {
+    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
     public class AccountController : Controller
     {
         public IActionResult AccessDenied(string ReturnUrl)

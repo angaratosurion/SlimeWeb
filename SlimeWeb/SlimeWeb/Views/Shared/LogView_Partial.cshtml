@@ -1,0 +1,55 @@
+﻿@using SlimeWeb.Core.Data.NonDataModels
+@{
+
+    @model IEnumerable<ExceptionModel>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeStamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Level)
+                </th>
+              
+                <th>
+                    @Html.DisplayNameFor(model => model.Logger)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+             
+                 
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Logs" asp-action="Details" asp-route-TimeStamp="@item.TimeStamp">@Html.DisplayFor(modelItem => item.TimeStamp)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Level)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Logger)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Message)
+                        </td>
+
+                        @* <td>
+                            <a asp-controller="Pages" asp-action="Edit" asp-route-Name="@item.Name">Edit</a> |
+                            <a asp-controller="Pages" asp-action="Details" asp-route-Name="@item.Name">Details</a> |
+                            <a asp-controller="Pages" asp-action="Delete" asp-route-Name="@item.Name"  >Delete</a>
+                        </td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
