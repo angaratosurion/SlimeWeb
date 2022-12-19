@@ -93,6 +93,13 @@ namespace SlimeWeb.Core.Managers
                         list.Add(des);
                         
                     }
+                    fileStr.Close();
+                    fileStr.Flush();
+                    fileStr.Dispose();
+                    fileStream.Close();
+                    fileStream.Dispose();
+                    jsonReader.Close();
+                    
                     
 
                 }
