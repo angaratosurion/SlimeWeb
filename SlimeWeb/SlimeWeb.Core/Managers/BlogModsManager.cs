@@ -162,6 +162,7 @@ namespace SlimeWeb.Core.Managers
                     blogmod.Active = false;
                     db.BlogMods.Add(blogmod);
                     await db.SaveChangesAsync();
+                    await this.blmngr.MarkAsUpdated(blogname, EntityState.Modified);
 
 
                 }
@@ -190,6 +191,8 @@ namespace SlimeWeb.Core.Managers
                         {
                             db.BlogMods.Remove(blogmod);
                             await db.SaveChangesAsync();
+                            await this.blmngr.MarkAsUpdated(blogname, EntityState.Modified);
+
                         }
                     }
 

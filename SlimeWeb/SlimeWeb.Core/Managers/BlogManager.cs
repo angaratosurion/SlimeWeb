@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Quill.Delta;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
@@ -207,8 +210,9 @@ namespace SlimeWeb.Core.Managers
                         //bl.Moderators.Add(wm);
                         db.Add(bl);
                         db.SaveChanges();
+                       this.MarkAsUpdated(bl.Name, EntityState.Added);
 
-                       
+
                         string blpath;
 
                         //if (CommonTools.isEmpty(blrotfold ))
@@ -249,6 +253,7 @@ namespace SlimeWeb.Core.Managers
                     bl.LastUpdate = DateTime.Now;
                     db.Entry(bl2).CurrentValues.SetValues(bl);
                     db.SaveChanges();
+                   await this.MarkAsUpdated(Blogname, EntityState.Modified);
                     ap =(await  this.GetBlogAsync(Blogname)).ExportToModel();
                 }
 
@@ -425,6 +430,32 @@ namespace SlimeWeb.Core.Managers
 
 
 
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
+        public async  Task MarkAsUpdated(string Blogname, EntityState state)
+        {
+            try
+            {
+                if(!CommonTools.isEmpty(Blogname))
+                {
+                   var blog=await this.GetBlogAsync(Blogname);
+                    if( blog!=null)
+                    {
+                        var mblog = blog.ExportToModel();
+                        var mblog2=blog.ExportToModel();
+                        mblog2.LastUpdate= DateTime.Now;
+                        db.Entry(mblog).CurrentValues.SetValues(mblog2);
+                        db.Entry(mblog).State = state;
+                        db.SaveChanges();
+
+                    }
+                }
             }
             catch (Exception ex)
             {

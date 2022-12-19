@@ -278,6 +278,8 @@ namespace SlimeWeb.Core.Managers
                     }
                     db.Catgories.Add(category);
                     await db.SaveChangesAsync();
+                    await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
+
                 }
 
 
@@ -337,6 +339,7 @@ namespace SlimeWeb.Core.Managers
                             categotyPost.PostId = postid;
                             db.Add(categotyPost);
                             await db.SaveChangesAsync();
+                            await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
                         }
                     }
 
@@ -355,6 +358,7 @@ namespace SlimeWeb.Core.Managers
                         categotyPost.PostId = postid;
                         db.Add(categotyPost);
                         await db.SaveChangesAsync();
+                        await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
 
 
 
@@ -412,6 +416,7 @@ namespace SlimeWeb.Core.Managers
                         }
                         db.Catgories.Remove(cat);
                         await db.SaveChangesAsync();
+                        await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
 
                     }
                 }
@@ -443,6 +448,7 @@ namespace SlimeWeb.Core.Managers
                         }
                         db.Catgories.Remove(cat);
                         await db.SaveChangesAsync();
+                        await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
 
                     }
                 }
@@ -472,6 +478,7 @@ namespace SlimeWeb.Core.Managers
                             db.CategoryPosts.Remove(c);
                             await db.SaveChangesAsync();
                         }
+                        await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
 
                     }
                 }
@@ -524,6 +531,7 @@ namespace SlimeWeb.Core.Managers
                         db.Entry(vcategory).CurrentValues.SetValues(category);
                         // db.Post.Update(Post);
                         await db.SaveChangesAsync();
+                        await this.blgmng.MarkAsUpdated(blogname, EntityState.Modified);
                     }
                 }
                 return category;

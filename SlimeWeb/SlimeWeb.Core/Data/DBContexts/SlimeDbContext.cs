@@ -1,6 +1,7 @@
 ﻿using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -128,6 +129,23 @@ namespace SlimeWeb.Core.Data.DBContexts
             }
 
 
+        }
+        public override int SaveChanges()
+        {
+            
+            foreach (var entry in this.ChangeTracker.Entries<Blog>().ToList())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.LastUpdate = DateTime.Now;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.LastUpdate = DateTime.Now;
+
+                }
+            }
+            return base.SaveChanges();
         }
 
     }

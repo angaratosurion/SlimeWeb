@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
@@ -82,6 +83,7 @@ namespace SlimeWeb.Core.Managers
                             filesPost.PostId = (int)postid;
                             db.FilesPostsBlog.Add(filesPost);
                             await db.SaveChangesAsync();
+                            await this.blogmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
 
                         }
                        
@@ -380,11 +382,13 @@ namespace SlimeWeb.Core.Managers
                             foreach (var x in filear)
                             {
                                db.FilesPostsBlog.Remove(x);
+                                await this.blogmngr.MarkAsUpdated((await blogmngr.GetBlogByIdAsync(x.BlogId)).Name, EntityState.Modified);
 
 
                             }
                         }
                         await db.SaveChangesAsync();
+                        
                     }
                 }
                 return ap;
@@ -454,6 +458,7 @@ namespace SlimeWeb.Core.Managers
                        ap = await this.Delete(file.Id);
                     }
                 }
+                await this.blogmngr.MarkAsUpdated((await blogmngr.GetBlogByIdAsync((await postManager.Details(pid)).BlogId)).Name, EntityState.Modified);
 
                 return ap;
 

@@ -245,21 +245,24 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<Post> Create(Post Post, string user)
+        public async Task<Post> Create(Post post, string user)
         {
             try
             {
                 Post ap = null;
 
-                if (Post != null && user != null)
+                if (post != null && user != null)
                 {
                     ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
                     if (usr != null)
                     {
-                        Post.Author = usr.UserName;
-                       await db.Post.AddAsync(Post);
+                        post.Author = usr.UserName;
+                       await db.Post.AddAsync(post);
                         db.SaveChanges();
-                        ap = Post;
+                        ap = post;
+                        var blog = await this.blmngr.GetBlogByIdAsync(post.Id);
+                        await this.blmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
+
                     }
                 }
                 return ap;
@@ -306,6 +309,9 @@ namespace SlimeWeb.Core.Managers
                         db.Entry(vpost).CurrentValues.SetValues(post);
                         // db.Post.Update(Post);
                         await db.SaveChangesAsync();
+                        var blog = await this.blmngr.GetBlogByIdAsync(post.BlogId);
+                         
+                        await this.blmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
                     }
                 }
                 return post;
@@ -360,11 +366,13 @@ namespace SlimeWeb.Core.Managers
                     {
                         db.Post.Remove(Post);
                         db.SaveChanges();
+                        await this.blmngr.MarkAsUpdated((await this.blmngr.GetBlogByIdAsync(Post.Id)).Name, EntityState.Modified);
                     }
                     else
                     {
                         db.Post.Remove(Post);
                         db.SaveChanges();
+                        await this.blmngr.MarkAsUpdated((await this.blmngr.GetBlogByIdAsync(Post.Id)).Name, EntityState.Modified);
                     }
                 }
 

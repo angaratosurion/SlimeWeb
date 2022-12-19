@@ -78,9 +78,15 @@ namespace SlimeWeb.Core.Managers
 				List<ExceptionModel> list = new	List<ExceptionModel>();
                 string logfile =  this.GetLogFileName().Result;
                 if( LogFileExists().Result && !CommonTools.isEmpty(logfile))
-                {
-                    FileStream fileStr = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                { 
+                    NLog.LogManager.Flush();
+                    NLog.LogManager.Shutdown();
+                    FileStream fileStr = new FileStream(logfile, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                  
+                   
+
                     var fileStream = new StreamReader(fileStr);
+                   
                  
                     // var t=JsonConvert.DeserializeObject<List<ExceptionModel>>(json);
                     var jsonReader = new JsonTextReader(fileStream);
@@ -93,16 +99,17 @@ namespace SlimeWeb.Core.Managers
                         list.Add(des);
                         
                     }
-                    fileStr.Close();
-                    fileStr.Flush();
-                    fileStr.Dispose();
-                    fileStream.Close();
-                    fileStream.Dispose();
-                    jsonReader.Close();
-                    
-                    
+
+                    //fileStr.Close();
+                    //fileStr.Flush();
+                    //fileStr.Dispose();
+                    //fileStream.Close();
+                    //fileStream.Dispose();
+                    //jsonReader.Close();
+
 
                 }
+
 
 
 
