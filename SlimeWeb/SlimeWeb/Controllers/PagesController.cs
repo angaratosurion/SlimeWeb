@@ -362,7 +362,7 @@ namespace SlimeWeb.Controllers
             {
 
                 // string Blogid = bid;
-                var pages = await pageManager.List();
+               // var pages = await pageManager.List();
                 int pid = -1;
                 pid = await fileRecordManager.PredictLastId("Pages") + 1;
                 if (Request.Form.Files.Count == 0)
@@ -376,7 +376,12 @@ namespace SlimeWeb.Controllers
                 {
                     bid = Request.RouteValues["id"].ToString();
                 }
-               
+               var  pages = await pageManager.Details(bid);
+                if(pages!=null)
+                {
+                    pid = pages.Id;
+                }
+
 
 
 

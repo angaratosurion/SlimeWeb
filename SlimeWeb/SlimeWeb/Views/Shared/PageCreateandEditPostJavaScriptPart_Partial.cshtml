@@ -189,10 +189,11 @@
 
 
                     form.append('upload_file', event.target.files[0]);
-
+                    var pagenam = $('#Name').val()
+                     
                     // alert();
                     await $.ajax({
-                        url: '@ViewBag.pathbase/Pages/UploadQuill/@(Context.Request.RouteValues["name"])',
+                        url: '@ViewBag.pathbase/Pages/UploadQuill/'+pagenam,
                         type: "POST",
                       contentType: false, // Not to set any content header
                         processData: false, // Not to process data
