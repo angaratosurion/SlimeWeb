@@ -7,7 +7,7 @@ using System;
 
 namespace SlimeWeb.Controllers
 {
-    [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
+   // [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
     public class AccountController : Controller
     {
         public IActionResult AccessDenied(string ReturnUrl)
