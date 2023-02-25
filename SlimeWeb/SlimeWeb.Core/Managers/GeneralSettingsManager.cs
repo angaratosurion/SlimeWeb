@@ -33,36 +33,22 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public GeneralSettings Details()
-        {
-			try
-			{
-                if(!this.Exists()) 
-                {
-                    GeneralSettings ap = new GeneralSettings();
-                    db.Settings.Add(ap);
-                    db.SaveChanges();
-
-                }
-                return db.GeneralSettings;
-			}
-            catch (Exception ex)
-            {
-
-                CommonTools.ErrorReporting(ex);
-                return null;
-            }
-
-        }
-        public async Task Edit(GeneralSettings bl)
+  
+        public async Task Edit(GeneralSettings genset)
         {
             try
             {
                 if( this.Exists())
                 {
 
+                    await this.ClearSettingsTable();
 
+                }
+                else
+                {
 
+                    db.Settings.Add(genset);
+                    db.SaveChanges();
                 }
 
             }
@@ -73,5 +59,28 @@ namespace SlimeWeb.Core.Managers
                // return null;
             }
         }
+        public async Task ClearSettingsTable()
+        {
+            try
+            {
+                if (this.Exists())
+                {
+
+                    foreach (GeneralSettings g in db.Settings.ToList())
+                    {
+                        db.Settings.Remove(g);
+                    }
+                    db.SaveChanges();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                // return null;
+            }
         }
+    }
 }
