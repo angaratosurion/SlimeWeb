@@ -35,7 +35,7 @@ namespace SlimeWeb.Core.Data.DBContexts
         {
             get
             {
-                return this.Settings.FirstOrDefault();
+                return this.Settings.First();
             }
         }
         public DbSet<BannedUsers> BannedUsers { get; set; }
@@ -120,7 +120,12 @@ namespace SlimeWeb.Core.Data.DBContexts
                      .Property(e => e.Id)
                     .ValueGeneratedOnAdd();
                 builder.Entity<SlimeWebPage>().HasIndex(e => e.Name).IsUnique();
-            }
+                builder.Entity<GeneralSettings>().Property(e => e.ItemsPerPage)
+                    .HasDefaultValue(10);
+                    
+                    
+                    
+             }
             catch (Exception ex)
             {
                 CommonTools.ErrorReporting(ex);

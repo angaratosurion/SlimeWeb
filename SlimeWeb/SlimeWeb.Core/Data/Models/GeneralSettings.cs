@@ -15,6 +15,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         [Display(Name = "Web Site Name")]
         public string WebSiteName { get; set; }
+        
         public int ItemsPerPage { get; set; }
         public Boolean FeatureManagment { get; set; }
         

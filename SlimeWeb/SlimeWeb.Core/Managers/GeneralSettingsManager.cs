@@ -11,11 +11,33 @@ namespace SlimeWeb.Core.Managers
 {
     public class GeneralSettingsManager:DataManager
     {
+        public Boolean Exists()
+        {
+            try
+            {
+                if (db.GeneralSettings == null)
+                {
+                    return false;
+
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+
+        }
         public GeneralSettings Details()
         {
 			try
 			{
-                if(db.GeneralSettings == null)
+                if(!this.Exists()) 
                 {
                     GeneralSettings ap = new GeneralSettings();
                     db.Settings.Add(ap);
@@ -36,6 +58,12 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
+                if( this.Exists())
+                {
+
+
+
+                }
 
             }
             catch (Exception ex)
