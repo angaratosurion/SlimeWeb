@@ -18,6 +18,8 @@ namespace SlimeWeb.Core.Data.Models
         
         public int ItemsPerPage { get; set; }
         public Boolean FeatureManagment { get; set; }
+        public String OrderBy { get; set; }
+        public String Direction { get; set;}
         
     }
 }

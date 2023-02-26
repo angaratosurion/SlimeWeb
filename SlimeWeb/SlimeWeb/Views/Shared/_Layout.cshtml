@@ -7,7 +7,28 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SlimeWeb</title>
+    @{
+        GeneralSettingsManager generalSettingsManager = new GeneralSettingsManager();
+        String websitename; ;
+        if( generalSettingsManager.Exists())
+        {
+              websitename = generalSettingsManager.Details().ToModel().WebSiteName;
+            if(!String.IsNullOrEmpty(websitename))
+            {
+                <title>@ViewData["Title"] - @websitename</title>
+            }
+            else
+            {
+                <title>@ViewData["Title"] - SlimeWeb</title>
+               // websitename = "SlimeWeb";
+               
+            }
+            ViewBag.WebSiteName = generalSettingsManager.Details().ToModel().WebSiteName;
+            <title>@ViewData["Title"] - @ViewBag.WebSiteName</title>
+            
+        }
+    }
+    
    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
    
@@ -16,7 +37,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SlimeWeb</a>
+                
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewBag.WebSiteName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

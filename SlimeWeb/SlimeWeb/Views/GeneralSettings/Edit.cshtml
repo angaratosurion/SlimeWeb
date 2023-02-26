@@ -1,0 +1,67 @@
+﻿@model SlimeWeb.Core.Data.ViewModels.ViewGeneralSettings
+@using Microsoft.AspNetCore.Identity
+@using SlimeWeb.Core.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@{
+    ViewData["Title"] = "General Settings";
+}
+
+
+<h1>General Settings</h1>
+
+ 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WebSiteName" class="control-label"></label>
+                <input asp-for="WebSiteName" class="form-control" />
+                <span asp-validation-for="WebSiteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemsPerPage" class="control-label"></label>
+                <input asp-for="ItemsPerPage" class="form-control" />
+                <span asp-validation-for="ItemsPerPage" class="text-danger"></span>
+            </div>
+           @* <div class="form-group">
+                <label asp-for="FeatureManagment" class="control-label"></label>
+                <input asp-for="FeatureManagment" class="form-control" type="hidden" value="@DateTime.Now" />
+                <span asp-validation-for="FeatureManagment" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="OrderBy" class="control-label"></label>
+                <select asp-for="OrderBy" class="form-control" asp-items="Model.Cells" >
+                </select>
+                <span asp-validation-for="OrderBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Direction" class="control-label"></label>
+                <select asp-for="Direction" class="form-control" asp-items="Model.Directions" >
+                    </select>
+                <span asp-validation-for="Direction" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Administrator" class="control-label"></label>
+                <input asp-for="Administrator" class="form-control"  value="@User.Identity.Name" />
+                <span asp-validation-for="Administrator" class="text-danger"></span>
+            </div>*@
+
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
