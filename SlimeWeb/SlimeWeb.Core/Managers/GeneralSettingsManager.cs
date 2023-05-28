@@ -73,7 +73,7 @@ namespace SlimeWeb.Core.Managers
                 if( this.Exists())
                 {
 
-                    await this.ClearSettingsTable();
+                    //await this.ClearSettingsTable();
 
                 }
                 else

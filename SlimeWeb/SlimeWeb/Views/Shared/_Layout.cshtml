@@ -3,6 +3,7 @@
 @using SlimeWeb.Core.Data.NonDataModels.Navigation
 @using SlimeWeb.Core.Tools
 @using SlimeWeb.Core.Managers
+@using SlimeWeb.Core.Managers.Markups;
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,17 +21,27 @@
             else
             {
                 <title>@ViewData["Title"] - SlimeWeb</title>
-               // websitename = "SlimeWeb";
+                websitename = "SlimeWeb";
                
             }
-            ViewBag.WebSiteName = generalSettingsManager.Details().ToModel().WebSiteName;
-            <title>@ViewData["Title"] - @ViewBag.WebSiteName</title>
+            ViewBag.WebSiteName = websitename;
+            //<title>@ViewData["Title"] - @ViewBag.WebSiteName</title>
             
         }
     }
+    @{
+        var cmsengine = SlimeWeb.Core.Managers.AppSettingsManager.GetAppWideCMSEngine();
     
+    
+    }
    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+   @if (cmsengine == enumMarkupEngine.QUIL.ToString())
+    {
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet"/>
+    }
+    
    
 </head>
 <body>
@@ -132,7 +143,8 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
-            &copy; @DateTime.Now.Year - SlimeWeb - @CommonTools.GetSlimeWebVersion() ( SlimeWeb.Core Version: @CommonTools.GetSlimeWebCoreVersion() )
+                &copy; @DateTime.Now.Year - SlimeWeb - @CommonTools.GetSlimeWebVersion()   @CommonTools.GetSlimeWebLastModifiedDateUTC() (UTC) ( SlimeWeb.Core Version: @CommonTools.GetSlimeWebCoreVersion() 
+                - @CommonTools.GetSlimeWebCoreLastModifiedDateUTC() (UTC))
                 &nbsp;&nbsp;  <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> &nbsp;&nbsp;
            
                 <ul class="navbar-nav flex-grow-1">

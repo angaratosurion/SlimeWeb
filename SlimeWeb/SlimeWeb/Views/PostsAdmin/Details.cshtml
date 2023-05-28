@@ -8,7 +8,7 @@
 <div>
     <h4>Post</h4>
     <hr />
-    <dl class="row">
+    <dl >
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -75,16 +75,16 @@
             </dd>
     </div>
 
-    <div class="article">
-        <dl class="row">
+    @*<div class="article">*@
+        @*<dl >*@
            
 
                 @Html.Raw(Model.HTMLcontent)
           
 
 
-        </dl>
-    </div>
+        @*</dl>*@
+    @*</div>*@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-blogname="@Model.Blog.Name">Edit</a> |

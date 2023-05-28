@@ -12,7 +12,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
+        //[Required]
         [Display(Name = "Web Site Name")]
         public string WebSiteName { get; set; }
         

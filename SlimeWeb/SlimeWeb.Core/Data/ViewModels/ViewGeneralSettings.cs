@@ -30,7 +30,7 @@ namespace SlimeWeb.Core.Data.ViewModels
             try
             {
 
-                if (model == null)
+                if (model != null)
                 {
                     this.Id = model.Id;
                     this.WebSiteName = model.WebSiteName;

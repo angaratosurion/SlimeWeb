@@ -8,6 +8,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SlimeWeb.Core.Tools
 {
@@ -226,6 +228,106 @@ namespace SlimeWeb.Core.Tools
                 }
                 ap = attribute.Copyright;
 
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReporting(ex);
+
+                return null;
+            }
+        }
+        public static string GetSlimeWebCoreLastModifiedDateUTC()
+        {
+            try
+            {
+                string ap;
+                string filepath = Assembly.GetExecutingAssembly().Location;
+               ap= File.GetLastWriteTime(filepath).ToLongDateString() +  " - "+ File.GetLastWriteTimeUtc(filepath).ToLongTimeString();
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReporting(ex);
+
+                return null;
+            }
+        }
+        public static string GetSlimeWebLastModifiedDateUTC()
+        {
+            try
+            {
+                string ap;
+                string filepath = Assembly.GetEntryAssembly().Location;
+                ap = File.GetLastWriteTime(filepath).ToLongDateString() + " - " + File.GetLastWriteTimeUtc(filepath).ToLongTimeString();
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReporting(ex);
+
+                return null;
+            }
+        }
+        public static string GetSlimeWebCoreMD5Hash()
+        {
+            try
+            {
+                string ap;
+                string filepath = Assembly.GetExecutingAssembly().Location;
+                
+                StringBuilder sBuilder = new StringBuilder();
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = File.OpenRead(filepath))
+                    {
+                        var data = md5.ComputeHash(stream);
+                        for (int i = 0; i < data.Length; i++)
+                        {
+                            sBuilder.Append(data[i].ToString("x2"));
+                            // sBuilder.Append(data[i].ToString());
+                        }
+                        ap = sBuilder.ToString();
+                        stream.Close();
+                    }
+                }
+                    return ap;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReporting(ex);
+
+                return null;
+            }
+        }
+        public static string GetSlimeWebMD5Hash()
+        {
+            try
+            {
+                string ap;
+                string filepath = Assembly.GetEntryAssembly().Location;
+
+                StringBuilder sBuilder = new StringBuilder();
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = File.OpenRead(filepath))
+                    {
+                        var data = md5.ComputeHash(stream);
+                        for (int i = 0; i < data.Length; i++)
+                        {
+                            sBuilder.Append(data[i].ToString("x2"));
+                            // sBuilder.Append(data[i].ToString());
+                        }
+                        ap = sBuilder.ToString();
+                        stream.Close();
+                    }
+                }
                 return ap;
 
             }
