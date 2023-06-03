@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Markdig.Helpers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog.LayoutRenderers;
 using SlimeWeb.Core.Data.NonDataModels;
 using SlimeWeb.Core.Tools;
 using System;
@@ -214,6 +216,50 @@ namespace SlimeWeb.Core.Managers
 
                 CommonTools.ErrorReporting(ex);
 
+            }
+        }
+        public async Task<string> GetLogFileSize()
+        {
+            try
+            {
+                long tap = 0;
+                string ap="";
+
+                tap = FileSystemManager.getFileSize(await this.GetLogFileName());
+                ap = CommonTools.FormatFilesyzeToCorrectMeasurement(tap);
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+                return "error";
+            }
+        }
+        public async Task<string> GetLogArchiveSize()
+        {
+            try
+            {
+                long tap = 0;
+                string ap = "";
+
+                tap = FileSystemManager.getDirecorySize(await this.GetLogArchiveDirecotry());
+                ap = CommonTools.FormatFilesyzeToCorrectMeasurement(tap);
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+                return "error";
             }
         }
     }

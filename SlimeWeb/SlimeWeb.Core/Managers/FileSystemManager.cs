@@ -558,8 +558,59 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public static long getFileSize(string aboultpath)
+        {
+            try
+            {
+                long ap =0;
+                if( !CommonTools.isEmpty(aboultpath) && File.Exists(aboultpath)) 
+                {
+                
+                    var info = new FileInfo(aboultpath);
+                    ap = info.Length;
+                
+                }
+                //
 
-       
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+                return -1;
+            }
+
+        }
+        public static long getDirecorySize(string aboultpath)
+        {
+            try
+            {
+                long ap = 0;
+                if (!CommonTools.isEmpty(aboultpath) && DirectoryExists(aboultpath))
+                {
+
+                    foreach(var file in Directory.GetFiles(aboultpath))
+                    {
+                        ap += getFileSize(file);
+                    }
+
+                }
+                //
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+                return -1;
+            }
+
+        }
+
         #endregion
     }
 }

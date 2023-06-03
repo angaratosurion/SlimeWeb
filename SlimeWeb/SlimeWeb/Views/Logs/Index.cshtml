@@ -32,7 +32,16 @@
         <dt class = "col-sm-2">
         <a asp-action="DeleteArchive">Delete Log Archive</a>
         </dt>
-        
+    <dt class="col-sm-4">
+        @{
+            SlimeLogManager slimeLogManager = new SlimeLogManager();
+            }
+            
+
+        Log File Size : @await slimeLogManager.GetLogFileSize() &nbsp
+        Archive Size : @await slimeLogManager.GetLogArchiveSize()
+
+    </dt>
         </dl>
     
    

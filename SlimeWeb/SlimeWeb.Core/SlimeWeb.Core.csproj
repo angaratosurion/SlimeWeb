@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.1.4.8</Version>
+    <Version>0.1.5.0</Version>
     <AssemblyVersion>$(PackageVersion)</AssemblyVersion>
     <FileVersion>$(PackageVersion)</FileVersion>
     <Authors>Angarato Surion</Authors>
@@ -47,6 +47,7 @@
     <PackageReference Include="ReverseMarkdown" Version="3.23.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
     <PackageReference Include="System.Composition.AttributedModel" Version="6.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
