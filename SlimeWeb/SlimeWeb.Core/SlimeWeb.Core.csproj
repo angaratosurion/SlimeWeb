@@ -55,10 +55,4 @@
     <Folder Include="CustomPolicy\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="SimpleSystemSpecs.Core">
-      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs.Core\bin\Release\net6.0\SimpleSystemSpecs.Core.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
