@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-SlimeWeb-95F8EA0A-FF6D-42E6-B098-E619D1EE1FFE</UserSecretsId>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.0.7.9</Version>
+    <Version>0.0.8.0</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>Angarato Surion</Copyright>
   </PropertyGroup>
@@ -65,7 +65,20 @@
 
 
   <ItemGroup>
+    <Reference Include="SimpleSystemSpecs">
+      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs\bin\Release\net6.0\SimpleSystemSpecs.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleSystemSpecs.Core">
+      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs.Core\bin\Release\net6.0\SimpleSystemSpecs.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
     <Content Update="wwwroot\css\site.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\desktop.spec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\js\site.js">

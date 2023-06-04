@@ -120,6 +120,7 @@ namespace SlimeWeb.Core.Managers
                 SlimeWebMenu AboutVersion= new SlimeWebMenu();
                 SlimeWebMenu aboutsite= new SlimeWebMenu();
                 SlimeWebMenu contactmenu= new SlimeWebMenu();
+                SlimeWebMenu hwspecsmenu= new SlimeWebMenu();
                 contactmenu.Name = "Contact";
                 contactmenu.Title = "Contact";
                 contactmenu.ControllerName = "Pages";
@@ -141,7 +142,8 @@ namespace SlimeWeb.Core.Managers
                     menu.MenuItems= new List<SlimeWebMenu>();
                 }
                 menu.MenuItems.Add(AboutVersion);
-               aboutsite.Title = "About Web Site";
+                menu.MenuItems.Add(hwspecsmenu);
+                aboutsite.Title = "About Web Site";
                 aboutsite.Name = "AboutWebSite";
                 aboutsite.ControllerName = "Pages";
                 aboutsite.ActionName = "View";
@@ -150,8 +152,12 @@ namespace SlimeWeb.Core.Managers
 
 
                 menu.MenuItems.Add(aboutsite);
-            
 
+                hwspecsmenu.ControllerName = "HWSpecs";
+                hwspecsmenu.Name = "HardwareSpecifications";
+                hwspecsmenu.Title= "Hardware Specifications";
+                hwspecsmenu.ActionName = "Index";
+                
 
             }
             catch (Exception ex)  {CommonTools.ErrorReporting(ex); }

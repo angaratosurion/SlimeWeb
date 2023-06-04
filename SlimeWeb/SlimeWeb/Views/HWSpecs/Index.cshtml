@@ -1,0 +1,142 @@
+﻿@using SimpleSystemSpecs.Core.Data.Models;
+@using SlimeWeb.Core.Managers;
+
+@model IEnumerable<SystemSpecs>
+
+@{
+    ViewData["Title"] = "Hardware Specs";
+    string pathbase = AppSettingsManager.GetPathBase();
+}
+ 
+<h1>Hardware Specs</h1>
+
+    @{
+        SystemSpecs servespecs = Model.ToList()[0];
+        SystemSpecs desktoppecs = Model.ToList()[1];
+    }
+<h2>Server Specs</h2>
+<dl class="row">
+    
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ProcessorName)
+        </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.ProcessorName)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalVirtualMemorySize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.TotalVirtualMemorySize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalVisibleMemorySize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.TotalVisibleMemorySize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalSwapSpaceSize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.TotalSwapSpaceSize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.OperatingSystemName)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OSArchitecture)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.OSArchitecture)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemServicePack)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.OperatingSystemServicePack)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemType)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>servespecs.OperatingSystemType)
+
+    </dd>
+</dl>
+<h2>Desktop Developer Machine Specs</h2>
+<dl class="row">
+   
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ProcessorName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.ProcessorName)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalVirtualMemorySize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.TotalVirtualMemorySize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalVisibleMemorySize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.TotalVisibleMemorySize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TotalSwapSpaceSize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.TotalSwapSpaceSize)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.OperatingSystemName)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OSArchitecture)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.OSArchitecture)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemServicePack)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.OperatingSystemServicePack)
+
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OperatingSystemType)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model =>desktoppecs.OperatingSystemType)
+
+    </dd>
+ 
+     
+       
+    
+   
+    

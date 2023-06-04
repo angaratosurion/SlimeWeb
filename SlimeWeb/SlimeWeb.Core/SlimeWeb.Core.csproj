@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>0.1.5.0</Version>
+    <Version>0.1.5.1</Version>
     <AssemblyVersion>$(PackageVersion)</AssemblyVersion>
     <FileVersion>$(PackageVersion)</FileVersion>
     <Authors>Angarato Surion</Authors>
@@ -53,6 +53,12 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="CustomPolicy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SimpleSystemSpecs.Core">
+      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs.Core\bin\Release\net6.0\SimpleSystemSpecs.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
