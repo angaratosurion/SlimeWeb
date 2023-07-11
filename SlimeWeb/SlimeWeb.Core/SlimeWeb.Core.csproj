@@ -27,7 +27,7 @@
     <PackageReference Include="ExtCore.Mvc" Version="7.0.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="7.0.0" />
     <PackageReference Include="Markdig" Version="0.28.1" />
-    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
