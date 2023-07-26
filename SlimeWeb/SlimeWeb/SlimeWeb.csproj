@@ -60,6 +60,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SimpleSystemSpecs\SimpleSystemSpecs.Core\SimpleSystemSpecs.Core.csproj" />
     <ProjectReference Include="..\SlimeWeb.Core\SlimeWeb.Core.csproj" />
   </ItemGroup>
 

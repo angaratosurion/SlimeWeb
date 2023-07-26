@@ -55,4 +55,10 @@
     <Folder Include="CustomPolicy\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SimpleSystemSpecs.Core">
+      <HintPath>..\..\..\SimpleSystemSpecs\SimpleSystemSpecs.Core\bin\x64\Release\net6.0\SimpleSystemSpecs.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
