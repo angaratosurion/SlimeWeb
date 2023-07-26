@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb", "SlimeWeb\SlimeW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.Core", "SlimeWeb.Core\SlimeWeb.Core.csproj", "{F4875980-692B-4B18-95C9-935250A1AEB3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSharp", "..\otherprojects\src\ImageSharp\ImageSharp.csproj", "{AEC16D86-2AD2-433D-B233-13AEFD81B640}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|x64.ActiveCfg = Release|x64
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|x64.Build.0 = Release|x64
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Debug|x64.Build.0 = Debug|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Release|x64.ActiveCfg = Release|Any CPU
+		{AEC16D86-2AD2-433D-B233-13AEFD81B640}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
