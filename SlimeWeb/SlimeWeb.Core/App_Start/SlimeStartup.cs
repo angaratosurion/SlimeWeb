@@ -105,13 +105,17 @@ namespace SlimeWeb.Core.App_Start
                 Console.WriteLine("Applications's Root  Path : {0}", FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
                 Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
                 //Configuration["Extensions:Path"];
-                if (string.IsNullOrWhiteSpace(extensionsPath) == false)
+
+                if(AppSettingsManager.GetEnableExtensionsSetting())
                 {
-                    if (Directory.Exists(this.extensionsPath) == false)
+                    if (string.IsNullOrWhiteSpace(extensionsPath) == false)
                     {
-                        Directory.CreateDirectory(this.extensionsPath);
+                        if (Directory.Exists(this.extensionsPath) == false)
+                        {
+                            Directory.CreateDirectory(this.extensionsPath);
+                        }
+                        services.AddExtCore(this.extensionsPath);
                     }
-                    services.AddExtCore(this.extensionsPath);
                 }
                 services.Configure<StorageContextOptions>(options =>
                 {
@@ -278,8 +282,10 @@ namespace SlimeWeb.Core.App_Start
                 //    Directory.CreateDirectory(extensionsPath);
                 //}
 
-
-                app.UseExtCore();
+                if (AppSettingsManager.GetEnableExtensionsSetting())
+                {
+                    app.UseExtCore();
+                }
 
                 NavigationManager.AddDefaultMenusOnTopMenu();
                 NavigationManager.AddDefaultMenusOnBottomMenu();

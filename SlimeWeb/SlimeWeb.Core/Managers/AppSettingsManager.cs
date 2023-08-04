@@ -263,6 +263,20 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public static bool GetEnableExtensionsSetting()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:EnableExtensions");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
 
     }
 }
