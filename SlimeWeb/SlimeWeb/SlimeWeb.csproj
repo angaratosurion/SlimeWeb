@@ -27,11 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Abstractions" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="8.1.0" />
     <PackageReference Include="ExtCore.Data.EntityFramework" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
     <PackageReference Include="Markdig" Version="0.32.0" />

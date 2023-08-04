@@ -19,18 +19,13 @@
 
   <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Abstractions" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="8.1.0" />
     <PackageReference Include="ExtCore.Data.EntityFramework" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="8.1.0" />
-    <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
     <PackageReference Include="Markdig" Version="0.32.0" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
