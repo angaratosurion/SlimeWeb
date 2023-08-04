@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using NLog.Web;
 using SlimeWeb.Core.Tools;
+using NLog;
+using NLog.Web;
 
 namespace SlimeWeb
 {

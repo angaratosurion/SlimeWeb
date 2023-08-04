@@ -2,7 +2,6 @@
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Fluent;
-using NLog.Web;
 using SlimeWeb.Core.Managers;
 using System;
 using System.ComponentModel.DataAnnotations;
