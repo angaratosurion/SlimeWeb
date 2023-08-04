@@ -13,7 +13,7 @@ namespace SlimeWeb.Controllers
         public IActionResult AccessDenied(string ReturnUrl)
         {
             try
-            {
+            { 
                 var pathbase = AppSettingsManager.GetPathBase();
 
                 if (CommonTools.isEmpty(pathbase) == false)

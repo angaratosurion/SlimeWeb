@@ -1,14 +1,9 @@
 ﻿using SlimeWeb.Core.Tools;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace SlimeWeb.Core.Managers
 {
-   public class PluginManager
+    public class PluginManager
     {
        const string   filesdir="files",AppDataDir="App_Data";
       

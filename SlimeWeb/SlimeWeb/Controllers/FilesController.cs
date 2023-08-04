@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
-using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SlimeWeb.Controllers
 {

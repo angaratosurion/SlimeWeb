@@ -28,6 +28,7 @@
   <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="8.1.0" />
     <PackageReference Include="ExtCore.Data.EntityFramework" Version="8.1.0" />
+    <PackageReference Include="ExtCore.Infrastructure" Version="8.1.0" />
     <PackageReference Include="ExtCore.Mvc" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
     <PackageReference Include="Markdig" Version="0.32.0" />
@@ -58,16 +59,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SlimeWeb.Core\SlimeWeb.Core.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Reference Include="SimpleSystemSpecs">
-      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs\bin\Release\net6.0\SimpleSystemSpecs.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleSystemSpecs.Core">
-      <HintPath>..\..\..\..\..\..\..\Cloud Folder\OneDrive\My Programs\dotNet\Open Source\SimpleSystemSpecs\SimpleSystemSpecs.Core\bin\Release\net6.0\SimpleSystemSpecs.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 
