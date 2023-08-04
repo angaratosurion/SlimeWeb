@@ -3,10 +3,12 @@ using SixLabors.ImageSharp.Metadata.Profiles.Exif;
 using SlimeWeb.Core.Data.NonDataModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace SlimeWeb.Core.Tools
 {
@@ -21,34 +23,51 @@ namespace SlimeWeb.Core.Tools
                 {
                     using (Image image = Image.Load(path))
                     {
-                        var exif = image.Metadata.ExifProfile;
+                        var exif = image.Metadata.ExifProfile.Values;
                         if (exif != null)
                         {
                             ap = new ExifModel();
 
-                            ap.Exposure_Time = this.RationalToString((IExifValue<Rational>)exif.GetValue(ExifTag.ExposureTime));
-                            ap.F_number = this.RationalToString(exif.GetValue(ExifTag.FNumber));
-                            if (exif.GetValue(ExifTag.ExposureProgram) != null)
+                            var exposuretime = exif.FirstOrDefault(x => x.Tag == ExifTag.ExposureTime).GetValue();
+                           ap.Exposure_Time = this.RationalToString((IExifValue<Rational>)exposuretime);
+                            ap.F_number = this.RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.FNumber).GetValue());
+
+                            if (exif.FirstOrDefault(x => x.Tag == ExifTag.ExposureProgram).GetValue() != null)
                             {
-                                ap.Exposure_Program = exif.GetValue(ExifTag.ExposureProgram).Value;
+                                var exposureprogram = (IExifValue<ushort>)exif.FirstOrDefault(x => x.Tag == ExifTag.ExposureProgram).GetValue();
+                                ap.Exposure_Program = exposureprogram.Value;
                             }
-                            if (exif.GetValue(ExifTag.Model) != null)
+                            if (exif.FirstOrDefault(x => x.Tag == ExifTag.Model).GetValue() != null)
                             {
-                                ap.Model = exif.GetValue(ExifTag.Model).Value;
+                                var model = (ExifTag<string>)exif.FirstOrDefault(x => x.Tag == ExifTag.Model).GetValue();
+                                ap.Model = model.ToString();
                             }
-                            ap.Orientation = this.RationalToString(exif.GetValue(ExifTag.Orientation));
-                            ap.Resolution_Unit = this.RationalToString(exif.GetValue(ExifTag.ResolutionUnit));
-                            ap.X_resolution = RationalToDouble(exif.GetValue(ExifTag.XResolution));
-                            ap.Y_resolution = RationalToDouble(exif.GetValue(ExifTag.YResolution));
-                            ap.YCbCr_Positioning = this.RationalToString(exif.GetValue(ExifTag.YCbCrPositioning));
-                            ap.DateTaken = CheckifStringValueisNull(exif.GetValue(ExifTag.DateTimeOriginal));
-                            ap.Brightness = this.RationalToString(exif.GetValue(ExifTag.BrightnessValue));
-                            ap.GPSDateStamp = CheckifStringValueisNull(exif.GetValue(ExifTag.GPSDateStamp));
-                            ap.GPSAltitude = RationalToString(exif.GetValue(ExifTag.GPSAltitude));
-                            ap.GPSLongitude = RationalToArStringAR(exif.GetValue(ExifTag.GPSLongitude));
-                            ap.GPSLatitude = RationalToArStringAR(exif.GetValue(ExifTag.GPSLatitude));
-                            ap.ImageWidth = this.RationalToString(exif.GetValue(ExifTag.ImageWidth));
-                            ap.ImageLength = this.RationalToString(exif.GetValue(ExifTag.ImageLength));
+                            ap.Orientation = Convert.ToString(((IExifValue<ushort>)exif.FirstOrDefault(x => x.Tag == ExifTag.Orientation)
+                                .GetValue()).Value);
+                            ap.Resolution_Unit = Convert.ToString(((IExifValue<ushort>)exif.FirstOrDefault(x => x.Tag == ExifTag.ResolutionUnit)
+                                .GetValue()));
+                            ap.X_resolution = RationalToDouble((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.XResolution)
+                                .GetValue());
+                            ap.Y_resolution = RationalToDouble((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.YResolution)
+                                .GetValue());
+                            ap.YCbCr_Positioning = this.RationalToString(((IExifValue<ushort>)exif.FirstOrDefault(x => x.Tag == ExifTag.YCbCrPositioning)
+                                .GetValue()));
+                           ap.DateTaken = CheckifStringValueisNull((IExifValue<string>)exif.FirstOrDefault(x => x.Tag == ExifTag.DateTimeOriginal)
+                               .GetValue());
+                            ap.Brightness = this.RationalToString((IExifValue<SignedRational>)exif.FirstOrDefault(x => x.Tag == ExifTag.BrightnessValue)
+                               .GetValue());
+                            ap.GPSDateStamp = CheckifStringValueisNull((IExifValue<string>)exif.FirstOrDefault(x => x.Tag == ExifTag.GPSDateStamp)
+                               .GetValue());
+                            ap.GPSAltitude = RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.GPSAltitude)
+                                .GetValue());
+                            ap.GPSLongitude = RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.GPSLongitude)
+                                .GetValue());
+                            ap.GPSLatitude = RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.GPSLatitude)
+                                .GetValue());
+                            ap.ImageWidth = this.RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.ImageWidth)
+                                .GetValue());
+                            ap.ImageLength = this.RationalToString((IExifValue<Rational>)exif.FirstOrDefault(x => x.Tag == ExifTag.ImageLength)
+                                .GetValue());
 
 
 

@@ -222,8 +222,8 @@ namespace SlimeWeb.Core.App_Start
                 bool createdb=false, migratedb = false, enablefileserver = false;
                 createdb = AppSettingsManager.GetDataBaseCreationSetting();
                 migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
-            
 
+                Console.WriteLine(context.Database.GetConnectionString());
                 CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
 
                 //if (createdb && migratedb )

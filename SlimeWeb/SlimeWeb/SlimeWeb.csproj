@@ -34,7 +34,7 @@
     <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
-    <PackageReference Include="Markdig" Version="0.31.0" />
+    <PackageReference Include="Markdig" Version="0.32.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />

@@ -26,7 +26,7 @@
     <PackageReference Include="ExtCore.Data.Models.Abstractions" Version="1.2.0" />
     <PackageReference Include="ExtCore.Mvc" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
-    <PackageReference Include="Markdig" Version="0.31.0" />
+    <PackageReference Include="Markdig" Version="0.32.0" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />
@@ -46,6 +46,7 @@
     <PackageReference Include="Quill.Delta" Version="1.0.7" />
     <PackageReference Include="ReverseMarkdown" Version="3.25.0" />
     <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.5.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     <PackageReference Include="System.Composition.AttributedModel" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.2" />
   </ItemGroup>
@@ -53,10 +54,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="CustomPolicy\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\otherprojects\src\ImageSharp\ImageSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

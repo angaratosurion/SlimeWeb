@@ -4,16 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb", "SlimeWeb\SlimeWeb.csproj", "{8CD94ADB-8005-4674-843D-3AA85EDAE1FF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{00171899-4ACF-4101-B6A5-F155761AD033} = {00171899-4ACF-4101-B6A5-F155761AD033}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.Core", "SlimeWeb.Core\SlimeWeb.Core.csproj", "{F4875980-692B-4B18-95C9-935250A1AEB3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{00171899-4ACF-4101-B6A5-F155761AD033} = {00171899-4ACF-4101-B6A5-F155761AD033}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSharp", "..\otherprojects\src\ImageSharp\ImageSharp.csproj", "{00171899-4ACF-4101-B6A5-F155761AD033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,22 +31,11 @@ Global
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|x64.ActiveCfg = Release|x64
 		{F4875980-692B-4B18-95C9-935250A1AEB3}.Release|x64.Build.0 = Release|x64
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Debug|x64.Build.0 = Debug|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Release|x64.ActiveCfg = Release|Any CPU
-		{00171899-4ACF-4101-B6A5-F155761AD033}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF2ECF1C-EBFB-4A36-9382-A86996B1D855}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\otherprojects\shared-infrastructure\src\SharedInfrastructure\SharedInfrastructure.projitems*{00171899-4acf-4101-b6a5-f155761ad033}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
