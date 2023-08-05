@@ -114,7 +114,8 @@ namespace SlimeWeb.Core.App_Start
                         {
                             Directory.CreateDirectory(this.extensionsPath);
                         }
-                        services.AddExtCore(this.extensionsPath);
+                        
+                        services.AddExtCore(this.extensionsPath,true);
                     }
                 }
                 services.Configure<StorageContextOptions>(options =>
