@@ -1,5 +1,6 @@
 ﻿using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
+using ExtCore.Infrastructure;
 using ExtCore.WebApplication.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -56,7 +57,8 @@ namespace SlimeWeb.Core.App_Start
                 }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
-                  .AddDefaultTokenProviders();
+                  .AddDefaultTokenProviders()//;
+                 .AddDefaultUI();
                 services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
                 services.ConfigureApplicationCookie(options =>
                 {
@@ -158,6 +160,10 @@ namespace SlimeWeb.Core.App_Start
             try
             {
                 this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+
+                app.UseCookiePolicy();
+
+
                 //if (env.IsDevelopment())
                 //{
                 //    app.UseDeveloperExceptionPage();
@@ -287,6 +293,8 @@ namespace SlimeWeb.Core.App_Start
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
                     app.UseExtCore();
+                   // ExtensionManager.GetInstance<IExtension>();
+                  
                 }
 
                 NavigationManager.AddDefaultMenusOnTopMenu();

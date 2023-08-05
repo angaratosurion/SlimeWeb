@@ -19,6 +19,11 @@
     <PackageReference Include="ExtCore.Mvc.Infrastructure" Version="8.1.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
     <PackageReference Include="Markdig" Version="0.32.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />
@@ -28,6 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.9" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.2.3" />
