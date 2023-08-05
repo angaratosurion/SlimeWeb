@@ -35,7 +35,7 @@ namespace SlimeWeb.Core.App_Start
         }
       
         public IConfiguration Configuration { get; }
-
+       
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceCollection ConfigureServicesSlime(IServiceCollection services)
         {
@@ -150,6 +150,7 @@ namespace SlimeWeb.Core.App_Start
 
 
         }
+      
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {

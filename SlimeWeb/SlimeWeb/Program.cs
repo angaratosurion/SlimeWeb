@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Tools;
 using NLog;
 using NLog.Web;
+using SlimeWeb.Core.App_Start;
 
 namespace SlimeWeb
 {
@@ -12,7 +13,8 @@ namespace SlimeWeb
         {  CommonTools.CreateLogger();
             CreateHostBuilder(args)
                 .UseNLog()
-                .Build().Run();
+                .Build() ;
+              // .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,14 +24,10 @@ namespace SlimeWeb
                   
                         webBuilder
 
-                        //.ConfigureKestrel(serverOptions =>
-                        //{
-                        //    // Set properties and call methods on options
-                        //})
-                        .UseStartup<Startup>()
-                        //   webBuilder.UseStartup<Startup>()//;
-                        //.UseContentRoot(AppContext.BaseDirectory)
 
+                        .UseStartup<Startup>()
+
+                         
 
                         ;
                     
