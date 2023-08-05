@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWeb", "SlimeWeb\SlimeWeb.csproj", "{9A5DFD27-7280-45C0-AD78-42A4C182F50B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWeb.Core", "SlimeWeb.Core\SlimeWeb.Core.csproj", "{94466E6A-E7CC-42A4-8284-A7FC98F84615}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Debug|x64.ActiveCfg = Debug|x64
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Debug|x64.Build.0 = Debug|x64
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Release|x64.ActiveCfg = Release|x64
+		{9A5DFD27-7280-45C0-AD78-42A4C182F50B}.Release|x64.Build.0 = Release|x64
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Debug|x64.Build.0 = Debug|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Release|x64.ActiveCfg = Release|Any CPU
+		{94466E6A-E7CC-42A4-8284-A7FC98F84615}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F302E2E-EC52-450B-8907-1B0B7486C34A}
+	EndGlobalSection
+EndGlobal

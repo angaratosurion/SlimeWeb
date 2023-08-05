@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+    <Version>0.1.5.1</Version>
+    <Authors>Angarato Surion</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExtCore.Data" Version="8.1.0" />
+    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="8.1.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework" Version="8.1.0" />
+    <PackageReference Include="ExtCore.Infrastructure" Version="8.1.0" />
+    <PackageReference Include="ExtCore.WebApplication" Version="8.1.0" />
+    <PackageReference Include="Markdig" Version="0.32.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.2" />
+    <PackageReference Include="NLog.Web" Version="5.3.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.2" />
+    <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
+    <PackageReference Include="Quill.Delta" Version="1.0.7" />
+    <PackageReference Include="ReverseMarkdown" Version="3.25.0" />
+    <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.5.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
+  </ItemGroup>
+
+</Project>

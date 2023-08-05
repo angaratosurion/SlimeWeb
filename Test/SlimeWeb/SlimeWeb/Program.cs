@@ -13,8 +13,8 @@ namespace SlimeWeb
         {  CommonTools.CreateLogger();
             CreateHostBuilder(args)
                 .UseNLog()
-                .Build() ;
-              // .Run();
+                .Build() //;
+              .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
