@@ -71,6 +71,8 @@
                         </li>
                         <li class="nav-item">
                             @{
+                                NavigationManager.GetTopMenu().Clear();
+                                NavigationManager.AddDefaultMenusOnTopMenu();
                                 List<SlimeWebMenu> topMenus = NavigationManager.GetTopMenu();
                                
                                     @foreach (SlimeWebMenu menuitem in topMenus)
@@ -151,8 +153,10 @@
                 &nbsp;&nbsp;  <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> &nbsp;&nbsp;
            
                 <ul class="navbar-nav flex-grow-1">
-                @{
-                    List<SlimeWebMenu> botomMenu = NavigationManager.GetBottomMenu();
+                    @{
+                        NavigationManager.GetBottomMenu().Clear();
+                        NavigationManager.AddDefaultMenusOnBottomMenu();
+                        List<SlimeWebMenu> botomMenu = NavigationManager.GetBottomMenu();
                     foreach(SlimeWebMenu menu in botomMenu)
                     {
 
