@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ExtCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Fluent;
@@ -327,6 +328,30 @@ namespace SlimeWeb.Core.Tools
                         stream.Close();
                     }
                 }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                ErrorReporting(ex);
+
+                return null;
+            }
+        }
+
+        public static List<IExtension> GetSlimeWebExtionInfo()
+        {
+            try
+            {
+                List<IExtension> ap = null; ;
+                if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
+                {
+
+                    ap = ExtensionManager.GetInstances<IExtension>().ToList();
+                }
+              
+
                 return ap;
 
             }

@@ -1,4 +1,5 @@
-﻿@using SlimeWeb.Core.Tools
+﻿@using ExtCore.Infrastructure;
+@using SlimeWeb.Core.Tools
 @{
     ViewData["Title"] = "About Software";
 }
@@ -100,5 +101,54 @@
             @CommonTools.GetSlimeWebCoreMD5Hash()
         </dd>
     </dl>
+
+    <hr />
+    <h2>Extensions </h2>
+    @{
+
+        List<IExtension> extensions= CommonTools.GetSlimeWebExtionInfo();
+        if (extensions != null) { 
+
+        foreach (var ext in extensions)
+        {
+            <dl class="row">
+                <dt class="col-sm-3">
+                    Name:
+                </dt>
+                <dd class="col-sm-9">
+                    @ext.Name
+                </dd>
+                <dt class="col-sm-3">
+                   Version:
+                </dt>
+                <dd class="col-sm-9">
+                    @ext.Version
+                </dd>
+                <dt class="col-sm-3">
+                    Description :
+                </dt>
+                <dd class="col-sm-9">
+                    @ext.Description
+                </dd>
+                <dt class="col-sm-3">
+                    Authors:
+                </dt>
+                <dd class="col-sm-9">
+                    @ext.Authors
+                </dd>
+                <dt class="col-sm-3">
+                    Source Code Repository:
+                </dt>
+                <dd class="col-sm-9">
+                    <a href="@ext.Url" target="_blank">@ext.Url</a>
+                </dd>
+                
+             
+            </dl>
+        }
+        }
+
+}
+
 
 </div>

@@ -277,6 +277,34 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public static bool GetEnableExtensionsExtCoreSetting()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:EnableExtensionsExtCore");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
+        public static bool GetEnableExtensionsSlimeWebSetting()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:EnableExtensionsSlimeWeb");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
 
     }
 }

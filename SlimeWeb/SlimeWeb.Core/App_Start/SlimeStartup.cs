@@ -18,6 +18,8 @@ using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Install;
+using SlimeWeb.Core.SDK;
+using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Services;
 using SlimeWeb.Core.Tools;
 using System;
@@ -30,6 +32,8 @@ namespace SlimeWeb.Core.App_Start
         string extensionsPath;
         //public static string WebRoot;
         bool Direcotrybrowse = false;
+        static List<ISlimeServiceExtension> slimeServicesExtension;
+        static IServiceCollection Services;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -108,7 +112,7 @@ namespace SlimeWeb.Core.App_Start
                 Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
                 //Configuration["Extensions:Path"];
 
-                if(AppSettingsManager.GetEnableExtensionsSetting())
+                if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
                     if (string.IsNullOrWhiteSpace(extensionsPath) == false)
                     {
@@ -116,30 +120,43 @@ namespace SlimeWeb.Core.App_Start
                         {
                             Directory.CreateDirectory(this.extensionsPath);
                         }
-                        
-                        services.AddExtCore(this.extensionsPath,true);
+                        if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
+                        {
+                            services.AddExtCore(this.extensionsPath, true);
+                        }
+                        else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
+                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
+                        {
+                            slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath);
+                            Services = services;
+
+
+
+                        }
                     }
+                    services.Configure<StorageContextOptions>(options =>
+                    {
+                        // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
+
+                    });
+                    //services.AddScoped<IStorageContext, SlimeDbContext>();
+                    services.AddTransient<IStorageContext, SlimeDbContext>();
+                    //services.AddSingleton<IStorageContext, SlimeDbContext>();
+                    //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+
+                    services.AddSingleton<IEmailSender, EmailSender>();
+                    Direcotrybrowse = AppSettingsManager.GetAllowDirectoryBrowseSetting();
+                    if (Direcotrybrowse)
+                    {
+                        services.AddDirectoryBrowser();
+                    }
+
+                    services.Configure<KestrelServerOptions>(
+                       Configuration.GetSection("Kestrel"));
+
+                   
                 }
-                services.Configure<StorageContextOptions>(options =>
-                {
-                    // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
-
-                });
-                //services.AddScoped<IStorageContext, SlimeDbContext>();
-                services.AddTransient<IStorageContext, SlimeDbContext>();
-                //services.AddSingleton<IStorageContext, SlimeDbContext>();
-                //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
-
-                services.AddSingleton<IEmailSender, EmailSender>();
-                Direcotrybrowse = AppSettingsManager.GetAllowDirectoryBrowseSetting();
-                if (Direcotrybrowse)
-                {
-                    services.AddDirectoryBrowser();
-                }
-
-                services.Configure<KestrelServerOptions>(
-                   Configuration.GetSection("Kestrel"));
-
                 return services;
             }
             catch (Exception ex)
@@ -292,16 +309,33 @@ namespace SlimeWeb.Core.App_Start
 
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
-                    app.UseExtCore();
-                   // ExtensionManager.GetInstance<IExtension>();
-                  
+                    if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
+                    {
+                        app.UseExtCore();
+                    }
+                    else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
+                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
+                    {
+                        if (slimeServicesExtension != null)
+                        {
+                            foreach (var item in slimeServicesExtension)
+                            {
+                                item.Execute(Services, app.ApplicationServices);
+
+                            }
+                        }
+
+
+
+                    }
+
+                    NavigationManager.AddDefaultMenusOnTopMenu();
+                    NavigationManager.AddDefaultMenusOnBottomMenu();
+
+
+
                 }
-
-                NavigationManager.AddDefaultMenusOnTopMenu();
-                NavigationManager.AddDefaultMenusOnBottomMenu();
-
-
-
             }
             catch (Exception ex)
             {

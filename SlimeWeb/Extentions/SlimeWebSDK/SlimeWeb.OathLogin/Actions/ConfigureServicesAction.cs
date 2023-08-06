@@ -1,10 +1,11 @@
 ﻿using ExtCore.Infrastructure.Actions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.OathLogin.Actions
 {
-	public class ConfigureServicesAction : IConfigureServicesAction
+	public class ConfigureServicesAction : ISlimeServiceExtension
 	{
 		public int Priority => 1000;
 
@@ -13,9 +14,9 @@ namespace SlimeWeb.OathLogin.Actions
 			try
 			{
                 IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-				 .SetBasePath(serviceProvider.GetService<IWebHostEnvironment>().ContentRootPath)
-				.AddJsonFile("SlimeWeb.OathLogin.json", optional: true, reloadOnChange: true);
-                
+                 .SetBasePath(serviceProvider.GetService<IWebHostEnvironment>().ContentRootPath)
+                .AddJsonFile("SlimeWeb.OathLogin.json", optional: true, reloadOnChange: true);
+
 
                 var builder = WebApplication.CreateBuilder();
                 var config = builder.Configuration;

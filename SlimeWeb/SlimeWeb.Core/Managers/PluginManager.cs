@@ -3,88 +3,81 @@ using System;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class PluginManager
-    {
-       const string   filesdir="files",AppDataDir="App_Data";
+    //public class PluginManager
+    //{
+    //   const string   filesdir="files",AppDataDir="App_Data";
       
-       FileManager filmngr;
-       //public PluginManager(HttpServerUtilityBase tul)
-       //{
-       //    if ( tul !=null)
-       //    {
-       //        util = tul;
-       //        filmngr = new FileManager(tul);
-       //    }
-       //}
+    //   FileManager filmngr;
+   
 
-       public string GetFilesPthysicalDir()
-       {
-           try
-           {
-               string ap = null;
-               string path = FileManager.PhysicalPathFromUrl("~/" + AppDataDir + "/" + filesdir);
+    //   public string GetFilesPthysicalDir()
+    //   {
+    //       try
+    //       {
+    //           string ap = null;
+    //           string path = FileManager.PhysicalPathFromUrl("~/" + AppDataDir + "/" + filesdir);
 
-               if (path != null && FileManager.DirectoryExists(path))
-               {
-                   ap = path;
-               }
+    //           if (path != null && FileManager.DirectoryExists(path))
+    //           {
+    //               ap = path;
+    //           }
 
-               return ap;
+    //           return ap;
 
-           }
-           catch (Exception ex){CommonTools.ErrorReporting(ex);
-               return null;
+    //       }
+    //       catch (Exception ex){CommonTools.ErrorReporting(ex);
+    //           return null;
                
-           }
-       }
-       public string GetPluginFilesPthysicalDir(string pluginname)
-       {
-           try
-           {
-               string ap = null;
-               if (pluginname != null)
-               {
-                   string path = FileManager.PhysicalPathFromUrl("~/" + AppDataDir + "/" + filesdir + "/" + pluginname);
+    //       }
+    //   }
+    //   public string GetPluginFilesPthysicalDir(string pluginname)
+    //   {
+    //       try
+    //       {
+    //           string ap = null;
+    //           if (pluginname != null)
+    //           {
+    //               string path = FileManager.PhysicalPathFromUrl("~/" + AppDataDir + "/" + filesdir + "/" + pluginname);
 
-                   if (path != null && FileManager.DirectoryExists(path))
-                   {
-                       ap = path;
-                   }
-               }
+    //               if (path != null && FileManager.DirectoryExists(path))
+    //               {
+    //                   ap = path;
+    //               }
+    //           }
 
-               return ap;
+    //           return ap;
 
-           }
-           catch (Exception ex){CommonTools.ErrorReporting(ex);
-               return null;
+    //       }
+    //       catch (Exception ex){CommonTools.ErrorReporting(ex);
+    //           return null;
                
-           }
-       }
-        public string GetPluginFilesRelativeDir(string pluginname)
-        {
-            try
-            {
-                string ap = null;
-                if (pluginname != null)
-                {
-                    string path = "~/" + AppDataDir + "/" + filesdir + "/" + pluginname;
+    //       }
+    //   }
+    //    public string GetPluginFilesRelativeDir(string pluginname)
+    //    {
+    //        try
+    //        {
+    //            string ap = null;
+    //            if (pluginname != null)
+    //            {
+    //                string path = "~/" + AppDataDir + "/" + filesdir + "/" + pluginname;
 
-                    if (path != null && FileManager.DirectoryExists(path))
-                    {
-                        ap = path;
-                    }
-                }
+    //                if (path != null && FileManager.DirectoryExists(path))
+    //                {
+    //                    ap = path;
+    //                }
+    //            }
 
-                return ap;
+    //            return ap;
 
-            }
-            catch (Exception ex)
-            {
-                CommonTools.ErrorReporting(ex);
-                return null;
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            CommonTools.ErrorReporting(ex);
+    //            return null;
 
-            }
-        }
+    //        }
+    //    }
 
-    }
+    //}
 }

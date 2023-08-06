@@ -5,10 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
-    <Version>0.1.5.1</Version>
+    <Version>0.1.6.0</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\SlimeWeb\appsettings.Development.json" Link="appsettings.Development.json" />
+    <Content Include="..\SlimeWeb\appsettings.json" Link="appsettings.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ExtCore.Data" Version="8.1.0" />
