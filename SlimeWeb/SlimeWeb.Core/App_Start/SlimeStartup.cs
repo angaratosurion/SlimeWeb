@@ -32,8 +32,9 @@ namespace SlimeWeb.Core.App_Start
         string extensionsPath;
         //public static string WebRoot;
         bool Direcotrybrowse = false;
-        static List<ISlimeServiceExtension> slimeServicesExtension;
-        static IServiceCollection Services;
+        static List<IConfigureServicesAction> slimeServicesExtension;
+        static List<IConfigureAction> slimeExtension;
+       public static IServiceCollection Services;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -128,7 +129,8 @@ namespace SlimeWeb.Core.App_Start
                         else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                             AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                         {
-                            slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath);
+                            slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath,services,
+                                services.BuildServiceProvider());
                             Services = services;
 
 
@@ -317,15 +319,15 @@ namespace SlimeWeb.Core.App_Start
                     else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                     {
-                        if (slimeServicesExtension != null)
-                        {
-                            foreach (var item in slimeServicesExtension)
-                            {
-                                item.Execute(Services, app.ApplicationServices);
+                        //if (slimeServicesExtension != null)
+                        //{
+                        //    foreach (var item in slimeServicesExtension)
+                        //    {
+                        //        item.Execute(Services, app.ApplicationServices);
 
-                            }
-                        }
-
+                        //    }
+                        //}
+                       slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app, app.ApplicationServices);
 
 
                     }

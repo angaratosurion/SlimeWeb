@@ -6,14 +6,14 @@ using System.Reflection;
 
 namespace SlimeWeb.OathLogin
 {
-    public class Extension : IExtensionInfo
+    public class Extension : IExtension
     {
 
-        string IExtensionInfo.Name => "SlimeWeb.OathLogin";
+        string IExtension.Name => "SlimeWeb.OathLogin";
 
-        string IExtensionInfo.Description => "It offers external login ability";
+        string IExtension.Description => "It offers external login ability";
 
-        string IExtensionInfo.Url => "www.google.gr";
+        string IExtension.Url => "www.google.gr";
 
        public  string Version
         {
