@@ -1,6 +1,7 @@
 ﻿namespace SlimeWeb.Core.SDK.Interfaces
 {
     /// <summary>
+    /// this part is based on ExtCore Framework https://github.com/ExtCore/ExtCore
     /// Describes an action that must be executed inside the ConfigureServices method of a web application's Startup class
     /// and might be used by the extensions to register any service inside the DI.
     /// </summary>

@@ -2,6 +2,7 @@
 {
 
     /// <summary>
+    /// this part is based on ExtCore Framework https://github.com/ExtCore/ExtCore
     /// Describes an action that must be executed inside the Configure method of a web application's Startup class
     /// and might be used by the extensions to configure a web application's request pipeline.
     /// </summary>

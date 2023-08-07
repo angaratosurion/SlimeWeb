@@ -2,7 +2,7 @@
 
 namespace HelloWorld.ExtemtionInfo
 {
-    public class ExtensionInfo : IExtensionInfo
+    public class ExtensionInfo : IExtension
     {
         public string Name { get => "Hello World"; }
         public string Description { get => "Test extention"; }
