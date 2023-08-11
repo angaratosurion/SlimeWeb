@@ -31,15 +31,23 @@
     }
     @{
         var cmsengine = SlimeWeb.Core.Managers.AppSettingsManager.GetAppWideCMSEngine();
-    
-    
+
+
     }
+
     
-   <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/site.css" />
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />*@
-   @if (cmsengine == enumMarkupEngine.QUIL.ToString())
+    @if (AppSettingsManager.GetHostedInSubFolderSetting())
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/site.css" />
+        
+    }
+    @if (cmsengine == enumMarkupEngine.QUIL.ToString())
     {
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
     <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet"/>
@@ -174,27 +182,34 @@
                                                             @menu.Title
                                                         </a>
                             }
-                        </li>
-                    }
+                            </li>
+                        }
 
                     }
 
 
-            </ul>
+                </ul>
             </div>
 
 
-                   
-                    
-                        
+
+
+
         </div>
     </footer>
-  @*  <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>*@
+    @if (AppSettingsManager.GetHostedInSubFolderSetting())
+    {
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+    }
+    else
+    {
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/site.js" asp-append-version="true"></script>
+    }
     @RenderSection("Scripts", required: false)
 </body>
 </html>
