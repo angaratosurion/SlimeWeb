@@ -36,7 +36,7 @@
     }
 
     
-    @if (AppSettingsManager.GetHostedInSubFolderSetting())
+    @if (AppSettingsManager.GetHostedInSubFolderSetting() && !AppSettingsManager.GetRuningOnDeveLoperMachineSetting())
     {
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -197,7 +197,7 @@
 
         </div>
     </footer>
-    @if (AppSettingsManager.GetHostedInSubFolderSetting())
+    @if (AppSettingsManager.GetHostedInSubFolderSetting() && !AppSettingsManager.GetRuningOnDeveLoperMachineSetting())
     {
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
