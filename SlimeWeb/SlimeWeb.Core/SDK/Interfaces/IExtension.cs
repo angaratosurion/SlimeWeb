@@ -1,4 +1,5 @@
-﻿namespace SlimeWeb.Core.SDK.Interfaces
+﻿ 
+namespace SlimeWeb.Core.SDK.Interfaces
 {
     public interface IExtension
     {

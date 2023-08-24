@@ -102,7 +102,7 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-                services.AddMvcCore().AddControllersAsServices()
+                IMvcBuilder mvcBuilder = (IMvcBuilder)services.AddMvcCore().AddControllersAsServices()
                     .AddRazorPages();
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
@@ -132,6 +132,7 @@ namespace SlimeWeb.Core.App_Start
                             slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath,services,
                                 services.BuildServiceProvider());
                             Services = services;
+                            SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, mvcBuilder, services.BuildServiceProvider());
 
 
 
@@ -328,6 +329,12 @@ namespace SlimeWeb.Core.App_Start
                         //    }
                         //}
                        slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app, app.ApplicationServices);
+                        app.UseEndpoints(endpoints =>
+                        {
+
+                           var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath, endpoints, app.ApplicationServices);
+                            slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
+                        });
 
 
                     }

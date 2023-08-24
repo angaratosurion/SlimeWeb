@@ -1,4 +1,6 @@
-﻿namespace SlimeWeb.Core.SDK.Interfaces
+﻿// Copyright © 2017 Dmitry Sikorsky. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+namespace SlimeWeb.Core.SDK.Interfaces
 {
     /// <summary>
     /// this part is based on ExtCore Framework https://github.com/ExtCore/ExtCore

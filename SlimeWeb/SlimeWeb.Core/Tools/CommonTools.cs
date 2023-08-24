@@ -339,29 +339,7 @@ namespace SlimeWeb.Core.Tools
             }
         }
 
-        public static List<IExtension> GetSlimeWebExtionInfo()
-        {
-            try
-            {
-                List<IExtension> ap = null; ;
-                if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
-                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
-                {
-
-                    ap = ExtensionManager.GetInstances<IExtension>().ToList();
-                }
-              
-
-                return ap;
-
-            }
-            catch (Exception ex)
-            {
-                ErrorReporting(ex);
-
-                return null;
-            }
-        }
+    
         public static void saveFileFRombase64string(string filedata, string filename)
         {
             try

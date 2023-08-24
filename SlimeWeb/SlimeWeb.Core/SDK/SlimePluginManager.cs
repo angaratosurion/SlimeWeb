@@ -1,15 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExtCore.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
+using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using IExtension = SlimeWeb.Core.SDK.Interfaces.IExtension;
 
 namespace SlimeWeb.Core.SDK
 {
     public   class SlimePluginManager
     {
+        public static List<ExtCore.Infrastructure.IExtension> GetSlimeWebExtCoreExtensionInfo()
+        {
+            try
+            {
+                List<ExtCore.Infrastructure.IExtension> ap = null; ;
+                if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
+                {
+
+                    ap = ExtensionManager.GetInstances<ExtCore.Infrastructure.IExtension>().ToList();
+                }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
+        public static List<IExtension> GetSlimeWebSDKExtensionInfo( )
+        {
+            try
+            {
+                List<IExtension> ap = null; ;
+                string pluginLocation = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+                if (!AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
+                {
+
+                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    ap = new List<IExtension>();
+                    foreach (var file in files)
+                    {
+                        var plg = LoadPlugin(file);
+                        if (plg != null)
+                        {
+
+                            var serv = CreateExtensionInfo(plg);
+                            if (serv != null)
+                            {
+
+                                ap.Add(serv);
+                                 
+                            }
+                        }
+
+                    }
+
+                
+            }
+
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
         public static List<IConfigureServicesAction> LoadServicesPlugins(string relativePath, IServiceCollection services,
             IServiceProvider serviceProvider)
         {
@@ -53,6 +123,97 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
+        public static List<IUseEndpointsAction> LoadEndpointPlugins(string relativePath, IEndpointRouteBuilder endpointRouteBuilder, 
+            IServiceProvider serviceProvider)
+        {
+            try
+            {
+                string pluginLocation = relativePath;
+                List<IUseEndpointsAction> ap = null;
+                if (CommonTools.isEmpty(pluginLocation) != true)
+                {
+
+                    ap = new List<IUseEndpointsAction>();
+                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    foreach (var file in files)
+                    {
+                        var plg = LoadPlugin(file);
+                        if (plg != null)
+                        {
+                           
+                            var serv = CreateEndpointsExtension(plg);
+                            if (serv != null)
+                            {
+                               
+                                ap.Add(serv);
+                                serv.Execute(endpointRouteBuilder, serviceProvider);
+                            }
+                        }
+
+                    }
+
+                }
+
+
+
+                return ap;
+            }
+
+
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+
+        }
+        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcBuilder mvcBuilder, 
+            IServiceProvider serviceProvider)
+        {
+            try
+            {
+                string pluginLocation = relativePath;
+                List<IAddMvcAction>  ap = null;
+                if (CommonTools.isEmpty(pluginLocation) != true)
+                {
+
+                    ap = new List<IAddMvcAction> ();
+                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    foreach (var file in files)
+                    {
+                        var plg = LoadPlugin(file);
+                        if (plg != null)
+                        {
+
+                            var serv = CreateAddMvcActionExtesion(plg);
+                            if (serv != null)
+                            {
+
+                                ap.Add(serv);
+                                serv.Execute(mvcBuilder, serviceProvider);
+                            }
+                        }
+
+                    }
+
+                }
+
+
+
+                return ap;
+            }
+
+
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+
+        }
+       
         public static Assembly LoadPlugin(string relativePath)
         {
             try
@@ -100,22 +261,79 @@ namespace SlimeWeb.Core.SDK
                 return null;
             }
             }
-        static IEnumerable<Controller>? CreateControllerExtesion(Assembly assembly)
+        static IAddMvcAction CreateAddMvcActionExtesion(Assembly assembly)
         {
             try
             {
                 int count = 0;
-                IEnumerable<Controller> ap = null;
+                IAddMvcAction ap = null;
 
                 foreach (Type type in assembly.GetTypes())
                 {
-                    if (typeof(Controller).IsAssignableFrom(type))
+                    if (typeof(IAddMvcAction).IsAssignableFrom(type))
                     {
-                        Controller  result = Activator.CreateInstance(type) as Controller ;
+                        IAddMvcAction  result = Activator.CreateInstance(type) as IAddMvcAction ;
                         if (result != null)
                         {
                             count++;
-                            return (IEnumerable< Controller >?)result;
+
+                            return (IAddMvcAction )result;
+
+
+                        }
+                    }
+                }
+                return ap; ;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        static IUseEndpointsAction? CreateEndpointsExtension(Assembly assembly)
+        {
+            try
+            {
+                int count = 0;
+               IUseEndpointsAction ap = null;
+
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (typeof(IUseEndpointsAction).IsAssignableFrom(type))
+                    {
+                        IUseEndpointsAction result = Activator.CreateInstance(type) as IUseEndpointsAction ;
+                        if (result != null)
+                        {
+                            count++;
+                            return (IUseEndpointsAction)result;
+                        }
+                    }
+                }
+                return ap; ;
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        static IExtension? CreateExtensionInfo(Assembly assembly)
+        {
+            try
+            {
+                int count = 0;
+                IExtension ap = null;
+
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (typeof(IExtension).IsAssignableFrom(type))
+                    {
+                        IExtension result = Activator.CreateInstance(type) as IExtension;
+                        if (result != null)
+                        {
+                            count++;
+                            return (IExtension)result;
                         }
                     }
                 }
