@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
+    <Version>1.1.1.0</Version>
+    <Copyright>$(Authors)</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

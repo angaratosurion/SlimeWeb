@@ -47,7 +47,9 @@ namespace SlimeWeb.Core.SDK
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                 {
 
-                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    EnumerationOptions enumerationOptions = new EnumerationOptions();
+                    enumerationOptions.RecurseSubdirectories = true;
+                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
                     ap = new List<IExtension>();
                     foreach (var file in files)
                     {
@@ -91,7 +93,9 @@ namespace SlimeWeb.Core.SDK
                 {
                    
                     ap = new List<IConfigureServicesAction>();
-                    var files = Directory.GetFiles(pluginLocation,"*.dll");
+                    EnumerationOptions enumerationOptions  = new EnumerationOptions();
+                    enumerationOptions.RecurseSubdirectories = true;
+                    var files = Directory.GetFiles(pluginLocation,"*.dll",enumerationOptions);
                     foreach (var file in files)
                     {
                         var plg = LoadPlugin(file);
@@ -134,7 +138,9 @@ namespace SlimeWeb.Core.SDK
                 {
 
                     ap = new List<IUseEndpointsAction>();
-                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    EnumerationOptions enumerationOptions = new EnumerationOptions();
+                    enumerationOptions.RecurseSubdirectories = true;
+                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
                     foreach (var file in files)
                     {
                         var plg = LoadPlugin(file);
@@ -168,7 +174,7 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcBuilder mvcBuilder, 
+        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcCoreBuilder mvcBuilder, 
             IServiceProvider serviceProvider)
         {
             try
@@ -179,13 +185,15 @@ namespace SlimeWeb.Core.SDK
                 {
 
                     ap = new List<IAddMvcAction> ();
-                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    EnumerationOptions enumerationOptions = new EnumerationOptions();
+                    enumerationOptions.RecurseSubdirectories = true;
+                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
                     foreach (var file in files)
                     {
                         var plg = LoadPlugin(file);
                         if (plg != null)
                         {
-
+                            mvcBuilder.AddApplicationPart(plg);
                             var serv = CreateAddMvcActionExtesion(plg);
                             if (serv != null)
                             {
@@ -357,7 +365,9 @@ namespace SlimeWeb.Core.SDK
                 {
 
                     ap = new List<IConfigureAction>();
-                    var files = Directory.GetFiles(pluginLocation, "*.dll");
+                    EnumerationOptions enumerationOptions = new EnumerationOptions();
+                    enumerationOptions.RecurseSubdirectories = true;
+                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
                     foreach (var file in files)
                     {
                         var plg = LoadPlugin(file);

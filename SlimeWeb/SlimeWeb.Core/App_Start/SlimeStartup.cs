@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,7 @@ namespace SlimeWeb.Core.App_Start
         static List<IConfigureServicesAction> slimeServicesExtension;
         static List<IConfigureAction> slimeExtension;
        public static IServiceCollection Services;
+        static List<IAddMvcAction> addMvcActions;
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -102,8 +104,7 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-                IMvcBuilder mvcBuilder = (IMvcBuilder)services.AddMvcCore().AddControllersAsServices()
-                    .AddRazorPages();
+                IMvcCoreBuilder mvcBuilder = services.AddMvcCore().AddControllersAsServices().AddRazorPages();
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
                 //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
@@ -132,7 +133,7 @@ namespace SlimeWeb.Core.App_Start
                             slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath,services,
                                 services.BuildServiceProvider());
                             Services = services;
-                            SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, mvcBuilder, services.BuildServiceProvider());
+                           addMvcActions= SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, mvcBuilder, services.BuildServiceProvider());
 
 
 
@@ -329,11 +330,12 @@ namespace SlimeWeb.Core.App_Start
                         //    }
                         //}
                        slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app, app.ApplicationServices);
+                        app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
 
                            var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath, endpoints, app.ApplicationServices);
-                            slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
+                           // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
                         });
 
 

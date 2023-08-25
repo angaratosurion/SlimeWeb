@@ -23,6 +23,6 @@ namespace SlimeWeb.Core.SDK.Interfaces
         /// <param name="serviceProvider">
         /// Will be provided by the ExtCore.Mvc and might be used to get any service that is registered inside the DI at this moment.
         /// </param>
-        void Execute(IMvcBuilder mvcBuilder, IServiceProvider serviceProvider);
+        void Execute(IMvcCoreBuilder mvcBuilder, IServiceProvider serviceProvider);
     }
 }
