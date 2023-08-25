@@ -1,11 +1,11 @@
 ﻿using SlimeWeb.Core.SDK.Interfaces;
 using System.Reflection;
 
-namespace HelloWorld.ExtemtionInfo
+namespace DummyMarkupManager.ExtemtionInfo
 {
     public class ExtensionInfo : IExtension
     {
-        public string Name { get => "Hello World"; }
+        public string Name { get => " DummyMarkupManager"; }
         public string Description { get => "Test extention"; }
         public string Url { get => "www.google.gr"; }
         public string Version { get

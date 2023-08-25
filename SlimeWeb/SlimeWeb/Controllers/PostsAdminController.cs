@@ -188,12 +188,12 @@ namespace SlimeWeb.Controllers
                 var mpost = await postManager.Details(id);
                 ViewPost post = new ViewPost();
                 post.ImportFromModel(mpost);
-                //MarkDownManager markDownManager = new MarkDownManager();
-                //post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                //post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
                 //BBCodeManager bBCodeManager = new BBCodeManager();
                 //post.HTMLcontent = bBCodeManager.ConvertToHtml(mpost.content);
-                MarkUpManager markUpManager = new MarkUpManager();
-                post.HTMLcontent = markUpManager.ConvertToHtml(mpost.content);
+               // MarkUpManager MarkUpManager = new MarkUpManager();
+                post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
 
 
                 post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
@@ -276,8 +276,8 @@ namespace SlimeWeb.Controllers
                 {
                     post.Author = await PostManager.db.Users.FirstAsync(x => x.UserName == User.Identity.Name);
                     var mpost = post.ToModel(User.Identity.Name);
-                    MarkUpManager markDownManager = new MarkUpManager();
-                    mpost.content = markDownManager.ConvertFromHtmlToMarkUp(post.content);
+                    //MarkUpManager MarkUpManager = new MarkUpManager();
+                    mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
 
                     var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
 
@@ -352,12 +352,12 @@ namespace SlimeWeb.Controllers
 
                 var vpost = new ViewPost();
                 vpost.ImportFromModel(post);
-                //MarkDownManager markDownManager = new MarkDownManager();
-                //vpost.content = markDownManager.ConvertToHtml(post.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                //vpost.content = MarkUpManager.ConvertToHtml(post.content);
                 //BBCodeManager bBCodeManager = new BBCodeManager();
                 //vpost.HTMLcontent = bBCodeManager.ConvertToHtml(post.content);
-                MarkUpManager markUpManager = new MarkUpManager();
-                vpost.HTMLcontent = markUpManager.ConvertToHtml(post.content);
+               // MarkUpManager MarkUpManager = new MarkUpManager();
+                vpost.HTMLcontent = MarkUpManager.ConvertToHtml(post.content);
                 var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
                 if (cmsengine == enumMarkupEngine.QUIL.ToString())
                 {
@@ -396,8 +396,8 @@ namespace SlimeWeb.Controllers
                 //_context.Update(post);
                 //await _context.SaveChangesAsync();
                 var mpost = post.ToModel(User.Identity.Name);
-                MarkUpManager markDownManager = new MarkUpManager();
-                mpost.content = markDownManager.ConvertFromHtmlToMarkUp(post.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
 
                 mpost = await postManager.Edit(id, mpost);
                 var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
@@ -475,12 +475,12 @@ namespace SlimeWeb.Controllers
                 var mpost = await postManager.Details(id);
                 ViewPost post = new ViewPost();
                 post.ImportFromModel(mpost);
-                //MarkDownManager markDownManager = new MarkDownManager();
-                //post.HTMLcontent = markDownManager.ConvertToHtml(mpost.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                //post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
                 //BBCodeManager bBCodeManager = new BBCodeManager();
                 //post.HTMLcontent = bBCodeManager.ConvertToHtml(mpost.content);
-                MarkUpManager markUpManager = new MarkUpManager();
-                post.HTMLcontent = markUpManager.ConvertToHtml(mpost.content);
+               // MarkUpManager MarkUpManager = new MarkUpManager();
+                post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
                 if (post == null)
                 {
                     return NotFound();

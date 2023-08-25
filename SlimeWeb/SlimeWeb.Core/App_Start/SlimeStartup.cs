@@ -19,6 +19,7 @@ using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Install;
+using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.SDK;
 using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Services;
@@ -113,7 +114,7 @@ namespace SlimeWeb.Core.App_Start
                 Console.WriteLine("Applications's Root  Path : {0}", FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
                 Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
                 //Configuration["Extensions:Path"];
-
+                MarkUpManager.Init();
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
                     if (string.IsNullOrWhiteSpace(extensionsPath) == false)

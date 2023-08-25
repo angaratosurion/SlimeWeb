@@ -89,9 +89,9 @@ namespace SlimeWeb.Controllers
                 else
                 {
                     ViewSlimeWebPage vpage = new ViewSlimeWebPage();
-                    MarkUpManager markUpManager = new MarkUpManager();
+                    //MarkUpManager MarkUpManager = new MarkUpManager();
                     vpage.ImportFromModel(page);
-                    vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
+                    vpage.HTMLcontent = MarkUpManager.ConvertToHtml(vpage.content);
                     return View(vpage);
 
                 }

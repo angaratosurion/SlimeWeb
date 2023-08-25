@@ -15,7 +15,8 @@ namespace HelloWorld.Actions
                         name: "default2",
                         pattern: "{controller=HelloWorld}");
                 endpointRouteBuilder.MapRazorPages();
-                Console.WriteLine("testt");
+                
+                Console.WriteLine("testt HelloWorld.Actions.EndpointsAction");
             }
             catch (Exception ex )
             {

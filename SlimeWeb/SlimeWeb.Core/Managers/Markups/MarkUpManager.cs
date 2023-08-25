@@ -5,19 +5,41 @@ using System.Collections.Generic;
 
 namespace SlimeWeb.Core.Managers.Markups
 {
-    public class MarkUpManager
+    public static class MarkUpManager
     {
-        Dictionary<string, IMarkupManager> MarkupManagers = new Dictionary<string, IMarkupManager>();
-        public MarkUpManager()
+       static Dictionary<string, IMarkupManager> MarkupManagers = new Dictionary<string, IMarkupManager>();
+        public static void Init()
         {
-            this.MarkupManagers.Add(enumMarkupEngine.BBCODE.ToString(),new BBCodeManager());
-            this.MarkupManagers.Add(enumMarkupEngine.MARKDOWN.ToString(), new MarkDownManager());
-            this.MarkupManagers.Add(enumMarkupEngine.QUIL.ToString(), new QuilDeltaManager());
+            MarkupManagers.Add(enumMarkupEngine.BBCODE.ToString(),new BBCodeManager());
+           MarkupManagers.Add(enumMarkupEngine.MARKDOWN.ToString(), new MarkDownManager());
+            MarkupManagers.Add(enumMarkupEngine.QUIL.ToString(), new QuilDeltaManager());
         }
-        public string ConvertToHtml(string markdowncode)
+        public static void RegisterMarkupManager(string name , IMarkupManager markupManager)
         {
             try
             {
+
+                string ap = null;
+
+                if (CommonTools.isEmpty(name) == false && markupManager!=null)
+                {
+                    MarkupManagers.Add(name, markupManager);
+                }
+                 
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                 
+            }
+
+        }
+        public static string ConvertToHtml(string markdowncode)
+        {
+            try
+            {
+               
                 string ap = null;
 
                 if (CommonTools.isEmpty(markdowncode) == false)
@@ -42,7 +64,7 @@ namespace SlimeWeb.Core.Managers.Markups
                 return null;
             }
         }
-        public string ConvertFromHtmlToMarkUp(string htmlcode)
+        public static string ConvertFromHtmlToMarkUp(string htmlcode)
         {
             try
             {

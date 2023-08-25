@@ -12,7 +12,10 @@ namespace HelloWorld.Controllers
         {
             _logger = logger;
         }
-
+        public HelloWorldController()
+        {
+           // _logger = logger;
+        }
         public IActionResult Index()
         {
             return View();

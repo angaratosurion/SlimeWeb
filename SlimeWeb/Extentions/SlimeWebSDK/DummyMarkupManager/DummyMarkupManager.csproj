@@ -1,13 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <OutputType>Library</OutputType>
-    <Version>1.1.1.0</Version>
-    <Authors>Angarato Surion</Authors>
-    <Copyright>Angarato Surion</Copyright>
+    <Nullable>enable</Nullable>
+    <Copyright>fdfdfdfd</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

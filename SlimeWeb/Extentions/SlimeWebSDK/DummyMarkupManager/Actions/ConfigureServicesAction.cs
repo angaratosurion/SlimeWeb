@@ -1,10 +1,11 @@
-﻿using HelloWorld.Controllers;
+﻿ 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.SDK.Interfaces;
 
-namespace HelloWorld.Actions
+namespace DummyMarkupManager.Actions
 {
     public class ConfigureServicesAction : IConfigureServicesAction
     {
@@ -14,8 +15,10 @@ namespace HelloWorld.Actions
         {
             try
             {
+                 
               
-
+                DummyMarkupManager dummyMarkupManager = new DummyMarkupManager();
+                MarkUpManager.RegisterMarkupManager("DummyMarkup",dummyMarkupManager);
                 Console.WriteLine("testt HelloWorld.Actions ConfigureServicesAction");
             }
             catch (Exception ex)

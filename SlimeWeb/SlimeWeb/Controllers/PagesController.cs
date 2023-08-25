@@ -62,8 +62,8 @@ namespace SlimeWeb.Controllers
                 var mpage = await pageManager.Details(name);
                 ViewSlimeWebPage page = new ViewSlimeWebPage();
                 page.ImportFromModel(mpage);
-                MarkUpManager markUpManager = new MarkUpManager();
-                page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
+                
+                page.HTMLcontent = MarkUpManager.ConvertToHtml(mpage.content);
                 return View(page);
             }
             catch (Exception ex)
@@ -88,9 +88,9 @@ namespace SlimeWeb.Controllers
                 else
                 {
                     ViewSlimeWebPage vpage = new ViewSlimeWebPage();
-                    MarkUpManager markUpManager = new MarkUpManager();
+                   // MarkUpManager MarkUpManager = new MarkUpManager();
                     vpage.ImportFromModel(page);
-                    vpage.HTMLcontent = markUpManager.ConvertToHtml(vpage.content);
+                    vpage.HTMLcontent = MarkUpManager.ConvertToHtml(vpage.content);
                     return View(vpage);
 
                 }
@@ -147,8 +147,8 @@ namespace SlimeWeb.Controllers
                 page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
                 page.Name = name;
                 var mpage = page.ToModel(page.Author.UserName);
-                MarkUpManager markDownManager = new MarkUpManager();
-                mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                mpage.content = MarkUpManager.ConvertFromHtmlToMarkUp(page.content);
 
                 await pageManager.Create(page, User.Identity.Name);
 
@@ -203,8 +203,8 @@ namespace SlimeWeb.Controllers
             {
                 page.Author = CommonTools.usrmng.GetUser(User.Identity.Name);
                 var mpage = page.ToModel(page.Author.UserName);
-                MarkUpManager markDownManager = new MarkUpManager();
-                mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                mpage.content = MarkUpManager.ConvertFromHtmlToMarkUp(page.content);
 
                 await pageManager.Create(page, User.Identity.Name);
 
@@ -245,8 +245,8 @@ namespace SlimeWeb.Controllers
             }
             ViewSlimeWebPage vpage = new ViewSlimeWebPage();
             vpage.ImportFromModel(page);
-            MarkUpManager markUpManager = new MarkUpManager();
-            vpage.HTMLcontent = markUpManager.ConvertToHtml(page.content);
+           // MarkUpManager MarkUpManager = new MarkUpManager();
+            vpage.HTMLcontent = MarkUpManager.ConvertToHtml(page.content);
             var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
             if (cmsengine == enumMarkupEngine.QUIL.ToString())
             {
@@ -274,8 +274,8 @@ namespace SlimeWeb.Controllers
                 }
 
                 var mpage = page.ToModel(User.Identity.Name);
-                MarkUpManager markDownManager = new MarkUpManager();
-                mpage.content = markDownManager.ConvertFromHtmlToMarkUp(page.content);
+                //MarkUpManager MarkUpManager = new MarkUpManager();
+                mpage.content = MarkUpManager.ConvertFromHtmlToMarkUp(page.content);
                 mpage = await pageManager.Edit( Name, mpage);
                 return RedirectToAction(nameof(Index), "Pages");
 
@@ -318,8 +318,8 @@ namespace SlimeWeb.Controllers
                 var mpage = await pageManager.Details(Name);
                 ViewSlimeWebPage page = new ViewSlimeWebPage();
                 page.ImportFromModel(mpage);
-                MarkUpManager markUpManager = new MarkUpManager();
-                page.HTMLcontent = markUpManager.ConvertToHtml(mpage.content);
+               // MarkUpManager MarkUpManager = new MarkUpManager();
+                page.HTMLcontent = MarkUpManager.ConvertToHtml(mpage.content);
                 if (page == null)
                 {
                     return NotFound();
