@@ -45,6 +45,35 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public async Task<List<Blog>> ListBlogBylastUpdated()
+        {
+            try
+            {
+                List<Blog> ap = null,tap;
+                tap = await this.ListBlog();
+
+                if ( tap!=null)
+                {
+                    
+                   tap.OrderByDescending(x => x.LastUpdate);
+                    ap = tap;
+                }
+
+                
+
+
+
+                return ap;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public async Task<List<Blog>> ListBlogByAdmUser(string username)
         {
             try

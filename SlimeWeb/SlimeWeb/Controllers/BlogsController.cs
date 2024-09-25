@@ -32,14 +32,42 @@ namespace SlimeWeb.Controllers
         }
 
         // GET: Blogs
+        /*
+         public async Task<IActionResult> Index()
+         {
+             try
+             {
+
+
+             List<ViewBlog> lstblogs = new List<ViewBlog>();
+             var list = await blogmnger.ListBlog();
+                 if (list != null)
+                 {
+                     foreach (var bl in list)
+                     {
+                         ViewBlog vb = new ViewBlog();
+                         vb.ImportFromModel(bl);
+                         lstblogs.Add(vb);
+                     }
+                 }
+             return View(lstblogs);
+             }
+             catch (Exception ex)  {CommonTools.ErrorReporting(ex);
+
+
+
+                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+
+         }
+         }*/
         public async Task<IActionResult> Index()
         {
             try
             {
 
-           
-            List<ViewBlog> lstblogs = new List<ViewBlog>();
-            var list = await blogmnger.ListBlog();
+
+                List<ViewBlog> lstblogs = new List<ViewBlog>();
+                var list = await blogmnger.ListBlogBylastUpdated();
                 if (list != null)
                 {
                     foreach (var bl in list)
@@ -49,15 +77,46 @@ namespace SlimeWeb.Controllers
                         lstblogs.Add(vb);
                     }
                 }
-            return View(lstblogs);
+                return View(lstblogs);
             }
-            catch (Exception ex)  {CommonTools.ErrorReporting(ex);
-            
-                
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
 
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            
+
+            }
         }
+        public async Task<IActionResult> BlogList()
+        {
+            try
+            {
+
+
+                List<ViewBlog> lstblogs = new List<ViewBlog>();
+                var list = await blogmnger.ListBlog();
+                if (list != null)
+                {
+                    foreach (var bl in list)
+                    {
+                        ViewBlog vb = new ViewBlog();
+                        vb.ImportFromModel(bl);
+                        lstblogs.Add(vb);
+                    }
+                }
+                return View(lstblogs);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+
+            }
         }
 
         // GET: Blogs/Details/5

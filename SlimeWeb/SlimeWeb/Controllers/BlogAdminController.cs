@@ -28,7 +28,7 @@ namespace SlimeWeb.Controllers
             {
                 if (await accessManager.DoesUserHasAccess(User.Identity.Name, id) == false)
                 {
-                    return RedirectToAction(nameof(Index), "Blogs", new { id = id });
+                    return RedirectToAction("BlogList", "Blogs", new { id = id });
                 }
                 return View();
             }
