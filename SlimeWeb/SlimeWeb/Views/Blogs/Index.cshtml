@@ -12,43 +12,52 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>
+            </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.LastUpdate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
+            </th> *@
+           @*  <th>
                 @Html.DisplayNameFor(model => model.Administrator)
-            </th>
+            </th> *@
           
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
-            <td>
+            @* <td>
                <a asp-controller="Posts" asp-action="Index" asp-route-id="@item.Name">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
+            </td> *@
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                    <a asp-controller="Posts" 
+                    asp-action="Index" 
+                    asp-route-id="@item.Name">@Html.DisplayFor(modelItem => item.Title)</a>
+                    <br />
+                    @Html.DisplayNameFor(model => model.Administrator) :
+                    @Html.DisplayFor(modelItem => item.Administrator.DisplayName)
+               @*  @Html.DisplayFor(modelItem => item.Title) *@
             </td>
-            <td>
+           @*  <td>
                 @Html.DisplayFor(modelItem => item.LastUpdate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Administrator.DisplayName)
-            </td>
+            </td> *@
+            
+            @* <td>
+                    
+                    @Html.DisplayFor(modelItem => item.Administrator.DisplayName)
+            </td> *@
            
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.Name">Edit</a>|*@

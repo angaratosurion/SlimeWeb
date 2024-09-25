@@ -18,7 +18,7 @@ namespace SlimeWeb.Core.Data.Models
         public DateTime DateTime { get; set; }
         [Required]
         public string BannedBy { get; set; }
-        [Timestamp]
+        [ConcurrencyCheck]
         public Byte[] RowVersion { get; set; }
 
     }

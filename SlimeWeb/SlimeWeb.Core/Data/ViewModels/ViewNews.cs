@@ -21,7 +21,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
         public virtual List<Category> Categories { get; set; }
         public virtual List<Tag> Tags { get; set; }
-        [Timestamp]
+        [ConcurrencyCheck]
         public Byte[] RowVersion { get; set; }
 
 

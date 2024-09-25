@@ -14,7 +14,8 @@ namespace SlimeWeb.Core.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [RegularExpression(@"^[\w\-. ]+$")]
+        // [RegularExpression(@"^[\w\-. ]+$")]
+        [RegularExpression(@"^[^<>:""/\\|?*\x00-\x1F]+$")]
         public string Name  { get; set; }
         //[Required]
         // public string AuthorId { get; set; }

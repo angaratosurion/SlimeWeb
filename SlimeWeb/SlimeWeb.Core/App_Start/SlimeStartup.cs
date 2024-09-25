@@ -176,11 +176,12 @@ namespace SlimeWeb.Core.App_Start
         }
       
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
+        public IApplicationBuilder ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             try
             {
+                IApplicationBuilder tap = null;
                 this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
 
                 app.UseCookiePolicy();
@@ -201,9 +202,11 @@ namespace SlimeWeb.Core.App_Start
                 //app.UseHttpsRedirection();
                 //app.UseStaticFiles();
 
-                //app.UseRouting();
+                // app.UseRouting();
 
-                //app.UseAuthentication();
+                 
+                app.UseAuthentication();
+                app.UseAuthorization();
 
                 //app.UseEndpoints(endpoints =>
                 //{
@@ -332,6 +335,8 @@ namespace SlimeWeb.Core.App_Start
                         //}
                        slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app, app.ApplicationServices);
                         app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
                         app.UseEndpoints(endpoints =>
                         {
 
@@ -339,19 +344,23 @@ namespace SlimeWeb.Core.App_Start
                            // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
                         });
 
-
+                        tap = app;
+                        return tap;
                     }
 
                     NavigationManager.AddDefaultMenusOnTopMenu();
                     NavigationManager.AddDefaultMenusOnBottomMenu();
-
-
+                    tap = app;
+                    return tap;
 
                 }
+                tap = app;
+                return tap;
             }
             catch (Exception ex)
             {
                 CommonTools.ErrorReporting(ex);
+                return app; ;
             }
             }
         

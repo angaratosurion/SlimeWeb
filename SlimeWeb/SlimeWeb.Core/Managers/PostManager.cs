@@ -260,7 +260,7 @@ namespace SlimeWeb.Core.Managers
                        await db.Post.AddAsync(post);
                         db.SaveChanges();
                         ap = post;
-                        var blog = await this.blmngr.GetBlogByIdAsync(post.Id);
+                        var blog = await this.blmngr.GetBlogByIdAsync(post.BlogId);
                         await this.blmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
 
                     }
@@ -268,7 +268,9 @@ namespace SlimeWeb.Core.Managers
                 return ap;
 
             }
-            catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
+            catch (Exception ex) { 
+                CommonTools.ErrorReporting(ex); 
+                return null; }
         }
 
         public async Task<Post> Details(int? id)

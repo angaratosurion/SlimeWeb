@@ -55,8 +55,8 @@ namespace SlimeWeb.Core.Managers
                 if ( tap!=null)
                 {
                     
-                   tap.OrderByDescending(x => x.LastUpdate);
-                    ap = tap;
+                   ap=tap.OrderByDescending (x => x.LastUpdate).ToList();
+                    //ap = tap;
                 }
 
                 

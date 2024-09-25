@@ -20,7 +20,7 @@ namespace SlimeWeb.Core.Data.Models
         public string Path { get; set; }
         [Required]
         public string RelativePath { get; set; }
-        [Timestamp]
+        [ConcurrencyCheck]
         public Byte[] RowVersion { get; set; }
         [Required]
         public string ContentType { get; set; }

@@ -52,7 +52,7 @@ namespace SlimeWeb
                           
                             
              //
-            base.ConfigureSlime(app, env);
+            app=base.ConfigureSlime(app, env);
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing==true)
             {
@@ -73,7 +73,7 @@ namespace SlimeWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
-             
+
             app.UseEndpoints(endpoints =>
                 {
                    

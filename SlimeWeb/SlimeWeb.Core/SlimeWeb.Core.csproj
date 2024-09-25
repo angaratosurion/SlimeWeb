@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
-    <Version>0.1.8.5</Version>
+    <Version>0.1.9.0</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
   </PropertyGroup>
@@ -51,6 +51,10 @@
     <PackageReference Include="ReverseMarkdown" Version="3.25.0" />
     <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.8" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\SqlServerMigrations\" />
   </ItemGroup>
 
 </Project>

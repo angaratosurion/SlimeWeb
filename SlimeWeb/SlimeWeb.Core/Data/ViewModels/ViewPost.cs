@@ -35,7 +35,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
                 this.Id = model.Id;
                 this.Published = model.Published;
-                this.RowVersion = model.RowVersion;
+                //this.RowVersion = model.RowVersion;
                 //this.Tags = model.Tags;
                 this.Title = model.Title;
                 this.content = model.content;
@@ -70,7 +70,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
                 ap.Id = Id;
                 ap.Published = Published;
-                ap.RowVersion = RowVersion;
+               // ap.RowVersion = RowVersion;
                 ap.Title = Title;
                 ap.content = content;
 
