@@ -13,8 +13,8 @@ namespace SlimeWeb.Core.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-         [ConcurrencyCheck]
-        public Byte[] RowVersion { get; set; }
+        // [ConcurrencyCheck]
+        //public Byte[] RowVersion { get; set; }
         [Required]
         public int BlogId { get; set; }
         [Required]

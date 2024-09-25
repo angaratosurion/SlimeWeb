@@ -20,8 +20,8 @@ namespace SlimeWeb.Core.Data.Models
         public string Path { get; set; }
         [Required]
         public string RelativePath { get; set; }
-        [ConcurrencyCheck]
-        public Byte[] RowVersion { get; set; }
+        //[ConcurrencyCheck]
+        //public Byte[] RowVersion { get; set; }
         [Required]
         public string ContentType { get; set; }
 

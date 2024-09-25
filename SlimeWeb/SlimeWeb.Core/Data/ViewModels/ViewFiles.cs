@@ -29,7 +29,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 this.Owner = BlogManager.db.Users.First(x => x.UserName == model.Owner);
                 this.Path = model.Path;
                 this.RelativePath = model.RelativePath;
-                this.RowVersion = model.RowVersion;
+                //this.RowVersion = model.RowVersion;
 
 
                 using (SlimeDbContext db = new SlimeDbContext())
@@ -67,7 +67,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 }
                 ap.Owner = this.Owner.UserName;
                 ap.Id = Id;
-                ap.RowVersion = RowVersion;
+               // ap.RowVersion = RowVersion;
                 ap.ContentType = this.ContentType;
                 ap.FileName = this.FileName;
                 ap.Path = this.Path;

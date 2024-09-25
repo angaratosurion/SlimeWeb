@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlimeWeb.Core.Data.DBContexts;
 
@@ -11,9 +12,11 @@ using SlimeWeb.Core.Data.DBContexts;
 namespace SlimeWeb.Core.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    partial class SlimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240925162720_removedrowversionproperty")]
+    partial class removedrowversionproperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

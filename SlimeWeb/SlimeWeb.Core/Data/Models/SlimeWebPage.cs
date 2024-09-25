@@ -29,8 +29,8 @@ namespace SlimeWeb.Core.Data.Models
         public string Author { get; set; }
 
 
-        [ConcurrencyCheck]
-        public Byte[] RowVersion { get; set; }
+        //[ConcurrencyCheck]
+        //public Byte[] RowVersion { get; set; }
         [Display(Name = "Top")]
         public Boolean TopPosition { get; set; }
         [Display(Name = "Bottom")]

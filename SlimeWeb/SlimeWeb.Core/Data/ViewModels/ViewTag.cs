@@ -65,7 +65,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
                 ap.Name = this.Name;
                 ap.BlogAndTag= this.BlogAndTag;
-                ap.RowVersion= this.RowVersion;
+                //ap.RowVersion= this.RowVersion;
 
 
 

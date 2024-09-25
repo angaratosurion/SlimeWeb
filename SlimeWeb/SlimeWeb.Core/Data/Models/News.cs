@@ -22,7 +22,7 @@ namespace SlimeWeb.Core.Data.Models
 
         //public virtual List<Category> Categories { get; set; }
         //public virtual List<Tag> Tags { get; set; }
-        [ConcurrencyCheck]
-        public Byte[] RowVersion { get; set; }
+        //[ConcurrencyCheck]
+        //public Byte[] RowVersion { get; set; }
     }
 }

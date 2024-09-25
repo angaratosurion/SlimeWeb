@@ -41,7 +41,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                         this.Title = md.Title;
                         //this.Tags = md.Tags;
                         this.Id = md.Id;
-                        this.RowVersion = md.RowVersion;
+                     //   this.RowVersion = md.RowVersion;
                         //this.Author = user;
 
 
