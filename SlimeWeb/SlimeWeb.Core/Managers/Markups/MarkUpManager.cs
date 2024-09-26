@@ -1,4 +1,5 @@
-﻿using SlimeWeb.Core.Managers.Markups.Interfaces;
+﻿using HtmlAgilityPack;
+using SlimeWeb.Core.Managers.Markups.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,62 @@ namespace SlimeWeb.Core.Managers.Markups
                 return null;
             }
 
+        }
+        public static string PostCreationandEditHtml(Boolean CreateAction)
+        {
+            try
+            {
+
+                string ap = null;
+
+                 
+                    var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
+
+                    if (cmsengine != null && MarkupManagers.ContainsKey(cmsengine))
+                    {
+                        IMarkupManager markupManager = MarkupManagers.GetValueOrDefault(cmsengine);
+                        if (markupManager != null)
+                        {
+                        ap = markupManager.PostCreationandEditHtml(CreateAction);
+                        }
+                    }
+                
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static  string PageCreationandEditHtml(Boolean CreateAction)
+        {
+            try
+            {
+
+                string ap = null;
+
+
+                var cmsengine = AppSettingsManager.GetAppWideCMSEngine();
+
+                if (cmsengine != null && MarkupManagers.ContainsKey(cmsengine))
+                {
+                    IMarkupManager markupManager = MarkupManagers.GetValueOrDefault(cmsengine);
+                    if (markupManager != null)
+                    {
+                        ap = markupManager.PageCreationandEditHtml(CreateAction);
+                    }
+                }
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
         }
     }
 }

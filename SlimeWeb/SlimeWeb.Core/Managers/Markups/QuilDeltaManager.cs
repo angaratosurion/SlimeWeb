@@ -9,6 +9,49 @@ namespace SlimeWeb.Core.Managers.Markups
 {
     public  class QuilDeltaManager : IMarkupManager
     {
+
+        const string postcreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
+            "     <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" rel=\"stylesheet\">\r\n          " +
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">" +
+            "</script>" + " <div id=\"scrolling-container\">\r\n                  " +
+            "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
+            " </div>\r\n                        </div>"+
+            "<script src=\"/lib/quil-markup/post-create.js\"></script>";
+
+
+
+
+        const string postedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
+            "     <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" rel=\"stylesheet\">\r\n          " +
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">" +
+            "</script>" + "<script src=\"/lib/quil-markup/post-edit.js\"></script>";
+        //+
+            //" <textarea asp-for=\"content\" class=\"form-control\"" +
+            //" id=\"content\" hidden=\"hidden\" name=\"content\">\r\n  " +
+            //"      </textarea> ";
+
+
+
+        const string pagecreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
+            "</script>\r\n            " +
+            "<link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
+            "rel=\"stylesheet\">\r\n          " +
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">"
+            + " <div id=\"scrolling-container\">\r\n                  " +
+            "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
+            " </div>\r\n                        </div>" +
+            "<script src=\"/lib/quil-markup/page-create.js\"></script>";
+
+
+
+        const string pageedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
+            "</script>\r\n            <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
+            "rel=\"stylesheet\">\r\n          " +
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">"
+            + " <div id=\"scrolling-container\">\r\n                  " +
+            "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
+            " </div>\r\n                        </div>" +
+            "<script src=\"/lib/quil-markup/page-edit.js\"></script>";
         public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
             try
@@ -85,6 +128,54 @@ namespace SlimeWeb.Core.Managers.Markups
 
                 return null;
             }
-        } 
+        }
+
+        public string PageCreationandEditHtml(bool CreateAction)
+        {
+            try
+            {
+                string ap = null;
+                if (CreateAction)
+                {
+                    ap = pagecreationhtmlcode;
+                }
+                else
+                {
+                    ap = pageedithtmlcode;
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
+
+        public string PostCreationandEditHtml(bool CreateAction)
+        {
+            try
+            {
+                string ap = null;
+                if (CreateAction)
+                {
+                    ap = postcreationhtmlcode;
+                }
+                else
+                {
+                    ap = postedithtmlcode;
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
     }
 }

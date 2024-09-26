@@ -86,6 +86,53 @@ namespace DummyMarkupManager
 
                 return null;
             }
-        } 
+        }
+        public string PageCreationandEditHtml(bool CreateAction)
+        {
+            try
+            {
+                string ap = null;
+                if (CreateAction)
+                {
+                    ap = "<b>ssssss</b>";
+                }
+                else
+                {
+                    ap = ap = "<b>sssssssssfffer</b>";
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
+
+        public string PostCreationandEditHtml(bool CreateAction)
+        {
+            try
+            {
+                string ap = null;
+                if (CreateAction)
+                {
+                    ap = "<b>ssssss</b>";
+                }
+                else
+                {
+                    ap =  "<b>sssssssssfffer</b>";
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
     }
 }

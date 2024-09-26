@@ -10,5 +10,7 @@ namespace SlimeWeb.Core.Managers.Markups.Interfaces
     {
         public string ConvertToHtml(string markdowncode);
         public string ConvertFromHtmlToMarkUp(string htmlcode);
+        public string PostCreationandEditHtml(Boolean CreateAction);
+        public string PageCreationandEditHtml(Boolean CreateAction);
     }
 }

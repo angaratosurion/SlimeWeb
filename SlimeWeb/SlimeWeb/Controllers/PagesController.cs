@@ -223,12 +223,13 @@ namespace SlimeWeb.Controllers
         public async Task<ActionResult> Edit(string name)
         {
             try
-            { 
-            ViewBag.CreateAction = false;
+            {
+                ViewBag.CreateAction = false;
 
 
-            //string pathbase;
-            string pathbase = AppSettingsManager.GetPathBase();
+
+                //string pathbase;
+                string pathbase = AppSettingsManager.GetPathBase();
             if (CommonTools.isEmpty(pathbase) == false)
             {
                 ViewBag.pathbase = pathbase;

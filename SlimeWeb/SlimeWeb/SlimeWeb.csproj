@@ -40,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\css\site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -52,6 +55,22 @@
     <Content Update="wwwroot\js\site.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\lib\quil-markup\page-create.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\quil-markup\page-edit.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\quil-markup\post-create.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\quil-markup\post-edit.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\quil-markup\" />
   </ItemGroup>
 
 </Project>

@@ -306,7 +306,8 @@ namespace SlimeWeb.Controllers
 
                 //return View();
 
-                ViewBag.CreateAction = 0;
+                ViewBag.CreateAction = false;
+
 
                 //string pathbase;
                 string pathbase = AppSettingsManager.GetPathBase();

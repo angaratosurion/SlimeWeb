@@ -45,7 +45,9 @@
                 {
                     foreach (var cat in Categories)
                     {
-                        <a asp-action="ByCategory" asp-route-id="@Model.Blog.Name" asp-route-categoryname="@cat.Name">@cat.Name</a> 
+                        <a asp-action="ByCategory" 
+                        asp-route-id="@Model.Blog.Name"
+                        asp-route-categoryname="@cat.Name">@cat.Name</a> 
                     }
 
                 }
@@ -63,7 +65,9 @@
                 {
                     foreach (var tag in Tags)
                     {
-                        <a asp-action="ByTag" asp-route-id="@Model.Blog.Name" asp-route-tagname="@tag.Name">@tag.Name</a>
+                        <a asp-action="ByTag" 
+                        asp-route-id="@Model.Blog.Name" 
+                        asp-route-tagname="@tag.Name">@tag.Name</a>
                     }
 
                 }
