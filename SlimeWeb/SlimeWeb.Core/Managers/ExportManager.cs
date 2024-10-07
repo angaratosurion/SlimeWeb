@@ -1,7 +1,9 @@
-﻿using SlimeWeb.Core.Managers.Interfaces;
+﻿using SlimeWeb.Core.Data.DBContexts;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
 using SlimeWeb.Core.Tools;
+using System.Runtime.CompilerServices;
 
 namespace SlimeWeb.Core.Managers
 {
@@ -11,6 +13,8 @@ namespace SlimeWeb.Core.Managers
             new Dictionary<string, IExportManager>();
         public static void Init()
         {
+            JsonExportManager jsonExportManager = new JsonExportManager();
+            RegisterMarkupManager(jsonExportManager.Name, jsonExportManager);   
             
         }
         public static void RegisterMarkupManager(string name, 
@@ -66,7 +70,8 @@ namespace SlimeWeb.Core.Managers
                     IExportManager exportManager =  GetExportManager(exportername);
                     if (exportManager != null)
                     {
-                        exportManager.Export(filename); 
+                        
+                        exportManager.Export(DataManager.db, filename); 
 
                     }
                     

@@ -1,4 +1,6 @@
-﻿namespace SlimeWeb.Core.Managers.Interfaces
+﻿using SlimeWeb.Core.Data.DBContexts;
+
+namespace SlimeWeb.Core.Managers.Interfaces
 {
     public interface IImportManager
     {

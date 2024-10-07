@@ -18,7 +18,7 @@ namespace SlimeWeb.Core.Managers
         CommonTools cmtools = new CommonTools();
         //  static HttpServerUtilityBase util;
         //const string   filesdir="files",AppDataDir="App_Data";
-        public const string AppDataDir = "AppData";
+        public const string AppDataDir = "AppData",TempDir="Temp";
        //static  IWebHostEnvironment webHostEnvironment;
 
         //[DllImport("kernel32.dll")]
@@ -45,6 +45,50 @@ namespace SlimeWeb.Core.Managers
                 string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                 //path = pathwithextention.Replace("file:\\", "");
                 ap = Path.Combine(pathwithextention, AppDataDir);
+
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return "";
+            }
+        }
+        public static string GetAppRootTempFolderAbsolutePath()
+        {
+            try
+            {
+                string ap = "";
+
+                string pathwithextention = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                //path = pathwithextention.Replace("file:\\", "");
+                ap = Path.Combine(pathwithextention, TempDir);
+
+
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return "";
+            }
+        }
+        public static string GetAppRootTempFolderAbsolutePath(string folder)
+        {
+            try
+            {
+                string ap = "";
+
+                string pathwithextention = FileSystemManager.GetAppRootTempFolderAbsolutePath() ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                
+                ap = Path.Combine(pathwithextention, TempDir);
+                CreateDirectory(ap);
 
 
 

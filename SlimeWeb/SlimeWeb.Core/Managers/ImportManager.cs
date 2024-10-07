@@ -66,7 +66,7 @@ namespace SlimeWeb.Core.Managers
                     IImportManager importManager = GetImportManager(importername);
                     if (importManager != null)
                     {
-                        importManager.Import(filename);
+                        importManager.Import(DataManager.db,filename);
 
                     }
 
