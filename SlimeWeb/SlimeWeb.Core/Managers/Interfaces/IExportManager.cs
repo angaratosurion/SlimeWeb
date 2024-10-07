@@ -1,8 +1,10 @@
-﻿namespace SlimeWeb.Core.Managers.Interfaces
+﻿using SlimeWeb.Core.Data.DBContexts;
+
+namespace SlimeWeb.Core.Managers.Interfaces
 {
     public interface IExportManager
     {
         public String  Name { get;  }
-        public void Export(string filename);
+        public void Export(SlimeDbContext dbContext,string filename);
     }
 }

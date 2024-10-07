@@ -3,6 +3,6 @@
     public interface IImportManager
     {
         public String Name { get; }
-        public void Import(string filename);
+        public void Import(SlimeDbContext dbContext, string filename);
     }
 }
