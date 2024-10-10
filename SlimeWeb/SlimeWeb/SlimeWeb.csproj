@@ -9,6 +9,7 @@
     <Version>0.1.0.5</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
+    <Configurations>Debug;Release;Linux</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

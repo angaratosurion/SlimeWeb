@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Copyright>fdfdfdfd</Copyright>
+    <Configurations>Debug;Release;Linux</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

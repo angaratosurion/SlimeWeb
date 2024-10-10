@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "Extentions\Sl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.OathLoginSlimeSDK", "Extentions\SlimeWebSDK\SlimeWeb.OathLogin\SlimeWeb.OathLoginSlimeSDK.csproj", "{08B2427A-E90E-4BE6-8C5F-70D6C1D92C74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyMarkupManager", "Extentions\SlimeWebSDK\DummyMarkupManager\DummyMarkupManager.csproj", "{FAA3F83D-6470-4E08-A049-31A476A89687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyMarkupManager", "Extentions\SlimeWebSDK\DummyMarkupManager\DummyMarkupManager.csproj", "{FAA3F83D-6470-4E08-A049-31A476A89687}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
