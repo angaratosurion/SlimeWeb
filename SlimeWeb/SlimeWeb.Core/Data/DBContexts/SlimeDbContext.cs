@@ -3,7 +3,7 @@ using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core.Data.Models;
@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySQL.Data.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace SlimeWeb.Core.Data.DBContexts
 {    //
@@ -45,7 +47,7 @@ namespace SlimeWeb.Core.Data.DBContexts
 
         public DbSet<CategotyPost> CategoryPosts  { get; set; }
         public DbSet<TagPost> TagPosts { get; set; }
-        public DbSet<FilesPostBlog> FilesPostsBlog { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<FilesPostBlog> FilesPostsBlog { get; set; }
         public DbSet<CategotyNews> CategoryNews { get; set; }
         public DbSet<TagNews> TagNews { get; set; }
         public DbSet< SlimeWebPage> Pages { get; set; }
@@ -98,6 +100,7 @@ namespace SlimeWeb.Core.Data.DBContexts
                         else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                         {
                             optionsBuilder.UseMySQL(dbCon);
+                           
 
                         }
                     }
