@@ -1,21 +1,10 @@
 ﻿using ExtCore.Data.Abstractions;
-using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 //using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySQL.Data.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace SlimeWeb.Core.Data.DBContexts
