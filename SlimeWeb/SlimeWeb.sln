@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.OathLoginSlimeSDK"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyMarkupManager", "Extentions\SlimeWebSDK\DummyMarkupManager\DummyMarkupManager.csproj", "{FAA3F83D-6470-4E08-A049-31A476A89687}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWeb.Core.Migrations.MySQLMigrations", "SlimeWeb.Core.Migrations.MySQLMigrations\SlimeWeb.Core.Migrations.MySQLMigrations.csproj", "{D742FE4D-5A6D-49C2-9313-FCA20335581F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWeb.Core.Migrations.SQLServerMigrations", "SlimeWeb.Core.Migrations.SQLServerMigrations\SlimeWeb.Core.Migrations.SQLServerMigrations.csproj", "{391A843D-D60E-4425-9630-9E65C3FF2918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,22 @@ Global
 		{FAA3F83D-6470-4E08-A049-31A476A89687}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAA3F83D-6470-4E08-A049-31A476A89687}.Release|x64.ActiveCfg = Release|Any CPU
 		{FAA3F83D-6470-4E08-A049-31A476A89687}.Release|x64.Build.0 = Release|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Debug|x64.Build.0 = Debug|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Release|x64.ActiveCfg = Release|Any CPU
+		{D742FE4D-5A6D-49C2-9313-FCA20335581F}.Release|x64.Build.0 = Release|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Debug|x64.Build.0 = Debug|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|x64.ActiveCfg = Release|Any CPU
+		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -84,11 +84,13 @@ namespace SlimeWeb.Core.Data.DBContexts
                     {
                         if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
                         {
-                            optionsBuilder.UseSqlServer(dbCon);
+                            optionsBuilder.UseSqlServer(dbCon,x => x.MigrationsAssembly
+                            ("SlimeWeb.Core.Migrations.SQLServerMigrations"));
                         }
                         else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                         {
-                            optionsBuilder.UseMySQL(dbCon);
+                            optionsBuilder.UseMySQL(dbCon, 
+                                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations"));
                            
 
                         }
