@@ -50,7 +50,7 @@ namespace SlimeWeb.Core.App_Start
         {
             try
             {
-                if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
+                if (AppSettingsManager.GetDBEngine() == enumDBEngine.SQLServer.ToString())
                 {
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseSqlServer(

@@ -8,6 +8,6 @@ namespace SlimeWeb.Core.Data
 {
    public enum enumDBEngine
     {
-        MSQLServer, MySQl
+        SQLServer, MySQl
     }
 }

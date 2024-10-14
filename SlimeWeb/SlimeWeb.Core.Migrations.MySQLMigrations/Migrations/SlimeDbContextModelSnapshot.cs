@@ -289,21 +289,22 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Category", b =>
                 {
-                    b.Property<string>("BlogAndCategory")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BlogAndCategory")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("BlogAndCategory");
+                    b.HasKey("Id");
 
                     b.ToTable("Catgories");
                 });
@@ -568,21 +569,22 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Tag", b =>
                 {
-                    b.Property<string>("BlogAndTag")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BlogAndTag")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("BlogAndTag");
+                    b.HasKey("Id");
 
                     b.ToTable("Tags");
                 });

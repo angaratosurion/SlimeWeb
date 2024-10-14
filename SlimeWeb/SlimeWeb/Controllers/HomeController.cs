@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Install;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Tools;
 using SlimeWeb.Models;
@@ -75,8 +77,9 @@ namespace SlimeWeb.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+       
 
-            public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             try
             {

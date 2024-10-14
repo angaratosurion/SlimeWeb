@@ -8,7 +8,7 @@ using SlimeWeb.Core.Data.DBContexts;
 
 #nullable disable
 
-namespace SlimeWeb.Core.Migrations.SqlServerMigrations
+namespace SlimeWeb.Core.Migrations.SQLServerMigrations.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
     partial class SlimeDbContextModelSnapshot : ModelSnapshot
@@ -304,23 +304,24 @@ namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Category", b =>
                 {
-                    b.Property<string>("BlogAndCategory")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BlogAndCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BlogAndCategory");
+                    b.HasKey("Id");
 
                     b.ToTable("Catgories");
                 });
@@ -605,23 +606,24 @@ namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Tag", b =>
                 {
-                    b.Property<string>("BlogAndTag")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BlogAndTag")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BlogAndTag");
+                    b.HasKey("Id");
 
                     b.ToTable("Tags");
                 });
