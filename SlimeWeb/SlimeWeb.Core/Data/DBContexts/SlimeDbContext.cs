@@ -75,27 +75,28 @@ namespace SlimeWeb.Core.Data.DBContexts
                 {
                     Directory.CreateDirectory(directory);
                 }
-                string olddbConn = AppSettingsManager.GetDefaultConnectionString();
-                if (olddbConn != null)
-                {
+                //string olddbConn = AppSettingsManager.GetDefaultConnectionString(AppSettingsManager.
+                //    GetDBEngine().ToString());
+                //if (olddbConn != null)
+                //{
 
-                    string dbCon = olddbConn.Replace("|DataDirectory|", directory);
-                    if (dbCon != null)
-                    {
-                        if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
-                        {
-                            optionsBuilder.UseSqlServer(dbCon,x => x.MigrationsAssembly
-                            ("SlimeWeb.Core.Migrations.SQLServerMigrations"));
-                        }
-                        else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-                        {
-                            optionsBuilder.UseMySQL(dbCon, 
-                                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations"));
+                //    string dbCon = olddbConn.Replace("|DataDirectory|", directory);
+                //    if (dbCon != null)
+                //    {
+                //        if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
+                //        {
+                //            optionsBuilder.UseSqlServer(dbCon, x => x.MigrationsAssembly
+                //            ("SlimeWeb.Core.Migrations.SQLServerMigrations"));
+                //        }
+                //        else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                //        {
+                //            optionsBuilder.UseMySQL(dbCon, 
+                //                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations"));
                            
 
-                        }
-                    }
-                }
+                        //}
+                  // }
+                //}
             }
             catch (Exception ex)
             {

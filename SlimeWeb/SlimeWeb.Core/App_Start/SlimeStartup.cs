@@ -54,14 +54,18 @@ namespace SlimeWeb.Core.App_Start
                 {
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseSqlServer(
-                            Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+                            Configuration.GetConnectionString("SqlServerConnection"), 
+                            b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.SQLServerMigrations")
+                            ), ServiceLifetime.Transient);
                 }
                 else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                 {
 
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseMySQL(
-                            Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+                            Configuration.GetConnectionString("MySQlConnection"), 
+                            b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")),
+                            ServiceLifetime.Transient);
                 }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()

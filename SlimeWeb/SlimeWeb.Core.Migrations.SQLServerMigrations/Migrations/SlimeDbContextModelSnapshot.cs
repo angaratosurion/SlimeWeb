@@ -8,7 +8,7 @@ using SlimeWeb.Core.Data.DBContexts;
 
 #nullable disable
 
-namespace SlimeWeb.Core.Migrations
+namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(SlimeDbContext))]
     partial class SlimeDbContextModelSnapshot : ModelSnapshot

@@ -191,13 +191,18 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public static string GetDefaultConnectionString()
+        public static string GetDefaultConnectionString(string providername)
         {
             try
             {
                 Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty(providername))
+                {
+                    return null;
+                }
 
-                return config.GetValue<string>("ConnectionStrings:DefaultConnection");
+                return config.GetValue<string>("ConnectionStrings:" + providername + "Connection");
             }
             catch (Exception ex)
             {

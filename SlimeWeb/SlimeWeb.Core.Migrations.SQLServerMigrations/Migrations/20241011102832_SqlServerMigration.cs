@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SlimeWeb.Core.Migrations
+namespace SlimeWeb.Core.Migrations.SqlServerMigrations
 {
     /// <inheritdoc />
     public partial class SqlServerMigration : Migration
