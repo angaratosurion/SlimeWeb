@@ -6,6 +6,7 @@ using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace SlimeWeb.Core.Data.DBContexts
 {    //
@@ -68,35 +69,40 @@ namespace SlimeWeb.Core.Data.DBContexts
                 //   string path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\","");
 
 
-
+                optionsBuilder.EnableSensitiveDataLogging (true);
+                optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
                 var directory = FileSystemManager.GetAppRootDataFolderAbsolutePath();
                 if (Directory.Exists(directory) == false)
                 {
                     Directory.CreateDirectory(directory);
                 }
-                //string olddbConn = AppSettingsManager.GetDefaultConnectionString(AppSettingsManager.
-                //    GetDBEngine().ToString());
-                //if (olddbConn != null)
-                //{
 
-                //    string dbCon = olddbConn.Replace("|DataDirectory|", directory);
-                //    if (dbCon != null)
-                //    {
-                //        if (AppSettingsManager.GetDBEngine() == enumDBEngine.MSQLServer.ToString())
-                //        {
-                //            optionsBuilder.UseSqlServer(dbCon, x => x.MigrationsAssembly
-                //            ("SlimeWeb.Core.Migrations.SQLServerMigrations"));
-                //        }
-                //        else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
-                //        {
-                //            optionsBuilder.UseMySQL(dbCon, 
-                //                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations"));
-                           
+                string olddbConn = AppSettingsManager.GetDefaultConnectionString(AppSettingsManager.
+                    GetDBEngine().ToString());
+                if (olddbConn != null)
+                {
 
-                        //}
-                  // }
-                //}
+                    string dbCon = olddbConn.Replace("|DataDirectory|", directory);
+                    if (dbCon != null)
+                    {
+                        if (AppSettingsManager.GetDBEngine() == enumDBEngine.SQLServer.ToString())
+                        {
+                            optionsBuilder.UseSqlServer(dbCon, x => x.MigrationsAssembly
+                            ("SlimeWeb.Core.Migrations.SQLServerMigrations")).
+                                UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); 
+                        }
+                        else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
+                        {
+                            optionsBuilder.UseMySQL(dbCon,
+                                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")).
+                                UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+
+                        }
+                    }
+                }
+                
             }
             catch (Exception ex)
             {

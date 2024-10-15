@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
@@ -342,13 +343,17 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-               if (role != null && this.RoleExists(role.Name) == false)
+                if (role != null && this.RoleExists(role.Name) == false)
                 {
-                  while(roleManager.CreateAsync(role).Result!=IdentityResult.Success)
+                    while (roleManager.CreateAsync(role).Result != IdentityResult.Success)
                     {
                         roleManager.CreateAsync(role);
+                        
                     }
+
                 }
+
+                
 
             }
             catch (Exception ex)
