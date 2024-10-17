@@ -9,6 +9,7 @@
     <Authors>Angarato Surion</Authors>
     <Copyright>Angarato Surion</Copyright>
     <Configurations>Debug;Release;Linux</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

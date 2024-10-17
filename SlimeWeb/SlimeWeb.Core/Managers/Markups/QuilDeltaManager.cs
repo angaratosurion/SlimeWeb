@@ -36,7 +36,7 @@ namespace SlimeWeb.Core.Managers.Markups
             "</script>\r\n            " +
             "<link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
             "rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">"
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\"></script>"
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +
@@ -47,7 +47,7 @@ namespace SlimeWeb.Core.Managers.Markups
         const string pageedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
             "</script>\r\n            <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
             "rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">"
+            " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\"></script>"
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +

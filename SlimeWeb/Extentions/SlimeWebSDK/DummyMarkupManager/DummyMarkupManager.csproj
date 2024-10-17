@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <Copyright>fdfdfdfd</Copyright>
     <Configurations>Debug;Release;Linux</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
