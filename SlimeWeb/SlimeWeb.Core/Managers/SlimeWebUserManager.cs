@@ -453,9 +453,9 @@ namespace SlimeWeb.Core.Managers
                     {
 
 
-                     while(this._userManager.AddToRoleAsync(user, rolename).Result!=IdentityResult.Success) 
+                     //while(this._userManager.AddToRoleAsync(user, rolename).Result!=IdentityResult.Success) 
                         {
-                             this._userManager.AddToRoleAsync(user, rolename);
+                             this._userManager.AddToRoleAsync(user, rolename).Wait();
                         }
                     }
 

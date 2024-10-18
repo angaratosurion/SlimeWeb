@@ -59,22 +59,22 @@
     <Content Update="wwwroot\js\site.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\quil-markup\page-create.js">
+    <Content Update="wwwroot\js\quil-markup\page-create.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\quil-markup\page-edit.js">
+    <Content Update="wwwroot\js\quil-markup\page-edit.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\quil-markup\post-create.js">
+    <Content Update="wwwroot\js\quil-markup\post-create.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\quil-markup\post-edit.js">
+    <Content Update="wwwroot\js\quil-markup\post-edit.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\quil-markup\" />
+    <Folder Include="wwwroot\js\quil-markup\" />
   </ItemGroup>
 
 </Project>

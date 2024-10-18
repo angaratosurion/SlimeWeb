@@ -53,8 +53,12 @@ async function uploadImage(event) {
     form.append('upload_file', event.target.files[0]);
 
     try {
+        var urlParts = location.href.split('/');
+        var id = urlParts[6];
+        var pathbase = urlParts[3];
+        
         let result = await $.ajax({
-            url: '@ViewBag.pathbase/Posts/UploadQuill/@(Context.Request.RouteValues["id"])',
+            url: '/'+pathbase+'/Posts/UploadQuill/'+id,
             type: "POST",
             contentType: false, // Not to set any content header
             processData: false, // Not to process data

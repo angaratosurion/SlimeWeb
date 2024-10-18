@@ -16,7 +16,7 @@ namespace SlimeWeb.Core.Managers.Markups
             "</script>" + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>"+
-            "<script src=\"/lib/quil-markup/post-create.js\"></script>";
+            "<script src=\"/js/quil-markup/post-create.js\"></script>";
 
 
 
@@ -24,7 +24,7 @@ namespace SlimeWeb.Core.Managers.Markups
         const string postedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
             "     <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" rel=\"stylesheet\">\r\n          " +
             " <script src=\"/lib/quill-image-resize-module/image-resize.min.js\">" +
-            "</script>" + "<script src=\"/lib/quil-markup/post-edit.js\"></script>";
+            "</script>" + "<script src=\"/js/quil-markup/post-edit.js\"></script>";
         //+
             //" <textarea asp-for=\"content\" class=\"form-control\"" +
             //" id=\"content\" hidden=\"hidden\" name=\"content\">\r\n  " +
@@ -40,7 +40,7 @@ namespace SlimeWeb.Core.Managers.Markups
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +
-            "<script src=\"/lib/quil-markup/page-create.js\"></script>";
+            "<script src=\"/js/quil-markup/page-create.js\"></script>";
 
 
 
@@ -51,7 +51,7 @@ namespace SlimeWeb.Core.Managers.Markups
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +
-            "<script src=\"/lib/quil-markup/page-edit.js\"></script>";
+            "<script src=\"/js/quil-markup/page-edit.js\"></script>";
         public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
             try
