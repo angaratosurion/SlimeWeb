@@ -67,7 +67,7 @@ namespace SlimeWeb.Core.App_Start
                         options.UseMySQL(
                             Configuration.GetConnectionString("MySQlConnection"), 
                             b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")),
-                            ServiceLifetime.Transient);
+                            ServiceLifetime.Scoped);
                 }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
@@ -265,6 +265,7 @@ namespace SlimeWeb.Core.App_Start
                 using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
+                   // var context = app.ApplicationServices.GetRequiredService<SlimeDbContext>();
 
 
                     //return View();

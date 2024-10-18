@@ -182,7 +182,9 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                return null;// (List < ApplicationUser > )this.db.Users.ToList();
+
+                return db.Users.ToList();
+                // (List < ApplicationUser > )this.db.Users.ToList();
 
             }
             catch (Exception ex)
@@ -437,7 +439,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public void AddUserToRole(string rolename, string username)
+        public async void AddUserToRole(string rolename, string username)
         {
             try
             {
@@ -451,9 +453,9 @@ namespace SlimeWeb.Core.Managers
                     {
 
 
-                      while(this._userManager.AddToRoleAsync(user, rolename).Result!=IdentityResult.Success) 
+                     while(this._userManager.AddToRoleAsync(user, rolename).Result!=IdentityResult.Success) 
                         {
-                            this._userManager.AddToRoleAsync(user, rolename);
+                             this._userManager.AddToRoleAsync(user, rolename);
                         }
                     }
 
