@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-SlimeWeb-a92bd714-7fc6-4710-a189-3deebe49dabc</UserSecretsId>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <Version>0.1.5.0</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
