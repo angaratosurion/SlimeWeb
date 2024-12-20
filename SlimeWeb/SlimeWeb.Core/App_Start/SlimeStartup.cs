@@ -30,6 +30,9 @@ using System.IO;
 
 namespace SlimeWeb.Core.App_Start
 {
+    /// <summary>
+    /// The startup class of SlimeWeb.Core library
+    /// </summary>
     public class SlimeStartup
     {
         string extensionsPath;
@@ -39,14 +42,26 @@ namespace SlimeWeb.Core.App_Start
         static List<IConfigureAction> slimeExtension;
        public static IServiceCollection Services;
         static List<IAddMvcAction> addMvcActions;
+        /// <summary>
+        /// Iinitailizes the Startup claass of SlimeWeb  CMS
+        /// </summary>
+        /// <param name="configuration"></param>
         public SlimeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
       
+        /// <summary>
+        /// the property that includes the configuration of the cms
+        /// </summary>
         public IConfiguration Configuration { get; }
-       
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. 
+        /// Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        // 
         public IServiceCollection ConfigureServicesSlime(IServiceCollection services)
         {
             try
@@ -180,8 +195,14 @@ namespace SlimeWeb.Core.App_Start
 
 
         }
-      
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to 
+        /// configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <returns></returns>
+        // 
         public IApplicationBuilder ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
