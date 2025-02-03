@@ -351,3 +351,4 @@ MigrationBackup/
 /SlimeWeb/SlimeWeb/wwwroot/AppData/*. 
 /SlimeWeb/SlimeWeb/wwwroot/AppData/
 otherprojects/
+sync.ffs_db
