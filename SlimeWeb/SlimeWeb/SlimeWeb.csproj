@@ -34,7 +34,7 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="5.4.0" />
     <PackageReference Include="NLog.Web" Version="5.4.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
-    <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.8" />
+    <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.8.5" />
   </ItemGroup>
 
   <ItemGroup>
