@@ -324,6 +324,20 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public static bool GetCompileOnRuntime()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:CompileOnRuntime");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
 
     }
 }

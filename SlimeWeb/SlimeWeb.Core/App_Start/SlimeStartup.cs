@@ -128,9 +128,15 @@ namespace SlimeWeb.Core.App_Start
 
                 IMvcCoreBuilder mvcBuilder = services.AddMvcCore().AddControllersAsServices().AddRazorPages();
 
-
-                services.AddControllersWithViews()
-                    .AddRazorRuntimeCompilation();
+                if (AppSettingsManager.GetCompileOnRuntime())
+                {
+                    services.AddControllersWithViews()
+                        .AddRazorRuntimeCompilation();
+                }
+                else
+                {
+                    services.AddControllersWithViews();
+                }
 
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
