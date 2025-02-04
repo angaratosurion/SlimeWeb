@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-SlimeWeb-a92bd714-7fc6-4710-a189-3deebe49dabc</UserSecretsId>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Version>0.1.5.0</Version>
+    <Version>0.1.6.0</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
     <Configurations>Debug;Release;Linux</Configurations>
@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
       <PrivateAssets>all</PrivateAssets>

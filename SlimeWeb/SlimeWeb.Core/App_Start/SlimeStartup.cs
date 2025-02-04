@@ -127,6 +127,11 @@ namespace SlimeWeb.Core.App_Start
 
 
                 IMvcCoreBuilder mvcBuilder = services.AddMvcCore().AddControllersAsServices().AddRazorPages();
+
+
+                services.AddControllersWithViews()
+                    .AddRazorRuntimeCompilation();
+
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
                 //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
