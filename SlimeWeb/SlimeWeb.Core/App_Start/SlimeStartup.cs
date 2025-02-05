@@ -335,7 +335,8 @@ namespace SlimeWeb.Core.App_Start
                         {
 
                             FileProvider = new PhysicalFileProvider(
-                Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot", FileSystemManager.AppDataDir)),
+                Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot", 
+                FileSystemManager.AppDataDir)),
                             RequestPath = "/" + FileSystemManager.AppDataDir,
                             EnableDirectoryBrowsing = Direcotrybrowse
                         });
