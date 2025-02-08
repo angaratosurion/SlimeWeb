@@ -52,7 +52,7 @@
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />
     <PackageReference Include="ReverseMarkdown" Version="4.6.0" />
-    <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.8.5" />
+    <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.9" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
   </ItemGroup>
 
