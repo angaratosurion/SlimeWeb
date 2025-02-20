@@ -142,7 +142,8 @@ namespace SlimeWeb.Core.App_Start
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
                 //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
                 // Console.WriteLine("Code Base: {0}", System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+                    AppSettingsManager.GetExtetionPath());
                 Console.WriteLine("Applications's Root  Path : {0}", FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
                 Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
                 //Configuration["Extensions:Path"];
@@ -220,7 +221,8 @@ namespace SlimeWeb.Core.App_Start
             try
             {
                 IApplicationBuilder tap = null;
-                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), 
+                    AppSettingsManager.GetExtetionPath());
 
                 app.UseCookiePolicy();
 
@@ -275,6 +277,24 @@ namespace SlimeWeb.Core.App_Start
                     FileProvider = new PhysicalFileProvider(
                 Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath())),
                     RequestPath = ""
+                }); ;
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(
+               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "lib")),
+                    RequestPath = "/lib"
+                }); ;
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(
+               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "js")),
+                    RequestPath = "/js"
+                }); ;
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(
+               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath() )),
+                    RequestPath = "/wwwroot"
                 }); ;
                 string pathbase;
                 pathbase = AppSettingsManager.GetPathBase();
@@ -387,7 +407,8 @@ namespace SlimeWeb.Core.App_Start
                         app.UseEndpoints(endpoints =>
                         {
 
-                           var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath, endpoints, app.ApplicationServices);
+                           var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath,
+                               endpoints, app.ApplicationServices);
                            // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
                         });
 

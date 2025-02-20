@@ -9,7 +9,7 @@ namespace SlimeWeb.Core.Managers.Markups
     public class MarkDownManager : IMarkupManager
     {
         MarkdownPipeline pipeline;
-        const string postcreationhtmlcode = " <script src=\"/lib/tinymce/tinymce.min.js\"" +
+        const string postcreationhtmlcode = " <script src=\"/wwwroot/lib/tinymce/tinymce.min.js\"" +
             " referrerpolicy=\"origin\">" +
             "</script><script>\r\n   " +
             " tinymce.init({\r\n        " +
@@ -46,7 +46,7 @@ namespace SlimeWeb.Core.Managers.Markups
             "  automatic_uploads: true,\r\n        images_reuse_filename: true,\r\n       " +
             " //images_upload_base_path: '~/AppData/AppData/Temp/'\r\n    })\r\n               " +
             " </script>";
-        const string pagecreationhtmlcode = " <script src=\"/lib/tinymce/tinymce.min.js\"" +
+        const string pagecreationhtmlcode = " <script src=\"/wwwroot/lib/tinymce/tinymce.min.js\"" +
             " referrerpolicy=\"origin\"></script>" +
             "<script>\r\n    tinymce.init({\r\n    " +
             "    selector: '#content',\r\n      " +
@@ -64,7 +64,7 @@ namespace SlimeWeb.Core.Managers.Markups
             "    automatic_uploads: true,\r\n        images_reuse_filename: true,\r\n      " +
             "  //images_upload_base_path: '~/AppData/AppData/Temp/'\r\n " +
             "   })\r\n                </script>";
-        const string pageedithtmlcode = " <script src=\"/lib/tinymce/tinymce.min.js\"" +
+        const string pageedithtmlcode = " <script src=\"/wwwroot/lib/tinymce/tinymce.min.js\"" +
             " referrerpolicy=\"origin\"></script>" +
             "<script>\r\n   " +
             " tinymce.init({\r\n       " +

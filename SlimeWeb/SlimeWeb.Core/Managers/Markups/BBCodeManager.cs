@@ -8,7 +8,7 @@ namespace SlimeWeb.Core.Managers.Markups
     public  class BBCodeManager : IMarkupManager
     {
 
-        const string postcreationhtmlcode = "<script src=\\\"/lib/tinymce\r\n/" +
+        const string postcreationhtmlcode = "<script src=\\\"/wwwroot/lib/tinymce\r\n/" +
             "tinymce.min.js\\\" \r\nreferrerpolicy=\\\"origin\\\">" +
             "</script> " +
             "<script>\r\n\r\n               " +
@@ -34,7 +34,7 @@ namespace SlimeWeb.Core.Managers.Markups
             "'~/AppData/AppData/Temp/'\r\n        " +
             "})\r\n </script>";
 
-        const string pagecreationhtmlcode = "<script src=\"/lib/tinymce/tinymce.min.js\"" +
+        const string pagecreationhtmlcode = "<script src=\"/wwwroot/lib/tinymce/tinymce.min.js\"" +
             " referrerpolicy=\"origin\"></script>\r\n\r\n\r\n            if (ViewBag.CreateAction == true)\r\n            {\r\n               " +
             " <script>\r\n\r\n                tinymce.init({ selector: '#content',\r\n        plugins: 'bbcode code a11ychecker advcode casechange formatpainter " +
             "linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker image " +
