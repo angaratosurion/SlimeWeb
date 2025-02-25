@@ -338,6 +338,20 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
+        public static bool GetEnablePagination()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:EnablePagination");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
 
     }
 }
