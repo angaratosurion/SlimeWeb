@@ -217,25 +217,25 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByBlogNameByPublished(string name,int count)
+        public async Task<List<Post>> ListByBlogNameByPublished(string name,int page, int pagesize)
         {
             try
             {
                 List<Post> ap = null, posts,tposts;
                 Blog blog = null;
-                if (name != null && count > 0)
+                if (name != null && pagesize > 0 && page>0)
                 {
 
                     posts = await this.ListByBlogNameByPublished(name);
                     if (posts != null)
                     {
-                        ap = (List<Post>)posts.Take<Post>(count);
+                        ap =  posts.Skip(page * pagesize).Take(pagesize).ToList(); 
 
                     }
 
 
                 }
-                else if (count <= 0)
+                else if (pagesize <= 0)
                 {
                     ap = await this.ListByBlogNameByPublished(name);
                 }

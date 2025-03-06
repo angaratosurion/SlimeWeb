@@ -46,12 +46,7 @@ namespace SlimeWeb
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
-           
-            //return View();
             
-                          
-                            
-             //
             app=base.ConfigureSlime(app, env);
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing==true)
@@ -76,14 +71,16 @@ namespace SlimeWeb
 
             app.UseEndpoints(endpoints =>
                 {
-                   
+
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });
 
-           
+
+
+
         }
     }
 }

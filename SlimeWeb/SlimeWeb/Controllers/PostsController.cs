@@ -30,6 +30,7 @@ namespace SlimeWeb.Controllers
         TagManager TagManager;
         AccessManager accessManager;
         FileRecordManager fileRecordManager;
+        GeneralSettingsManager generalSettingsManager;
         //public PostsController(SlimeDbContext context)
         //{
         //    _context = context;
@@ -49,6 +50,7 @@ namespace SlimeWeb.Controllers
             blmngr = new BlogManager( );
             TagManager = new TagManager( );
             fileRecordManager = new FileRecordManager( );
+            generalSettingsManager = new GeneralSettingsManager();
         }
 
 
@@ -66,6 +68,53 @@ namespace SlimeWeb.Controllers
                     return NotFound();
                 }
                 var p = await postManager.ListByBlogNameByPublished(name);
+
+                List<ViewPost> posts = new List<ViewPost>();
+                if (p != null)
+                {
+                    foreach (var tp in p)
+                    {
+                        ViewPost ap = new ViewPost();
+                        ap.ImportFromModel(tp);
+                        posts.Add(ap);
+
+                    }
+                }
+                return View(posts);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+        public async Task<IActionResult> Index(string name,int page)
+        {
+
+            try
+            {  
+
+
+                if (name == null)
+                {
+                    return NotFound();
+                }
+                int pagesize=0;
+
+                var gensettings = generalSettingsManager.Details();
+                pagesize = gensettings.ItemsPerPage;
+                int count = (await postManager.ListByBlogName(name)).Count;
+                if (pagesize <=0)
+                {
+                    pagesize = count;
+                }
+                
+
+                var p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
+                this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
+
+                this.ViewBag.Page = page;
 
                 List<ViewPost> posts = new List<ViewPost>();
                 if (p != null)

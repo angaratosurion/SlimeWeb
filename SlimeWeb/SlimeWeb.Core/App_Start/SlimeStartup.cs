@@ -84,11 +84,13 @@ namespace SlimeWeb.Core.App_Start
                             b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")),
                             ServiceLifetime.Singleton);
                 }
-                services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.
+                RequireConfirmedAccount = true)
                   .AddEntityFrameworkStores<SlimeDbContext>()
                   .AddDefaultTokenProviders()//;
                  .AddDefaultUI();
-                services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = TimeSpan.FromHours(10));
+                services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = 
+                TimeSpan.FromHours(10));
                 services.ConfigureApplicationCookie(options =>
                 {
                     options.Cookie.Name = ".SlimeWeb";
@@ -144,7 +146,8 @@ namespace SlimeWeb.Core.App_Start
                 // Console.WriteLine("Code Base: {0}", System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
                 this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
                     AppSettingsManager.GetExtetionPath());
-                Console.WriteLine("Applications's Root  Path : {0}", FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
+                Console.WriteLine("Applications's Root  Path : {0}",
+                    FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
                 Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
                 //Configuration["Extensions:Path"];
                 MarkUpManager.Init();
@@ -164,10 +167,12 @@ namespace SlimeWeb.Core.App_Start
                         else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                             AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                         {
-                            slimeServicesExtension = SlimePluginManager.LoadServicesPlugins(this.extensionsPath,services,
+                            slimeServicesExtension = SlimePluginManager.
+                                LoadServicesPlugins(this.extensionsPath,services,
                                 services.BuildServiceProvider());
                             Services = services;
-                           addMvcActions= SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, mvcBuilder, services.BuildServiceProvider());
+                           addMvcActions= SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, 
+                               mvcBuilder, services.BuildServiceProvider());
 
 
 
@@ -268,7 +273,8 @@ namespace SlimeWeb.Core.App_Start
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-                    Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), FileSystemManager.AppDataDir)),
+                    Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(),
+                    FileSystemManager.AppDataDir)),
                     RequestPath = "/" + FileSystemManager.AppDataDir
 
                 });
@@ -314,7 +320,8 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().
+                    CreateScope())
                 {
                     var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
                    // var context = app.ApplicationServices.GetRequiredService<SlimeDbContext>();
@@ -393,7 +400,8 @@ namespace SlimeWeb.Core.App_Start
 
                         //    }
                         //}
-                       slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app, app.ApplicationServices);
+                       slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app,
+                           app.ApplicationServices);
                         app.UseRouting();
 
                         app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -409,12 +417,26 @@ namespace SlimeWeb.Core.App_Start
 
                            var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath,
                                endpoints, app.ApplicationServices);
-                           // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
+                            // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
+                            //endpoints.MapControllerRoute("default",pathbase+"/"+
+                            //    "{controller=Home}/{action=Index}/{id?}");
+
+
+                            /*  app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");*/
                         });
+                        app.UseMvc(routes => {
+                            routes.MapRoute(name: "default",
+                            template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
+                            });
+
 
                         tap = app;
                         return tap;
+
                     }
+                   
 
                     NavigationManager.AddDefaultMenusOnTopMenu();
                     NavigationManager.AddDefaultMenusOnBottomMenu();
@@ -422,6 +444,14 @@ namespace SlimeWeb.Core.App_Start
                     return tap;
 
                 }
+                app.UseEndpoints(endpoints =>
+                {
+
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: pathbase + "/" + "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
                 tap = app;
                 return tap;
             }
