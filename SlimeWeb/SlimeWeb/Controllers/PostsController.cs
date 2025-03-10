@@ -55,40 +55,41 @@ namespace SlimeWeb.Controllers
 
 
         // GET: Posts
-        //public async Task<IActionResult> Index(string id)
-        //{
+        public async Task<IActionResult> Index(string id)
+        {
 
-        //    try
-        //    {
-        //        string name = id;
+            try
+            {
+                string name = id;
 
 
-        //        if (name == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        var p = await postManager.ListByBlogNameByPublished(name);
+                if (name == null)
+                {
+                    return NotFound();
+                }
+                var p = await postManager.ListByBlogNameByPublished(name);
 
-        //        List<ViewPost> posts = new List<ViewPost>();
-        //        if (p != null)
-        //        {
-        //            foreach (var tp in p)
-        //            {
-        //                ViewPost ap = new ViewPost();
-        //                ap.ImportFromModel(tp);
-        //                posts.Add(ap);
+                List<ViewPost> posts = new List<ViewPost>();
+                if (p != null)
+                {
+                    foreach (var tp in p)
+                    {
+                        ViewPost ap = new ViewPost();
+                        ap.ImportFromModel(tp);
+                        posts.Add(ap);
 
-        //            }
-        //        }
-        //        return View(posts);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CommonTools.ErrorReporting(ex);
+                    }
+                }
+                return View(posts);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
 
-        //        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [Route("/{action}/{name}/{page}")]
         public async Task<IActionResult> Index(string name,int page)
         {
 
