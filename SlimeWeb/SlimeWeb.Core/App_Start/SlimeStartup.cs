@@ -367,13 +367,18 @@ namespace SlimeWeb.Core.App_Start
                             endpoints.MapControllerRoute(
                              name: "default",
                             pattern: "{controller=Home}/{action=Index}/{id?}");
-                                 endpoints.MapRazorPages();
+                            endpoints.MapControllerRoute(
+                             name: "Post",
+                            pattern: "{controller=Home}/{action=Index}/{name}/{page?}");
+                            endpoints.MapRazorPages();
                             endpoints.MapControllers();
 
                         });
                         app.UseMvc(routes => {
                             routes.MapRoute(name: "default",
                             template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
+                            routes.MapRoute(name: "Post",
+                            template: pathbase + "/" + "{ controller = Post}/{action=Index}/{name}/{page?}");
                             });
 
 
