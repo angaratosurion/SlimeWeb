@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SlimeWeb.Core.Data.ViewModels.ViewPost>
 
 @{
-    ViewData["Title"] = "Posts";
+    //ViewData["Title"] = "Posts";
 }
 
 <h1>Posts</h1>
@@ -35,6 +35,8 @@
         </tr>
     </thead>
     <tbody>
+        if(Model !=null)
+        {
         @foreach (var item in Model)
         {
             <tr>
@@ -78,6 +80,7 @@
                class="btn btn-default">
                 Next &raquo;
             </a>
+        }
         }
     </tbody>
 </table>

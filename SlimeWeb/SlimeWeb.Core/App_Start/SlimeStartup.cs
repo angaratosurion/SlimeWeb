@@ -230,45 +230,22 @@ namespace SlimeWeb.Core.App_Start
                     AppSettingsManager.GetExtetionPath());
 
                 app.UseCookiePolicy();
+              
 
 
-                //if (env.IsDevelopment())
-                //{
-                //    app.UseDeveloperExceptionPage();
-                //    //app.UseDatabaseErrorPage();
-                //}
-                //else
-                //{
-                //    app.UseExceptionHandler("/Home/Error");
-                //   // The default HSTS value is 30 days.You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //    app.UseHsts();
-                //} 
-
-                //app.UseHttpsRedirection();
-                //app.UseStaticFiles();
-
-                // app.UseRouting();
+                
 
                  
                 app.UseAuthentication();
                 app.UseAuthorization();
 
-                //app.UseEndpoints(endpoints =>
-                //{
-                //    endpoints.MapControllerRoute(
-                //        name: "default",
-                //        pattern: "{controller=Home}/{action=Index}/{id?}");
-                //    endpoints.MapRazorPages();
-                //});
+                 
                 // app.UseStaticFiles();
                 if (Directory.Exists(FileSystemManager.GetAppRootDataFolderAbsolutePath()) == false)
                 {
                     Directory.CreateDirectory(FileSystemManager.GetAppRootDataFolderAbsolutePath());
                 }
-                //if (Directory.Exists(Path.Combine(env.ContentRootPath, "wwwroot", FileSystemManager.AppDataDir)) == false)
-                //{
-                //    Directory.CreateDirectory(Path.Combine(env.ContentRootPath, "wwwroot", FileSystemManager.AppDataDir));
-                //}
+                
 
                 app.UseStaticFiles(new StaticFileOptions
                 {
@@ -306,14 +283,7 @@ namespace SlimeWeb.Core.App_Start
                 pathbase = AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
 
-
-                //app.UseStaticFiles(new StaticFileOptions
-                //{
-                //    FileProvider = new PhysicalFileProvider(
-                //  Path.Combine(env.ContentRootPath, "wwwroot")),
-                //    RequestPath = ""
-                //});
-
+ 
 
 
 
@@ -324,15 +294,7 @@ namespace SlimeWeb.Core.App_Start
                     CreateScope())
                 {
                     var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
-                   // var context = app.ApplicationServices.GetRequiredService<SlimeDbContext>();
-
-
-                    //return View();
-
-
-
-                    //
-                    //
+                    
                     bool createdb = false, migratedb = false, enablefileserver = false;
                     createdb = AppSettingsManager.GetDataBaseCreationSetting();
                     migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
@@ -340,12 +302,7 @@ namespace SlimeWeb.Core.App_Start
                     Console.WriteLine(context.Database.GetConnectionString());
                     CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
 
-                    //if (createdb && migratedb )
-                    //{
-
-                    //    context.Database.EnsureCreated();
-                    //    context.Database.Migrate();
-                    //}
+                   
                     if (createdb && !migratedb)
                     {
                         context.Database.EnsureCreated();
@@ -377,10 +334,7 @@ namespace SlimeWeb.Core.App_Start
                         installManager.CrreateInitalAdmin();
                     }
                 }
-                //if (!Directory.Exists(extensionsPath))
-                //{
-                //    Directory.CreateDirectory(extensionsPath);
-                //}
+                
 
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
@@ -392,14 +346,7 @@ namespace SlimeWeb.Core.App_Start
                     else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                     {
-                        //if (slimeServicesExtension != null)
-                        //{
-                        //    foreach (var item in slimeServicesExtension)
-                        //    {
-                        //        item.Execute(Services, app.ApplicationServices);
-
-                        //    }
-                        //}
+                        
                        slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app,
                            app.ApplicationServices);
                         app.UseRouting();
@@ -417,14 +364,12 @@ namespace SlimeWeb.Core.App_Start
 
                            var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath,
                                endpoints, app.ApplicationServices);
-                            // slimeExtension.AddRange((IEnumerable<IConfigureAction>)Endpointplugins);
-                            //endpoints.MapControllerRoute("default",pathbase+"/"+
-                            //    "{controller=Home}/{action=Index}/{id?}");
+                            endpoints.MapControllerRoute(
+                             name: "default",
+                            pattern: "{controller=Home}/{action=Index}/{id?}");
+                                 endpoints.MapRazorPages();
+                            endpoints.MapControllers();
 
-
-                            /*  app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");*/
                         });
                         app.UseMvc(routes => {
                             routes.MapRoute(name: "default",
@@ -452,6 +397,7 @@ namespace SlimeWeb.Core.App_Start
                         pattern: pathbase + "/" + "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });
+                 
                 tap = app;
                 return tap;
             }

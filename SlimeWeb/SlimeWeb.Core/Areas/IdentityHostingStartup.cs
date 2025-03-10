@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data.Models;
-using SlimeWeb.Data;
+//using SlimeWeb.Data;
 
-[assembly: HostingStartup(typeof(SlimeWeb.Areas.Identity.IdentityHostingStartup))]
-namespace SlimeWeb.Areas.Identity
+[assembly: HostingStartup(typeof(SlimeWeb.Core.Areas.Identity.IdentityHostingStartup))]
+namespace SlimeWeb.Core.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {

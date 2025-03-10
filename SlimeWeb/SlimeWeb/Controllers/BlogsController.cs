@@ -30,36 +30,16 @@ namespace SlimeWeb.Controllers
             blogmnger = new BlogManager( );
             accessManager = new AccessManager( );
         }
+        private readonly ILogger<HomeController> _logger;
 
-        // GET: Blogs
-        /*
-         public async Task<IActionResult> Index()
-         {
-             try
-             {
-
-
-             List<ViewBlog> lstblogs = new List<ViewBlog>();
-             var list = await blogmnger.ListBlog();
-                 if (list != null)
-                 {
-                     foreach (var bl in list)
-                     {
-                         ViewBlog vb = new ViewBlog();
-                         vb.ImportFromModel(bl);
-                         lstblogs.Add(vb);
-                     }
-                 }
-             return View(lstblogs);
-             }
-             catch (Exception ex)  {CommonTools.ErrorReporting(ex);
+        public BlogsController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+            blogmnger = new BlogManager();
+            accessManager = new AccessManager();
+        }
 
 
-
-                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-
-         }
-         }*/
         public async Task<IActionResult> Index()
         {
             try

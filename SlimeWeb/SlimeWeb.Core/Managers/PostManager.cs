@@ -194,8 +194,8 @@ namespace SlimeWeb.Core.Managers
                     {
                         blog = await this.blmngr.GetBlogAsync(name);
 
-                        posts = await db.Post.Where(x => x.BlogId == blog.Id).
-                            OrderByDescending(x => x.Published).ToListAsync();
+                        posts = (await this.ListByBlogName(name));
+                        posts = posts.OrderByDescending(x => x.Published).ToList();
                         if (posts != null)
                         {
                             ap = posts;
@@ -217,16 +217,23 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByBlogNameByPublished(string name,int page, int pagesize)
+        public async Task<List<Post>> ListByBlogNameByPublished(string name,
+            int page, int pagesize)
         {
             try
             {
-                List<Post> ap = null, posts,tposts;
+                List<Post> ap = null, posts=null,tposts;
                 Blog blog = null;
-                if (name != null && pagesize > 0 && page>0)
+                    if(name!=null)
+                        {
+                         posts = await this.ListByBlogNameByPublished(name);
+
+                    }
+                
+                if (  pagesize > 0 && page>0 && posts.Count >pagesize)
                 {
 
-                    posts = await this.ListByBlogNameByPublished(name);
+                   
                     if (posts != null)
                     {
                         ap =  posts.Skip(page * pagesize).Take(pagesize).ToList(); 
@@ -235,7 +242,7 @@ namespace SlimeWeb.Core.Managers
 
 
                 }
-                else if (pagesize <= 0)
+                else //if (pagesize <= 0)
                 {
                     ap = await this.ListByBlogNameByPublished(name);
                 }
