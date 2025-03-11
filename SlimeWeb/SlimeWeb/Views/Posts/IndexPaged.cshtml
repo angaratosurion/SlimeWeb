@@ -8,7 +8,6 @@
 
 
 <p>
-      
     <a asp-action="Create" asp-route-id="@Context.Request.RouteValues["id"].ToString()">Create New</a>
 </p>
 <table class="table">
@@ -61,13 +60,30 @@
                     @Html.DisplayFor(modelItem => item.engine)
                 </td>*@
                 <td>
-                    <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Edit</a> |
+                    <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id"
+                    asp-route-blogname="@item.Blog.Name">Edit</a> |
                     <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id" asp-route-blogname="@item.Blog.Name">Delete</a>
+                    <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id"
+                    asp-route-blogname="@item.Blog.Name">Delete</a>
                 </td>
             </tr>
         }
-        
+        @if (ViewBag.Page > 0)
+        {
+                <a href="@Url.Action("IndexPaged", new { name=@Context.Request.RouteValues["name"].ToString()
+            ,page = ViewBag.Page - 1 })"
+               class="btn btn-default">
+                &laquo; Prev
+            </a>
+        }
+        @if (ViewBag.Page < ViewBag.MaxPage)
+        {
+                <a href="@Url.Action("IndexPaged", new { name=@Context.Request.RouteValues["name"].ToString()
+                ,page = ViewBag.Page + 1 })"
+               class="btn btn-default">
+                Next &raquo;
+            </a>
+        }
         }
     </tbody>
 </table>
