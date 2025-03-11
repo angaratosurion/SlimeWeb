@@ -89,57 +89,57 @@ namespace SlimeWeb.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-        [Route("/{action}/{name}/{page}")]
-        public async Task<IActionResult> Index(string name,int page)
-        {
+        // [Route("{controller}/{action}/{name}/{page}")]
+        //public async Task<IActionResult> Index(string name,int page)
+        //{
 
-            try
-            {
-                ViewData["Title"] = "Posts";
+        //    try
+        //    {
+        //        ViewData["Title"] = "Posts";
 
-                if (name == null)
-                {
-                    return NotFound();
-                }
-                int pagesize=0;
+        //        if (name == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        int pagesize=0;
 
-                var gensettings = generalSettingsManager.Details();
-                pagesize = gensettings.ItemsPerPage;
-                int count = (await postManager.ListByBlogName(name)).Count;
-                if (pagesize <=0)
-                {
-                    pagesize = count;
-                }
-                
+        //        var gensettings = generalSettingsManager.Details();
+        //        pagesize = gensettings.ItemsPerPage;
+        //        int count = (await postManager.ListByBlogName(name)).Count;
+        //        if (pagesize <=0)
+        //        {
+        //            pagesize = count;
+        //        }
 
-                List<Post> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
-                this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
-                List<ViewPost> posts = new List<ViewPost>();
-                if (p != null)
-                {
-                    this.ViewBag.Page = page;
 
-                    
-                    if (p != null)
-                    {
-                        foreach (var tp in p)
-                        {
-                            ViewPost ap = new ViewPost();
-                            ap.ImportFromModel(tp);
-                            posts.Add(ap);
+        //        List<Post> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
+        //        this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
+        //        List<ViewPost> posts = new List<ViewPost>();
+        //        if (p != null)
+        //        {
+        //            this.ViewBag.Page = page;
 
-                        }
-                    }
-                }
-                return View(posts);
-            }
-            catch (Exception ex)
-            {
-                CommonTools.ErrorReporting(ex);
 
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
+        //            if (p != null)
+        //            {
+        //                foreach (var tp in p)
+        //                {
+        //                    ViewPost ap = new ViewPost();
+        //                    ap.ImportFromModel(tp);
+        //                    posts.Add(ap);
+
+        //                }
+        //            }
+        //        }
+        //        return View(posts);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CommonTools.ErrorReporting(ex);
+
+        //        return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+        //    }
+        //}
         //ByCategory.
         public async Task<IActionResult> ByCategory(string id,string categoryname)
         {
