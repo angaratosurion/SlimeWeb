@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-SlimeWeb-a92bd714-7fc6-4710-a189-3deebe49dabc</UserSecretsId>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Version>0.1.7.0</Version>
+    <Version>0.1.7.5</Version>
     <Authors>Angarato Surion</Authors>
     <Copyright>$(Authors)</Copyright>
     <Configurations>Debug;Release;Linux</Configurations>
