@@ -39,9 +39,19 @@
                <a asp-controller="Posts" asp-action="Index" asp-route-id="@item.Name">@Html.DisplayFor(modelItem => item.Name)</a>
             </td> *@
             <td>
+                  @if ( SlimeWeb.Core.Managers.AppSettingsManager.GetEnablePagination())
+                    {
+                          <a asp-controller="Posts"
+                              asp-action="IndexPaged"
+                              asp-route-id="@item.Name"  asp-route-page="0">@Html.DisplayFor(modelItem => item.Title) 
+                               </a>
+                    }
+                    else
+                    {
                     <a asp-controller="Posts" 
                     asp-action="Index" 
-                    asp-route-id="@item.Name">@Html.DisplayFor(modelItem => item.Title)</a>
+                    asp-route-id="@item.Name">@Html.DisplayFor(modelItem => item.Title)></a>
+                    }
                     <br />
                     @Html.DisplayNameFor(model => model.Administrator) :
                     @Html.DisplayFor(modelItem => item.Administrator.DisplayName)

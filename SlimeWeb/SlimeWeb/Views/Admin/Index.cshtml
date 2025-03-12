@@ -5,7 +5,7 @@
 
 <h1>Web Site Administration</h1>
 <table class="table">
-  @*  <thead>
+    @*  <thead>
         <tr>
 
             <th></th>
@@ -17,7 +17,15 @@
                 <a asp-controller="BlogAdmin" asp-action="Index" >Blogs Administration</a>
             </td>
             <td>
-                <a asp-controller="PostsAdmin" asp-action="Index">Posts</a>
+                @if (!SlimeWeb.Core.Managers.AppSettingsManager.GetEnablePagination())
+                {
+                    <a asp-controller="PostsAdmin" asp-action="Index">Posts</a>
+                }
+                else
+                {
+                    <a asp-controller="PostsAdmin" asp-action="IndexPaged" asp-route-page="0">Posts</a>
+
+                }
             </td>
             <td>
                 <a asp-controller="BlogModsAdmin" asp-action="Index" >Blog Moderators</a>
@@ -37,7 +45,7 @@
         <tr>
             <td>
                 <a asp-controller="UserAdmin" asp-action="Index" >Users</a>
-        </td>
+            </td>
             <td>
                 <a asp-controller="Role" asp-action="Index">Roles</a>
             </td>
@@ -47,7 +55,14 @@
         </tr>
         <tr>
             <td>
-                <a asp-controller="Pages" asp-action="Index">Pages</a>
+                @if (!SlimeWeb.Core.Managers.AppSettingsManager.GetEnablePagination())
+                {
+                    <a asp-controller="Pages" asp-action="Index">Pages</a>
+                }
+                else
+                {
+                    <a asp-controller="Pages" asp-action="IndexPaged" asp-route-page="0">Pages</a>
+                }
             </td>
             <td>
                 <a asp-controller="Logs" asp-action="Index">Logs</a>

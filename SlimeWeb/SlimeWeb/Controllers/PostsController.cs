@@ -96,11 +96,13 @@ namespace SlimeWeb.Controllers
             try
             {
                 ViewData["Title"] = "Posts";
+
                 string name = id;
                 if (name == null)
                 {
                     return NotFound();
                 }
+                ViewBag.Name = name;
                 int pagesize = 0;
 
                 var gensettings = generalSettingsManager.Details();
@@ -334,7 +336,14 @@ namespace SlimeWeb.Controllers
                         }
                     }
                     //blmngr.GetBlogAsync()
-                    return RedirectToAction(nameof(Index), "Posts", new { id = blog.Name });
+                    if (!AppSettingsManager.GetEnablePagination())
+                    {
+                        return RedirectToAction(nameof(Index), "Posts", new { id = blog.Name });
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Index), "Posts", new { id = blog.Name,pagge=0 });
+                    }
                 }
                 // return View(post);
             }

@@ -21,6 +21,7 @@ namespace SlimeWeb.Controllers
     { 
         SlimeWebPageManager pageManager = new SlimeWebPageManager();
         FileRecordManager fileRecordManager= new FileRecordManager();
+        GeneralSettingsManager generalSettingsManager = new GeneralSettingsManager();
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
         public async Task<ActionResult> Index()
         {
@@ -48,7 +49,58 @@ namespace SlimeWeb.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+        public async Task<IActionResult> IndexPaged( int page)
+        {
 
+            try
+            {
+                ViewData["Title"] = "Pages";
+
+                //string name = id;
+                //if (name == null)
+                //{
+                //    return NotFound();
+                //}
+                //ViewBag.Name = name;
+                int pagesize = 0;
+
+                var gensettings = generalSettingsManager.Details();
+                pagesize = gensettings.ItemsPerPage;
+                int count = (await pageManager.List()).Count;
+                if (pagesize <= 0)
+                {
+                    pagesize = count;
+                }
+
+
+                List<SlimeWebPage> p = await pageManager.ListByPublished( page, pagesize);
+                this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
+                List<ViewSlimeWebPage> SlimeWebPages = new List<ViewSlimeWebPage>();
+                if (p != null)
+                {
+                    this.ViewBag.Page = page;
+
+
+                    if (p != null)
+                    {
+                        foreach (var tp in p)
+                        {
+                            ViewSlimeWebPage ap = new ViewSlimeWebPage();
+                            ap.ImportFromModel(tp);
+                            SlimeWebPages.Add(ap);
+
+                        }
+                    }
+                }
+                return View(SlimeWebPages);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
         // GET: PagesController1/Details/5
         public async Task<ActionResult> Details (string name)
         {
@@ -338,7 +390,7 @@ namespace SlimeWeb.Controllers
             }
         }
         [Authorize(Policy = SlimeWebsUserManager.AdminRoles)]
-        // POST: PagesController1/Delete/5
+        // SlimeWebPage: PagesController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(string Name )

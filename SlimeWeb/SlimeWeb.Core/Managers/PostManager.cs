@@ -257,6 +257,73 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
+        public async Task<List<Post>> ListAllByPublished( )
+        {
+            try
+            {
+                List<Post> ap = null, posts;
+                 
+                    ap = new List<Post>();
+                     
+                posts = (await this.List());
+                        posts = posts.OrderByDescending(x => x.Published).ToList();
+                        if (posts != null)
+                        {
+                            ap = posts;
+                        }
+                   
+
+
+               
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+
+        }
+        public async Task<List<Post>> ListAllByPublished( 
+         int page, int pagesize)
+        {
+            try
+            {
+                List<Post> ap = null, posts = null, tposts;
+                
+                    posts = await this.ListAllByPublished( );
+
+               
+                if (pagesize > 0 && page > 0 && posts.Count > pagesize)
+                {
+
+
+                    if (posts != null)
+                    {
+                        ap = posts.Skip(page * pagesize).Take(pagesize).ToList();
+
+                    }
+
+
+                }
+                else //if (pagesize <= 0)
+                {
+                    ap = await this.ListByPublished();
+                }
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+
+        }
         public async Task<List<Post>> ListByBlogId(int? id)
         {
             try

@@ -11,6 +11,11 @@ namespace SlimeWeb.Core.Managers
 {
    public class SlimeWebPageManager:DataManager
     {
+        BlogManager blmngr;
+        public  SlimeWebPageManager()
+        {
+            blmngr = new BlogManager();
+        }
         public async Task<List<SlimeWebPage>> List()
         {
             try
@@ -18,6 +23,79 @@ namespace SlimeWeb.Core.Managers
                 List<SlimeWebPage> ap = null;
 
                 ap = await db.Pages.ToListAsync();
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+
+        }
+      
+        public async Task<List<SlimeWebPage>> ListByPublished()
+        {
+            try
+            {
+                List<SlimeWebPage> ap = null, SlimeWebPages;
+                Blog blog = null;
+              
+                    ap = new List<SlimeWebPage>();
+                    
+                       
+
+                        SlimeWebPages = (await this.List());
+                        SlimeWebPages = SlimeWebPages.OrderByDescending(x => x.Published).ToList();
+                        if (SlimeWebPages != null)
+                        {
+                            ap = SlimeWebPages;
+                        }
+                  
+
+
+               
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+
+        }
+        public async Task<List<SlimeWebPage>> ListByPublished(
+            int page, int pagesize)
+        {
+            try
+            {
+                List<SlimeWebPage> ap = null, SlimeWebPages = null, tSlimeWebPages;
+                Blog blog = null;
+             
+                    SlimeWebPages = await this.ListByPublished();
+
+               
+
+                if (pagesize > 0 && page > 0 && SlimeWebPages.Count > pagesize)
+                {
+
+
+                    if (SlimeWebPages != null)
+                    {
+                        ap = SlimeWebPages.Skip(page * pagesize).Take(pagesize).ToList();
+
+                    }
+
+
+                }
+                else //if (pagesize <= 0)
+                {
+                    ap = await this.ListByPublished();
+                }
                 return ap;
 
             }
@@ -147,7 +225,7 @@ namespace SlimeWeb.Core.Managers
                         db.Entry(vpage).State = EntityState.Modified;
 
                         db.Entry(vpage).CurrentValues.SetValues(page);
-                        // db.Post.Update(Post);
+                        // db.SlimeWebPage.Update(SlimeWebPage);
                         await db.SaveChangesAsync();
                     }
                 }
@@ -157,7 +235,7 @@ namespace SlimeWeb.Core.Managers
             {
                 foreach (var entry in ex.Entries)
                 {
-                    if (entry.Entity is Post)
+                    if (entry.Entity is SlimeWebPage)
                     {
                         var proposedValues = entry.CurrentValues;
                         var databaseValues = entry.GetDatabaseValues();
@@ -201,9 +279,9 @@ namespace SlimeWeb.Core.Managers
                     FileRecordManager fileRecordManager = new FileRecordManager();
 
                     bool deleted = await fileRecordManager.DeleteFromPages((int)page.Id);
-                    // bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);
-                    bool posthasfiles = true;
-                    if (deleted && posthasfiles)
+                    // bool SlimeWebPagehasfiles = await fileRecordManager.SlimeWebPageHasFiles((int)id);
+                    bool SlimeWebPagehasfiles = true;
+                    if (deleted && SlimeWebPagehasfiles)
                     {
                         db.Pages.Remove(page);
                         db.SaveChanges();

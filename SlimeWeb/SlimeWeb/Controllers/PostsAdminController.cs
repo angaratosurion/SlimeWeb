@@ -31,6 +31,7 @@ namespace SlimeWeb.Controllers
         TagManager TagManager;
         AccessManager accessManager;
         FileRecordManager fileRecordManager;
+        GeneralSettingsManager generalSettingsManager;
 
 
         //public PostsAdminController(SlimeDbContext context)
@@ -42,7 +43,7 @@ namespace SlimeWeb.Controllers
         //    blmngr = new BlogManager(context);
         //    TagManager = new TagManager(context);
         //    fileRecordManager = new FileRecordManager(context);
-            
+
         //}
         public PostsAdminController( )
         {
@@ -53,6 +54,7 @@ namespace SlimeWeb.Controllers
             blmngr = new BlogManager();
             TagManager = new TagManager( );
             fileRecordManager = new FileRecordManager( );
+            generalSettingsManager = new GeneralSettingsManager();
 
         }
 
@@ -107,6 +109,54 @@ namespace SlimeWeb.Controllers
             }
         }
         //ByCategory.
+
+        public async Task<IActionResult> IndexPaged( int page)
+        {
+
+            try
+            {
+                ViewData["Title"] = "Posts";
+
+               
+                int pagesize = 0;
+
+                var gensettings = generalSettingsManager.Details();
+                pagesize = gensettings.ItemsPerPage;
+                int count = (await postManager.List()).Count;
+                if (pagesize <= 0)
+                {
+                    pagesize = count;
+                }
+
+
+                List<Post> p = await postManager.ListAllByPublished(  page, pagesize);
+                this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
+                List<ViewPost> posts = new List<ViewPost>();
+                if (p != null)
+                {
+                    this.ViewBag.Page = page;
+
+
+                    if (p != null)
+                    {
+                        foreach (var tp in p)
+                        {
+                            ViewPost ap = new ViewPost();
+                            ap.ImportFromModel(tp);
+                            posts.Add(ap);
+
+                        }
+                    }
+                }
+                return View(posts);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
         public async Task<IActionResult> ByCategory(string id,string categoryname)
         {
             try
