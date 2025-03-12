@@ -10,21 +10,21 @@ namespace SlimeWeb.Core.Managers.Markups
     public  class QuilDeltaManager : IMarkupManager
     {
 
-        const string postcreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
+           string postcreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
             "     <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\">" +
+            " <script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\">" +
             "</script>" + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>"+
-            "<script src=\"/wwwroot/js/quil-markup/post-create.js\"></script>";
+            "<script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/js/quil-markup/post-create.js\"></script>";
 
 
 
 
-        const string postedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
+          string postedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\"></script>\r\n       " +
             "     <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\">" +
-            "</script>" + "<script src=\"/wwwroot/js/quil-markup/post-edit.js\"></script>";
+            " <script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\">" +
+            "</script>" + "<script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/js/quil-markup/post-edit.js\"></script>";
         //+
             //" <textarea asp-for=\"content\" class=\"form-control\"" +
             //" id=\"content\" hidden=\"hidden\" name=\"content\">\r\n  " +
@@ -32,26 +32,26 @@ namespace SlimeWeb.Core.Managers.Markups
 
 
 
-        const string pagecreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
+        string pagecreationhtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
             "</script>\r\n            " +
             "<link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
             "rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\"></script>"
+            " <script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\"></script>"
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +
-            "<script src=\"/wwwroot/js/quil-markup/page-create.js\"></script>";
+            "<script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/js/quil-markup/page-create.js\"></script>";
 
 
 
-        const string pageedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
+         string pageedithtmlcode = "<script src=\"https://cdn.quilljs.com/1.3.6/quill.min.js\">" +
             "</script>\r\n            <link href=\"https://cdn.quilljs.com/1.3.6/quill.snow.css\" " +
             "rel=\"stylesheet\">\r\n          " +
-            " <script src=\"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\"></script>"
+            " <script src=\""+AppSettingsManager.GetPathBase()+"/wwwroot/lib/quill-image-resize-module/image-resize.min.js\"></script>"
             + " <div id=\"scrolling-container\">\r\n                  " +
             "      <div class=\"form-group\" id=\"editor\" name=\"editor\" >" +
             " </div>\r\n                        </div>" +
-            "<script src=\"/wwwroot/js/quil-markup/page-edit.js\"></script>";
+            "<script src=\"" + AppSettingsManager.GetPathBase() +"/wwwroot/js/quil-markup/page-edit.js\"></script>";
         public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
             try

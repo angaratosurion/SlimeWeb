@@ -68,8 +68,9 @@ namespace SlimeWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-
+           
+            //app =  ConfigureSlime(app, env);
+            
             app.UseEndpoints(endpoints =>
                 {
 
@@ -80,7 +81,7 @@ namespace SlimeWeb
                     endpoints.MapControllers();
                 });
 
-
+            app = ConfigureRoutdsAndEndpoints(app, AppSettingsManager.GetEnableExtensionsSetting());
 
 
         }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +35,7 @@ namespace SlimeWeb.Core.App_Start
     /// </summary>
     public class SlimeStartup
     {
-        string extensionsPath;
+        static string extensionsPath;
         //public static string WebRoot;
         bool Direcotrybrowse = false;
         static List<IConfigureServicesAction> slimeServicesExtension;
@@ -127,8 +127,16 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-
-                IMvcCoreBuilder mvcBuilder = services.AddMvcCore().AddControllersAsServices().AddRazorPages();
+               var  mvcopts = new MvcOptions();
+                mvcopts.EnableEndpointRouting = false;
+                //IMvcCoreBuilder mvcBuilder =
+                //     services.AddMvcCore().AddControllersAsServices().AddRazorPages();
+                IMvcBuilder mvcBuilder = services.AddMvc()
+                    .AddControllersAsServices();
+                 
+                    ;
+                //.AddMvcOptions(mvcopts);
+              
 
                 if (AppSettingsManager.GetCompileOnRuntime())
                 {
@@ -139,36 +147,40 @@ namespace SlimeWeb.Core.App_Start
                 {
                     services.AddControllersWithViews();
                 }
+                
+                services.AddRazorPages();
+                services.AddControllers();
+                 
 
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
-                //this.extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
+                //extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
                 // Console.WriteLine("Code Base: {0}", System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+                extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
                     AppSettingsManager.GetExtetionPath());
                 Console.WriteLine("Applications's Root  Path : {0}",
                     FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
-                Console.WriteLine("Extention's Path : {0}", this.extensionsPath);
+                Console.WriteLine("Extention's Path : {0}", extensionsPath);
                 //Configuration["Extensions:Path"];
                 MarkUpManager.Init();
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
                     if (string.IsNullOrWhiteSpace(extensionsPath) == false)
                     {
-                        if (Directory.Exists(this.extensionsPath) == false)
+                        if (Directory.Exists(extensionsPath) == false)
                         {
-                            Directory.CreateDirectory(this.extensionsPath);
+                            Directory.CreateDirectory(extensionsPath);
                         }
                         if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
                             AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
                         {
-                            services.AddExtCore(this.extensionsPath, true);
+                            services.AddExtCore(extensionsPath, true);
                         }
                         else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                             AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                         {
                             slimeServicesExtension = SlimePluginManager.
-                                LoadServicesPlugins(this.extensionsPath,services,
+                                LoadServicesPlugins(extensionsPath,services,
                                 services.BuildServiceProvider());
                             Services = services;
                            addMvcActions= SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, 
@@ -183,10 +195,9 @@ namespace SlimeWeb.Core.App_Start
                         // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
                     });
-                    //services.AddScoped<IStorageContext, SlimeDbContext>();
+                     
                     services.AddTransient<IStorageContext, SlimeDbContext>();
-                    //services.AddSingleton<IStorageContext, SlimeDbContext>();
-                    //   DesignTimeStorageContextFactory.Initialize(services.BuildServiceProvider());
+                     
 
                     services.AddSingleton<IEmailSender, EmailSender>();
                     Direcotrybrowse = AppSettingsManager.GetAllowDirectoryBrowseSetting();
@@ -226,7 +237,7 @@ namespace SlimeWeb.Core.App_Start
             try
             {
                 IApplicationBuilder tap = null;
-                this.extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), 
+                extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), 
                     AppSettingsManager.GetExtetionPath());
 
                 app.UseCookiePolicy();
@@ -238,8 +249,8 @@ namespace SlimeWeb.Core.App_Start
                  
                 app.UseAuthentication();
                 app.UseAuthorization();
+              
 
-                 
                 // app.UseStaticFiles();
                 if (Directory.Exists(FileSystemManager.GetAppRootDataFolderAbsolutePath()) == false)
                 {
@@ -282,8 +293,8 @@ namespace SlimeWeb.Core.App_Start
                 string pathbase;
                 pathbase = AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
+                app=ConfigureRoutdsAndEndpoints(app, AppSettingsManager.GetEnableExtensionsSetting());
 
- 
 
 
 
@@ -334,7 +345,7 @@ namespace SlimeWeb.Core.App_Start
                         installManager.CrreateInitalAdmin();
                     }
                 }
-                
+
 
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
@@ -346,62 +357,35 @@ namespace SlimeWeb.Core.App_Start
                     else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                     {
-                        
-                       slimeExtension= SlimePluginManager.LoadConfigurePlugins(this.extensionsPath, app,
-                           app.ApplicationServices);
+
+                        slimeExtension = SlimePluginManager.LoadConfigurePlugins(extensionsPath, app,
+                            app.ApplicationServices);
                         app.UseRouting();
 
                         app.UseForwardedHeaders(new ForwardedHeadersOptions
                         {
-                            ForwardedHeaders = ForwardedHeaders.XForwardedFor 
+                            ForwardedHeaders = ForwardedHeaders.XForwardedFor
                             | ForwardedHeaders.XForwardedProto
                         });
-
-                        app.UseAuthentication();
-                        app.UseAuthorization();
-                        app.UseEndpoints(endpoints =>
-                        {
-
-                           var Endpointplugins=SlimePluginManager.LoadEndpointPlugins(this.extensionsPath,
-                               endpoints, app.ApplicationServices);
-                            endpoints.MapControllerRoute(
-                             name: "default",
-                            pattern: "{controller=Home}/{action=Index}/{id?}");
-                            endpoints.MapControllerRoute(
-                             name: "Post",
-                            pattern: "{controller=Posts}/{action=Index}/{name}/{page?}");
-                            endpoints.MapRazorPages();
-                            endpoints.MapControllers();
-
-                        });
-                        app.UseMvc(routes => {
-                            routes.MapRoute(name: "default",
-                            template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
-                            routes.MapRoute(name: "Post",
-                            template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
-                            });
-
-
-                        tap = app;
-                        return tap;
-
                     }
+                }
+
+                       
+                         
+                       
+
+
+
+                       tap = app;
+                         
                    
 
                     NavigationManager.AddDefaultMenusOnTopMenu();
                     NavigationManager.AddDefaultMenusOnBottomMenu();
-                    tap = app;
-                    return tap;
+                    
 
-                }
-                app.UseEndpoints(endpoints =>
-                {
-
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: pathbase + "/" + "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                });
+                
+                
                  
                 tap = app;
                 return tap;
@@ -412,10 +396,93 @@ namespace SlimeWeb.Core.App_Start
                 return app; ;
             }
             }
-        
-        
 
+        //public    void  Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
-}
+        //{
+        //    ConfigureSlime(app, env);
+             
+        //}
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    services = ConfigureServicesSlime(services);
+        //}
+        public static IApplicationBuilder ConfigureRoutdsAndEndpoints(IApplicationBuilder app, bool enableExtensions )
+        {
+            try
+            {
+                IApplicationBuilder tapp;
+             //   if ( app !=null)
+                {
+                    string pathbase;
+                    app.UseRouting();
+                    app.UseAuthorization();
+                    pathbase = AppSettingsManager.GetPathBase();
+                    if (enableExtensions)
+                    {
+                        app.UseEndpoints(endpoints =>
+                        {
+
+                            var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
+                                endpoints, app.ApplicationServices);
+                            endpoints.MapControllerRoute(
+                             name: "default",
+                            pattern:"{controller=Home}/{action=Index}/{id?}");
+                            endpoints.MapControllerRoute(
+                             name: "Post",
+                            pattern:   "{controller=Posts}/{action=Index}/{name}/{page?}");
+
+                            endpoints.MapRazorPages();
+                            endpoints.MapControllers();
+
+                        });
+                        app.UseMvc(routes =>
+                        {
+                            routes.MapRoute(name: "default",
+                            template:  "{ controller = Home}/{ action = Index}/{ id?}");
+                            routes.MapRoute(name: "Post",
+                            template:  "{ controller = Posts}/{action=Index}/{name}/{page?}");
+                        });
+                    }
+                    else
+                    {
+                        //app.UseEndpoints(endpoints =>
+                        //{
+
+                        //    //var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
+                        //    //    endpoints, app.ApplicationServices);
+                        //    endpoints.MapControllerRoute(
+                        //     name: "default",
+                        //    pattern: pathbase + "/{controller=Home}/{action=Index}/{id?}");
+                        //    endpoints.MapControllerRoute(
+                        //     name: "Post",
+                        //    pattern: pathbase + "/{controller=Posts}/{action=Index}/{name}/{page?}");
+
+                        //    endpoints.MapRazorPages();
+                        //    endpoints.MapControllers();
+
+                        //});
+                        app.UseMvc(routes =>
+                        {
+                            routes.MapRoute(name: "default",
+                            template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
+                            routes.MapRoute(name: "Post",
+                            template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
+                        });
+                    }
+                    tapp = app;
+                    return app;
+                }
+            }
+            catch (Exception ex )
+            {
+                CommonTools.ErrorReporting(ex);
+                return app;
+
+            }
+        }
+
+    }
+    
     }
 
