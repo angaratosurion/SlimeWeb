@@ -42,14 +42,17 @@ namespace SlimeWeb.Core.SDK
             try
             {
                 List<IExtension> ap = null; ;
-                string pluginLocation = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), AppSettingsManager.GetExtetionPath());
+                string pluginLocation = Path.Combine(FileSystemManager.
+                    GetAppRootBinaryFolderAbsolutePath(),
+                    AppSettingsManager.GetExtetionPath());
                 if (!AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                 {
 
                     EnumerationOptions enumerationOptions = new EnumerationOptions();
                     enumerationOptions.RecurseSubdirectories = true;
-                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
+                    var files = Directory.GetFiles(pluginLocation, "*.dll",
+                        enumerationOptions);
                     ap = new List<IExtension>();
                     foreach (var file in files)
                     {
@@ -82,7 +85,8 @@ namespace SlimeWeb.Core.SDK
                 return null;
             }
         }
-        public static List<IConfigureServicesAction> LoadServicesPlugins(string relativePath, IServiceCollection services,
+        public static List<IConfigureServicesAction> LoadServicesPlugins(string relativePath, 
+            IServiceCollection services,
             IServiceProvider serviceProvider)
         {
             try
@@ -127,7 +131,8 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IUseEndpointsAction> LoadEndpointPlugins(string relativePath, IEndpointRouteBuilder endpointRouteBuilder, 
+        public static List<IUseEndpointsAction> LoadEndpointPlugins(string relativePath,
+            IEndpointRouteBuilder endpointRouteBuilder, 
             IServiceProvider serviceProvider)
         {
             try
@@ -174,7 +179,8 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcCoreBuilder mvcBuilder, 
+        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, 
+            IMvcCoreBuilder mvcBuilder, 
             IServiceProvider serviceProvider)
         {
             try

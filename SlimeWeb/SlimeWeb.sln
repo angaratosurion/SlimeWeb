@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.Core.Migrations.My
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlimeWeb.Core.Migrations.SQLServerMigrations", "SlimeWeb.Core.Migrations.SQLServerMigrations\SlimeWeb.Core.Migrations.SQLServerMigrations.csproj", "{391A843D-D60E-4425-9630-9E65C3FF2918}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeDockHTml", "SlimeDockHTml\SlimeDockHTml.csproj", "{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,18 @@ Global
 		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|x64.Build.0 = Release|x64
 		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|x86.ActiveCfg = Release|x86
 		{391A843D-D60E-4425-9630-9E65C3FF2918}.Release|x86.Build.0 = Release|x86
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|x64.Build.0 = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Debug|x86.Build.0 = Debug|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|x64.Build.0 = Release|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABBFE2E3-CC5A-45AA-A56E-0A0D08A22F50}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
