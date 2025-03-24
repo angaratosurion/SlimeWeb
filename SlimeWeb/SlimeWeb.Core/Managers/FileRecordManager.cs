@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,14 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class FileRecordManager : DataManager
+    public class FileRecordManager : DataManager, IFileRecordManager<Blog,Post>
     {
         BlogManager blogmngr;
 
 
         PostManager postManager;
         SlimeWebPageManager pageManager;
-        //public FileRecordManager(SlimeDbContext tdb):base(tdb) 
-        //{
-        //    db = tdb;
-        //    postManager = new PostManager(db);
-        //    blogmngr = new BlogManager(db);
-        //}
+      
         public FileRecordManager()
         {
            
@@ -52,7 +48,8 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForBlog(int? BlogId, int? postid, Files filemodel, IFormFile filedata,string user)
+        public async Task<string> CreateForBlog(int? BlogId, int? postid, 
+            Files filemodel, IFormFile filedata,string user)
         {
             try
             { string ap = null;
@@ -101,7 +98,8 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForPage(string pagename, Files filemodel, IFormFile filedata, string user)
+        public async Task<string> CreateForPage(string pagename, Files filemodel,
+            IFormFile filedata, string user)
         {
             try
             {
@@ -156,7 +154,8 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForPage(int pid, Files filemodel, IFormFile filedata, string user)
+        public async Task<string> CreateForPage(int pid, Files filemodel,
+            IFormFile filedata, string user)
         {
             try
             {
@@ -522,14 +521,15 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async Task<bool> BlogtHasFiles(string id)
+        public async Task<bool> BlogHasFiles(string id)
         {
             try
             {
 
                 bool ap = false;
+                 
                 //  db.Files.FirstOrDefault(x => x.Id == id);
-                var file = await this.GetFilesByBlogName(id);
+                var file =   this.GetFilesByBlogName(id).Result;
                 if (file != null)
                 {
                     ap = true;
@@ -602,6 +602,15 @@ namespace SlimeWeb.Core.Managers
 
             }
 
+        }
+
+       
+
+        
+
+        public Task<Blog> GetBlogByFileId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
    

@@ -14,10 +14,7 @@ namespace SlimeWeb.Core.Managers
     {
         BlogManager blgmng;
 
-        //public TagManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
-        //{
-        //    blgmng = new BlogManager(slimeDbContext);
-        //}
+        
         public TagManager()
         {
             blgmng = new BlogManager( );

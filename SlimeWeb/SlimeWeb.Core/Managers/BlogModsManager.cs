@@ -2,6 +2,7 @@
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,12 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class BlogModsManager : DataManager
+    public class BlogModsManager : DataManager, IBlogModsManager
     {
         BlogManager blmngr = new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
 
-        //public BlogModsManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
-        //{
-        //    blmngr = new BlogManager(slimeDbContext);
-        //}
+        
 
         public async Task<List<BlogMods>> ListMods()
         {

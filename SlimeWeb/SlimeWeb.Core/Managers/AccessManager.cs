@@ -1,4 +1,5 @@
 ﻿using SlimeWeb.Core.Data.DBContexts;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class AccessManager:DataManager
+    public class AccessManager:DataManager, IAccessManager
     {
         BlogModsManager blogModsManager;
         BlogManager blogManager;
         SlimeWebsUserManager userManager = CommonTools.usrmng;
 
-        //public AccessManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
-        //{
-        //    db = slimeDbContext;
-        //    blogManager=new BlogManager(db);
-        //    blogModsManager = new BlogModsManager(db);
-        //}
+
         public AccessManager( )  
         {
             

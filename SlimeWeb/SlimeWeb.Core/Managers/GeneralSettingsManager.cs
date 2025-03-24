@@ -1,10 +1,12 @@
 ﻿using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class GeneralSettingsManager:DataManager
+    public class GeneralSettingsManager:DataManager , IGeneralSettingsManager<ViewGeneralSettings,
+        GeneralSettings>
     {
         public ViewGeneralSettings Details()
         {
@@ -84,7 +86,7 @@ namespace SlimeWeb.Core.Managers
                // return null;
             }
         }
-        public async Task ClearSettingsTable()
+        public async Task ClearSettings()
         {
             try
             {
