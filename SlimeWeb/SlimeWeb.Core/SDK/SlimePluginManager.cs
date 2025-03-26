@@ -14,7 +14,8 @@ namespace SlimeWeb.Core.SDK
 {
     public   class SlimePluginManager
     {
-        public static List<ExtCore.Infrastructure.IExtension> GetSlimeWebExtCoreExtensionInfo()
+        public static List<ExtCore.Infrastructure.IExtension>
+            GetSlimeWebExtCoreExtensionInfo()
         {
             try
             {

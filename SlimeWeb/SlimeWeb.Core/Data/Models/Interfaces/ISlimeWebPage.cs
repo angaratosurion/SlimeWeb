@@ -1,21 +1,22 @@
-﻿using SlimeWeb.Core.Data.Models.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-using System.Text;
 
-namespace SlimeWeb.Core.Data.Models
+namespace SlimeWeb.Core.Data.Models.Interfaces
 {
-    public class Post:IPost
+    public interface ISlimeWebPage
     {
+
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        
         public int Id { get; set; }
         //   public int revision { get; set; }
+        [Required]
+
         public string Title { get; set; }
+        [Required]
+        //[Key]
+        [RegularExpression(@"^[\w\-. ]+$")]
+        public string Name { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Published { get; set; }
         //[DataType(DataType.Html)]
@@ -24,11 +25,10 @@ namespace SlimeWeb.Core.Data.Models
 
 
         //[ConcurrencyCheck]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        //public string RowVersion { get; set; }
-        [Required]
-        public int BlogId { get; set; }
-       
-
+        //public Byte[] RowVersion { get; set; }
+        [Display(Name = "Top")]
+        public Boolean TopPosition { get; set; }
+        [Display(Name = "Bottom")]
+        public Boolean BottomPosition { get; set; }
     }
 }

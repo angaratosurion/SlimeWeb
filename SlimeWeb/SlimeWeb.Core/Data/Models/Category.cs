@@ -1,4 +1,5 @@
 ﻿using ExtCore.Data.Entities.Abstractions;
+using SlimeWeb.Core.Data.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class Category : IEntity
+    public class Category : IEntity, ICategory
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public class SlimeWebPageManager:DataManager
+   public class SlimeWebPageManager:DataManager, ISlimeWebPageManager<SlimeWebPage>
     {
         BlogManager blmngr;
         public  SlimeWebPageManager()

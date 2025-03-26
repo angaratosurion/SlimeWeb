@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SlimeWeb.Core.Data.Models.Interfaces;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class SlimeWebPage  : IEntity
+    public class SlimeWebPage  : IEntity, ISlimeWebPage
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
