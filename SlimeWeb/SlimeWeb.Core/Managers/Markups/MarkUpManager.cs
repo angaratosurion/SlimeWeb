@@ -8,7 +8,8 @@ namespace SlimeWeb.Core.Managers.Markups
 {
     public static class MarkUpManager
     {
-       static Dictionary<string, IMarkupManager> MarkupManagers = new Dictionary<string, IMarkupManager>();
+       static Dictionary<string, IMarkupManager> MarkupManagers =
+            new Dictionary<string, IMarkupManager>();
         public static void Init()
         {
             MarkupManagers.Add(enumMarkupEngine.BBCODE.ToString(),new BBCodeManager());

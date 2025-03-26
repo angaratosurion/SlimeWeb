@@ -1,20 +1,21 @@
 ﻿using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Models.Interfaces;
 
 namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface IFileRecordManager<TBlog, TPost >
+    public interface IFileRecordManager<TBlog, TPost ,TFiles>
     {
-        Task<List<Files>> GetFiles();
+        Task<List<TFiles>> GetFiles();
         Task<string> CreateForBlog(int? blogId, int? postId, 
-            Files fileModel, IFormFile fileData, string user);
-        Task<string> CreateForPage(string pageName, Files fileModel,
+            TFiles fileModel, IFormFile fileData, string user);
+        Task<string> CreateForPage(string pageName, TFiles fileModel,
             IFormFile fileData, string user);
-        Task<string> CreateForPage(int pageId, Files fileModel,
+        Task<string> CreateForPage(int pageId, TFiles fileModel,
             IFormFile fileData, string user);
-        Task<List<Files>> GetFilesByBlogName(string blogName);
-        Task<List<Files>> GetFilesByBlogId(int id);
-        Task<List<Files>> GetFilesByPostId(int postId);
-        Task<Files> Details(int id);
+        Task<List<TFiles>> GetFilesByBlogName(string blogName);
+        Task<List<TFiles>> GetFilesByBlogId(int id);
+        Task<List<TFiles>> GetFilesByPostId(int postId);
+        Task<TFiles> Details(int id);
         Task<bool> Delete(int id);
         Task<bool> DeleteFromPosts(int id);
         Task<bool> DeleteFromPages(int id);

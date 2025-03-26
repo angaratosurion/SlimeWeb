@@ -7,19 +7,27 @@ namespace SlimeWeb.Core.Managers
     public static class ManagerManagment
     {
         static List<IBlogManager> Blogmanagers = new List<IBlogManager>();
-        static List<IPostManager<IPost>> PostManagers =
-            new List<Interfaces.IPostManager<IPost>>();
+        static Dictionary<string,IPostManager<IPost>> PostManagers =
+            new Dictionary<string, IPostManager<IPost>>();
+        static Dictionary<string, ICategoryManager<ICategory>> CategoryManagers= new 
+            Dictionary<string, ICategoryManager<ICategory>>();
+        static Dictionary<string, IFileRecordManager<IFiles, IBlog,IFiles>> FileManagers =
+            new Dictionary<string, IFileRecordManager<IFiles, IBlog, IFiles>>();
+        static Dictionary<string, ISlimeWebPageManager<ISlimeWebPage>> PageManagers = 
+            new Dictionary<string, ISlimeWebPageManager<ISlimeWebPage>>();
 
-        public static void RegisterPostManager(  IPostManager<IPost> manager )
+        #region registration for managers
+        public static void RegisterPostManager( IPostManager<IPost> manager ,
+            string managername)
         {
             try
             {
-                if (manager != null)
+                if (manager != null && !CommonTools.isEmpty(managername))
                 {
-                    PostManagers.Add(manager);
-                  
+                    PostManagers.Add(managername,manager);
 
                 }
+                 
             }
             catch (Exception ex)
             {
@@ -27,5 +35,64 @@ namespace SlimeWeb.Core.Managers
                 
             }
         }
+        public static void RegisterCategoryManager(ICategoryManager<ICategory> manager,
+           string managername)
+        {
+            try
+            {
+                if (manager != null && !CommonTools.isEmpty(managername))
+                {
+                    CategoryManagers.Add(managername, manager);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
+        public static void RegisterFilesManager(IFileRecordManager<IFiles, IBlog, IFiles> 
+            manager,
+          string managername)
+        {
+            try
+            {
+                if (manager != null && !CommonTools.isEmpty(managername))
+                {
+                    FileManagers.Add(managername, manager);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
+        public static void RegisterPageManager(ISlimeWebPageManager<ISlimeWebPage>
+           manager,
+         string managername)
+        {
+            try
+            {
+                if (manager != null && !CommonTools.isEmpty(managername))
+                {
+                    PageManagers.Add(managername, manager);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+            }
+        }
+
+
+        #endregion
     }
 }

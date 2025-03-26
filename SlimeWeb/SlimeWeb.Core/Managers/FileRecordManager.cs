@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class FileRecordManager : DataManager, IFileRecordManager<Blog,Post>
+    public class FileRecordManager : DataManager, IFileRecordManager<Blog,Post,Files>
     {
         BlogManager blogmngr;
 
