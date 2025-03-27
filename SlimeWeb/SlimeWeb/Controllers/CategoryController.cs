@@ -258,7 +258,7 @@ namespace SlimeWeb.Controllers
                 {
                     foreach (var post in posts)
                     {
-                        await categoryManager.DetattachCategoryFromPost(post.Id, name, blogname);
+                        categoryManager.DetattachCategoryFromPost(post.Id, name, blogname);
 
                     }
                 }

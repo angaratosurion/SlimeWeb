@@ -21,16 +21,19 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                pathwithextention = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                pathwithextention = System.Reflection.Assembly.GetExecutingAssembly()
+                    .CodeBase;
 
                 string path = "";//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
+                    path = System.IO.Path.GetDirectoryName(pathwithextention).
+                        Replace("file:\\", "");
                 }
                 else
                 {
-                    path = System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:", "");
+                    path = System.IO.Path.GetDirectoryName(pathwithextention).
+                        Replace("file:", "");
                 }
                 //return View();
                 builder = (ConfigurationBuilder)new ConfigurationBuilder()
@@ -352,7 +355,122 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-    
+        public static bool GetAllowChangingManagers()
+        {
+            try
+            {
+                Init();
+                return config.GetValue<bool>("ApppSettings:AllowChangingManagers");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return false;
+            }
+        }
+        public static string GetDefaultPostManager(string name)
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty(name))
+                {
+                    return null;
+                }
+
+                return config.GetValue<string>("ApppSettings:DefaultManagers:PostManager");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetDefaultFileManager(string  name)
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty( name))
+                {
+                    return null;
+                }
+
+                return config.GetValue<string>("ApppSettings:DefaultManagers:FileManager");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetAccesManager(string   name)
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty(name))
+                {
+                    return null;
+                }
+
+                return config.GetValue<string>("ApppSettings:DefaultManagers:AccesManager");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetDefaultPagesManager(string  name)
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty( name))
+                {
+                    return null;
+                }
+
+                return config.GetValue<string>("ApppSettings:DefaultManagers:PagesManager");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+        public static string GetDefaultCategoryManager(string   name)
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                if (string.IsNullOrEmpty( name))
+                {
+                    return null;
+                }
+
+                return config.GetValue<string>("ApppSettings:DefaultManagers:CategoryManager");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
+
+
 
     }
 }

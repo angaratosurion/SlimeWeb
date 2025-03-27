@@ -324,7 +324,7 @@ namespace SlimeWeb.Controllers
                         var catgories = post.CategoriesToString.Split(",").ToList();
                         if (catgories != null)
                         {
-                            await categoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+                            categoryManager.AttachCategoryRangeToPost(catgories, blog.Name, mpost.Id);
                         }
                     }
                     if (post.TagsToString != null)
@@ -459,7 +459,7 @@ namespace SlimeWeb.Controllers
                             categoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
                         CategoryManager.DiconnectAndReconnectToDB();
                          
-                        await categoryManager.AttachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
+                        categoryManager.AttachCategoryRangeToPost(catgories, blog.Name, mpost.Id);
 
                         }
                     }
