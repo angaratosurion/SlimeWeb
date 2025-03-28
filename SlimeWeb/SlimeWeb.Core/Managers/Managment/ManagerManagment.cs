@@ -43,6 +43,7 @@ namespace SlimeWeb.Core.Managers.Managment
             try
             {
                 GroupedManagers ap = new GroupedManagers();
+                Init();
 
                 ap.AccessManager = GetAccessManagers(AppSettingsManager.GetAccesManager());
                 ap.PageManager=GetPageManager(AppSettingsManager.GetDefaultPagesManager());

@@ -14,14 +14,11 @@ namespace SlimeWeb.Core.Managers
 {
    public  class PostManager:  IPostManager<Post>
     {
+    
 
         BlogManager blmngr;
 
-        //public PostManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
-        //{
-        //     IDataManager.db = slimeDbContext;
-        //    blmngr = new BlogManager(slimeDbContext);
-        //}
+      
         public PostManager( ) 
         {
             

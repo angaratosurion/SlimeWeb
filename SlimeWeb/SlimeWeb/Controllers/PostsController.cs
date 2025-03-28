@@ -65,7 +65,7 @@ namespace SlimeWeb.Controllers
                     }
                     else
                     {
-                        postManager = (IPostManager<IPost>?)new PostManager();
+                        postManager = new PostManager() as IPostManager<IPost>;
 
                     }
                     if (groupedManagers.CategoryManager != null)
@@ -75,35 +75,41 @@ namespace SlimeWeb.Controllers
                     else
                     {
 
-                        categoryManager = (ICategoryManager<ICategory>)new CategoryManager();
+                        categoryManager =  new CategoryManager() as
+                            ICategoryManager<ICategory>;
                     }
                     if (groupedManagers.FileManager != null)
                     {
-                        fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>?)groupedManagers.FileManager;
+                        fileRecordManager = groupedManagers.FileManager as 
+                            IFileRecordManager<IBlog, IPost, IFiles>;
                     }
                     else
                     {
-                        fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>)
-                       new FileRecordManager();
+                        fileRecordManager =  new FileRecordManager() 
+                            as IFileRecordManager<IBlog, IPost, IFiles>;
 
                     }
+                    generalSettingsManager = new GeneralSettingsManager();
 
 
                 }
                 else
                 {
-                    postManager = (IPostManager<IPost>)new PostManager();
-                    categoryManager = (ICategoryManager<ICategory>)new CategoryManager();
+                    postManager = new PostManager() as IPostManager<IPost>;
+                    categoryManager = new CategoryManager() as
+                            ICategoryManager<ICategory>;
                     accessManager = new AccessManager();
                     blmngr = new BlogManager();
                     TagManager = new TagManager();
-                    fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>)
-                        new FileRecordManager();
+                    fileRecordManager = new FileRecordManager()
+                           as IFileRecordManager<IBlog, IPost, IFiles>;
                     generalSettingsManager = new GeneralSettingsManager();
                 }
             }
         }
 
+
+         
 
         // GET: Posts
         public async Task<IActionResult> Index(string id)

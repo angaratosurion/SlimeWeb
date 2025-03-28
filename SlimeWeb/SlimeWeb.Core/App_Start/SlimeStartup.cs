@@ -18,8 +18,11 @@ using SlimeWeb.Core.CustomPolicy;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Install;
+using SlimeWeb.Core.Managers.Interfaces;
+using SlimeWeb.Core.Managers.Managment;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.SDK;
 using SlimeWeb.Core.SDK.Interfaces;
@@ -71,7 +74,7 @@ namespace SlimeWeb.Core.App_Start
 
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseSqlServer(
-                            Configuration.GetConnectionString("SqlServerConnection"), 
+                            Configuration.GetConnectionString("SqlServerConnection"),
                             b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.SQLServerMigrations")
                             ), ServiceLifetime.Transient);
                 }
@@ -80,7 +83,7 @@ namespace SlimeWeb.Core.App_Start
 
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseMySQL(
-                            Configuration.GetConnectionString("MySQlConnection"), 
+                            Configuration.GetConnectionString("MySQlConnection"),
                             b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")),
                             ServiceLifetime.Singleton);
                 }
@@ -89,7 +92,7 @@ namespace SlimeWeb.Core.App_Start
                   .AddEntityFrameworkStores<SlimeDbContext>()
                   .AddDefaultTokenProviders()//;
                  .AddDefaultUI();
-                services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan = 
+                services.Configure<DataProtectionTokenProviderOptions>(opts => opts.TokenLifespan =
                 TimeSpan.FromHours(10));
                 services.ConfigureApplicationCookie(options =>
                 {
@@ -127,16 +130,16 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-               var  mvcopts = new MvcOptions();
+                var mvcopts = new MvcOptions();
                 mvcopts.EnableEndpointRouting = false;
                 //IMvcCoreBuilder mvcBuilder =
                 //     services.AddMvcCore().AddControllersAsServices().AddRazorPages();
                 IMvcBuilder mvcBuilder = services.AddMvc()
                     .AddControllersAsServices();
-                 
-                    ;
+
+                ;
                 //.AddMvcOptions(mvcopts);
-              
+
 
                 if (AppSettingsManager.GetCompileOnRuntime())
                 {
@@ -147,10 +150,10 @@ namespace SlimeWeb.Core.App_Start
                 {
                     services.AddControllersWithViews();
                 }
-                
+
                 services.AddRazorPages();
                 services.AddControllers();
-                 
+
 
                 //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 //  .AddEntityFrameworkStores<SlimeDbContext>();
@@ -180,11 +183,11 @@ namespace SlimeWeb.Core.App_Start
                             AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                         {
                             slimeServicesExtension = SlimePluginManager.
-                                LoadServicesPlugins(extensionsPath,services,
+                                LoadServicesPlugins(extensionsPath, services,
                                 services.BuildServiceProvider());
                             Services = services;
-                           addMvcActions= SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath, 
-                               mvcBuilder, services.BuildServiceProvider());
+                            addMvcActions = SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath,
+                                mvcBuilder, services.BuildServiceProvider());
 
 
 
@@ -195,9 +198,9 @@ namespace SlimeWeb.Core.App_Start
                         // options.MigrationsAssembly = typeof(DesignTimeStorageContextFactory).GetTypeInfo().Assembly.FullName;
 
                     });
-                     
+
                     services.AddTransient<IStorageContext, SlimeDbContext>();
-                     
+
 
                     services.AddSingleton<IEmailSender, EmailSender>();
                     Direcotrybrowse = AppSettingsManager.GetAllowDirectoryBrowseSetting();
@@ -209,9 +212,30 @@ namespace SlimeWeb.Core.App_Start
                     services.Configure<KestrelServerOptions>(
                        Configuration.GetSection("Kestrel"));
 
-                   
+
                 }
-                return services;
+
+
+                if (AppSettingsManager.GetAllowChangingManagers())
+                {
+                    GroupedManagers groupedManagers =
+                        ManagerManagment.GetDefaultManagger();
+                    if (groupedManagers != null)
+                    {
+
+                        if (groupedManagers.PostManager == null)
+                        {
+                            services.AddScoped<IPostManager<Post>, PostManager>();
+                            services.AddScoped<IPostManager<IPost>>(sp =>
+                            (IPostManager<IPost>)sp.GetRequiredService<IPostManager<Post>>());
+
+
+                        }
+                    }
+                }
+                    return services;
+
+                
             }
             catch (Exception ex)
             {
