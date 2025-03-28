@@ -249,8 +249,8 @@ namespace SlimeWeb.Controllers
                 post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
 
                 var cats = await CategoryManager.GetCategoryByPostId((int)id);
-                List<ICategory> icats = cats.Cast<ICategory>().ToList();
-                post.Categories = icats;
+               // List<ICategory> icats = cats.Cast<ICategory>().ToList();
+                post.Categories = cats;
                 post.CategoriesToString = await CategoryManager.
                     GetCategoryNamesToString(post.Blog.Name, (int)id);
                 post.Tags = await TagManager.GetTagByPostId((int)id);

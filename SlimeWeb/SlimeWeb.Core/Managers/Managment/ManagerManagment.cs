@@ -9,10 +9,10 @@ namespace SlimeWeb.Core.Managers.Managment
     public static class ManagerManagment
     {
         static List<IBlogManager> Blogmanagers = new List<IBlogManager>();
-        static Dictionary<string,IPostManager<IPost>> PostManagers =
-            new Dictionary<string, IPostManager<IPost>>();
-        static Dictionary<string, ICategoryManager<ICategory>> CategoryManagers= new 
-            Dictionary<string, ICategoryManager<ICategory>>();
+        static Dictionary<string,PostManager > PostManagers =
+            new Dictionary<string,  PostManager >();
+        static Dictionary<string, CategoryManager> CategoryManagers= new 
+            Dictionary<string, CategoryManager>();
         static Dictionary<string, IFileRecordManager<IFiles, IBlog,IFiles>> FileManagers =
             new Dictionary<string, IFileRecordManager<IFiles, IBlog, IFiles>>();
         static Dictionary<string, ISlimeWebPageManager<ISlimeWebPage>> PageManagers = 
@@ -21,11 +21,10 @@ namespace SlimeWeb.Core.Managers.Managment
             new Dictionary<string, IAccessManager>();
         public static void Init()
         {
-            var psotmanager = (IPostManager<Post>)new PostManager();
+            PostManager   psotmanager =  new PostManager();
             CategoryManager catmngr = new CategoryManager();
-            RegisterPostManager((IPostManager<IPost>)psotmanager, 
-                "SlimePostManager");
-            RegisterCategoryManager((ICategoryManager<ICategory>)catmngr, 
+            RegisterPostManager(psotmanager, "SlimePostManager");
+            RegisterCategoryManager(catmngr, 
                 "SlimeCategoryManager");
             FileRecordManager fileRecordManager = new FileRecordManager();
             RegisterFilesManager((IFileRecordManager<IFiles, IBlog, IFiles>)fileRecordManager, 
@@ -50,7 +49,7 @@ namespace SlimeWeb.Core.Managers.Managment
                 ap.FileManager=GetFilesManager(AppSettingsManager.GetDefaultFileManager());
                 ap.CategoryManager = GetCategoryManager(AppSettingsManager.
                     GetDefaultCategoryManager());
-                ap.PostManager=GetPostManager(AppSettingsManager.GetDefaultPostManager());
+                ap.PostManager = GetPostManager(AppSettingsManager.GetDefaultPostManager());
 
 
                 return ap;
@@ -67,7 +66,7 @@ namespace SlimeWeb.Core.Managers.Managment
         }
 
         #region registration for managers
-        public static void RegisterPostManager( IPostManager<IPost> manager ,
+        public static void RegisterPostManager( PostManager manager ,
             string managername)
         {
             try
@@ -85,7 +84,7 @@ namespace SlimeWeb.Core.Managers.Managment
                 
             }
         }
-        public static void RegisterCategoryManager(ICategoryManager<ICategory> manager,
+        public static void RegisterCategoryManager(CategoryManager manager,
            string managername)
         {
             try
@@ -165,14 +164,14 @@ namespace SlimeWeb.Core.Managers.Managment
         #endregion
         #region getDeffaultInstances
 
-        public static IPostManager<IPost> GetPostManager(string name)
+        public static PostManager GetPostManager(string name)
         {
             try
             {
-                IPostManager<IPost> ap = null;
+                PostManager  ap = null;
                 if (!CommonTools.isEmpty(name) && PostManagers.ContainsKey(name))
                 {
-                    ap = PostManagers[name];
+                    ap =    PostManagers[name];
                 }
                 return ap;
 
@@ -185,11 +184,11 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static ICategoryManager<ICategory> GetCategoryManager(string name)
+        public static CategoryManager GetCategoryManager(string name)
         {
             try
             {
-                ICategoryManager<ICategory> ap = null;
+                 CategoryManager ap = null;
                 if (!CommonTools.isEmpty(name) && CategoryManagers.ContainsKey(name))
                 {
                     ap = CategoryManagers[name];

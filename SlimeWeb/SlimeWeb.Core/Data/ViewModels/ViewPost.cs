@@ -21,12 +21,12 @@ namespace SlimeWeb.Core.Data.ViewModels
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }
         public List<IFormFile> Files { get; set; }
-        public  List<ICategory> Categories { get; set; }
+        public  List<Category> Categories { get; set; }
         public string CategoriesToString { get; set; }
         public string TagsToString { get; set; }
         public List<Tag> Tags { get; set; }
         public ApplicationUser Author { get; set; }
-        public void  ImportFromModel(IPost model)
+        public void  ImportFromModel(Post model)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
 
         }
-        public IPost ToModel(string username)
+        public Post ToModel(string username)
         {
             try
             {

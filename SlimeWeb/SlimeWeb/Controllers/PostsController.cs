@@ -29,9 +29,9 @@ namespace SlimeWeb.Controllers
     public class PostsController : Controller
     {
         private readonly SlimeDbContext _context;
-        IPostManager<IPost> postManager;
+         PostManager postManager;
         BlogManager blmngr;
-        ICategoryManager<ICategory> categoryManager;
+         CategoryManager categoryManager;
         TagManager TagManager;
         IAccessManager accessManager;
         IFileRecordManager<IBlog, IPost, IFiles> fileRecordManager;
@@ -56,7 +56,7 @@ namespace SlimeWeb.Controllers
                     }
                     else
                     {
-                        postManager = new PostManager() as IPostManager<IPost>;
+                        postManager = new PostManager();//as IPostManager<IPost>;
 
                     }
                     if (groupedManagers.CategoryManager != null)
@@ -66,17 +66,16 @@ namespace SlimeWeb.Controllers
                     else
                     {
 
-                        categoryManager =  new CategoryManager() as
-                            ICategoryManager<ICategory>;
+                        categoryManager = new CategoryManager();
                     }
                     if (groupedManagers.FileManager != null)
                     {
-                        fileRecordManager = groupedManagers.FileManager as 
+                        fileRecordManager = groupedManagers.FileManager as
                             IFileRecordManager<IBlog, IPost, IFiles>;
                     }
                     else
                     {
-                        fileRecordManager =  new FileRecordManager() 
+                        fileRecordManager = new FileRecordManager()
                             as IFileRecordManager<IBlog, IPost, IFiles>;
 
                     }
@@ -84,19 +83,20 @@ namespace SlimeWeb.Controllers
 
 
                 }
-                else
-                {
-                    postManager = new PostManager() as IPostManager<IPost>;
-                    categoryManager = new CategoryManager() as
-                            ICategoryManager<ICategory>;
-                    accessManager = new AccessManager();
-                    blmngr = new BlogManager();
-                    TagManager = new TagManager();
-                    fileRecordManager = new FileRecordManager()
-                           as IFileRecordManager<IBlog, IPost, IFiles>;
-                    generalSettingsManager = new GeneralSettingsManager();
-                }
             }
+            else
+            {
+                postManager = new PostManager();
+                categoryManager = new CategoryManager();
+                         
+                accessManager = new AccessManager();
+                blmngr = new BlogManager();
+                TagManager = new TagManager();
+                fileRecordManager = new FileRecordManager()
+                       as IFileRecordManager<IBlog, IPost, IFiles>;
+                generalSettingsManager = new GeneralSettingsManager();
+            }
+            
         }
 
 
@@ -162,7 +162,7 @@ namespace SlimeWeb.Controllers
                 }
 
 
-                List<IPost> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
+                List<Post> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
                 this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
                 List<ViewPost> posts = new List<ViewPost>();
                 if (p != null)
@@ -362,7 +362,7 @@ namespace SlimeWeb.Controllers
                     var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
 
 
-                    await postManager.Create(mpost, this.User.Identity.Name);
+                    await postManager.Create((Post)mpost, this.User.Identity.Name);
                     if (post.CategoriesToString != null)
                     {
                         var catgories = post.CategoriesToString.Split(",").ToList();
@@ -487,7 +487,7 @@ namespace SlimeWeb.Controllers
                 //MarkUpManager MarkUpManager = new MarkUpManager();
                 mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
                
-                mpost = await postManager.Edit(id, mpost);
+                mpost = await postManager.Edit(id, (Post)mpost);
                     var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
                     if (mpost != null)
                     {

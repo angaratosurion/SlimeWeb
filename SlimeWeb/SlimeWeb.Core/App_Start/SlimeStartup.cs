@@ -225,9 +225,9 @@ namespace SlimeWeb.Core.App_Start
 
                         if (groupedManagers.PostManager == null)
                         {
-                            services.AddScoped<IPostManager<Post>, PostManager>();
-                            services.AddScoped<IPostManager<IPost>>(sp =>
-                            (IPostManager<IPost>)sp.GetRequiredService<IPostManager<Post>>());
+                            //services.AddScoped<IPostManager<Post>, PostManager>();
+                           // services.AddScoped<IPostManager<IPost>>(sp =>
+                           // (IPostManager<IPost>)sp.GetRequiredService<IPostManager<Post>>());
 
 
                         }
