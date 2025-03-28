@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class AccessManager: IAccessManager
+    public class AccessManager: IDataManager
     {
         BlogModsManager blogModsManager;
         BlogManager blogManager;

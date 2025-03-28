@@ -33,8 +33,8 @@ namespace SlimeWeb.Controllers
         BlogManager blmngr;
          CategoryManager categoryManager;
         TagManager TagManager;
-        IAccessManager accessManager;
-        IFileRecordManager<IBlog, IPost, IFiles> fileRecordManager;
+        AccessManager accessManager;
+        FileRecordManager fileRecordManager;
         GeneralSettingsManager generalSettingsManager;
         
         public PostsController()
@@ -70,13 +70,11 @@ namespace SlimeWeb.Controllers
                     }
                     if (groupedManagers.FileManager != null)
                     {
-                        fileRecordManager = groupedManagers.FileManager as
-                            IFileRecordManager<IBlog, IPost, IFiles>;
+                        fileRecordManager = groupedManagers.FileManager;
                     }
                     else
                     {
-                        fileRecordManager = new FileRecordManager()
-                            as IFileRecordManager<IBlog, IPost, IFiles>;
+                        fileRecordManager = new FileRecordManager();
 
                     }
                     generalSettingsManager = new GeneralSettingsManager();
@@ -92,8 +90,8 @@ namespace SlimeWeb.Controllers
                 accessManager = new AccessManager();
                 blmngr = new BlogManager();
                 TagManager = new TagManager();
-                fileRecordManager = new FileRecordManager()
-                       as IFileRecordManager<IBlog, IPost, IFiles>;
+                fileRecordManager = new FileRecordManager();
+                      
                 generalSettingsManager = new GeneralSettingsManager();
             }
             

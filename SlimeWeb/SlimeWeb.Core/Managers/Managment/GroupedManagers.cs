@@ -8,9 +8,9 @@ namespace SlimeWeb.Core.Managers.Managment
         //public List<IBlogManager> Blogmanagers { get; set; }
           public PostManager PostManager {  get; set; }
         public CategoryManager  CategoryManager { get; set; }
-        public IFileRecordManager<IFiles, IBlog, IFiles>  FileManager  { get; set; }
-        public ISlimeWebPageManager<ISlimeWebPage>  PageManager { get; set; }
-        public IAccessManager  AccessManager  { get; set; }
+        public FileRecordManager  FileManager  { get; set; }
+        public SlimeWebPageManager PageManager { get; set; }
+        public AccessManager  AccessManager  { get; set; }
 
     }
 }

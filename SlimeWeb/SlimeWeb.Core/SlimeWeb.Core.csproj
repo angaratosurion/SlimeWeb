@@ -13,6 +13,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Managers\Interfaces\**" />
+    <Content Remove="Managers\Interfaces\**" />
+    <EmbeddedResource Remove="Managers\Interfaces\**" />
+    <None Remove="Managers\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Managers\Interfaces\IDataManager.cs" />
+    <Compile Include="Managers\Interfaces\IExportManager.cs" />
+    <Compile Include="Managers\Interfaces\IGeneralSettingsManager.cs" />
+    <Compile Include="Managers\Interfaces\IImportManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\SlimeWeb\appsettings.Development.json" Link="appsettings.Development.json" />
     <Content Include="..\SlimeWeb\appsettings.json" Link="appsettings.json" />
   </ItemGroup>

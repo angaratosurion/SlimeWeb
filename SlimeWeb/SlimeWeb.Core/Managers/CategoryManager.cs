@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class CategoryManager : ICategoryManager<Category>
+    public class CategoryManager : IDataManager
     {
         BlogManager blgmng = new BlogManager();
 

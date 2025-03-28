@@ -8,17 +8,17 @@ namespace SlimeWeb.Core.Managers.Managment
 {
     public static class ManagerManagment
     {
-        static List<IBlogManager> Blogmanagers = new List<IBlogManager>();
+        static List<BlogManager> Blogmanagers = new List<BlogManager>();
         static Dictionary<string,PostManager > PostManagers =
             new Dictionary<string,  PostManager >();
         static Dictionary<string, CategoryManager> CategoryManagers= new 
             Dictionary<string, CategoryManager>();
-        static Dictionary<string, IFileRecordManager<IFiles, IBlog,IFiles>> FileManagers =
-            new Dictionary<string, IFileRecordManager<IFiles, IBlog, IFiles>>();
-        static Dictionary<string, ISlimeWebPageManager<ISlimeWebPage>> PageManagers = 
-            new Dictionary<string, ISlimeWebPageManager<ISlimeWebPage>>();
-        static Dictionary<string, IAccessManager> AccessManagers =
-            new Dictionary<string, IAccessManager>();
+        static Dictionary<string, FileRecordManager> FileManagers =
+            new Dictionary<string, FileRecordManager>();
+        static Dictionary<string, SlimeWebPageManager> PageManagers = 
+            new Dictionary<string, SlimeWebPageManager>();
+        static Dictionary<string, AccessManager> AccessManagers =
+            new Dictionary<string, AccessManager>();
         public static void Init()
         {
             PostManager   psotmanager =  new PostManager();
@@ -27,12 +27,12 @@ namespace SlimeWeb.Core.Managers.Managment
             RegisterCategoryManager(catmngr, 
                 "SlimeCategoryManager");
             FileRecordManager fileRecordManager = new FileRecordManager();
-            RegisterFilesManager((IFileRecordManager<IFiles, IBlog, IFiles>)fileRecordManager, 
+            RegisterFilesManager( fileRecordManager, 
                 "SlimeFileManager");
             AccessManager accessmgr = new AccessManager();
             RegisterAccessManagers( accessmgr, "SlimeAccessManager");
             SlimeWebPageManager slimeWebPageManager = new SlimeWebPageManager();
-            RegisterPageManager((ISlimeWebPageManager<ISlimeWebPage>)slimeWebPageManager,
+            RegisterPageManager( slimeWebPageManager,
                 "SlimeWebPageManager");
 
 
@@ -102,7 +102,7 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static void RegisterFilesManager(IFileRecordManager<IFiles, IBlog, IFiles> 
+        public static void RegisterFilesManager( FileRecordManager  
             manager,
           string managername)
         {
@@ -121,7 +121,7 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static void RegisterPageManager(ISlimeWebPageManager<ISlimeWebPage>
+        public static void RegisterPageManager(SlimeWebPageManager
            manager,
          string managername)
         {
@@ -140,7 +140,7 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static void RegisterAccessManagers(IAccessManager
+        public static void RegisterAccessManagers(AccessManager
           manager,
         string managername)
         {
@@ -204,12 +204,12 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static IFileRecordManager<IFiles, IBlog, IFiles> GetFilesManager(string 
+        public static FileRecordManager GetFilesManager(string 
             name)
         {
             try
             {
-                IFileRecordManager<IFiles, IBlog, IFiles> ap = null;
+                FileRecordManager ap = null;
                 if (!CommonTools.isEmpty(name) && FileManagers.ContainsKey(name))
                 {
                     ap = FileManagers[name];
@@ -225,11 +225,11 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static ISlimeWebPageManager<ISlimeWebPage> GetPageManager(string name)
+        public static SlimeWebPageManager GetPageManager(string name)
         {
             try
             {
-                ISlimeWebPageManager < ISlimeWebPage > ap = null;
+                SlimeWebPageManager ap = null;
                 if (!CommonTools.isEmpty(name) && PageManagers.ContainsKey(name))
                 {
                     ap = PageManagers[name];
@@ -245,11 +245,11 @@ namespace SlimeWeb.Core.Managers.Managment
 
             }
         }
-        public static IAccessManager GetAccessManagers(string name)
+        public static AccessManager GetAccessManagers(string name)
         {
             try
             {
-                IAccessManager ap = null;
+                AccessManager ap = null;
                 if (!CommonTools.isEmpty(name) && AccessManagers.ContainsKey(name))
                 {
                     ap = AccessManagers[name];

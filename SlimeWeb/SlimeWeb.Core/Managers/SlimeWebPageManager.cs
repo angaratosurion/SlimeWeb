@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public class SlimeWebPageManager:  ISlimeWebPageManager<SlimeWebPage>
+   public class SlimeWebPageManager: IDataManager
     {
         BlogManager blmngr;
         public  SlimeWebPageManager()

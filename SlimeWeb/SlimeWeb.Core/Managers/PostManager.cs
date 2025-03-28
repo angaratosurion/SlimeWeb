@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public  class PostManager:  IPostManager<Post>
+   public  class PostManager: IDataManager
     {
     
 

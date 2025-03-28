@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class BlogModsManager :   IBlogModsManager
+    public class BlogModsManager : IDataManager//IBlogModsManager
     {
         BlogManager blmngr = new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
