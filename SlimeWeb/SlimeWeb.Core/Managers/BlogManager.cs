@@ -6,6 +6,7 @@ using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public   class BlogManager:DataManager
+   public   class BlogManager:IDataManager
     {
        
         FileSystemManager flmng = new FileSystemManager();
@@ -35,8 +36,9 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                //return db.Blogs.ToList();
-                return db.Blogs.ToList<Blog>();
+                //return  IDataManager.db.Blogs.ToList();
+               
+                return  IDataManager.db.Blogs.ToList<Blog>();
             }
             catch (Exception ex)
             {
@@ -237,8 +239,8 @@ namespace SlimeWeb.Core.Managers
                         // wm.Blog = bl;
                         // wm.Moderator = usr.Id;
                         //bl.Moderators.Add(wm);
-                        db.Add(bl);
-                        db.SaveChanges();
+                         IDataManager.db.Add(bl);
+                         IDataManager.db.SaveChanges();
                        this.MarkAsUpdated(bl.Name, EntityState.Added);
 
 
@@ -280,8 +282,8 @@ namespace SlimeWeb.Core.Managers
                     bl.Administrator = bl2.Administrator;
                     bl.Id = bl2.Id;
                     bl.LastUpdate = DateTime.Now;
-                    db.Entry(bl2).CurrentValues.SetValues(bl);
-                    db.SaveChanges();
+                     IDataManager.db.Entry(bl2).CurrentValues.SetValues(bl);
+                     IDataManager.db.SaveChanges();
                    await this.MarkAsUpdated(Blogname, EntityState.Modified);
                     ap =(await  this.GetBlogAsync(Blogname)).ExportToModel();
                 }
@@ -308,7 +310,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     Blog bl = await this.GetBlogAsync(Blogname);
 
-                    List<BlogMods> mods = db.BlogMods.ToList().FindAll(x => x.Id == bl.Id).ToList();
+                    List<BlogMods> mods =  IDataManager.db.BlogMods.ToList().FindAll(x => x.Id == bl.Id).ToList();
                     if (mods != null)
                     {
                         foreach (var m in mods)
@@ -342,7 +344,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     Blog bl = await this.GetBlogAsync(Blogname);
 
-                    List<BlogMods> mods = db.BlogMods.ToList().FindAll(x => x.Id == bl.Id && x.Active==true).ToList();
+                    List<BlogMods> mods =  IDataManager.db.BlogMods.ToList().FindAll(x => x.Id == bl.Id && x.Active==true).ToList();
                     if (mods != null)
                     {
                         foreach (var m in mods)
@@ -411,7 +413,7 @@ namespace SlimeWeb.Core.Managers
                     //}
                     //if (blfiles != null)
                     //{
-                    //    db.Files.RemoveRange(blfiles);
+                    //     IDataManager.db.Files.RemoveRange(blfiles);
                     //}
 
                     Blog blog = await this.GetBlogAsync(Blogname);
@@ -420,8 +422,8 @@ namespace SlimeWeb.Core.Managers
                     PostManager postManager = new PostManager( );
                     await postManager.DeleteByBlogId(blog.Id);
                     FileSystemManager.DeleteDirectory(path);
-                    db.Blogs.Remove(blog); 
-                    db.SaveChanges();
+                     IDataManager.db.Blogs.Remove(blog); 
+                     IDataManager.db.SaveChanges();
 
                 }
 
@@ -479,9 +481,9 @@ namespace SlimeWeb.Core.Managers
                         var mblog = blog.ExportToModel();
                         var mblog2=blog.ExportToModel();
                         mblog2.LastUpdate= DateTime.Now;
-                        db.Entry(mblog).CurrentValues.SetValues(mblog2);
-                        db.Entry(mblog).State = state;
-                        db.SaveChanges();
+                         IDataManager.db.Entry(mblog).CurrentValues.SetValues(mblog2);
+                         IDataManager.db.Entry(mblog).State = state;
+                         IDataManager.db.SaveChanges();
 
                     }
                 }

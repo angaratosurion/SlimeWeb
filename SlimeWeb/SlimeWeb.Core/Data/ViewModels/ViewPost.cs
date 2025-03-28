@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -19,16 +21,17 @@ namespace SlimeWeb.Core.Data.ViewModels
         public string HTMLcontent { get; set; }
         public Blog Blog { get; set; }
         public List<IFormFile> Files { get; set; }
-        public  List<Category> Categories { get; set; }
+        public  List<ICategory> Categories { get; set; }
         public string CategoriesToString { get; set; }
         public string TagsToString { get; set; }
         public List<Tag> Tags { get; set; }
         public ApplicationUser Author { get; set; }
-        public void  ImportFromModel(Post model)
+        public void  ImportFromModel(IPost model)
         {
             try
             {
-                this.Author = BlogManager.db.Users.First(x => x.UserName == model.Author);
+                 
+                this.Author = IDataManager.db.Users.First(x => x.UserName == model.Author);
 
                 this.BlogId = model.BlogId;
                 // this.Categories = model.Categories;
@@ -51,7 +54,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 
 
         }
-        public Post ToModel(string username)
+        public IPost ToModel(string username)
         {
             try
             {
@@ -62,7 +65,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 }
                 if (this.Author == null)
                 {
-                    Author = BlogManager.db.Users.First(x => x.UserName == username);
+                    Author = IDataManager.db.Users.First(x => x.UserName == username);
                 }
                 ap.Author = this.Author.UserName;
                 ap.BlogId = BlogId;

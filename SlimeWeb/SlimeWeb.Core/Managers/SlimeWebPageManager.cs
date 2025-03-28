@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public class SlimeWebPageManager:DataManager, ISlimeWebPageManager<SlimeWebPage>
+   public class SlimeWebPageManager:  ISlimeWebPageManager<SlimeWebPage>
     {
         BlogManager blmngr;
         public  SlimeWebPageManager()
@@ -23,7 +23,7 @@ namespace SlimeWeb.Core.Managers
             {
                 List<SlimeWebPage> ap = null;
 
-                ap = await db.Pages.ToListAsync();
+                ap = await  IDataManager.db.Pages.ToListAsync();
                 return ap;
 
             }
@@ -187,12 +187,12 @@ namespace SlimeWeb.Core.Managers
                 {
                     if (!await this.Exists(page.Name))
                     {
-                        ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                        ApplicationUser usr = (ApplicationUser) IDataManager.db.Users.First(m => m.UserName == user);
                         if (usr != null)
                         {
                             page.Author = usr.UserName;
-                            await db.Pages.AddAsync(page);
-                            db.SaveChanges();
+                            await  IDataManager.db.Pages.AddAsync(page);
+                             IDataManager.db.SaveChanges();
                             ap = page;
                         }
                     }
@@ -223,11 +223,11 @@ namespace SlimeWeb.Core.Managers
                     {
 
 
-                        db.Entry(vpage).State = EntityState.Modified;
+                         IDataManager.db.Entry(vpage).State = EntityState.Modified;
 
-                        db.Entry(vpage).CurrentValues.SetValues(page);
-                        // db.SlimeWebPage.Update(SlimeWebPage);
-                        await db.SaveChangesAsync();
+                         IDataManager.db.Entry(vpage).CurrentValues.SetValues(page);
+                        //  IDataManager.db.SlimeWebPage.Update(SlimeWebPage);
+                        await  IDataManager.db.SaveChangesAsync();
                     }
                 }
                 return page;
@@ -284,13 +284,13 @@ namespace SlimeWeb.Core.Managers
                     bool SlimeWebPagehasfiles = true;
                     if (deleted && SlimeWebPagehasfiles)
                     {
-                        db.Pages.Remove(page);
-                        db.SaveChanges();
+                         IDataManager.db.Pages.Remove(page);
+                         IDataManager.db.SaveChanges();
                     }
                     else
                     {
-                        db.Pages.Remove(page);
-                        db.SaveChanges();
+                         IDataManager.db.Pages.Remove(page);
+                         IDataManager.db.SaveChanges();
                     }
                 }
 

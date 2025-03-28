@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Tools;
 using System;
@@ -417,7 +418,7 @@ namespace SlimeWeb.Controllers
                 // string Blogid = bid;
                // var pages = await pageManager.List();
                 int pid = -1;
-                pid = await fileRecordManager.PredictLastId("Pages") + 1;
+                pid = await IDataManager.PredictLastId("Pages") + 1;
                 if (Request.Form.Files.Count == 0)
                 {
                     return NoContent();

@@ -5,7 +5,7 @@ using SlimeWeb.Core.Tools;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class GeneralSettingsManager:DataManager , IGeneralSettingsManager<ViewGeneralSettings,
+    public class GeneralSettingsManager:  IGeneralSettingsManager<ViewGeneralSettings,
         GeneralSettings>
     {
         public ViewGeneralSettings Details()
@@ -16,7 +16,7 @@ namespace SlimeWeb.Core.Managers
                 GeneralSettings tap = null; ;
                 if (this.Exists())
                 {
-                    tap = db.GeneralSettings;
+                    tap =  IDataManager.db.GeneralSettings;
                     ap.ImportFromModel(tap);
                      
 
@@ -42,7 +42,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                if (db.GeneralSettings == null)
+                if ( IDataManager.db.GeneralSettings == null)
                 {
                     return false;
 
@@ -74,8 +74,8 @@ namespace SlimeWeb.Core.Managers
                 else
                 {
 
-                    db.Settings.Add(genset);
-                    db.SaveChanges();
+                     IDataManager.db.Settings.Add(genset);
+                     IDataManager.db.SaveChanges();
                 }
 
             }
@@ -93,11 +93,11 @@ namespace SlimeWeb.Core.Managers
                 if (this.Exists())
                 {
 
-                    foreach (GeneralSettings g in db.Settings.ToList())
+                    foreach (GeneralSettings g in  IDataManager.db.Settings.ToList())
                     {
-                        db.Settings.Remove(g);
+                         IDataManager.db.Settings.Remove(g);
                     }
-                    db.SaveChanges();
+                     IDataManager.db.SaveChanges();
 
                 }
 

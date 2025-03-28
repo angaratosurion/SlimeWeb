@@ -1,6 +1,6 @@
 ﻿namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface ICategoryManager<T>
+    public interface ICategoryManager<T> : IDataManager
     {
         Task<List<T>> ListCategories();
         Task<List<T>> ListCategoriesByBlog(string blogname);

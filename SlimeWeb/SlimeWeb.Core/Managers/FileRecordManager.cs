@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class FileRecordManager : DataManager, IFileRecordManager<Blog,Post,Files>
+    public class FileRecordManager :  IFileRecordManager<Blog,Post,Files>
     {
         BlogManager blogmngr;
 
@@ -36,7 +36,7 @@ namespace SlimeWeb.Core.Managers
             {
                 List<Files> ap = null;
 
-                ap = db.Files.ToList();
+                ap =  IDataManager.db.Files.ToList();
                        
 
                 return ap;
@@ -57,7 +57,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     var blog = await blogmngr.GetBlogByIdAsync(BlogId);
                     var post = await postManager.Details(postid);
-                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    ApplicationUser usr = (ApplicationUser) IDataManager.db.Users.First(m => m.UserName == user);
                     if ( (blog !=null) )
                     {
                         var blogpath = FileSystemManager.GetBlogRootDataFolderAbsolutePath(blog.Name);
@@ -72,14 +72,14 @@ namespace SlimeWeb.Core.Managers
                             filemodel.Owner = usr.UserName;
                             //filemodel.PostId =(int) postid;
                            
-                            db.Files.Add(filemodel);
-                           await  db.SaveChangesAsync();
+                             IDataManager.db.Files.Add(filemodel);
+                           await   IDataManager.db.SaveChangesAsync();
                             FilesPostBlog filesPost = new FilesPostBlog();
                             filesPost.BlogId = blog.Id;
                             filesPost.FileId = filemodel.Id;
                             filesPost.PostId = (int)postid;
-                            db.FilesPostsBlog.Add(filesPost);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.FilesPostsBlog.Add(filesPost);
+                            await  IDataManager.db.SaveChangesAsync();
                             await this.blogmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
 
                         }
@@ -108,7 +108,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     var page = await pageManager.Details(pagename);
                     
-                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    ApplicationUser usr = (ApplicationUser) IDataManager.db.Users.First(m => m.UserName == user);
                     if ((page != null))
                     {
 
@@ -129,14 +129,14 @@ namespace SlimeWeb.Core.Managers
                             filemodel.Owner = usr.UserName;
                             //filemodel.PostId =(int) postid;
 
-                            db.Files.Add(filemodel);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.Files.Add(filemodel);
+                            await  IDataManager.db.SaveChangesAsync();
                             FilesPages filesPost = new FilesPages();
                            
                             filesPost.FileId = filemodel.Id;
                             filesPost.PageId = page.Id;
-                            db.FilesPages.Add(filesPost);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.FilesPages.Add(filesPost);
+                            await  IDataManager.db.SaveChangesAsync();
 
                         }
 
@@ -164,7 +164,7 @@ namespace SlimeWeb.Core.Managers
                 {
                     var page = await pageManager.Details(pid);
 
-                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    ApplicationUser usr = (ApplicationUser) IDataManager.db.Users.First(m => m.UserName == user);
                     if ((page != null))
                     {
                         var blogpath = FileSystemManager.GetPagesRootDataFolderAbsolutePath(page.Name) ;
@@ -184,14 +184,14 @@ namespace SlimeWeb.Core.Managers
                             filemodel.Owner = usr.UserName;
                             //filemodel.PostId =(int) postid;
 
-                            db.Files.Add(filemodel);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.Files.Add(filemodel);
+                            await  IDataManager.db.SaveChangesAsync();
                             FilesPages filesPost = new FilesPages();
 
                             filesPost.FileId = filemodel.Id;
                             filesPost.PageId = page.Id;
-                            db.FilesPages.Add(filesPost);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.FilesPages.Add(filesPost);
+                            await  IDataManager.db.SaveChangesAsync();
 
                         }
 
@@ -220,7 +220,7 @@ namespace SlimeWeb.Core.Managers
                     
                     if( blog !=null )
                     {
-                        var filesblog = db.FilesPostsBlog.Where(x => x.BlogId == blog.Id).ToList();
+                        var filesblog =  IDataManager.db.FilesPostsBlog.Where(x => x.BlogId == blog.Id).ToList();
                         if (filesblog != null)
                         {
                             foreach (var fb in filesblog)
@@ -254,7 +254,7 @@ namespace SlimeWeb.Core.Managers
 
                     if (blog != null)
                     {
-                    var filesblog = db.FilesPostsBlog.Where(x => x.BlogId == id).ToList();
+                    var filesblog =  IDataManager.db.FilesPostsBlog.Where(x => x.BlogId == id).ToList();
                     if (filesblog != null)
                     {
                         foreach (var fb in filesblog)
@@ -286,10 +286,10 @@ namespace SlimeWeb.Core.Managers
 
                 if (post!= null)
                 {
-                    var fileposts = db.FilesPostsBlog.Where(x => x.PostId == post.Id).ToList();
+                    var fileposts =  IDataManager.db.FilesPostsBlog.Where(x => x.PostId == post.Id).ToList();
                     if (fileposts!=null)
                     {
-                        //ap = db.Files.Where(x => x.PostId== post.Id).ToList();
+                        //ap =  IDataManager.db.Files.Where(x => x.PostId== post.Id).ToList();
                         foreach( var filepost in fileposts)
                         {
                             var file = await this.Details(filepost.FileId);
@@ -318,7 +318,7 @@ namespace SlimeWeb.Core.Managers
             {
                 Files ap = null;
 
-                ap = db.Files.FirstOrDefault(x => x.Id == id);
+                ap =  IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
 
                 return ap;
 
@@ -336,7 +336,7 @@ namespace SlimeWeb.Core.Managers
             {
 
                 bool ap = false;
-                //  db.Files.FirstOrDefault(x => x.Id == id);
+                //   IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.Details(id);
                 if (file!=null)
                 {
@@ -344,8 +344,8 @@ namespace SlimeWeb.Core.Managers
 
                     if (deleted)
                     {
-                        db.Files.Remove(file);
-                        await db.SaveChangesAsync();
+                         IDataManager.db.Files.Remove(file);
+                        await  IDataManager.db.SaveChangesAsync();
                     }
                 }
                 return ap;
@@ -366,7 +366,7 @@ namespace SlimeWeb.Core.Managers
             {
 
                 bool ap = false;
-                //  db.Files.FirstOrDefault(x => x.Id == id);
+                //   IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.Details(id);
                 if (file != null)
                 {
@@ -374,19 +374,19 @@ namespace SlimeWeb.Core.Managers
 
                     if (deleted)
                     {
-                        db.Files.Remove(file);
-                        var filear = db.FilesPostsBlog.Where(x => x.FileId == id).ToList();
+                         IDataManager.db.Files.Remove(file);
+                        var filear =  IDataManager.db.FilesPostsBlog.Where(x => x.FileId == id).ToList();
                         if (filear != null)
                         {
                             foreach (var x in filear)
                             {
-                               db.FilesPostsBlog.Remove(x);
+                                IDataManager.db.FilesPostsBlog.Remove(x);
                                 await this.blogmngr.MarkAsUpdated((await blogmngr.GetBlogByIdAsync(x.BlogId)).Name, EntityState.Modified);
 
 
                             }
                         }
-                        await db.SaveChangesAsync();
+                        await  IDataManager.db.SaveChangesAsync();
                         
                     }
                 }
@@ -408,7 +408,7 @@ namespace SlimeWeb.Core.Managers
             {
 
                 bool ap = false;
-                //  db.Files.FirstOrDefault(x => x.Id == id);
+                //   IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.Details(id);
                 if (file != null)
                 {
@@ -416,18 +416,18 @@ namespace SlimeWeb.Core.Managers
 
                     if (deleted)
                     {
-                        db.Files.Remove(file);
-                        var filear = db.FilesPages.Where(x => x.FileId == id).ToList();
+                         IDataManager.db.Files.Remove(file);
+                        var filear =  IDataManager.db.FilesPages.Where(x => x.FileId == id).ToList();
                         if (filear != null)
                         {
                             foreach (var x in filear)
                             {
-                                db.FilesPages.Remove(x);
+                                 IDataManager.db.FilesPages.Remove(x);
 
 
                             }
                         }
-                        await db.SaveChangesAsync();
+                        await  IDataManager.db.SaveChangesAsync();
                     }
                 }
                 return ap;
@@ -503,7 +503,7 @@ namespace SlimeWeb.Core.Managers
             {
 
                 bool ap = false;
-                //  db.Files.FirstOrDefault(x => x.Id == id);
+                //   IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
                 var file = await this.GetFilesByPostId(id);
                 if (file != null)
                 {
@@ -528,7 +528,7 @@ namespace SlimeWeb.Core.Managers
 
                 bool ap = false;
                  
-                //  db.Files.FirstOrDefault(x => x.Id == id);
+                //   IDataManager.db.Files.FirstOrDefault(x => x.Id == id);
                 var file =   this.GetFilesByBlogName(id).Result;
                 if (file != null)
                 {
@@ -553,7 +553,7 @@ namespace SlimeWeb.Core.Managers
                 Post post= null;
 
                  
-               var tpost = db.FilesPostsBlog.FirstOrDefault(x => x.FileId == id);
+               var tpost =  IDataManager.db.FilesPostsBlog.FirstOrDefault(x => x.FileId == id);
                 
                 if (   tpost != null)
                 {

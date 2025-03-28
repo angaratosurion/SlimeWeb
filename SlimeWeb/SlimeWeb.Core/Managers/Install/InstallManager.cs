@@ -2,12 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 
 namespace SlimeWeb.Core.Managers.Install
 {
-    public class InstallManager : DataManager
+    public class InstallManager : IDataManager
     {
         UserManager<ApplicationUser> AspuserManager;
         private readonly RoleManager<ApplicationRole> _roleManager;

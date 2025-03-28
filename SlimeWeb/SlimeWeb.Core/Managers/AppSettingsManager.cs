@@ -369,16 +369,13 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public static string GetDefaultPostManager(string name)
+        public static string GetDefaultPostManager( )
         {
             try
             {
                 Init();
                 //SqlServerConnection
-                if (string.IsNullOrEmpty(name))
-                {
-                    return null;
-                }
+                 
 
                 return config.GetValue<string>("ApppSettings:DefaultManagers:PostManager");
             }
@@ -389,16 +386,12 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public static string GetDefaultFileManager(string  name)
+        public static string GetDefaultFileManager( )
         {
             try
             {
                 Init();
-                //SqlServerConnection
-                if (string.IsNullOrEmpty( name))
-                {
-                    return null;
-                }
+                
 
                 return config.GetValue<string>("ApppSettings:DefaultManagers:FileManager");
             }
@@ -409,16 +402,13 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public static string GetAccesManager(string   name)
+        public static string GetAccesManager()
         {
             try
             {
                 Init();
                 //SqlServerConnection
-                if (string.IsNullOrEmpty(name))
-                {
-                    return null;
-                }
+                 
 
                 return config.GetValue<string>("ApppSettings:DefaultManagers:AccesManager");
             }
@@ -429,16 +419,13 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public static string GetDefaultPagesManager(string  name)
+        public static string GetDefaultPagesManager( )
         {
             try
             {
                 Init();
                 //SqlServerConnection
-                if (string.IsNullOrEmpty( name))
-                {
-                    return null;
-                }
+               
 
                 return config.GetValue<string>("ApppSettings:DefaultManagers:PagesManager");
             }
@@ -449,16 +436,13 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public static string GetDefaultCategoryManager(string   name)
+        public static string GetDefaultCategoryManager( )
         {
             try
             {
                 Init();
                 //SqlServerConnection
-                if (string.IsNullOrEmpty( name))
-                {
-                    return null;
-                }
+                
 
                 return config.GetValue<string>("ApppSettings:DefaultManagers:CategoryManager");
             }

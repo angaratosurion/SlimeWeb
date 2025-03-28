@@ -1,6 +1,6 @@
 ﻿namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface ISlimeWebPageManager<T>
+    public interface ISlimeWebPageManager<T> : IDataManager
     {
         Task<List<T>> List();
         Task<List<T>> ListByPublished();

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
@@ -14,8 +16,11 @@ using SlimeWeb.Core;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
+using SlimeWeb.Core.Managers.Managment;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Tools;
 
@@ -24,12 +29,12 @@ namespace SlimeWeb.Controllers
     public class PostsController : Controller
     {
         private readonly SlimeDbContext _context;
-        PostManager postManager;
+        IPostManager<IPost> postManager;
         BlogManager blmngr;
-        CategoryManager categoryManager;
+        ICategoryManager<ICategory> categoryManager;
         TagManager TagManager;
-        AccessManager accessManager;
-        FileRecordManager fileRecordManager;
+        IAccessManager accessManager;
+        IFileRecordManager<IBlog, IPost, IFiles> fileRecordManager;
         GeneralSettingsManager generalSettingsManager;
         //public PostsController(SlimeDbContext context)
         //{
@@ -43,14 +48,60 @@ namespace SlimeWeb.Controllers
         //}
         public PostsController()
         {
-            
-            postManager = new PostManager( );
-            categoryManager = new CategoryManager( );
-            accessManager = new AccessManager( );
-            blmngr = new BlogManager( );
-            TagManager = new TagManager( );
-            fileRecordManager = new FileRecordManager( );
-            generalSettingsManager = new GeneralSettingsManager();
+            if (AppSettingsManager.GetAllowChangingManagers())
+            {
+                GroupedManagers groupedManagers = ManagerManagment.GetDefaultManagger();
+                if (groupedManagers != null)
+                {
+                    if (groupedManagers.AccessManager != null)
+                    {
+                        accessManager = groupedManagers.AccessManager;
+
+                    }
+                    else { accessManager = new AccessManager(); }
+                    if (groupedManagers.PostManager != null)
+                    {
+                        postManager = groupedManagers.PostManager;
+                    }
+                    else
+                    {
+                        postManager = (IPostManager<IPost>?)new PostManager();
+
+                    }
+                    if (groupedManagers.CategoryManager != null)
+                    {
+                        categoryManager = groupedManagers.CategoryManager;
+                    }
+                    else
+                    {
+
+                        categoryManager = (ICategoryManager<ICategory>)new CategoryManager();
+                    }
+                    if (groupedManagers.FileManager != null)
+                    {
+                        fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>?)groupedManagers.FileManager;
+                    }
+                    else
+                    {
+                        fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>)
+                       new FileRecordManager();
+
+                    }
+
+
+                }
+                else
+                {
+                    postManager = (IPostManager<IPost>)new PostManager();
+                    categoryManager = (ICategoryManager<ICategory>)new CategoryManager();
+                    accessManager = new AccessManager();
+                    blmngr = new BlogManager();
+                    TagManager = new TagManager();
+                    fileRecordManager = (IFileRecordManager<IBlog, IPost, IFiles>)
+                        new FileRecordManager();
+                    generalSettingsManager = new GeneralSettingsManager();
+                }
+            }
         }
 
 
@@ -75,7 +126,7 @@ namespace SlimeWeb.Controllers
                     foreach (var tp in p)
                     {
                         ViewPost ap = new ViewPost();
-                        ap.ImportFromModel(tp);
+                        ap.ImportFromModel((Post)tp);
                         posts.Add(ap);
 
                     }
@@ -114,7 +165,7 @@ namespace SlimeWeb.Controllers
                 }
 
 
-                List<Post> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
+                List<IPost> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
                 this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
                 List<ViewPost> posts = new List<ViewPost>();
                 if (p != null)
@@ -224,11 +275,7 @@ namespace SlimeWeb.Controllers
                 var mpost = await postManager.Details(id);
                 ViewPost post = new ViewPost();
                 post.ImportFromModel(mpost);
-                //MarkUpManager MarkUpManager = new MarkUpManager();
-                //post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
-                //BBCodeManager bBCodeManager = new BBCodeManager();
-                //post.HTMLcontent = bBCodeManager.ConvertToHtml(mpost.content);
-               // MarkUpManager MarkUpManager = new MarkUpManager();
+                
                 post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
 
 
@@ -310,7 +357,7 @@ namespace SlimeWeb.Controllers
             {
                 //if (ModelState.IsValid)
                 {
-                    post.Author = await PostManager.db.Users.FirstAsync(x => x.UserName == User.Identity.Name);
+                    post.Author = await IDataManager.db.Users.FirstAsync(x => x.UserName == User.Identity.Name);
                     var mpost = post.ToModel(User.Identity.Name);
                     //MarkUpManager MarkUpManager = new MarkUpManager();
                     mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
@@ -457,7 +504,7 @@ namespace SlimeWeb.Controllers
                         
                       
                             categoryManager.DettachCategoryRangetoPost(catgories, blog.Name, mpost.Id);
-                        CategoryManager.DiconnectAndReconnectToDB();
+                        IDataManager.DiconnectAndReconnectToDB();
                          
                         categoryManager.AttachCategoryRangeToPost(catgories, blog.Name, mpost.Id);
 
@@ -573,7 +620,7 @@ namespace SlimeWeb.Controllers
               // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
-                postid = await  fileRecordManager.PredictLastId("Post")+1;
+                postid = await  IDataManager.PredictLastId("Post")+1;
                 //if(Request.Form.Files.Count==0)
                 //{
                 //    return null;
@@ -658,7 +705,7 @@ namespace SlimeWeb.Controllers
                 // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
-                postid = await fileRecordManager.PredictLastId("Post") + 1;
+                postid = await IDataManager.PredictLastId("Post") + 1;
                 if (Request.Form.Files.Count == 0)
                 {
                     return NoContent();

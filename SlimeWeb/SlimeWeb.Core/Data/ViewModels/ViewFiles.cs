@@ -2,6 +2,7 @@
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.NonDataModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 this.ContentType = model.ContentType;
                 this.FileName = model.FileName;
                 this.Id = model.Id;
-                this.Owner = BlogManager.db.Users.First(x => x.UserName == model.Owner);
+                this.Owner = IDataManager.db.Users.First(x => x.UserName == model.Owner);
                 this.Path = model.Path;
                 this.RelativePath = model.RelativePath;
                 //this.RowVersion = model.RowVersion;
@@ -63,7 +64,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 }
                 if (this.Owner == null)
                 {
-                    Owner = BlogManager.db.Users.First(x => x.UserName == username);
+                    Owner = IDataManager.db.Users.First(x => x.UserName == username);
                 }
                 ap.Owner = this.Owner.UserName;
                 ap.Id = Id;

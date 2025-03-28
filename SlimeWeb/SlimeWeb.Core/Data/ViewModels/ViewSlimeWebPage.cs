@@ -1,5 +1,6 @@
 ﻿using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace SlimeWeb.Core.Data.ViewModels
         {
             try
             {
-                this.Author = SlimeWebPageManager.db.Users.First(x => x.UserName == model.Author);
+                this.Author = IDataManager.db.Users.First(x => x.UserName == model.Author);
 
 
                 // this.Categories = model.Categories;
@@ -56,7 +57,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                 }
                 if (this.Author == null)
                 {
-                    Author = SlimeWebPageManager.db.Users.First(x => x.UserName == username);
+                    Author = IDataManager.db.Users.First(x => x.UserName == username);
                 }
                 ap.Author = this.Author.UserName;
 

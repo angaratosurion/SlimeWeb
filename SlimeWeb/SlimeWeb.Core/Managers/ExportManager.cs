@@ -71,7 +71,7 @@ namespace SlimeWeb.Core.Managers
                     if (exportManager != null)
                     {
                         
-                        exportManager.Export(DataManager.db, filename); 
+                        exportManager.Export(  IDataManager.db, filename); 
 
                     }
                     

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class TagManager:DataManager
+    public class TagManager:IDataManager
     {
         BlogManager blgmng;
 
@@ -23,7 +24,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                return db.Tags.ToList();
+                return  IDataManager.db.Tags.ToList();
             }
             catch (Exception ex)
             {
@@ -150,7 +151,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 List<Tag> cats = new List<Tag>();
-                List<TagPost> catpostlst = db.TagPosts.ToList();
+                List<TagPost> catpostlst =  IDataManager.db.TagPosts.ToList();
                 if (catpostlst != null)
                 {
                     List<TagPost> TagPosts = catpostlst.FindAll(x => x.PostId == postid);
@@ -228,11 +229,11 @@ namespace SlimeWeb.Core.Managers
                     {
                         tag.BlogId = vTag.BlogId;
 
-                        db.Entry(vTag).State = EntityState.Modified;
+                         IDataManager.db.Entry(vTag).State = EntityState.Modified;
 
-                        db.Entry(vTag).CurrentValues.SetValues(tag);
-                        // db.Post.Update(Post);
-                        await db.SaveChangesAsync();
+                         IDataManager.db.Entry(vTag).CurrentValues.SetValues(tag);
+                        //  IDataManager.db.Post.Update(Post);
+                        await  IDataManager.db.SaveChangesAsync();
                     }
                 }
                 return tag;
@@ -282,7 +283,7 @@ namespace SlimeWeb.Core.Managers
                 if ((!CommonTools.isEmpty(blogname))&& (!CommonTools.isEmpty(tag)))
                 {
                     List<Tag> cat = await this.ListTags();
-                    List<Blog> blgs =  db.Blogs.ToList();
+                    List<Blog> blgs =   IDataManager.db.Blogs.ToList();
                     if ((cat!=null)&&(cat.Find(x => x.Name == tag) != null)&&(blgs.Find(x=>x.Name==blogname)!=null))
                     {
                         ap = true;
@@ -310,7 +311,7 @@ namespace SlimeWeb.Core.Managers
                 if (!CommonTools.isEmpty(blogname)) 
                 {
                     List<Tag> cat = await this.ListTags();
-                    List<Blog> blgs = db.Blogs.ToList();
+                    List<Blog> blgs =  IDataManager.db.Blogs.ToList();
                     if ((cat.Find(x => x.Id == id) != null) && (blgs.Find(x => x.Name == blogname) != null))
                     {
                         ap = true;
@@ -338,8 +339,8 @@ namespace SlimeWeb.Core.Managers
                     {
                         Tag.BlogAndTag = blogname + "_" + Tag.Name;
                     }
-                    db.Tags.Add(Tag);
-                    await db.SaveChangesAsync();
+                     IDataManager.db.Tags.Add(Tag);
+                    await  IDataManager.db.SaveChangesAsync();
                 }
                     
 
@@ -398,8 +399,8 @@ namespace SlimeWeb.Core.Managers
                             TagPost.BlogId = blg.Id;
                             TagPost.TagId = tag.Id;
                             TagPost.PostId = postid;
-                            db.Add(TagPost);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.Add(TagPost);
+                            await  IDataManager.db.SaveChangesAsync();
                         }
                     }
                   
@@ -416,8 +417,8 @@ namespace SlimeWeb.Core.Managers
                         TagPost.BlogId = blg.Id;
                         TagPost.TagId = cat.Id;
                         TagPost.PostId = postid;
-                        db.Add(TagPost);
-                        await db.SaveChangesAsync();
+                         IDataManager.db.Add(TagPost);
+                        await  IDataManager.db.SaveChangesAsync();
 
 
 
@@ -462,17 +463,17 @@ namespace SlimeWeb.Core.Managers
                 if(CommonTools.isEmpty(Tagname)==false && CommonTools.isEmpty(blogname)==false && await  this.Exists(Tagname,blogname))
                 {
                     var cat = await  this.GetTag(Tagname, blogname);
-                    var capost = db.TagPosts.ToList().FindAll(x => x.TagId == cat.Id);
+                    var capost =  IDataManager.db.TagPosts.ToList().FindAll(x => x.TagId == cat.Id);
                     if (cat!=null && capost!=null)
                     {
                          foreach(var c in capost)
                         {
-                            db.TagPosts.Remove(c);
+                             IDataManager.db.TagPosts.Remove(c);
                          
-                            await db.SaveChangesAsync();
+                            await  IDataManager.db.SaveChangesAsync();
                         }
-                         db.Tags.Remove(cat);
-                        await db.SaveChangesAsync();
+                          IDataManager.db.Tags.Remove(cat);
+                        await  IDataManager.db.SaveChangesAsync();
 
                     }
                 }
@@ -494,13 +495,13 @@ namespace SlimeWeb.Core.Managers
                 if (CommonTools.isEmpty(Tagname) == false && CommonTools.isEmpty(blogname) == false && await this.Exists(Tagname, blogname))
                 {
                     var cat = await this.GetTag(Tagname, blogname);
-                    var capost = db.TagPosts.ToList().FindAll(x => x.TagId == cat.Id && x.PostId==postid);
+                    var capost =  IDataManager.db.TagPosts.ToList().FindAll(x => x.TagId == cat.Id && x.PostId==postid);
                     if (cat != null && capost != null)
                     {
                         foreach (var c in capost)
                         {
-                            db.TagPosts.Remove(c);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.TagPosts.Remove(c);
+                            await  IDataManager.db.SaveChangesAsync();
                         }
 
                     }

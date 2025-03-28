@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-    public class BlogModsManager : DataManager, IBlogModsManager
+    public class BlogModsManager :   IBlogModsManager
     {
         BlogManager blmngr = new BlogManager();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
@@ -26,7 +26,7 @@ namespace SlimeWeb.Core.Managers
                 List<BlogMods> ap = null;
 
 
-                ap = DataManager.db.BlogMods.ToList();
+                ap = IDataManager.db.BlogMods.ToList();
 
 
 
@@ -158,8 +158,8 @@ namespace SlimeWeb.Core.Managers
                     blogmod.BlogId = blog.ExportToModel().Id;
                     blogmod.ModeratorId = user.UserName;
                     blogmod.Active = false;
-                    db.BlogMods.Add(blogmod);
-                    await db.SaveChangesAsync();
+                     IDataManager.db.BlogMods.Add(blogmod);
+                    await  IDataManager.db.SaveChangesAsync();
                     await this.blmngr.MarkAsUpdated(blogname, EntityState.Modified);
 
 
@@ -187,8 +187,8 @@ namespace SlimeWeb.Core.Managers
                         var blogmod = lstblogmod.First(x => x.BlogId == blog.ExportToModel().Id);
                         if (blogmod != null)
                         {
-                            db.BlogMods.Remove(blogmod);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.BlogMods.Remove(blogmod);
+                            await  IDataManager.db.SaveChangesAsync();
                             await this.blmngr.MarkAsUpdated(blogname, EntityState.Modified);
 
                         }
@@ -221,13 +221,13 @@ namespace SlimeWeb.Core.Managers
                         {
                             mods.BlogId = vmods.BlogId;
 
-                            db.Entry(vmods).State = EntityState.Modified;
+                             IDataManager.db.Entry(vmods).State = EntityState.Modified;
                             mods.Id = vmods.Id;
                             mods.BlogId = vmods.BlogId;
 
-                            db.Entry(vmods).CurrentValues.SetValues(mods);
-                            // db.Post.Update(Post);
-                            await db.SaveChangesAsync();
+                             IDataManager.db.Entry(vmods).CurrentValues.SetValues(mods);
+                            //  IDataManager.db.Post.Update(Post);
+                            await  IDataManager.db.SaveChangesAsync();
                         }
                     }
                 }

@@ -10,111 +10,112 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public  class DataManager
-    {
-        public static SlimeDbContext db  = new SlimeDbContext();
-                                        // public static AccessManager accessManager = new AccessManager();
+   // [Obsolete]
+   //public  class DataManager
+   // {
+   //     public static SlimeDbContext db  = new SlimeDbContext();
+   //                                     // public static AccessManager accessManager = new AccessManager();
 
 
 
-        public DataManager()
-        {
-            try
-            {
+   //     public DataManager()
+   //     {
+   //         try
+   //         {
 
-            }
-            catch (Exception ex) { CommonTools.ErrorReporting(ex); }
-        }
-        //public DataManager(SlimeDbContext slimeDbContext)
-        //{
-        //    try
-        //    {
-        //        db = slimeDbContext;
-        //    }
-        //    catch (Exception)
-        //    {
+   //         }
+   //         catch (Exception ex) { CommonTools.ErrorReporting(ex); }
+   //     }
+   //     //public DataManager(SlimeDbContext slimeDbContext)
+   //     //{
+   //     //    try
+   //     //    {
+   //     //        db = slimeDbContext;
+   //     //    }
+   //     //    catch (Exception)
+   //     //    {
 
-        //        throw;
-        //    }
-        //}
-        public static void DiconnectAndReconnectToDB()
-        {
-            try
-            {
-                 db.Database.CloseConnection();
-               db = new SlimeDbContext();
-            }
-            catch (Exception ex)
-            {
+   //     //        throw;
+   //     //    }
+   //     //}
+   //     public static void DiconnectAndReconnectToDB()
+   //     {
+   //         try
+   //         {
+   //              db.Database.CloseConnection();
+   //            db = new SlimeDbContext();
+   //         }
+   //         catch (Exception ex)
+   //         {
 
-                CommonTools.ErrorReporting(ex);
-                 ;
-            }
-        }
-        public  async Task<int> PredictLastId(string tablename)
-        {
-            try
-            {
+   //             CommonTools.ErrorReporting(ex);
+   //              ;
+   //         }
+   //     }
+   //     public  async Task<int> PredictLastId(string tablename)
+   //     {
+   //         try
+   //         {
                 
-                int ap = -1;
-                string sql;// String.Format(@"USE {0} Go SELECT IDENT_CURRENT ('{1}') AS Current_Identity;", db.Database.GetDbConnection().Database, tablename);
-                if (CommonTools.isEmpty(tablename) == false)
-                {
-                    sql = String.Format(@"USE [{0}] SELECT IDENT_CURRENT ('{1}') AS Current_Identity;", db.Database.GetDbConnection().Database, tablename);
-                    //sql = String.Format(@"SELECT IDENT_CURRENT ('{0}') AS Current_Identity;", tablename);
+   //             int ap = -1;
+   //             string sql;// String.Format(@"USE {0} Go SELECT IDENT_CURRENT ('{1}') AS Current_Identity;", db.Database.GetDbConnection().Database, tablename);
+   //             if (CommonTools.isEmpty(tablename) == false)
+   //             {
+   //                 sql = String.Format(@"USE [{0}] SELECT IDENT_CURRENT ('{1}') AS Current_Identity;", db.Database.GetDbConnection().Database, tablename);
+   //                 //sql = String.Format(@"SELECT IDENT_CURRENT ('{0}') AS Current_Identity;", tablename);
 
 
 
-                    //  db.Database.BeginTransaction();
+   //                 //  db.Database.BeginTransaction();
 
-                    int res = -1;//;= await db.Database.ExecuteSqlRawAsync(sql);
-                  var con= db.Database.GetDbConnection();
-                    if ( con!=null )
-                    {
-                        con.Open();
-                        var comm=con.CreateCommand();
-                        if ( comm !=null)
-                        {
-                            comm.CommandText = sql;
-                            comm.CommandType = System.Data.CommandType.Text;
-                            var reader = comm.ExecuteReader();
-                            if (reader != null)
-                            {
-                                while (reader.Read())
-                                {
-                                    res = Convert.ToInt32(reader["Current_Identity"]);
-                                }
+   //                 int res = -1;//;= await db.Database.ExecuteSqlRawAsync(sql);
+   //               var con= db.Database.GetDbConnection();
+   //                 if ( con!=null )
+   //                 {
+   //                     con.Open();
+   //                     var comm=con.CreateCommand();
+   //                     if ( comm !=null)
+   //                     {
+   //                         comm.CommandText = sql;
+   //                         comm.CommandType = System.Data.CommandType.Text;
+   //                         var reader = comm.ExecuteReader();
+   //                         if (reader != null)
+   //                         {
+   //                             while (reader.Read())
+   //                             {
+   //                                 res = Convert.ToInt32(reader["Current_Identity"]);
+   //                             }
                                
-                                reader.Close();
-                            }
-                        }
-                        con.Close();
-                    }
+   //                             reader.Close();
+   //                         }
+   //                     }
+   //                     con.Close();
+   //                 }
                   
-                   //  db.Database.CommitTransaction();
+   //                //  db.Database.CommitTransaction();
                    
-                    if (res >0)
-                    {
-                        ap = Convert.ToInt32(res);
-                    }
-                    //await  db.Database.ExecuteSqlRawAsync(sql));
-                }
+   //                 if (res >0)
+   //                 {
+   //                     ap = Convert.ToInt32(res);
+   //                 }
+   //                 //await  db.Database.ExecuteSqlRawAsync(sql));
+   //             }
 
 
 
 
 
-                return ap;
+   //             return ap;
 
 
 
-            }
-            catch (Exception ex)
-            {
+   //         }
+   //         catch (Exception ex)
+   //         {
 
-                CommonTools.ErrorReporting(ex);
-                return -1;
-            }
-        }
-    }
+   //             CommonTools.ErrorReporting(ex);
+   //             return -1;
+   //         }
+   //     }
+   // }
 }

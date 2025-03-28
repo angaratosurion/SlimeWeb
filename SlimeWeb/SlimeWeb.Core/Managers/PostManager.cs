@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Managers
 {
-   public  class PostManager:DataManager, IPostManager<Post>
+   public  class PostManager:  IPostManager<Post>
     {
 
         BlogManager blmngr;
 
         //public PostManager(SlimeDbContext slimeDbContext) : base(slimeDbContext)
         //{
-        //    db = slimeDbContext;
+        //     IDataManager.db = slimeDbContext;
         //    blmngr = new BlogManager(slimeDbContext);
         //}
         public PostManager( ) 
@@ -35,7 +35,7 @@ namespace SlimeWeb.Core.Managers
             {
                 List<Post> ap = null;
 
-                ap = await db.Post.ToListAsync();
+                ap = await  IDataManager.db.Post.ToListAsync();
                 return ap;
 
             }
@@ -53,7 +53,7 @@ namespace SlimeWeb.Core.Managers
             {
                 List<Post> ap = null;
 
-                ap = await db.Post.OrderBy(x => x.Published).ToListAsync();
+                ap = await  IDataManager.db.Post.OrderBy(x => x.Published).ToListAsync();
                 return ap;
 
             }
@@ -79,7 +79,7 @@ namespace SlimeWeb.Core.Managers
                     if(category!=null)
                     {
 
-                        categotyPosts = ( db.CategoryPosts.ToList()).FindAll(x => x.CategoryId == category.Id).ToList();
+                        categotyPosts = (  IDataManager.db.CategoryPosts.ToList()).FindAll(x => x.CategoryId == category.Id).ToList();
                         if ( categotyPosts !=null)
                         {
                             ap = new List<Post>();
@@ -120,7 +120,7 @@ namespace SlimeWeb.Core.Managers
                     if (tag != null)
                     {
 
-                        tagPosts = (db.TagPosts.ToList()).FindAll(x => x.TagId == tag.Id).ToList();
+                        tagPosts = ( IDataManager.db.TagPosts.ToList()).FindAll(x => x.TagId == tag.Id).ToList();
                         if (tagPosts != null)
                         {
                             ap = new List<Post>();
@@ -160,7 +160,7 @@ namespace SlimeWeb.Core.Managers
                     {
                         blog = await this.blmngr.GetBlogAsync(name);
 
-                        posts = await db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
+                        posts = await  IDataManager.db.Post.Where(x => x.BlogId == blog.Id).ToListAsync();
                         if (posts != null)
                         {
                             ap = posts;
@@ -333,7 +333,7 @@ namespace SlimeWeb.Core.Managers
                 if (id != null)
                 {
                     ap = new List<Post>();
-                    news = await db.Post.Where(x => x.BlogId == id).ToListAsync();
+                    news = await  IDataManager.db.Post.Where(x => x.BlogId == id).ToListAsync();
                     if (news != null)
                     {
                         ap = news;
@@ -362,12 +362,12 @@ namespace SlimeWeb.Core.Managers
 
                 if (post != null && user != null)
                 {
-                    ApplicationUser usr = (ApplicationUser)db.Users.First(m => m.UserName == user);
+                    ApplicationUser usr = (ApplicationUser) IDataManager.db.Users.First(m => m.UserName == user);
                     if (usr != null)
                     {
                         post.Author = usr.UserName;
-                       await db.Post.AddAsync(post);
-                        db.SaveChanges();
+                       await  IDataManager.db.Post.AddAsync(post);
+                         IDataManager.db.SaveChanges();
                         ap = post;
                         var blog = await this.blmngr.GetBlogByIdAsync(post.BlogId);
                         await this.blmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
@@ -390,7 +390,7 @@ namespace SlimeWeb.Core.Managers
 
                 if (id != null)
                 {
-                    ap =await db.Post.FindAsync(id);
+                    ap =await  IDataManager.db.Post.FindAsync(id);
 
                 }
 
@@ -415,11 +415,11 @@ namespace SlimeWeb.Core.Managers
                     {
                          
 
-                        db.Entry(vpost).State = EntityState.Modified;
+                         IDataManager.db.Entry(vpost).State = EntityState.Modified;
 
-                        db.Entry(vpost).CurrentValues.SetValues(post);
-                        // db.Post.Update(Post);
-                        await db.SaveChangesAsync();
+                         IDataManager.db.Entry(vpost).CurrentValues.SetValues(post);
+                        //  IDataManager.db.Post.Update(Post);
+                        await  IDataManager.db.SaveChangesAsync();
                         var blog = await this.blmngr.GetBlogByIdAsync(post.BlogId);
                          
                         await this.blmngr.MarkAsUpdated(blog.Name, EntityState.Modified);
@@ -468,21 +468,21 @@ namespace SlimeWeb.Core.Managers
             {
                 if (id != null)
                 {
-                    Post Post =await  db.Post.FindAsync(id);
+                    Post Post =await   IDataManager.db.Post.FindAsync(id);
                     FileRecordManager fileRecordManager = new FileRecordManager( );
 
                     bool deleted=await fileRecordManager.DeleteByPostId((int)id);
                     bool posthasfiles = await fileRecordManager.PostHasFiles((int)id);
                     if (deleted && posthasfiles)
                     {
-                        db.Post.Remove(Post);
-                        db.SaveChanges();
+                         IDataManager.db.Post.Remove(Post);
+                         IDataManager.db.SaveChanges();
                         await this.blmngr.MarkAsUpdated((await this.blmngr.GetBlogByIdAsync(Post.Id)).Name, EntityState.Modified);
                     }
                     else
                     {
-                        db.Post.Remove(Post);
-                        db.SaveChanges();
+                         IDataManager.db.Post.Remove(Post);
+                         IDataManager.db.SaveChanges();
                         await this.blmngr.MarkAsUpdated((await this.blmngr.GetBlogByIdAsync(Post.Id)).Name, EntityState.Modified);
                     }
                 }
@@ -515,7 +515,7 @@ namespace SlimeWeb.Core.Managers
         {
             try
             {
-                return db.Post.Any(e => e.Id == id);
+                return  IDataManager.db.Post.Any(e => e.Id == id);
             }
             catch (Exception ex )
             {

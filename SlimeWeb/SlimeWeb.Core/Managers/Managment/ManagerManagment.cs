@@ -4,7 +4,7 @@ using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
 
-namespace SlimeWeb.Core.Managers
+namespace SlimeWeb.Core.Managers.Managment
 {
     public static class ManagerManagment
     {
@@ -35,6 +35,30 @@ namespace SlimeWeb.Core.Managers
             SlimeWebPageManager slimeWebPageManager = new SlimeWebPageManager();
             RegisterPageManager((ISlimeWebPageManager<ISlimeWebPage>)slimeWebPageManager,
                 "SlimeWebPageManager");
+
+
+        }
+        public static GroupedManagers GetDefaultManagger()
+        {
+            try
+            {
+                GroupedManagers ap = new GroupedManagers();
+
+                ap.AccessManager = GetAccessManagers(AppSettingsManager.GetAccesManager());
+                ap.PageManager=GetPageManager(AppSettingsManager.GetDefaultPagesManager());
+                ap.FileManager=GetFilesManager(AppSettingsManager.GetDefaultFileManager());
+                ap.CategoryManager = GetCategoryManager(AppSettingsManager.
+                    GetDefaultCategoryManager());
+
+                return ap;
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+                return null;
+
+            }
 
 
         }
@@ -143,7 +167,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 IPostManager<IPost> ap = null;
-                if (!CommonTools.isEmpty(name) && ((PostManagers.ContainsKey(name))))
+                if (!CommonTools.isEmpty(name) && PostManagers.ContainsKey(name))
                 {
                     ap = PostManagers[name];
                 }
@@ -163,7 +187,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 ICategoryManager<ICategory> ap = null;
-                if (!CommonTools.isEmpty(name) && (CategoryManagers.ContainsKey(name)))
+                if (!CommonTools.isEmpty(name) && CategoryManagers.ContainsKey(name))
                 {
                     ap = CategoryManagers[name];
                 }
@@ -184,7 +208,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 IFileRecordManager<IFiles, IBlog, IFiles> ap = null;
-                if (!CommonTools.isEmpty(name) && ((FileManagers.ContainsKey(name))))
+                if (!CommonTools.isEmpty(name) && FileManagers.ContainsKey(name))
                 {
                     ap = FileManagers[name];
                 }
@@ -204,7 +228,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 ISlimeWebPageManager < ISlimeWebPage > ap = null;
-                if (!CommonTools.isEmpty(name) && ((PageManagers.ContainsKey(name))))
+                if (!CommonTools.isEmpty(name) && PageManagers.ContainsKey(name))
                 {
                     ap = PageManagers[name];
                 }
@@ -224,7 +248,7 @@ namespace SlimeWeb.Core.Managers
             try
             {
                 IAccessManager ap = null;
-                if (!CommonTools.isEmpty(name) && ((AccessManagers.ContainsKey(name))))
+                if (!CommonTools.isEmpty(name) && AccessManagers.ContainsKey(name))
                 {
                     ap = AccessManagers[name];
                 }

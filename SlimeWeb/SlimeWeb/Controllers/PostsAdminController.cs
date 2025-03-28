@@ -8,14 +8,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SlimeWeb.Core;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.Tools;
 
@@ -245,11 +248,14 @@ namespace SlimeWeb.Controllers
                // MarkUpManager MarkUpManager = new MarkUpManager();
                 post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
 
-
-                post.Categories = await CategoryManager.GetCategoryByPostId((int)id);
-                post.CategoriesToString = await CategoryManager.GetCategoryNamesToString(post.Blog.Name, (int)id);
+                var cats = await CategoryManager.GetCategoryByPostId((int)id);
+                List<ICategory> icats = cats.Cast<ICategory>().ToList();
+                post.Categories = icats;
+                post.CategoriesToString = await CategoryManager.
+                    GetCategoryNamesToString(post.Blog.Name, (int)id);
                 post.Tags = await TagManager.GetTagByPostId((int)id);
-                post.TagsToString = await TagManager.GetTagNamesToString(post.Blog.Name, (int)id);
+                post.TagsToString = await TagManager.GetTagNamesToString(post.Blog.Name,
+                    (int)id);
 
 
 
@@ -324,7 +330,7 @@ namespace SlimeWeb.Controllers
             {
                 //if (ModelState.IsValid)
                 {
-                    post.Author = await PostManager.db.Users.FirstAsync(x => x.UserName == User.Identity.Name);
+                    post.Author = await IDataManager.db.Users.FirstAsync(x => x.UserName == User.Identity.Name);
                     var mpost = post.ToModel(User.Identity.Name);
                     //MarkUpManager MarkUpManager = new MarkUpManager();
                     mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
@@ -332,7 +338,7 @@ namespace SlimeWeb.Controllers
                     var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
 
 
-                    await postManager.Create(mpost, this.User.Identity.Name);
+                    await postManager.Create((Post)mpost, this.User.Identity.Name);
                     if (post.CategoriesToString != null)
                     {
                         var catgories = post.CategoriesToString.Split(",").ToList();
@@ -449,7 +455,7 @@ namespace SlimeWeb.Controllers
                 //MarkUpManager MarkUpManager = new MarkUpManager();
                 mpost.content = MarkUpManager.ConvertFromHtmlToMarkUp(post.content);
 
-                mpost = await postManager.Edit(id, mpost);
+                mpost = await postManager.Edit(id, (Post)mpost);
                 var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
                 if (mpost != null)
                 {
@@ -578,7 +584,7 @@ namespace SlimeWeb.Controllers
               // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
-                postid = await  fileRecordManager.PredictLastId("Post")+1;
+                postid = await  IDataManager.PredictLastId("Post")+1;
                 //if(Request.Form.Files.Count==0)
                 //{
                 //    return null;
@@ -663,7 +669,7 @@ namespace SlimeWeb.Controllers
                 // string Blogid = bid;
                 var posts = await postManager.List();
                 int postid = -1;
-                postid = await fileRecordManager.PredictLastId("Post") + 1;
+                postid = await IDataManager.PredictLastId("Post") + 1;
                 if (Request.Form.Files.Count == 0)
                 {
                     return NoContent();

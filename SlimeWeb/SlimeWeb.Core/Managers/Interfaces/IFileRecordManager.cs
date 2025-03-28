@@ -3,7 +3,7 @@ using SlimeWeb.Core.Data.Models.Interfaces;
 
 namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface IFileRecordManager<TBlog, TPost ,TFiles>
+    public interface IFileRecordManager<TBlog, TPost ,TFiles> : IDataManager
     {
         Task<List<TFiles>> GetFiles();
         Task<string> CreateForBlog(int? blogId, int? postId, 

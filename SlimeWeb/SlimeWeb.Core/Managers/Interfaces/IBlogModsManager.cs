@@ -2,7 +2,7 @@
 
 namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface IBlogModsManager
+    public interface IBlogModsManager : IDataManager
     {
         Task<List<BlogMods>> ListMods();
         Task<BlogMods> Details(string blogname, string modname);
