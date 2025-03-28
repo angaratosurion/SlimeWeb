@@ -36,16 +36,7 @@ namespace SlimeWeb.Controllers
         IAccessManager accessManager;
         IFileRecordManager<IBlog, IPost, IFiles> fileRecordManager;
         GeneralSettingsManager generalSettingsManager;
-        //public PostsController(SlimeDbContext context)
-        //{
-        //    _context = context;
-        //    postManager = new PostManager( context);
-        //    CategoryManager = new CategoryManager(context);
-        //    accessManager = new AccessManager(context);
-        //    blmngr = new BlogManager(context);
-        //    TagManager = new TagManager(context);
-        //    fileRecordManager = new FileRecordManager(context);
-        //}
+        
         public PostsController()
         {
             if (AppSettingsManager.GetAllowChangingManagers())

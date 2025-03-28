@@ -2,7 +2,7 @@
 
 namespace SlimeWeb.Core.Managers.Interfaces
 {
-    public interface IPostManager<T> : IDataManager  where T : IPost
+    public interface IPostManager<T> : IDataManager  //where T : IPost
     {
         Task<List<T>> List();
         Task<List<T>> ListByPublished();

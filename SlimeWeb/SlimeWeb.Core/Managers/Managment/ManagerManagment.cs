@@ -50,6 +50,8 @@ namespace SlimeWeb.Core.Managers.Managment
                 ap.FileManager=GetFilesManager(AppSettingsManager.GetDefaultFileManager());
                 ap.CategoryManager = GetCategoryManager(AppSettingsManager.
                     GetDefaultCategoryManager());
+                ap.PostManager=GetPostManager(AppSettingsManager.GetDefaultPostManager());
+
 
                 return ap;
 
