@@ -61,7 +61,7 @@ namespace SlimeWeb.Core.Managers
 
         }
   
-        public async Task Edit(GeneralSettings genset)
+        public virtual async  Task Edit(GeneralSettings genset)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace SlimeWeb.Core.Managers
                // return null;
             }
         }
-        public async Task ClearSettings()
+        public virtual async  Task ClearSettings()
         {
             try
             {

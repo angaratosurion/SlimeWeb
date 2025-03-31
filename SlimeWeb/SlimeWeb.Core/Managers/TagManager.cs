@@ -20,7 +20,7 @@ namespace SlimeWeb.Core.Managers
         {
             blgmng = new BlogManager( );
         }
-        public async Task<List<Tag>>ListTags()
+        public virtual async  Task<List<Tag>>ListTags()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Tag>> GetTagsByBlog(string blogname)
+        public virtual async  Task<List<Tag>> GetTagsByBlog(string blogname)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Tag> GetTag(string tag, string blogname)
+        public virtual async  Task<Tag> GetTag(string tag, string blogname)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Tag> GetTagById(int cid)
+        public virtual async  Task<Tag> GetTagById(int cid)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Tag>> GetTagByNameRange(List<string> Tagnames,string blogname)
+        public virtual async  Task<List<Tag>> GetTagByNameRange(List<string> Tagnames,string blogname)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
 
-        public async Task<List<Tag>> GetTagByPostId(int postid)
+        public virtual async  Task<List<Tag>> GetTagByPostId(int postid)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> GetTagNamesToString( string blogname,int bypostid)
+        public virtual async  Task<string> GetTagNamesToString( string blogname,int bypostid)
         {
             try
             {
@@ -214,7 +214,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
 
-        public async Task<Tag> Edit(int cid, Tag tag, string blogname)
+        public virtual async  Task<Tag> Edit(int cid, Tag tag, string blogname)
         {
             try
             {
@@ -273,7 +273,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
 
         }
-        public async Task<Boolean> Exists(string tag,string blogname)
+        public virtual async  Task<Boolean> Exists(string tag,string blogname)
 
         {
             try
@@ -301,7 +301,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public async Task<Boolean> Exists(int id, string blogname)
+        public virtual async  Task<Boolean> Exists(int id, string blogname)
 
         {
             try
@@ -329,7 +329,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public  async Task AddNew( Tag Tag,string blogname)
+        public  virtual async  Task AddNew( Tag Tag,string blogname)
         {
             try
             {
@@ -355,7 +355,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void AddNewRange(List<Tag> Tag, string blogname)
+        public virtual async  void AddNewRange(List<Tag> Tag, string blogname)
         {
             try
             {
@@ -375,7 +375,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async Task AttachTagtoPost(string Tagname ,string blogname,int postid)
+        public virtual async  Task AttachTagtoPost(string Tagname ,string blogname,int postid)
         {
             try
             {
@@ -433,7 +433,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async Task AttachTagRangetoPost(List<string>Tagname, string blogname, int postid)
+        public virtual async  Task AttachTagRangetoPost(List<string>Tagname, string blogname, int postid)
         {
             try
             {
@@ -456,7 +456,7 @@ namespace SlimeWeb.Core.Managers
         }
 
         
-        public async void RemoveTag(string Tagname,string blogname)
+        public virtual async  void RemoveTag(string Tagname,string blogname)
         {
             try
             {
@@ -487,7 +487,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         } 
-        public async Task DetattachTagFromPost(int postid,string Tagname,string blogname)
+        public virtual async  Task DetattachTagFromPost(int postid,string Tagname,string blogname)
         {
             try
             {
@@ -514,7 +514,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void DettachTagRangetoPost(List<string> Tagname, string blogname, int postid)
+        public virtual async  void DettachTagRangetoPost(List<string> Tagname, string blogname, int postid)
         {
             try
             {

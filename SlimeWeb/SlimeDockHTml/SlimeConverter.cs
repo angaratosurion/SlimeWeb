@@ -17,7 +17,7 @@ using OpenXmlPowerTools;
 
 namespace SlimeDockHTml
 {
-    class SlimeConverter
+   public  class SlimeConverter
     {
 
         public static string ConvertToHtml(string file, string outputDirectory)

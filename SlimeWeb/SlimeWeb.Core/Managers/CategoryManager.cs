@@ -15,7 +15,7 @@ namespace SlimeWeb.Core.Managers
     {
         BlogManager blgmng = new BlogManager();
 
-        public async Task<List<Category>> ListCategories()
+        public virtual async  Task<List<Category>> ListCategories()
         {
             try
             {
@@ -28,7 +28,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Category>> ListCategoriesByBlog(string blogname)
+        public virtual async  Task<List<Category>> ListCategoriesByBlog(string blogname)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Category> GetCategory(string category, string blogname)
+        public virtual async  Task<Category> GetCategory(string category, string blogname)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Category> GetCategoryById(int cid)
+        public virtual async  Task<Category> GetCategoryById(int cid)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Category>> GetCategoryByNameRange(List<string> categorynames, string blogname)
+        public virtual async  Task<List<Category>> GetCategoryByNameRange(List<string> categorynames, string blogname)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
 
-        public async Task<List<Category>> GetCategoryByPostId(int postid)
+        public virtual async  Task<List<Category>> GetCategoryByPostId(int postid)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> GetCategoryNamesToString(string blogname, int bypostid)
+        public virtual async  Task<string> GetCategoryNamesToString(string blogname, int bypostid)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace SlimeWeb.Core.Managers
         }
 
 
-        public async Task<Boolean> Exists(string category, string blogname)
+        public virtual async  Task<Boolean> Exists(string category, string blogname)
 
         {
             try
@@ -232,7 +232,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public async Task<Boolean> Exists(int categoryid, string blogname)
+        public virtual async  Task<Boolean> Exists(int categoryid, string blogname)
 
         {
             try
@@ -261,7 +261,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public async Task AddNew(Category category, string blogname)
+        public virtual async  Task AddNew(Category category, string blogname)
         {
             try
             {
@@ -291,7 +291,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async void AddNewRange(List<Category> category, string blogname)
+        public virtual async  void AddNewRange(List<Category> category, string blogname)
         {
             try
             {
@@ -399,7 +399,7 @@ namespace SlimeWeb.Core.Managers
         }
 
 
-        public async void RemoveCategory(string categoryname, string blogname)
+        public virtual async  void RemoveCategory(string categoryname, string blogname)
         {
             try
             {
@@ -432,7 +432,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async void RemoveCategory(int categoryname, string blogname)
+        public virtual async  void RemoveCategory(int categoryname, string blogname)
         {
             try
             {
@@ -517,7 +517,7 @@ namespace SlimeWeb.Core.Managers
                 //return null;
             }
         }
-        public async Task<Category> Edit(int cid, Category category, string blogname)
+        public virtual async  Task<Category> Edit(int cid, Category category, string blogname)
         {
             try
             {

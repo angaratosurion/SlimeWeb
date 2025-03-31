@@ -19,18 +19,18 @@ namespace SlimeWeb.Core.Managers
         BlogManager blogmngr;
 
 
-        PostManager postManager;
+        PostManager  postManager;
         SlimeWebPageManager pageManager;
       
         public FileRecordManager()
         {
            
-            postManager = new PostManager( );
+            postManager = new PostManager ( );
             blogmngr = new BlogManager( );
             pageManager= new SlimeWebPageManager( );
         }
 
-        public async Task<List<Files>> GetFiles()
+        public virtual async  Task<List<Files>> GetFiles()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForBlog(int? BlogId, int? postid, 
+        public virtual async  Task<string> CreateForBlog(int? BlogId, int? postid, 
             Files filemodel, IFormFile filedata,string user)
         {
             try
@@ -98,7 +98,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForPage(string pagename, Files filemodel,
+        public virtual async  Task<string> CreateForPage(string pagename, Files filemodel,
             IFormFile filedata, string user)
         {
             try
@@ -154,7 +154,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<string> CreateForPage(int pid, Files filemodel,
+        public virtual async  Task<string> CreateForPage(int pid, Files filemodel,
             IFormFile filedata, string user)
         {
             try
@@ -209,7 +209,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async  Task<List<Files>> GetFilesByBlogName(string BlogName)
+        public virtual async   Task<List<Files>> GetFilesByBlogName(string BlogName)
         {
             try
             {
@@ -244,7 +244,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Files>> GetFilesByBlogId(int id)
+        public virtual async  Task<List<Files>> GetFilesByBlogId(int id)
         {
             try
             {
@@ -276,7 +276,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Files>> GetFilesByPostId(int pid)
+        public virtual async  Task<List<Files>> GetFilesByPostId(int pid)
         {
             try
             {
@@ -312,7 +312,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<Files> Details(int id)
+        public virtual async  Task<Files> Details(int id)
         {
             try
             {
@@ -330,7 +330,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<bool> Delete(int id)
+        public virtual async  Task<bool> Delete(int id)
         {
             try
             {
@@ -360,7 +360,7 @@ namespace SlimeWeb.Core.Managers
                
             }
         }
-        public async Task<bool> DeleteFromPosts(int id)
+        public virtual async  Task<bool> DeleteFromPosts(int id)
         {
             try
             {
@@ -402,7 +402,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async Task<bool> DeleteFromPages(int id)
+        public virtual async  Task<bool> DeleteFromPages(int id)
         {
             try
             {
@@ -442,7 +442,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async Task<bool> DeleteByPostId(int pid)
+        public virtual async  Task<bool> DeleteByPostId(int pid)
         {
             try
             {
@@ -470,7 +470,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async void DeleteByBlog(string blogname)
+        public virtual async  void DeleteByBlog(string blogname)
         {
             try
             {
@@ -497,7 +497,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
 
-        public async Task<bool> PostHasFiles(int id)
+        public virtual async  Task<bool> PostHasFiles(int id)
         {
             try
             {
@@ -521,7 +521,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async Task<bool> BlogHasFiles(string id)
+        public virtual async  Task<bool> BlogHasFiles(string id)
         {
             try
             {
@@ -546,7 +546,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async Task<Post> GetPostByFileId(int id)
+        public virtual async  Task<Post> GetPostByFileId(int id)
         {
             try
             {
@@ -575,7 +575,7 @@ namespace SlimeWeb.Core.Managers
 
         }
 
-        public async Task<Blog> GetBlofByFileId(int id)
+        public virtual async  Task<Blog> GetBlofByFileId(int id)
         {
             try
             {

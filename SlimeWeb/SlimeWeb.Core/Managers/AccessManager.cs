@@ -23,7 +23,7 @@ namespace SlimeWeb.Core.Managers
             blogModsManager = new BlogModsManager();
         }
 
-        public async Task<Boolean> DoesUserHasAccess(string username,string blogname)
+        public virtual async  Task<Boolean> DoesUserHasAccess(string username,string blogname)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public async Task<Boolean> DoesUserHasAccess(string username )
+        public virtual async  Task<Boolean> DoesUserHasAccess(string username )
         {
             try
             {

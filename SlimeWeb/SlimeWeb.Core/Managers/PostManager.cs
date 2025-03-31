@@ -26,7 +26,7 @@ namespace SlimeWeb.Core.Managers
         }
 
 
-        public async Task<List<Post>> List()
+        public virtual  async  Task<List<Post>> List()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByPublished()
+        public virtual async  Task<List<Post>> ListByPublished()
         {
             try
             {
@@ -62,7 +62,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListPostByCategory(string categoryname,string blogname)
+        public virtual async  Task<List<Post>> ListPostByCategory(string categoryname,string blogname)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Post>> ListPostByTag(string tagname, string blogname)
+        public virtual async  Task<List<Post>> ListPostByTag(string tagname, string blogname)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Post>> ListByBlogName(string name)
+        public virtual async  Task<List<Post>> ListByBlogName(string name)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByBlogNameByPublished(string name)
+        public virtual async  Task<List<Post>> ListByBlogNameByPublished(string name)
         {
             try
             {
@@ -215,7 +215,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByBlogNameByPublished(string name,
+        public virtual async  Task<List<Post>> ListByBlogNameByPublished(string name,
             int page, int pagesize)
         {
             try
@@ -255,7 +255,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListAllByPublished( )
+        public virtual async  Task<List<Post>> ListAllByPublished( )
         {
             try
             {
@@ -285,7 +285,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListAllByPublished( 
+        public virtual async  Task<List<Post>> ListAllByPublished( 
          int page, int pagesize)
         {
             try
@@ -322,7 +322,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<Post>> ListByBlogId(int? id)
+        public virtual async  Task<List<Post>> ListByBlogId(int? id)
         {
             try
             {
@@ -351,7 +351,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<Post> Create(Post post, string user)
+        public virtual async  Task<Post> Create(Post post, string user)
         {
             try
             {
@@ -379,7 +379,7 @@ namespace SlimeWeb.Core.Managers
                 return null; }
         }
 
-        public async Task<Post> Details(int? id)
+        public virtual async  Task<Post> Details(int? id)
         {
             try
             {
@@ -397,7 +397,7 @@ namespace SlimeWeb.Core.Managers
 
         }
 
-        public async Task<Post> Edit(int ? pid,Post post)
+        public virtual async  Task<Post> Edit(int ? pid,Post post)
         {
             try
             {
@@ -459,7 +459,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
 
         }
-        public async Task Delete(int? id)
+        public virtual async  Task Delete(int? id)
         {
             try
             {
@@ -488,7 +488,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); }
 
         }
-        public async Task  DeleteByBlogId(int? id)
+        public virtual async  Task  DeleteByBlogId(int? id)
         {
             try
             {
@@ -508,7 +508,7 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); }
 
         }
-        public bool Exists(int ?id)
+        public virtual bool Exists(int ?id)
         {
             try
             {

@@ -29,7 +29,7 @@ namespace SlimeWeb.Controllers
     public class PostsController : Controller
     {
         private readonly SlimeDbContext _context;
-         PostManager postManager;
+         PostManager  postManager;
         BlogManager blmngr;
          CategoryManager categoryManager;
         TagManager TagManager;

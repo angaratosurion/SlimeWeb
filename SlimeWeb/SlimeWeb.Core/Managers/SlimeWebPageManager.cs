@@ -17,7 +17,7 @@ namespace SlimeWeb.Core.Managers
         {
             blmngr = new BlogManager();
         }
-        public async Task<List<SlimeWebPage>> List()
+        public virtual async  Task<List<SlimeWebPage>> List()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace SlimeWeb.Core.Managers
 
         }
       
-        public async Task<List<SlimeWebPage>> ListByPublished()
+        public virtual async  Task<List<SlimeWebPage>> ListByPublished()
         {
             try
             {
@@ -69,7 +69,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<List<SlimeWebPage>> ListByPublished(
+        public virtual async  Task<List<SlimeWebPage>> ListByPublished(
             int page, int pagesize)
         {
             try
@@ -108,7 +108,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<SlimeWebPage> Details(String name)
+        public virtual async  Task<SlimeWebPage> Details(String name)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<SlimeWebPage> Details(int id)
+        public virtual async  Task<SlimeWebPage> Details(int id)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<bool> Exists(String name)
+        public virtual async  Task<bool> Exists(String name)
         {
             try
             {
@@ -177,7 +177,7 @@ namespace SlimeWeb.Core.Managers
                 return false;
             }
         }
-        public async Task<SlimeWebPage> Create(SlimeWebPage page, string user)
+        public virtual async  Task<SlimeWebPage> Create(SlimeWebPage page, string user)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace SlimeWeb.Core.Managers
             }
 
         }
-        public async Task<SlimeWebPage> Edit(string name ,SlimeWebPage page)
+        public virtual async  Task<SlimeWebPage> Edit(string name ,SlimeWebPage page)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace SlimeWeb.Core.Managers
 
 
         }
-        public async Task Delete(string name)
+        public virtual async  Task Delete(string name)
         {
             try
             {
