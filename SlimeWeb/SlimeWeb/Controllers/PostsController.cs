@@ -297,6 +297,44 @@ namespace SlimeWeb.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+        public async Task<IActionResult> Details(string  id,string blogname)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var mpost = await postManager.Details(id, blogname);
+                ViewPost post = new ViewPost();
+                post.ImportFromModel(mpost);
+
+                //post.HTMLcontent = MarkUpManager.ConvertToHtml(mpost.content);
+
+
+                //post.Categories = await categoryManager.GetCategoryByPostId((int)id);
+                //post.CategoriesToString = await categoryManager.GetCategoryNamesToString(post.Blog.Name, (int)id);
+                //post.Tags = await TagManager.GetTagByPostId((int)id);
+                //post.TagsToString = await TagManager.GetTagNamesToString(post.Blog.Name, (int)id);
+
+
+
+                
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                return View(post);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         // GET: Posts/Create
         [Authorize]

@@ -15,11 +15,13 @@ namespace SlimeWeb.Core.Data.Models
         
         public int Id { get; set; }
         //   public int revision { get; set; }
+        [Required]
         public string Title { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Published { get; set; }
         //[DataType(DataType.Html)]
         public string content { get; set; }
+        [Required]
         public string Author { get; set; }
 
 
@@ -28,7 +30,10 @@ namespace SlimeWeb.Core.Data.Models
         //public string RowVersion { get; set; }
         [Required]
         public int BlogId { get; set; }
-       
+        [Required]
+        [Key]
+        public string PostName { get; set; }
+
 
     }
 }

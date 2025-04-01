@@ -1,4 +1,5 @@
-﻿ 
+﻿
+using DocumentFormat.OpenXml.Bibliography;
 using SlimeDockHTml;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
@@ -17,7 +18,7 @@ namespace WordDocXToHtmlManager.Managers
     {
         SlimeConverter slimeConverter = new SlimeConverter();
         SlimeWebsUserManager userManager = CommonTools.usrmng;
-        WordFileManager WordFileManager = new WordFileManager();
+        WordFileManager wordFileManager = new WordFileManager();
         
         public override Task<Post> Create(Post post, string username)
         {
@@ -54,7 +55,7 @@ namespace WordDocXToHtmlManager.Managers
                 List<Post> ap = null;
                 if (CommonTools.isEmpty(name) != true)
                 {
-                    var files = await WordFileManager.GetFilesByBlogName(name);
+                    var files = await wordFileManager.GetFilesByBlogName(name);
                     if (files != null)
                     {
                         ap = new List<Post>();
@@ -62,7 +63,9 @@ namespace WordDocXToHtmlManager.Managers
                         {
                             Post post = new Post();
                             post.Title = file.FileName;
-                            post.content = "<a href=\"" + file.RelativePath + "\""+
+                            post.PostName = file.FileName;
+                            post.content = "<a href=\"" + AppSettingsManager.GetPathBase +
+                                "/Posts/Details/"+post.PostName+"?bloganame="+name+
                                 ">"+ post.Title+"</a>";
                         }
 
@@ -96,9 +99,39 @@ namespace WordDocXToHtmlManager.Managers
                 return null;
             }
         }
-        public override Task<Post> Details(int? id)
+        public override async Task<Post> Details(string postname,string blogname )
         {
-            return base.Details(id);
+            try
+            {
+                 Post ap=null ,tap= new Post();
+
+                var lstap = await this.List();
+                if(lstap != null)
+                {
+                    tap=lstap.First(x=>x.PostName== postname);
+                }
+
+                if ( tap != null)
+                {
+                    ap=new Post();  
+                    ap.Title =tap.Title;
+                    ap.PostName=tap.PostName;
+
+                    string filename = Path.Combine(FileSystemManager.GetBlogRootDataFolderAbsolutePath(blogname),
+                        postname, ".docx");
+                    ap.content=SlimeConverter.ConvertToHtml(filename);
+
+                }
+
+                return await Task.FromResult(ap);
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
         }
 
 

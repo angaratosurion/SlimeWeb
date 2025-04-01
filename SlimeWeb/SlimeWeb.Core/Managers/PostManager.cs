@@ -396,6 +396,25 @@ namespace SlimeWeb.Core.Managers
             catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
 
         }
+        public virtual async Task<Post> Details(string postname,
+            string blogname)
+        {
+            try
+            {
+                Post ap = null;
+
+                if (postname != null)
+                {
+                    ap = await IDataManager.db.Post.FirstAsync(x=>x.PostName== postname);
+
+                }
+
+                return ap;
+            }
+            catch (Exception ex) { CommonTools.ErrorReporting(ex); return null; }
+
+        }
+
 
         public virtual async  Task<Post> Edit(int ? pid,Post post)
         {

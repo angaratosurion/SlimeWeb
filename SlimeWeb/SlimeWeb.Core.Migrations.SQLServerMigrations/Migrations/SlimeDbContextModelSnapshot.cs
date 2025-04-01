@@ -17,7 +17,7 @@ namespace SlimeWeb.Core.Migrations.SQLServerMigrations.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -534,11 +534,8 @@ namespace SlimeWeb.Core.Migrations.SQLServerMigrations.Migrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Post_Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -546,6 +543,12 @@ namespace SlimeWeb.Core.Migrations.SQLServerMigrations.Migrations
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Published")
                         .HasColumnType("datetime2");
@@ -558,7 +561,7 @@ namespace SlimeWeb.Core.Migrations.SQLServerMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Post_Name");
 
                     b.ToTable("Post");
                 });
