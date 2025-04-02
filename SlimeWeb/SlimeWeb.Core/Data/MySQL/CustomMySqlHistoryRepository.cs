@@ -8,23 +8,33 @@ using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data.MySQL
 {
-    
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using Microsoft.EntityFrameworkCore.Storage;
+    using System;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class CustomMySqlHistoryRepository : MySqlHistoryRepository
     {
-        private readonly RelationalConnection _connection;
+        private readonly IRelationalConnection _connection;
 
         public CustomMySqlHistoryRepository(
             HistoryRepositoryDependencies dependencies,
-            RelationalConnection connection)
+            IRelationalConnection connection)
             : base(dependencies)
         {
             _connection = connection;
         }
 
-        // Override the migration history existence check
+        public override IMigrationsDatabaseLock AcquireDatabaseLock()
+        {
+            return null;
+        }
         public override async Task<bool> ExistsAsync(CancellationToken cancellationToken = default)
         {
-            using var command = _connection.DbConnection.CreateCommand();
+            await using var command = _connection.DbConnection.CreateCommand();
             command.CommandText = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = '__EFMigrationsHistory'";
 
             if (command.Connection.State != System.Data.ConnectionState.Open)
@@ -36,18 +46,18 @@ namespace SlimeWeb.Core.Data.MySQL
             return Convert.ToInt32(result) > 0;
         }
 
-        // Override lock acquisition to disable locking
-        //public override Task AcquireDatabaseLockAsync(CancellationToken cancellationToken = default)
-        //{
-        //    return Task.CompletedTask; // No-op to disable locking
-        //}
-
-        //// Override lock release to prevent lock logic
+        public override Task<IMigrationsDatabaseLock> AcquireDatabaseLockAsync(CancellationToken cancellationToken = default)
+        {
+            return (Task<IMigrationsDatabaseLock>)Task.CompletedTask;
+        }
+         
         //public override Task ReleaseDatabaseLockAsync(CancellationToken cancellationToken = default)
         //{
         //    return Task.CompletedTask; // No-op to disable unlocking
         //}
+
     }
+
 
 
 

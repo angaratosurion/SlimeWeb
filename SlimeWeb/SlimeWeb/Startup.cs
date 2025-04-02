@@ -25,30 +25,28 @@ namespace SlimeWeb
     {
         public Startup(IConfiguration configuration):base(configuration)
         {
-          Configuration = configuration;
+            base.Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        //public IConfiguration Configuration { get; }
 
         ///This method gets called by the runtime.Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services= base.ConfigureServicesSlime(services);
-            //services.AddDbContext<SlimeDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-           
+            services = base.ConfigureServicesSlime(services);
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddControllers();
-        }
 
+        }
+         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-            
-            app=base.ConfigureSlime(app, env);
+
+
+            app = base.ConfigureSlime(app, env);
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing==true)
             {
@@ -62,14 +60,13 @@ namespace SlimeWeb
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            //app.UseStaticFiles();
+            
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-           
-            //app =  ConfigureSlime(app, env);
+            
             
             app.UseEndpoints(endpoints =>
                 {
@@ -80,8 +77,9 @@ namespace SlimeWeb
                     endpoints.MapRazorPages();
                     endpoints.MapControllers();
                 });
-
-            app = ConfigureRoutdsAndEndpoints(app, AppSettingsManager.GetEnableExtensionsSetting());
+          
+            app = ConfigureRoutdsAndEndpoints(app, 
+                AppSettingsManager.GetEnableExtensionsSetting());
 
 
         }

@@ -103,10 +103,14 @@ namespace SlimeWeb.Core.Data.DBContexts
                         else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                         {
                             optionsBuilder.UseMySql(dbCon,
-                                 ServerVersion.AutoDetect(dbCon),
-                                x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")).
-                                UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                                 .ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>(); // Use your custom repository;
+                                    ServerVersion.AutoDetect(dbCon),
+                                 x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")
+                                          .MigrationsHistoryTable("EF_History")) // Explicitly set the table
+                                  .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                                  .ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>(); // Replace lock-based history
+
+
+                            // Use your custom repository;
 
 
                         }

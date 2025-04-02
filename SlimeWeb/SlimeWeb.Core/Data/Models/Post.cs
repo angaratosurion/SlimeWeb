@@ -27,7 +27,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
         public int BlogId { get; set; }
         [Required]
-        [Key]
+       // [Key]
         public string PostName { get; set; }
 
 

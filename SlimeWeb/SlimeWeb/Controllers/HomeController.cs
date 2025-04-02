@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SlimeWeb.Core.App_Start;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;
 using SlimeWeb.Core.Managers;
@@ -33,10 +34,15 @@ namespace SlimeWeb.Controllers
                 //return View();
                 bool hostedinsubfolder = false;
 
-                 
-                 
-                //
 
+
+                //
+                //if (AppSettingsManager.GetisFirstRun())
+                //{
+                //    InstallManager installmanager = new InstallManager(
+                //        SlimeStartup.AppBuilder.ApplicationServices);
+                //    installmanager.CrreateInitalAdmin();
+                //}
                 defaultcon = AppSettingsManager.GetDefaultController();
                 pathbase = AppSettingsManager.GetPathBase();
                 hostedinsubfolder = AppSettingsManager.GetHostedInSubFolderSetting();

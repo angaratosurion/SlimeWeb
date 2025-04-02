@@ -44,6 +44,7 @@ namespace SlimeWeb.Core.App_Start
         static List<IConfigureServicesAction> slimeServicesExtension;
         static List<IConfigureAction> slimeExtension;
        public static IServiceCollection Services;
+        public static IApplicationBuilder AppBuilder;
         static List<IAddMvcAction> addMvcActions;
         /// <summary>
         /// Iinitailizes the Startup claass of SlimeWeb  CMS
@@ -57,7 +58,7 @@ namespace SlimeWeb.Core.App_Start
         /// <summary>
         /// the property that includes the configuration of the cms
         /// </summary>
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
         /// <summary>
         /// This method gets called by the runtime. 
         /// Use this method to add services to the container.
@@ -85,8 +86,9 @@ namespace SlimeWeb.Core.App_Start
                         options.UseMySql(Configuration.GetConnectionString("MySQlConnection"),
                          ServerVersion.AutoDetect(Configuration.GetConnectionString("MySQlConnection")),
                          b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations").
-                         MigrationsHistoryTable("__EFMigrationsHistory")
-                                ).ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>()); 
+                         MigrationsHistoryTable("EF_History")
+                                )
+                        .ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>()); 
                     // Use your custom repository);
 
 
@@ -267,7 +269,9 @@ namespace SlimeWeb.Core.App_Start
 
             try
             {
+
                 IApplicationBuilder tap = null;
+                AppBuilder = app;
                 extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), 
                     AppSettingsManager.GetExtetionPath());
 
@@ -428,11 +432,11 @@ namespace SlimeWeb.Core.App_Start
             }
             }
 
-        //public    void  Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
         //{
         //    ConfigureSlime(app, env);
-             
+
         //}
         //public void ConfigureServices(IServiceCollection services)
         //{
