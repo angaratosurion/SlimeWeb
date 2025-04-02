@@ -1,7 +1,4 @@
-﻿using SlimeWeb.Core.Data.Models.Interfaces;
-using SlimeWeb.Core.Managers.Interfaces;
-
-namespace SlimeWeb.Core.Managers.Managment
+﻿namespace SlimeWeb.Core.Managers.Managment
 {
     public class GroupedManagers
     {

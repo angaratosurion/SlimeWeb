@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SlimeWeb.Core.Data.Models;
-using SlimeWeb.Core.Data.Models.Interfaces;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Tools;
@@ -8,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlimeWeb.Core.Data.ViewModels
 {

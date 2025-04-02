@@ -1,4 +1,6 @@
-﻿namespace SlimeWeb.Core.Managers.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace SlimeWeb.Core.Managers.Interfaces
 {
     public interface IGeneralSettingsManager<T,T2> : IDataManager
     {

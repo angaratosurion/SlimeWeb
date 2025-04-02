@@ -1,12 +1,16 @@
 ﻿using ExtCore.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using IExtension = SlimeWeb.Core.SDK.Interfaces.IExtension;
 

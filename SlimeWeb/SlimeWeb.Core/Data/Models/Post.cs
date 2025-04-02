@@ -1,14 +1,10 @@
-﻿using SlimeWeb.Core.Data.Models.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class Post:IPost
+    public class Post//:IPost
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

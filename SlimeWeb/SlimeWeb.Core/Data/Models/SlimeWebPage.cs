@@ -1,16 +1,11 @@
 ﻿using ExtCore.Data.Entities.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SlimeWeb.Core.Data.Models.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SlimeWeb.Core.Data.Models
 {
-    public class SlimeWebPage  : IEntity, ISlimeWebPage
+    public class SlimeWebPage  : IEntity
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

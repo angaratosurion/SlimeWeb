@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Pomelo.EntityFrameworkCore.MySql;
 
 #nullable disable
 
 namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class added_postname : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -261,6 +263,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 name: "Post",
                 columns: table => new
                 {
+                    PostName = table.Column<string>(type: "varchar(255)", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false),
@@ -271,7 +274,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Post", x => x.Id);
+                    table.PrimaryKey("PK_Post", x => x.PostName);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

@@ -1,6 +1,5 @@
 ﻿using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
-using ExtCore.Infrastructure;
 using ExtCore.WebApplication.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,10 +18,9 @@ using SlimeWeb.Core.CustomPolicy;
 using SlimeWeb.Core.Data;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
-using SlimeWeb.Core.Data.Models.Interfaces;
+using SlimeWeb.Core.Data.MySQL;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Managers.Install;
-using SlimeWeb.Core.Managers.Interfaces;
 using SlimeWeb.Core.Managers.Managment;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.SDK;
@@ -30,6 +28,7 @@ using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Services;
 using SlimeWeb.Core.Tools;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SlimeWeb.Core.App_Start
@@ -84,11 +83,16 @@ namespace SlimeWeb.Core.App_Start
 
                     services.AddDbContext<SlimeDbContext>(options =>
                         options.UseMySql(Configuration.GetConnectionString("MySQlConnection"),
-                        ServerVersion.AutoDetect(Configuration.GetConnectionString("MySQlConnection")),
+                         ServerVersion.AutoDetect(Configuration.GetConnectionString("MySQlConnection")),
                          b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations").
                          MigrationsHistoryTable("__EFMigrationsHistory")
-                                ));
-                    services.AddScoped<IHistoryRepository, CustomMySqlHistoryRepository>();
+                                ).ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>()); 
+                    // Use your custom repository);
+
+
+
+
+
                 }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.
                 RequireConfirmedAccount = true)
@@ -385,8 +389,8 @@ namespace SlimeWeb.Core.App_Start
                            AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
                     {
 
-                        slimeExtension = SlimePluginManager.LoadConfigurePlugins(extensionsPath, app,
-                            app.ApplicationServices);
+                        //slimeExtension = SlimePluginManager.LoadConfigurePlugins(extensionsPath, app,
+                        //    app.ApplicationServices);
                         app.UseRouting();
 
                         app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -447,11 +451,10 @@ namespace SlimeWeb.Core.App_Start
                     pathbase = AppSettingsManager.GetPathBase();
                     if (enableExtensions)
                     {
-                        app.UseEndpoints(endpoints =>
-                        {
+                        app.UseEndpoints(endpoints =>                        {
 
-                            var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
-                                endpoints, app.ApplicationServices);
+                            //var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
+                            //    endpoints, app.ApplicationServices);
                             endpoints.MapControllerRoute(
                              name: "default",
                             pattern:"{controller=Home}/{action=Index}/{id?}");

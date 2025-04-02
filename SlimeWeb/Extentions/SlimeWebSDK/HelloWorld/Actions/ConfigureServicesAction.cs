@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SlimeWeb.Core.SDK.Interfaces;
+using System;
 
 namespace HelloWorld.Actions
 {

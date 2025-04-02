@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Implicits>enable</Implicits>
     <OutputType>Library</OutputType>
     <Version>1.1.1.0</Version>
     <Authors>Angarato Surion</Authors>

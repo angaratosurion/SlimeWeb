@@ -1,5 +1,6 @@
 ﻿using HelloWorld.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace HelloWorld.Controllers

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SlimeWeb.Core.Data.DBContexts;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Data.ViewModels;

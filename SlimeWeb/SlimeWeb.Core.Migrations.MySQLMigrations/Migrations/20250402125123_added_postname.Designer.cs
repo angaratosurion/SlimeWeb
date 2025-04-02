@@ -11,15 +11,15 @@ using SlimeWeb.Core.Data.DBContexts;
 namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    [Migration("20241014091743_initial")]
-    partial class initial
+    [Migration("20250402125123_added_postname")]
+    partial class added_postname
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -504,15 +504,18 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("PostName")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Published")
@@ -526,7 +529,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostName");
 
                     b.ToTable("Post");
                 });

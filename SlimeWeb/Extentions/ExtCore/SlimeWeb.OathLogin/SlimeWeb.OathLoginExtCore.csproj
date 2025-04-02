@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Implicits>enable</Implicits>
     <OutputType>Library</OutputType>
     <Configurations>Debug;Release;Linux</Configurations>
     <Platforms>AnyCPU;x64;x86</Platforms>

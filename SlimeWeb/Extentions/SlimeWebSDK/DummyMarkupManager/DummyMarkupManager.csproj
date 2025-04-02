@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Implicits>enable</Implicits>
     <Nullable>enable</Nullable>
     <Copyright>fdfdfdfd</Copyright>
     <Configurations>Debug;Release;Linux</Configurations>

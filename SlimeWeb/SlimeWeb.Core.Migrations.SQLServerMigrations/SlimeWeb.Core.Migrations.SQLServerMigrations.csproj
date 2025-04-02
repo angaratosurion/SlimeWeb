@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Implicits>enable</Implicits>
     <Nullable>enable</Nullable>
     <BaseOutputPath>..\SlimeWeb.Core\bin</BaseOutputPath>
     <Platforms>AnyCPU;x64;x86</Platforms>

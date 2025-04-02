@@ -8,6 +8,11 @@ using SlimeWeb.Core.Tools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
+using Microsoft.EntityFrameworkCore.Migrations;
+using SlimeWeb.Core.Data.MySQL;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace SlimeWeb.Core.Data.DBContexts
 {    //
@@ -98,9 +103,10 @@ namespace SlimeWeb.Core.Data.DBContexts
                         else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                         {
                             optionsBuilder.UseMySql(dbCon,
-                                ServerVersion.AutoDetect(dbCon),
+                                 ServerVersion.AutoDetect(dbCon),
                                 x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")).
-                                UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                                UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                                 .ReplaceService<IHistoryRepository, CustomMySqlHistoryRepository>(); // Use your custom repository;
 
 
                         }

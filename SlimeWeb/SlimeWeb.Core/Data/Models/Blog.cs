@@ -1,14 +1,11 @@
 ﻿using ExtCore.Data.Entities.Abstractions;
-using SlimeWeb.Core.Data.Models.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace SlimeWeb.Core.Data.Models
 {
-  public  class Blog : IEntity,IBlog
+  public  class Blog : IEntity
     {
         [Required]
         [Key]
