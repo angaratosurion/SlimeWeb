@@ -29,13 +29,13 @@ namespace SlimeWeb.Controllers
     public class PostsController : Controller
     {
         private readonly SlimeDbContext _context;
-         PostManager  postManager;
-        BlogManager blmngr;
-         CategoryManager categoryManager;
-        TagManager TagManager;
-        AccessManager accessManager;
-        FileRecordManager fileRecordManager;
-        GeneralSettingsManager generalSettingsManager;
+        static PostManager  postManager;
+        static BlogManager blmngr;
+        static CategoryManager categoryManager;
+        static TagManager TagManager;
+        static AccessManager accessManager;
+        static FileRecordManager fileRecordManager;
+        static GeneralSettingsManager generalSettingsManager;
         
         public PostsController()
         {
@@ -161,11 +161,11 @@ namespace SlimeWeb.Controllers
 
 
                 List<Post> p = await postManager.ListByBlogNameByPublished(name, page, pagesize);
-                this.ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
+                ViewBag.MaxPage = (count / pagesize) - (count % pagesize == 0 ? 1 : 0);
                 List<ViewPost> posts = new List<ViewPost>();
                 if (p != null)
                 {
-                    this.ViewBag.Page = page;
+                    ViewBag.Page = page;
 
 
                     if (p != null)
@@ -345,11 +345,11 @@ namespace SlimeWeb.Controllers
                 string blogname = id;
 
 
-                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                if (await accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
                 {
                     return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
                 }
-                var blog = await this.blmngr.GetBlogAsync(blogname);
+                var blog = await blmngr.GetBlogAsync(blogname);
 
 
                 //return View();
@@ -398,7 +398,7 @@ namespace SlimeWeb.Controllers
                     var blog = await blmngr.GetBlogByIdAsync(mpost.BlogId);
 
 
-                    await postManager.Create((Post)mpost, this.User.Identity.Name);
+                    await postManager.Create((Post)mpost, User.Identity.Name);
                     if (post.CategoriesToString != null)
                     {
                         var catgories = post.CategoriesToString.Split(",").ToList();
@@ -441,7 +441,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                if (await accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
                 {
                     return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
                 }
@@ -463,7 +463,7 @@ namespace SlimeWeb.Controllers
                     return NotFound();
                 }
 
-                var post = await this.postManager.Details(id);
+                var post = await postManager.Details(id);
                 if (post == null)
                 {
                     return NotFound();
@@ -561,7 +561,7 @@ namespace SlimeWeb.Controllers
                 {
 
 
-                    if ( this.postManager.Exists(post.Id))
+                    if ( postManager.Exists(post.Id))
                     {
                         return NotFound();
                     }
@@ -587,7 +587,7 @@ namespace SlimeWeb.Controllers
         {
             try
             {
-                if (await this.accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
+                if (await accessManager.DoesUserHasAccess(User.Identity.Name, blogname) == false)
                 {
                     return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
                 }
@@ -631,7 +631,7 @@ namespace SlimeWeb.Controllers
                 //var post = await _context.Post.FindAsync(id);
                 //_context.Post.Remove(post);
                 //await _context.SaveChangesAsync();
-                await this.postManager.Delete(id);
+                await postManager.Delete(id);
 
 
                 return RedirectToAction(nameof(Index), "Posts", new { id = blogname });
@@ -665,7 +665,7 @@ namespace SlimeWeb.Controllers
                 {
                     bid = Request.RouteValues["id"].ToString();
                 }
-                var blog = await this.blmngr.GetBlogAsync(bid);
+                var blog = await blmngr.GetBlogAsync(bid);
                
 
 
@@ -677,7 +677,7 @@ namespace SlimeWeb.Controllers
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
-                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                //return Json(new { location = HttpContext.Request.Host+"/"+path });
                 return Json(new { location = "/" + path });
 
                 // return null;
@@ -717,7 +717,7 @@ namespace SlimeWeb.Controllers
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
-                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                //return Json(new { location = HttpContext.Request.Host+"/"+path });
                 return Json(new { location = "/" + path });
 
                 // return null;
@@ -750,7 +750,7 @@ namespace SlimeWeb.Controllers
                 {
                     bid = Request.RouteValues["id"].ToString();
                 }
-                var blog = await this.blmngr.GetBlogAsync(bid);
+                var blog = await blmngr.GetBlogAsync(bid);
 
 
 
@@ -762,7 +762,7 @@ namespace SlimeWeb.Controllers
 
                 // return Content(Url.Content(@"~\Uploads\" + fileid));
                 //return Content(path);
-                //return Json(new { location = this.HttpContext.Request.Host+"/"+path });
+                //return Json(new { location = HttpContext.Request.Host+"/"+path });
                 //return Json(new { location = "/" + path });
 
                 return Content("/" + path);

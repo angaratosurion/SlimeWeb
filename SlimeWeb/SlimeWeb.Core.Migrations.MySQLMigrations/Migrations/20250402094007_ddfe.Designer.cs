@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlimeWeb.Core.Data.DBContexts;
@@ -11,8 +12,8 @@ using SlimeWeb.Core.Data.DBContexts;
 namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 {
     [DbContext(typeof(SlimeDbContext))]
-    [Migration("20250401084216_added post_namefiled on post")]
-    partial class addedpost_namefiledonpost
+    [Migration("20250402094007_ddfe")]
+    partial class ddfe
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,11 +23,15 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
@@ -50,6 +55,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
@@ -177,7 +184,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -224,6 +231,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("BannedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -245,6 +254,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Administrator")
                         .IsRequired()
@@ -275,6 +286,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Active")
                         .HasColumnType("tinyint(1)");
 
@@ -295,6 +308,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BlogAndCategory")
                         .IsRequired()
@@ -318,6 +333,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
@@ -338,6 +355,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
@@ -357,6 +376,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
@@ -382,6 +403,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -414,6 +437,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("FileId")
                         .HasColumnType("int");
 
@@ -430,6 +455,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
@@ -450,6 +477,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Direction")
                         .IsRequired()
@@ -482,6 +511,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -504,7 +535,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
 
             modelBuilder.Entity("SlimeWeb.Core.Data.Models.Post", b =>
                 {
-                    b.Property<string>("Post_Name")
+                    b.Property<string>("PostName")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Author")
@@ -518,6 +549,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("Published")
                         .HasColumnType("datetime(6)");
 
@@ -529,7 +562,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Post_Name");
+                    b.HasKey("PostName");
 
                     b.ToTable("Post");
                 });
@@ -539,6 +572,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -579,6 +614,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("BlogAndTag")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -601,6 +638,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
@@ -620,6 +659,8 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BlogId")
                         .HasColumnType("int");

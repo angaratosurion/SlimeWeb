@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -82,10 +83,12 @@ namespace SlimeWeb.Core.App_Start
                 {
 
                     services.AddDbContext<SlimeDbContext>(options =>
-                        options.UseMySQL(
-                            Configuration.GetConnectionString("MySQlConnection"),
-                            b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")),
-                            ServiceLifetime.Singleton);
+                        options.UseMySql(Configuration.GetConnectionString("MySQlConnection"),
+                        ServerVersion.AutoDetect(Configuration.GetConnectionString("MySQlConnection")),
+                         b => b.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations").
+                         MigrationsHistoryTable("__EFMigrationsHistory")
+                                ));
+                    services.AddScoped<IHistoryRepository, CustomMySqlHistoryRepository>();
                 }
                 services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.
                 RequireConfirmedAccount = true)

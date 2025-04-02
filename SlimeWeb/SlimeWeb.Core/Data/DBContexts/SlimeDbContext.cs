@@ -7,10 +7,12 @@ using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
 
 namespace SlimeWeb.Core.Data.DBContexts
 {    //
-    public class SlimeDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IStorageContext
+    public class SlimeDbContext : IdentityDbContext<ApplicationUser, 
+        ApplicationRole, string>, IStorageContext
     {
        
        
@@ -71,6 +73,7 @@ namespace SlimeWeb.Core.Data.DBContexts
 
                 optionsBuilder.EnableSensitiveDataLogging (true);
                 optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+               
 
                 var directory = FileSystemManager.GetAppRootDataFolderAbsolutePath();
                 if (Directory.Exists(directory) == false)
@@ -94,7 +97,8 @@ namespace SlimeWeb.Core.Data.DBContexts
                         }
                         else if (AppSettingsManager.GetDBEngine() == enumDBEngine.MySQl.ToString())
                         {
-                            optionsBuilder.UseMySQL(dbCon,
+                            optionsBuilder.UseMySql(dbCon,
+                                ServerVersion.AutoDetect(dbCon),
                                 x => x.MigrationsAssembly("SlimeWeb.Core.Migrations.MySQLMigrations")).
                                 UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
@@ -154,6 +158,7 @@ namespace SlimeWeb.Core.Data.DBContexts
             }
             return base.SaveChanges();
         }
+
 
     }
 }

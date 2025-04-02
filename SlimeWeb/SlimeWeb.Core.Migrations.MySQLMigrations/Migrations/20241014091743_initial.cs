@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -62,7 +61,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     User = table.Column<string>(type: "longtext", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     BannedBy = table.Column<string>(type: "longtext", nullable: false)
@@ -78,7 +77,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     ModeratorId = table.Column<string>(type: "longtext", nullable: false),
                     Active = table.Column<bool>(type: "tinyint(1)", nullable: false)
@@ -94,7 +93,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -112,7 +111,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
@@ -128,7 +127,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
@@ -144,7 +143,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     BlogAndCategory = table.Column<string>(type: "longtext", nullable: false)
@@ -160,7 +159,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     ControllerName = table.Column<string>(type: "longtext", nullable: false),
                     Disabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -177,7 +176,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FileName = table.Column<string>(type: "longtext", nullable: false),
                     Path = table.Column<string>(type: "longtext", nullable: false),
                     RelativePath = table.Column<string>(type: "longtext", nullable: false),
@@ -195,7 +194,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PageId = table.Column<int>(type: "int", nullable: false),
                     FileId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -210,7 +209,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PostId = table.Column<int>(type: "int", nullable: false),
                     FileId = table.Column<int>(type: "int", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false)
@@ -226,7 +225,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     Published = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     content = table.Column<string>(type: "longtext", nullable: false),
@@ -243,7 +242,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     Name = table.Column<string>(type: "varchar(255)", nullable: false),
                     Published = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -263,7 +262,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     Published = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     content = table.Column<string>(type: "longtext", nullable: false),
@@ -281,7 +280,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     WebSiteName = table.Column<string>(type: "longtext", nullable: false),
                     ItemsPerPage = table.Column<int>(type: "int", nullable: false, defaultValue: 10),
                     FeatureManagment = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -299,7 +298,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TagId = table.Column<int>(type: "int", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
@@ -315,7 +314,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TagId = table.Column<int>(type: "int", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
@@ -331,7 +330,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     BlogAndTag = table.Column<string>(type: "longtext", nullable: false)
@@ -347,7 +346,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ClaimType = table.Column<string>(type: "longtext", nullable: true),
                     ClaimValue = table.Column<string>(type: "longtext", nullable: true)
@@ -369,7 +368,7 @@ namespace SlimeWeb.Core.Migrations.MySQLMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ClaimType = table.Column<string>(type: "longtext", nullable: true),
                     ClaimValue = table.Column<string>(type: "longtext", nullable: true)
