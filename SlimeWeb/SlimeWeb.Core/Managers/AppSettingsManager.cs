@@ -214,6 +214,23 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
+        public static List<string> GetAllConnectionStrings( )
+        {
+            try
+            {
+                Init();
+                //SqlServerConnection
+                 
+
+                return config.GetValue<List<string>>("ConnectionStrings");
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
         public static bool GetAllowDirectoryBrowseSetting()
         {
             try

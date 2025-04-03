@@ -134,7 +134,41 @@ namespace WordDocXToHtmlManager.Managers
                 return null;
             }
         }
+        public override async Task<List<Post>> ListByBlogName(string name)
+        {
+            try
+            {
+                List<Post> ap = null;
+                if (CommonTools.isEmpty(name) != true )
+                {
+                    var files = await wordFileManager.GetFilesByBlogName(name);
+                     
+                        if ( files != null )
+                        {
+                            foreach( var file in files )
+                            {
+                                var t= new Post();
+                                t.Title = Path.GetFileNameWithoutExtension(file.FileName);
+                                t.PostName = file.FileName;
+                                t.content = "<a href=\"" + AppSettingsManager.GetPathBase +
+                                "/Posts/Details/" + t.PostName + "?bloganame=" + name +
+                                    ">" + t.Title + "</a>";
+                            ap.Add(t);  
 
+                        }
+                        }
+                     
+                }
+
+                return await Task.FromResult(ap);
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+
+                return null;
+            }
+        }
 
     }
 }
