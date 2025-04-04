@@ -83,4 +83,10 @@
     <Folder Include="wwwroot\js\quil-markup\" />
   </ItemGroup>
 
+  
+
+ <!-- <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /E /Y /I &quot;$(SolutionDir)\Extentions\SlimeWebSDK\WordDocXToHtmlManager\bin\$(Configuration)\&quot; &quot;$(TargetDir)\Extensions\WordDocXToHtmlManager&quot;" />
+  </Target>-->
+
 </Project>

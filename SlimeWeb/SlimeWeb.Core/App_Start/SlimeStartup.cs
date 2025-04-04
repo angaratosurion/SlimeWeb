@@ -442,7 +442,7 @@ namespace SlimeWeb.Core.App_Start
         //{
         //    services = ConfigureServicesSlime(services);
         //}
-        public static IApplicationBuilder ConfigureRoutdsAndEndpoints(IApplicationBuilder app, bool enableExtensions )
+        public IApplicationBuilder ConfigureRoutdsAndEndpoints(IApplicationBuilder app, bool enableExtensions )
         {
             try
             {
@@ -457,14 +457,14 @@ namespace SlimeWeb.Core.App_Start
                     {
                         app.UseEndpoints(endpoints =>                        {
 
-                            //var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
-                            //    endpoints, app.ApplicationServices);
+                            var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
+                                endpoints, app.ApplicationServices);
                             endpoints.MapControllerRoute(
                              name: "default",
-                            pattern:"{controller=Home}/{action=Index}/{id?}");
+                            pattern: pathbase + "/" + "{controller=Home}/{action=Index}/{id?}");
                             endpoints.MapControllerRoute(
                              name: "Post",
-                            pattern:   "{controller=Posts}/{action=Index}/{name}/{page?}");
+                            pattern: pathbase + "/" + "{controller=Posts}/{action=Index}/{name}/{page?}");
 
                             endpoints.MapRazorPages();
                             endpoints.MapControllers();
@@ -473,9 +473,9 @@ namespace SlimeWeb.Core.App_Start
                         app.UseMvc(routes =>
                         {
                             routes.MapRoute(name: "default",
-                            template:  "{ controller = Home}/{ action = Index}/{ id?}");
+                            template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
                             routes.MapRoute(name: "Post",
-                            template:  "{ controller = Posts}/{action=Index}/{name}/{page?}");
+                            template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
                         });
                     }
                     else

@@ -47,6 +47,8 @@ namespace SlimeWeb
 
 
             app = base.ConfigureSlime(app, env);
+            //app = ConfigureRoutdsAndEndpoints(app,
+            //    AppSettingsManager.GetEnableExtensionsSetting());
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing==true)
             {
@@ -77,8 +79,8 @@ namespace SlimeWeb
                     endpoints.MapRazorPages();
                     endpoints.MapControllers();
                 });
-          
-            app = ConfigureRoutdsAndEndpoints(app, 
+
+            app = base.ConfigureRoutdsAndEndpoints(app,
                 AppSettingsManager.GetEnableExtensionsSetting());
 
 
