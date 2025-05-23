@@ -1,20 +1,21 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Office2010.Word;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using OpenXmlPowerTools;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Math;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-
-
-
-using OpenXmlPowerTools;
 
 namespace SlimeDockHTml
 {
@@ -24,13 +25,13 @@ namespace SlimeDockHTml
         public static string ConvertToHtml(string file, string outputDirectory)
         {
             var fi = new FileInfo(file);
-            Console.WriteLine(fi.Name);
-            byte[] byteArray = File.ReadAllBytes(fi.FullName);
-            using (MemoryStream memoryStream = new MemoryStream())
+            //Console.WriteLine(fi.Name);
+            //byte[] byteArray = File.ReadAllBytes(fi.FullName);
+            //using (MemoryStream memoryStream = new MemoryStream())
             {
-                memoryStream.Write(byteArray, 0, byteArray.Length);
-                using (WordprocessingDocument wDoc =
-                    WordprocessingDocument.Open(memoryStream, true))
+                //memoryStream.Write(byteArray, 0, byteArray.Length);
+                using (WordprocessingDocument wDoc = OpenWordDocument(file))///WordprocessingDocument wDoc =
+                    //WordprocessingDocument.Open(memoryStream, true))
                 {
                     var destFileName = new FileInfo(fi.Name.Replace(".docx", ".html"));
                     if (outputDirectory != null && outputDirectory != string.Empty)
@@ -43,7 +44,8 @@ namespace SlimeDockHTml
                         }
                         destFileName = new FileInfo(System.IO.Path.Combine(di.FullName, destFileName.Name));
                     }
-                    var imageDirectoryName = destFileName.FullName.Substring(0, destFileName.FullName.Length - 5) + "_files";
+                    var imageDirectoryName = destFileName.FullName.Substring(0, destFileName.FullName.Length 
+                        - 5) + "_files";
                     int imageCounter = 0;
 
                     var pageTitle = fi.FullName;
@@ -151,14 +153,14 @@ namespace SlimeDockHTml
         }
         public static string ConvertToHtml(string file )
         {
-            var fi = new FileInfo(file);
-            Console.WriteLine(fi.Name);
-            byte[] byteArray = File.ReadAllBytes(fi.FullName);
-            using (MemoryStream memoryStream = new MemoryStream())
+             var fi = new FileInfo(file);
+            //Console.WriteLine(fi.Name);
+            //byte[] byteArray = File.ReadAllBytes(fi.FullName);
+           // using (MemoryStream memoryStream = new MemoryStream())
             {
-                memoryStream.Write(byteArray, 0, byteArray.Length);
-                using (WordprocessingDocument wDoc =
-                    WordprocessingDocument.Open(memoryStream, true))
+                // memoryStream.Write(byteArray, 0, byteArray.Length);
+                using (WordprocessingDocument wDoc = OpenWordDocument(file)) 
+                  //  WordprocessingDocument.Open(memoryStream, true))
                 {
                     var destFileName = new FileInfo(fi.Name.Replace(".docx", ".html"));
                      
@@ -267,6 +269,66 @@ namespace SlimeDockHTml
                     return htmlString;
                 }
             }
+        }
+        public static Properties GetExtendedFileProperties( string file)
+        {
+            Properties properties =null;
+            var document = OpenWordDocument(file);
+            if (document != null )
+            {
+                if (document.ExtendedFilePropertiesPart is null)
+                {
+                    throw new ArgumentNullException("ExtendedFilePropertiesPart is null.");
+                }
+
+                var props = document.ExtendedFilePropertiesPart.Properties;
+                 
+               
+                properties = props;
+            }
+
+            return properties;
+             
+        }
+        public static PackageProperties GetPackagePropertiesProperties(string file)
+        {
+            PackageProperties properties = null; ;
+            var document = OpenWordDocument(file);
+            if (document != null)
+            {
+                if (document.PackageProperties is null)
+                {
+                    throw new ArgumentNullException("PackageProperties is null.");
+                }
+
+                var props = document.PackageProperties;
+               
+                properties = props;
+            }
+
+            return properties;
+
+        }
+
+        public static WordprocessingDocument OpenWordDocument(string file)
+        {
+            WordprocessingDocument ap;
+            var fi = new FileInfo(file);
+            Console.WriteLine(fi.Name);
+            byte[] byteArray = File.ReadAllBytes(fi.FullName);
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                memoryStream.Write(byteArray, 0, byteArray.Length);
+
+                WordprocessingDocument wDoc =
+                    WordprocessingDocument.Open(memoryStream, true);
+                ap = wDoc;
+
+            }
+
+
+
+                return ap;
         }
     }
 }

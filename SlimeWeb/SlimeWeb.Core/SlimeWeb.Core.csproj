@@ -40,25 +40,25 @@
     <PackageReference Include="ExtCore.Mvc" Version="9.0.0" />
     <PackageReference Include="ExtCore.Mvc.Infrastructure" Version="9.0.0" />
     <PackageReference Include="ExtCore.WebApplication" Version="9.0.0" />
-    <PackageReference Include="Markdig.Signed" Version="0.40.0" />
+    <PackageReference Include="Markdig.Signed" Version="0.41.1" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.5" />
     <PackageReference Include="Microsoft.Owin" Version="4.2.2" />
     <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.2.2" />
   <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
@@ -69,10 +69,10 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Q101.BbCodeNetCore" Version="1.0.1" />
     <PackageReference Include="Quill.Delta" Version="1.0.7" />
-    <PackageReference Include="ReverseMarkdown" Version="4.6.0" />
+    <PackageReference Include="ReverseMarkdown" Version="4.7.0" />
     <PackageReference Include="SimpleSystemSpecs.Core" Version="0.0.9" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
-    <PackageReference Include="System.IO.Packaging" Version="9.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
+    <PackageReference Include="System.IO.Packaging" Version="9.0.5" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>

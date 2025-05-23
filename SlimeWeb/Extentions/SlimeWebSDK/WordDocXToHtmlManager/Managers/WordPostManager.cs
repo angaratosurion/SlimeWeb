@@ -62,9 +62,23 @@ namespace WordDocXToHtmlManager.Managers
                         ap = new List<Post>();
                         foreach (var file in files)
                         {
+                            var prop = SlimeConverter.GetPackagePropertiesProperties(file.Path);
+                           
                             Post post = new Post();
-                            post.Title = file.FileName;
-                            post.PostName = file.FileName;
+                            if (prop != null)
+
+                            {
+                                post.Author = prop.Creator;
+                                post.Published = (DateTime)prop.Modified;
+
+                                post.Title = prop.Title;
+                                post.PostName = file.FileName;
+                            }
+                            else
+                            {
+                                post.Title = file.FileName;
+                                post.PostName = file.FileName;
+                            }
                             post.content = "<a href=\"" + AppSettingsManager.GetPathBase +
                                 "/Posts/Details/"+post.PostName+"?bloganame="+name+
                                 ">"+ post.Title+"</a>";
@@ -106,14 +120,16 @@ namespace WordDocXToHtmlManager.Managers
             {
                  Post ap=null ,tap= new Post();
 
-                var lstap = await this.List();
-                if(lstap != null)
+                var lstap = await ListByBlogNameByPublished(blogname);
+                if (lstap != null)
                 {
                     tap=lstap.First(x=>x.PostName== postname);
                 }
 
                 if ( tap != null)
                 {
+
+
                     ap=new Post();  
                     ap.Title =tap.Title;
                     ap.PostName=tap.PostName;
