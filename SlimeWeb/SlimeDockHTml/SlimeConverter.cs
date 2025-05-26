@@ -16,6 +16,11 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+// Κάνουμε alias το Wordprocessing Paragraph για να ξεχωρίζει
+using WParagraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
+using WBreak = DocumentFormat.OpenXml.Wordprocessing.Break;
+using WBreakValues = DocumentFormat.OpenXml.Wordprocessing.BreakValues;
+
 
 namespace SlimeDockHTml
 {
@@ -330,5 +335,47 @@ namespace SlimeDockHTml
 
                 return ap;
         }
+        public static List<List<WParagraph>> GetPages(string file)
+        {
+            var pages = new List<List<WParagraph>>();
+
+            var doc = OpenWordDocument(file);
+            var body = doc.MainDocumentPart.Document.Body;
+            var paragraphs = body.Elements<WParagraph>().ToList();
+
+            var currentPage = new List<WParagraph>();
+
+            foreach (var para in paragraphs)
+            {
+                currentPage.Add(para);
+
+                // Αν υπάρχει page break μέσα στην παράγραφο, κόβουμε σελίδα
+                if (para.Descendants<WBreak>().Any(b => b.Type == WBreakValues.Page))
+                {
+                    pages.Add(currentPage);
+                    currentPage = new List<WParagraph>();
+                }
+            }
+
+            if (currentPage.Count > 0)
+                pages.Add(currentPage);
+
+
+            return pages;
+        }
+        public static List<WParagraph> GetPage(string file,int pagenum)
+        {
+            var page = new List<WParagraph>();
+            var pages = GetPages(file);
+            page = pages[pagenum];
+            
+            
+
+
+            return page;
+        }
+
+
     }
-}
+    }
+
