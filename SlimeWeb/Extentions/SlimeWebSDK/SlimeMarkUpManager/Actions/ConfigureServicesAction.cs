@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SlimeMarkUpManager.Managers.MarkupManager;
 using SlimeWeb.Core.Managers.Markups;
 using SlimeWeb.Core.SDK.Interfaces;
 using System;
@@ -19,7 +20,8 @@ namespace SlimeMarkUpManager.Actions
             {
                  
               
-                SlimeMarkUpManager slimeExtensiveMarkDownManager = new SlimeMarkUpManager();
+                SlimeMarManager slimeExtensiveMarkDownManager = 
+                    new SlimeMarManager();
                 MarkUpManager.RegisterMarkupManager("SlimeMarkUp",
                     slimeExtensiveMarkDownManager);
                 Console.WriteLine("testt HelloWorld.Actions ConfigureServicesAction");

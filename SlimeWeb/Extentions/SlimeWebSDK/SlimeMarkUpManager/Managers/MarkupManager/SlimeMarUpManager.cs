@@ -12,7 +12,7 @@ namespace SlimeMarkUpManager.Managers.MarkupManager
 {
     public  class SlimeMarManager : IMarkupManager
     {
-        var parser = new MarkupParser(new List<IBlockMarkupExtension>
+        MarkupParser parser = new MarkupParser(new List<IBlockMarkupExtension>
             {
                 new HeaderExtension(),
                 new ImageExtension(),
