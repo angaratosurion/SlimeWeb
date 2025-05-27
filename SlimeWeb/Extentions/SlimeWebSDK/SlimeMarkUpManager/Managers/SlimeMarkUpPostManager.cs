@@ -1,4 +1,5 @@
-﻿using SlimeMarkUpManager.Managers.MarkupManager;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SlimeMarkUpManager.Managers.MarkupManager;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
@@ -126,8 +127,13 @@ namespace SlimeMarkUp.Managers
                     ap.PostName=tap.PostName;
 
                     string filename = Path.Combine(FileSystemManager.GetBlogRootDataFolderAbsolutePath(blogname),
-                        postname, ".docx");
+                        postname, ".sd");
                   //  ap.content=SlimeConverter.ConvertToHtml(filename);
+                 String filecont = File.ReadAllText(filename);
+                    if ( CommonTools.isEmpty(filecont)==false)
+                    {
+                        ap.content =slemManrkupManager.ConvertToHtml(filecont);
+                    }
 
                 }
 

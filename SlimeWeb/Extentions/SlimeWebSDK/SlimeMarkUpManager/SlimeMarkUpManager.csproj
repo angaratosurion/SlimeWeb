@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SlimeMarkUp.Core" Version="0.0.5" />
+    <PackageReference Include="SlimeMarkUp.Core" Version="0.0.5.1" />
   </ItemGroup>
 
   <ItemGroup>
