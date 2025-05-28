@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SlimeMarkUp.Core;
+using SlimeMarkUpManager.Managers;
 using SlimeMarkUpManager.Managers.MarkupManager;
 using SlimeWeb.Core.Data.Models;
 using SlimeWeb.Core.Managers;
@@ -12,7 +14,8 @@ namespace SlimeMarkUp.Managers
          
         SlimeWebsUserManager userManager = CommonTools.usrmng;
         SlimeMarManager slemManrkupManager = new SlimeMarManager();
-        
+          SlimeMarkUpFileManager fileManager = new  SlimeMarkUpFileManager();
+
         public override Task<Post> Create(Post post, string username)
         {
             try
@@ -41,56 +44,58 @@ namespace SlimeMarkUp.Managers
                 return null;
             }
         }
-        //public override async Task<List<Post>> ListByBlogNameByPublished(string name)
-        //{
-        //    try
-        //    {
-        //        List<Post> ap = null;
-        //        if (CommonTools.isEmpty(name) != true)
-        //        {
-        //            var files = await FileManager.GetFilesByBlogName(name);
-        //            if (files != null)
-        //            {
-        //                ap = new List<Post>();
-        //                foreach (var file in files)
-        //                {
-        //                    var prop = SlimeConverter.GetPackagePropertiesProperties(file.Path);
+        public override async Task<List<Post>> ListByBlogNameByPublished(string name)
+        {
+            try
+            {
+                List<Post> ap = null;
+                if (CommonTools.isEmpty(name) != true)
+                {
+                    var files = await fileManager.GetFilesByBlogName(name);
+                    if (files != null)
+                    {
+                        ap = new List<Post>();
+                        foreach (var file in files)
+                        {
+                            string input = File.ReadAllText(file.Path);
+                            var prop = DocumentPropertiesLoader.Load(file.Path);
 
-        //                    Post post = new Post();
-        //                    if (prop != null)
+                            Post post = new Post();
+                            if (prop != null)
 
-        //                    {
-        //                        post.Author = prop.Creator;
-        //                        post.Published = (DateTime)prop.Modified;
+                            {
+                                post.Author = prop.Author;
+                                post.Published = (DateTime)prop.Published;
 
-        //                        post.Title = prop.Title;
-        //                        post.PostName = file.FileName;
-        //                    }
-        //                    else
-        //                    {
-        //                        post.Title = file.FileName;
-        //                        post.PostName = file.FileName;
-        //                    }
-        //                    post.content = "<a href=\"" + AppSettingsManager.GetPathBase +
-        //                        "/Posts/Details/" + post.PostName + "?bloganame=" + name +
-        //                        ">" + post.Title + "</a>";
-        //                }
+                                post.Title = prop.Title;
+                                post.PostName = file.FileName;
+                                post.content = prop.Description;
+                            }
+                            else
+                            {
+                                post.Title = file.FileName;
+                                post.PostName = file.FileName;
+                            }
+                            //post.content = "<a href=\"" + AppSettingsManager.GetPathBase +
+                            //    "/Posts/Details/" + post.PostName + "?bloganame=" + name +
+                            //    ">" + post.Title + "</a>";
+                        }
 
-        //            }
-        //        }
+                    }
+                }
 
 
 
-        //        return await Task.FromResult(ap);
-        //    }
+                return await Task.FromResult(ap);
+            }
 
-        //    catch (Exception ex)
-        //    {
-        //        CommonTools.ErrorReporting(ex);
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
 
-        //        return null;
-        //    }
-        //}
+                return null;
+            }
+        }
         public override Task<List<Post>> ListByBlogNameByPublished(string name
             , int page, int pagesize)
         {
