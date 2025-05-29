@@ -41,7 +41,8 @@ namespace SlimeWeb.Core.Managers
             {
                 string ap = "";
 
-                string pathwithextention = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string pathwithextention = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+                    "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
                 string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                 //path = pathwithextention.Replace("file:\\", "");
                 ap = Path.Combine(pathwithextention, AppDataDir);
@@ -63,7 +64,8 @@ namespace SlimeWeb.Core.Managers
             {
                 string ap = "";
 
-                string pathwithextention = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                string pathwithextention = Path.Combine(FileSystemManager.
+                    GetAppRootBinaryFolderAbsolutePath(), "wwwroot"); ;//System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
                 string path;//= System.IO.Path.GetDirectoryName(pathwithextention).Replace("file:\\", "");
                 //path = pathwithextention.Replace("file:\\", "");
                 ap = Path.Combine(pathwithextention, TempDir);

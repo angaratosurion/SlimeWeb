@@ -60,5 +60,33 @@ namespace SlimeMarkUpManager.Managers
                 
             }
         }
+        public override Task<List<Blog>> ListBlog()
+        {
+            try
+            {
+                List<Blog> blogs = new List<Blog>();
+
+               var path=FileSystemManager.GetAppRootDataFolderRelativePath();
+
+                var dirs = Directory.GetDirectories(path);
+                foreach (var dir in dirs)
+                {
+                    Blog blog = new Blog();
+                    blog.Name = Path.GetDirectoryName(dir);
+                    blog.Title = Path.GetDirectoryName(dir);
+                    blogs.Add(blog);
+                }
+
+                return Task.FromResult(blogs);
+                    ;
+
+            }
+            catch (Exception ex)
+            {
+
+                CommonTools.ErrorReporting(ex);
+                return null;
+            }
+        }
     }
 }
