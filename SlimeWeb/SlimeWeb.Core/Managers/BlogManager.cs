@@ -32,7 +32,7 @@ namespace SlimeWeb.Core.Managers
 
      
 
-        public async  Task<List<Blog>> ListBlog()
+        public virtual async  Task<List<Blog>> ListBlog()
         {
             try
             {
@@ -47,7 +47,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Blog>> ListBlogBylastUpdated()
+        public virtual async Task<List<Blog>> ListBlogBylastUpdated()
         {
             try
             {
@@ -76,7 +76,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Blog>> ListBlogByAdmUser(string username)
+        public virtual async Task<List<Blog>> ListBlogByAdmUser(string username)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<Blog>> ListBlogByModUser(string username)
+        public virtual async Task<List<Blog>> ListBlogByModUser(string username)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<ViewBlog> GetBlogAsync(string name)
+        public virtual async Task<ViewBlog> GetBlogAsync(string name)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<ViewBlog> GetBlogByIdAsync(int ?id)
+        public virtual async Task<ViewBlog> GetBlogByIdAsync(int ?id)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<bool>  BlogExists(string name)
+        public virtual async Task<bool>  BlogExists(string name)
         {
             try
             {
@@ -215,7 +215,7 @@ namespace SlimeWeb.Core.Managers
                 return false; ;
             }
         }
-        public void CreateBlog(Blog bl, string username)
+        public virtual void CreateBlog(Blog bl, string username)
         {
             try
             {
@@ -268,7 +268,7 @@ namespace SlimeWeb.Core.Managers
             }
         }
         
-        public async Task<Blog> EditBasicInfo(Blog bl, string Blogname)
+        public virtual async Task<Blog> EditBasicInfo(Blog bl, string Blogname)
         {
             try
             {
@@ -299,7 +299,7 @@ namespace SlimeWeb.Core.Managers
             
         }
         }
-        public async Task<List<ApplicationUser>> GetBlogModerators(string Blogname)
+        public virtual async Task<List<ApplicationUser>> GetBlogModerators(string Blogname)
         {
             try
             {
@@ -333,7 +333,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<List<ApplicationUser>> GetBlogActiveModerators(string Blogname)
+        public virtual async Task<List<ApplicationUser>> GetBlogActiveModerators(string Blogname)
         {
             try
             {
@@ -367,7 +367,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task<ApplicationUser> GetBlogAdministrator(string Blogname)
+        public virtual async Task<ApplicationUser> GetBlogAdministrator(string Blogname)
         {
             try
             {
@@ -394,7 +394,7 @@ namespace SlimeWeb.Core.Managers
                 return null;
             }
         }
-        public async Task DeleteBlogAsync(string Blogname)
+        public virtual async Task DeleteBlogAsync(string Blogname)
         {
             try
             {
@@ -438,7 +438,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async void DeleteBlogByAdm(string username)
+        public virtual async void DeleteBlogByAdm(string username)
         {
             try
             {
@@ -469,7 +469,7 @@ namespace SlimeWeb.Core.Managers
 
             }
         }
-        public async  Task MarkAsUpdated(string Blogname, EntityState state)
+        public virtual async  Task MarkAsUpdated(string Blogname, EntityState state)
         {
             try
             {

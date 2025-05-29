@@ -14,7 +14,8 @@ namespace WordDocXToHtmlManager.Actions
     {
         int IConfigureServicesAction.Priority => 10;
 
-        void IConfigureServicesAction.Execute(IServiceCollection services, IServiceProvider serviceProvider)
+        void IConfigureServicesAction.Execute(IServiceCollection services,
+            IServiceProvider serviceProvider)
         {
             try
             {
