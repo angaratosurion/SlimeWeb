@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
-using NLog.Fluent;
 using SlimeWeb.Core.Data.NonDataModels;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;

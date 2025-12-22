@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using SlimeMarkUp.Core;
+using SlimeMarkUp.Core.Models;
 using SlimeMarkUpManager.Managers;
 using SlimeMarkUpManager.Managers.MarkupManager;
 using SlimeWeb.Core.Data.Models;
@@ -28,7 +29,17 @@ namespace SlimeMarkUp.Managers
                     if (user != null)
                     {
                         ap = new Post();
-                          
+                        post.Author = user.UserName;
+                        DocumentProperties documentProperties = new DocumentProperties();
+                        documentProperties.Author = user.UserName;
+                        documentProperties.Published = post.Published;
+                        documentProperties.Title = post.Title;
+                        documentProperties.Description = post.Title;
+                        documentProperties.Contributors = new List<string> { user.UserName };
+                         
+
+
+
 
                     }
 

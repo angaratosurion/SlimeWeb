@@ -2,6 +2,7 @@
 using Quill.Delta;
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions;
+using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using SlimeWeb.Core.Managers.Markups.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
@@ -21,7 +22,11 @@ namespace SlimeMarkUpManager.Managers.MarkupManager
                 new CodeBlockExtension(),
                 new BlockquoteExtension(),
                 new InlineStyleExtension(),
-                new LinkExtension()
+                new LinkExtension(),
+                new IncludeScriptExtension(),
+                new IncludeCSSExtension(),
+                new IncludeExtension()
+
             });
         public string ConvertFromHtmlToMarkUp(string htmlcode)
         {
