@@ -1,8 +1,6 @@
-﻿using ExtCore.Infrastructure;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Extensions.Logging;
-using NLog.Fluent;
 using SlimeWeb.Core.Managers;
 using System;
 using System.ComponentModel.DataAnnotations;
