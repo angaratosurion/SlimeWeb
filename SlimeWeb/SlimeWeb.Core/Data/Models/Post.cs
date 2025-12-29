@@ -29,7 +29,7 @@ namespace SlimeWeb.Core.Data.Models
         [Required]
        // [Key]
         public string PostName { get; set; }
-        public bool isSavedOnAFile { get; set; }
+        //public bool isSavedOnAFile { get; set; }
 
 
     }
