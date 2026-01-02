@@ -9,14 +9,18 @@ using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
+using System.Management;
+using System.Management.Automation.Language;
 using System.Reflection;
+using EnumerationOptions = System.IO.EnumerationOptions;
 using IExtension = SlimeWeb.Core.SDK.Interfaces.IExtension;
 
 namespace SlimeWeb.Core.SDK
 {
-    public   class SlimePluginManager
+    public class SlimePluginManager
     {
         public static List<ExtCore.Infrastructure.IExtension>
             GetSlimeWebExtCoreExtensionInfo()
@@ -42,7 +46,7 @@ namespace SlimeWeb.Core.SDK
                 return null;
             }
         }
-        public static List<IExtension> GetSlimeWebSDKExtensionInfo( )
+        public static List<IExtension> GetSlimeWebSDKExtensionInfo()
         {
             try
             {
@@ -70,14 +74,14 @@ namespace SlimeWeb.Core.SDK
                             {
 
                                 ap.Add(serv);
-                                 
+
                             }
                         }
 
                     }
 
-                
-            }
+
+                }
 
 
                 return ap;
@@ -90,7 +94,8 @@ namespace SlimeWeb.Core.SDK
                 return null;
             }
         }
-        public static List<IConfigureServicesAction> LoadServicesPlugins(string relativePath, 
+        public static List<IConfigureServicesAction> LoadServicesPlugins(string
+            relativePath,
             IServiceCollection services,
             IServiceProvider serviceProvider)
         {
@@ -98,13 +103,13 @@ namespace SlimeWeb.Core.SDK
             {
                 string pluginLocation = relativePath;
                 List<IConfigureServicesAction> ap = null;
-                if (CommonTools.isEmpty(pluginLocation) != true )
+                if (CommonTools.isEmpty(pluginLocation) != true)
                 {
-                   
+
                     ap = new List<IConfigureServicesAction>();
-                    EnumerationOptions enumerationOptions  = new EnumerationOptions();
+                    EnumerationOptions enumerationOptions = new EnumerationOptions();
                     enumerationOptions.RecurseSubdirectories = true;
-                    var files = Directory.GetFiles(pluginLocation,"*.dll",enumerationOptions);
+                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
                     foreach (var file in files)
                     {
                         var plg = LoadPlugin(file);
@@ -113,7 +118,7 @@ namespace SlimeWeb.Core.SDK
                             var serv = CreateSericeExtesion(plg);
                             if (serv != null)
                             {
-                                ap.Add (serv);
+                                ap.Add(serv);
                                 serv.Execute(services, serviceProvider);
                             }
                         }
@@ -136,8 +141,9 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IUseEndpointsAction> LoadEndpointPlugins(string relativePath,
-            IEndpointRouteBuilder endpointRouteBuilder, 
+        public static List<IUseEndpointsAction> LoadEndpointPlugins(string
+            relativePath,
+            IEndpointRouteBuilder endpointRouteBuilder,
             IServiceProvider serviceProvider)
         {
             try
@@ -156,11 +162,11 @@ namespace SlimeWeb.Core.SDK
                         var plg = LoadPlugin(file);
                         if (plg != null)
                         {
-                           
+
                             var serv = CreateEndpointsExtension(plg);
                             if (serv != null)
                             {
-                               
+
                                 ap.Add(serv);
                                 serv.Execute(endpointRouteBuilder, serviceProvider);
                             }
@@ -184,18 +190,19 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, 
-            IMvcCoreBuilder mvcBuilder, 
+        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string
+            relativePath,
+            IMvcCoreBuilder mvcBuilder,
             IServiceProvider serviceProvider)
         {
             try
             {
                 string pluginLocation = relativePath;
-                List<IAddMvcAction>  ap = null;
+                List<IAddMvcAction> ap = null;
                 if (CommonTools.isEmpty(pluginLocation) != true)
                 {
 
-                    ap = new List<IAddMvcAction> ();
+                    ap = new List<IAddMvcAction>();
                     EnumerationOptions enumerationOptions = new EnumerationOptions();
                     enumerationOptions.RecurseSubdirectories = true;
                     var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
@@ -297,7 +304,7 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-       static IConfigureServicesAction CreateSericeExtesion(Assembly assembly)
+        static IConfigureServicesAction CreateSericeExtesion(Assembly assembly)
         {
             try
             {
@@ -315,7 +322,7 @@ namespace SlimeWeb.Core.SDK
 
                             return (IConfigureServicesAction)result;
 
-                            
+
                         }
                     }
                 }
@@ -326,7 +333,7 @@ namespace SlimeWeb.Core.SDK
                 CommonTools.ErrorReporting(ex);
                 return null;
             }
-            }
+        }
         static IAddMvcAction CreateAddMvcActionExtesion(Assembly assembly)
         {
             try
@@ -338,12 +345,12 @@ namespace SlimeWeb.Core.SDK
                 {
                     if (typeof(IAddMvcAction).IsAssignableFrom(type))
                     {
-                        IAddMvcAction  result = Activator.CreateInstance(type) as IAddMvcAction ;
+                        IAddMvcAction result = Activator.CreateInstance(type) as IAddMvcAction;
                         if (result != null)
                         {
                             count++;
 
-                            return (IAddMvcAction )result;
+                            return (IAddMvcAction)result;
 
 
                         }
@@ -362,13 +369,13 @@ namespace SlimeWeb.Core.SDK
             try
             {
                 int count = 0;
-               IUseEndpointsAction ap = null;
+                IUseEndpointsAction ap = null;
 
                 foreach (Type type in assembly.GetTypes())
                 {
                     if (typeof(IUseEndpointsAction).IsAssignableFrom(type))
                     {
-                        IUseEndpointsAction result = Activator.CreateInstance(type) as IUseEndpointsAction ;
+                        IUseEndpointsAction result = Activator.CreateInstance(type) as IUseEndpointsAction;
                         if (result != null)
                         {
                             count++;
@@ -412,7 +419,7 @@ namespace SlimeWeb.Core.SDK
             }
         }
 
-        public static List<IConfigureAction> LoadConfigurePlugins(string relativePath, IApplicationBuilder applicationBuilder, 
+        public static List<IConfigureAction> LoadConfigurePlugins(string relativePath, IApplicationBuilder applicationBuilder,
             IServiceProvider serviceProvider)
         {
             try
@@ -485,6 +492,37 @@ namespace SlimeWeb.Core.SDK
             {
                 CommonTools.ErrorReporting(ex);
                 return null;
+            }
+        }
+
+
+        public static void LoadExternalControllers(string relativePath,
+             IMvcBuilder mvcBuilder)
+        {
+            string pluginLocation = relativePath;
+            List<Controller> ap = null;
+            EnumerationOptions enumerationOptions = new EnumerationOptions();
+            enumerationOptions.RecurseSubdirectories = true;
+            if (CommonTools.isEmpty(pluginLocation) != true)
+            {
+                ap = new List<Controller>();
+                var mvc = mvcBuilder.AddControllersAsServices();
+                var files = Directory.GetFiles(pluginLocation, "*.dll",
+                    enumerationOptions);
+                foreach (var file in files)
+                {
+                    var plg = LoadPlugin(file);
+                    if (plg != null)
+                    {
+                        var parts = plg.GetTypes().Where(t => typeof(Controller).IsAssignableFrom(t)).ToList();
+                        foreach (var part in parts)
+                        {
+                             
+                            mvc.AddApplicationPart(plg);
+
+                        }
+                    }
+                }
             }
         }
     }

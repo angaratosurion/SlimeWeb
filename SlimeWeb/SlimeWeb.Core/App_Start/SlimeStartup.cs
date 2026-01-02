@@ -197,6 +197,8 @@ namespace SlimeWeb.Core.App_Start
                             Services = services;
                             addMvcActions = SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath,
                                 mvcBuilder, services.BuildServiceProvider());
+                            SlimePluginManager.LoadExternalControllers(extensionsPath,
+                                mvcBuilder);
 
 
 
