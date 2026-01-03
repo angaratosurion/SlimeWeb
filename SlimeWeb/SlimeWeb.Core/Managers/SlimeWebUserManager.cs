@@ -19,11 +19,13 @@ namespace SlimeWeb.Core.Managers
 
     public class SlimeWebsUserManager
     {
-        SlimeDbContext db = new SlimeDbContext();
+        SlimeDbContext db;
+
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
         private Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> roleManager;
-        public SlimeWebsUserManager(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> usrmngr, SignInManager<ApplicationUser> singmngr,
+        public SlimeWebsUserManager(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> usrmngr,
+            SignInManager<ApplicationUser> singmngr,
             SlimeDbContext tdb, RoleManager<ApplicationRole> roleMgr)
         {
             this._userManager = usrmngr;
@@ -31,16 +33,9 @@ namespace SlimeWeb.Core.Managers
             roleManager = roleMgr;
             this.Context = tdb;
         }
-        public SlimeWebsUserManager(IServiceProvider serviceProvider)
-        { 
-            _userManager = serviceProvider.GetService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
-            roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-            _signInManager= serviceProvider.GetService<Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser>>();
-        }
-        //public SlimeWebsUserManager()
-        //{
-
-        //}
+         
+         
+         
 
         public SlimeDbContext Context { get { return db; } set { db = value; } }
         //WikiManager wkmngr = CommonTools.wkmngr;

@@ -23,5 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\SlimeWeb.Core\SlimeWeb.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+  <EmbeddedResource Include="Views\**\*.cshtml" />
+</ItemGroup>
+
 
 </Project>

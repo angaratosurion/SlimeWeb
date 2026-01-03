@@ -1,4 +1,5 @@
 ﻿using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace SlimeWeb.Core.Data.ViewModels
 {
     public class ViewBlog : Blog
     {
-        // Add a parameterless constructor
+        SlimeWebsUserManager usrmng;
         public ViewBlog() { }
-
+      
         public void ImportFromModel(Blog md)
         {
             try

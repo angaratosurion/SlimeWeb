@@ -1,9 +1,12 @@
 ﻿using ExtCore.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
@@ -497,8 +500,9 @@ namespace SlimeWeb.Core.SDK
 
 
         public static void LoadExternalControllers(string relativePath,
-             IMvcBuilder mvcBuilder)
+             IMvcBuilder mvcBuilder,IServiceCollection services)
         {
+
             string pluginLocation = relativePath;
             List<Controller> ap = null;
             EnumerationOptions enumerationOptions = new EnumerationOptions();
@@ -514,15 +518,29 @@ namespace SlimeWeb.Core.SDK
                     var plg = LoadPlugin(file);
                     if (plg != null)
                     {
-                        var parts = plg.GetTypes().Where(t => typeof(Controller).IsAssignableFrom(t)).ToList();
+                        var parts = plg.GetTypes().
+                            Where(t => typeof(Controller).IsAssignableFrom(t)).ToList();
                         foreach (var part in parts)
                         {
-                             
+
                             mvc.AddApplicationPart(plg);
 
                         }
-                    }
+                        mvcBuilder.Services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
+                        {
+                        var providers = new List<IFileProvider>();
+                        providers.Add(new EmbeddedFileProvider(plg));
+                        var moduleViewsPath = Path.Combine(relativePath, "Views"); 
+                            if (Directory.Exists(moduleViewsPath)) {
+                            providers.Add(new PhysicalFileProvider(moduleViewsPath)); }
+                        if (providers.Count > 0) { 
+                            options.FileProviders.Clear(); 
+                            options.FileProviders.Add(new CompositeFileProvider(providers)); 
+                        }
+                    });
                 }
+                ;
+                        }
             }
         }
     }

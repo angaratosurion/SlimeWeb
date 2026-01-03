@@ -1,6 +1,7 @@
 ﻿using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
 using ExtCore.WebApplication.Extensions;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ using SlimeWeb.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -70,6 +72,10 @@ namespace SlimeWeb.Core.App_Start
         {
             try
             {
+                services.AddControllersWithViews();
+                     services.AddRazorPages();
+                    services.AddControllers();
+
                 if (AppSettingsManager.GetDBEngine() == enumDBEngine.SQLServer.ToString())
                 {
 
@@ -164,11 +170,7 @@ namespace SlimeWeb.Core.App_Start
                 services.AddControllers();
 
 
-                //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                //  .AddEntityFrameworkStores<SlimeDbContext>();
-                //extensionsPath = Path.Combine(hostingEnvironment.ContentRootPath, configuration["Extensions:Path"]);
-                // Console.WriteLine("Code Base: {0}", System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+              extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
                     AppSettingsManager.GetExtetionPath());
                 Console.WriteLine("Applications's Root  Path : {0}",
                     FileSystemManager.GetAppRootBinaryFolderAbsolutePath());
@@ -197,8 +199,9 @@ namespace SlimeWeb.Core.App_Start
                             Services = services;
                             addMvcActions = SlimePluginManager.LoadAddMvcActionPlugins(extensionsPath,
                                 mvcBuilder, services.BuildServiceProvider());
-                            SlimePluginManager.LoadExternalControllers(extensionsPath,
-                                mvcBuilder);
+                            SlimePluginManager.LoadExternalControllers(
+                                extensionsPath,
+                                mvcBuilder,services);
 
 
 
@@ -226,7 +229,7 @@ namespace SlimeWeb.Core.App_Start
 
                 }
 
-
+                services.AddScoped<SlimeWebsUserManager>();
                 if (AppSettingsManager.GetAllowChangingManagers())
                 {
                     GroupedManagers groupedManagers =
@@ -244,7 +247,8 @@ namespace SlimeWeb.Core.App_Start
                         }
                     }
                 }
-                    return services;
+               
+                return services;
 
                 
             }
@@ -348,7 +352,8 @@ namespace SlimeWeb.Core.App_Start
                     migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
 
                     Console.WriteLine(context.Database.GetConnectionString());
-                    CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
+
+                   // CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
 
                    
                     if (createdb && !migratedb)
@@ -444,7 +449,8 @@ namespace SlimeWeb.Core.App_Start
         //{
         //    services = ConfigureServicesSlime(services);
         //}
-        public IApplicationBuilder ConfigureRoutdsAndEndpoints(IApplicationBuilder app, bool enableExtensions )
+        public IApplicationBuilder ConfigureRoutdsAndEndpoints(IApplicationBuilder app,
+            bool enableExtensions )
         {
             try
             {

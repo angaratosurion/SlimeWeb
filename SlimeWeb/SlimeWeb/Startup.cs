@@ -40,7 +40,7 @@ namespace SlimeWeb
             services.AddControllers();
 
         }
-         
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -50,26 +50,26 @@ namespace SlimeWeb
             //app = ConfigureRoutdsAndEndpoints(app,
             //    AppSettingsManager.GetEnableExtensionsSetting());
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
-            if (env.IsDevelopment() || errorshowing==true)
+            if (env.IsDevelopment() || errorshowing == true)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-           else
+            else
             {
-               app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            
+
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
-            
+
+
             app.UseEndpoints(endpoints =>
                 {
 
@@ -82,6 +82,7 @@ namespace SlimeWeb
 
             app = base.ConfigureRoutdsAndEndpoints(app,
                 AppSettingsManager.GetEnableExtensionsSetting());
+
 
 
         }

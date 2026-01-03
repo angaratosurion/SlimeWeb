@@ -37,7 +37,14 @@ namespace SlimeWeb.Core.Tools
             }
 
         }
-       
+        public CommonTools( )
+        {
+             
+        }
+        public CommonTools(SlimeWebsUserManager slimeWebsUserManager)
+        {
+            usrmng = slimeWebsUserManager;
+        }
         //public static FileRecordManager FileRecordManager = new FileRecordManager(usrmng.Context);
         public static Boolean isEmpty(string str)
         {
