@@ -10,10 +10,10 @@ namespace HelloWorld.Controllers
     {
         private readonly ILogger<HelloWorldController> _logger;
 
-        public HelloWorldController(ILogger<HelloWorldController> logger)
-        {
-            _logger = logger;
-        }
+        //public HelloWorldController(ILogger<HelloWorldController> logger)
+        //{
+        //    _logger = logger;
+        //}
         public HelloWorldController()
         {
            // _logger = logger;

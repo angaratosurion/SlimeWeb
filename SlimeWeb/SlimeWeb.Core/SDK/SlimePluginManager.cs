@@ -197,7 +197,7 @@ namespace SlimeWeb.Core.SDK
         }
         public static List<IAddMvcAction> LoadAddMvcActionPlugins(string
             relativePath,
-            IMvcCoreBuilder mvcBuilder,
+            IMvcBuilder mvcBuilder,
             IServiceProvider serviceProvider)
         {
             try
@@ -244,53 +244,53 @@ namespace SlimeWeb.Core.SDK
             }
 
         }
-        public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcBuilder mvcBuilder,
-            IServiceProvider serviceProvider)
-        {
-            try
-            {
-                string pluginLocation = relativePath;
-                List<IAddMvcAction> ap = null;
-                if (CommonTools.isEmpty(pluginLocation) != true)
-                {
+        //public static List<IAddMvcAction> LoadAddMvcActionPlugins(string relativePath, IMvcBuilder mvcBuilder,
+        //    IServiceProvider serviceProvider)
+        //{
+        //    try
+        //    {
+        //        string pluginLocation = relativePath;
+        //        List<IAddMvcAction> ap = null;
+        //        if (CommonTools.isEmpty(pluginLocation) != true)
+        //        {
 
-                    ap = new List<IAddMvcAction>();
-                    EnumerationOptions enumerationOptions = new EnumerationOptions();
-                    enumerationOptions.RecurseSubdirectories = true;
-                    var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
-                    foreach (var file in files)
-                    {
-                        var plg = LoadPlugin(file);
-                        if (plg != null)
-                        {
-                            mvcBuilder.AddApplicationPart(plg);
-                            var serv = CreateAddMvcActionExtesion(plg);
-                            if (serv != null)
-                            {
+        //            ap = new List<IAddMvcAction>();
+        //            EnumerationOptions enumerationOptions = new EnumerationOptions();
+        //            enumerationOptions.RecurseSubdirectories = true;
+        //            var files = Directory.GetFiles(pluginLocation, "*.dll", enumerationOptions);
+        //            foreach (var file in files)
+        //            {
+        //                var plg = LoadPlugin(file);
+        //                if (plg != null)
+        //                {
+        //                    mvcBuilder.AddApplicationPart(plg);
+        //                    var serv = CreateAddMvcActionExtesion(plg);
+        //                    if (serv != null)
+        //                    {
 
-                                ap.Add(serv);
-                                serv.Execute((IMvcCoreBuilder)mvcBuilder, serviceProvider);
-                            }
-                        }
+        //                        ap.Add(serv);
+        //                        serv.Execute((IMvcBuilder)mvcBuilder, serviceProvider);
+        //                    }
+        //                }
 
-                    }
+        //            }
 
-                }
-
-
-
-                return ap;
-            }
+        //        }
 
 
-            catch (Exception ex)
-            {
 
-                CommonTools.ErrorReporting(ex);
-                return null;
-            }
+        //        return ap;
+        //    }
 
-        }
+
+        //    catch (Exception ex)
+        //    {
+
+        //        CommonTools.ErrorReporting(ex);
+        //        return null;
+        //    }
+
+        //}
 
         public static Assembly LoadPlugin(string relativePath)
         {
@@ -300,7 +300,7 @@ namespace SlimeWeb.Core.SDK
                 // Console.WriteLine($"Loading commands from: {pluginLocation}");
                 PluginLoadContext loadContext = new PluginLoadContext(pluginLocation);
                 var name = Path.GetFileNameWithoutExtension(pluginLocation);
-                if (!LoadedAssemblies.Contains(name))
+               // if (!LoadedAssemblies.Contains(name))
                 {
                   
 
@@ -313,10 +313,10 @@ namespace SlimeWeb.Core.SDK
                     return plg;
 
                 }
-                else
+                //else
                 {
                     
-                    return null;
+                    //return null;
                 }
             }
             catch (Exception ex)

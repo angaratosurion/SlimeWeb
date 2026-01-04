@@ -8,7 +8,7 @@ namespace HelloWorld.Actions
     {
         int IAddMvcAction.Priority => 1;
 
-        void IAddMvcAction.Execute(IMvcCoreBuilder mvcBuilder, IServiceProvider serviceProvider)
+        void IAddMvcAction.Execute(IMvcBuilder mvcBuilder, IServiceProvider serviceProvider)
         {
             try
             {

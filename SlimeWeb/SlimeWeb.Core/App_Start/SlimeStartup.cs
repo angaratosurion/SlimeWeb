@@ -170,8 +170,8 @@ namespace SlimeWeb.Core.App_Start
                     services.AddControllersWithViews();
                 }
 
-                services.AddRazorPages();
-                services.AddControllers();
+                //services.AddRazorPages();
+                //services.AddControllers();
 
 
               extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
@@ -408,13 +408,15 @@ namespace SlimeWeb.Core.App_Start
                 NavigationManager.AddDefaultMenusOnTopMenu();
                 NavigationManager.AddDefaultMenusOnBottomMenu();
 
-                var usermanager = app.ApplicationServices
+                var scope = app.ApplicationServices.CreateScope();
+                
+                    var usermanager = scope.ServiceProvider
                     .GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
-                var singmanager = app.ApplicationServices
+                var singmanager = scope.ServiceProvider
                     .GetRequiredService<Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser>>();
-                var rolmnger = app.ApplicationServices
+                var rolmnger = scope.ServiceProvider
                     .GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole>>();
-                var db = app.ApplicationServices
+                var db = scope.ServiceProvider
                     .GetRequiredService<SlimeDbContext>();
 
                 CommonTools.usrmng = new SlimeWebsUserManager(
