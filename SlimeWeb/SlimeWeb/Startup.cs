@@ -46,7 +46,7 @@ namespace SlimeWeb
         {
 
 
-            app = base.ConfigureSlime(app, env);
+          //  app = base.ConfigureSlime(app, env);
             app = ConfigureRoutdsAndEndpoints(app,
                 AppSettingsManager.GetEnableExtensionsSetting());
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
@@ -78,8 +78,8 @@ namespace SlimeWeb
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                      
                 });
+            app = base.ConfigureSlime(app, env);
 
-            
 
 
 

@@ -91,8 +91,8 @@ namespace SlimeWeb.Core.Tools
 
                 // .WriteTo.File(new CompactJsonFormatter(), "/wwwroot/AppData/logs/logs.json"))
                 //.CreateBootstrapLogger())
-
-                logger.Fatal(ex.ToString());
+                string exception = ex.ToString();
+                logger.Fatal(exception);
                 NLog.LogManager.Flush();
                 // logger.Fatal(ex);
                 // if (conf.ExceptionShownOnBrowser() == true)

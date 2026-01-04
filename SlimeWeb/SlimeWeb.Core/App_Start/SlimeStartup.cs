@@ -423,7 +423,10 @@ namespace SlimeWeb.Core.App_Start
                 var provider = app.ApplicationServices
                     .GetRequiredService<ApplicationPartManager>(); 
                 foreach (var part in provider.ApplicationParts)
-                { Console.WriteLine("Loaded part: " + part.Name); }
+                { 
+                    Console.WriteLine("Loaded part: " + part.Name);
+                
+                }
                 tap = app;
                 return tap;
             }

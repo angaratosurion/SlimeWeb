@@ -14,11 +14,11 @@ namespace HelloWorld.Actions
             try
             {
 
-                //endpointRouteBuilder.MapControllerRoute(
-                //        name: "default2",
-                //        pattern: "{controller=HelloWorld}");
-                //endpointRouteBuilder.MapRazorPages();
-                
+                endpointRouteBuilder.MapControllerRoute(
+                        name: "default2",
+                        pattern: "{controller=HelloWorld}");
+                endpointRouteBuilder.MapRazorPages();
+
                 //Console.WriteLine("testt HelloWorld.Actions.EndpointsAction");
             }
             catch (Exception ex )

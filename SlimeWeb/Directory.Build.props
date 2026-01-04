@@ -1,5 +1,9 @@
 <Project>
   <PropertyGroup>
-    <NoWarn>$(NoWarn);NU1605</NoWarn>
+    <NoWarn>$(NoWarn);9999;NU1608;NU1701</NoWarn>
+    <WarningsAsErrors></WarningsAsErrors>
+    <MSBuildWarningsAsErrors></MSBuildWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 </Project>
+ 
