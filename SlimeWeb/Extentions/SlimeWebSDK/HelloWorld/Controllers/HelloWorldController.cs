@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace HelloWorld.Controllers
 {
+  
     public class HelloWorldController : Controller
     {
         private readonly ILogger<HelloWorldController> _logger;
@@ -17,9 +18,12 @@ namespace HelloWorld.Controllers
         {
            // _logger = logger;
         }
+       
         public IActionResult Index()
         {
-            return View();
+
+            return  Content("helloWorld");
+          //  return View();
         }
 
         public IActionResult Privacy()

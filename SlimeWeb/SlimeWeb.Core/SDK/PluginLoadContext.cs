@@ -11,16 +11,16 @@ namespace SlimeWeb.Core.SDK
                 _resolver = new AssemblyDependencyResolver(pluginPath);
             }
 
-            protected override Assembly Load(AssemblyName assemblyName)
-            {
-                string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
-                if (assemblyPath != null)
-                {
-                    return LoadFromAssemblyPath(assemblyPath);
-                }
+            //protected override Assembly Load(AssemblyName assemblyName)
+            //{
+            //    string assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
+            //    if (assemblyPath != null)
+            //    {
+            //        return LoadFromAssemblyPath(assemblyPath);
+            //    }
 
-                return null;
-            }
+            //    return null;
+            //}
 
             protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
             {

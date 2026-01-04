@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -32,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Services.Description;
 
 namespace SlimeWeb.Core.App_Start
 {
@@ -48,6 +51,7 @@ namespace SlimeWeb.Core.App_Start
        public static IServiceCollection Services;
         public static IApplicationBuilder AppBuilder;
         static List<IAddMvcAction> addMvcActions;
+        public static SlimeWebsUserManager  SlimeWebsUserManager;
         /// <summary>
         /// Iinitailizes the Startup claass of SlimeWeb  CMS
         /// </summary>
@@ -149,8 +153,8 @@ namespace SlimeWeb.Core.App_Start
                 mvcopts.EnableEndpointRouting = false;
                 //IMvcCoreBuilder mvcBuilder =
                 //     services.AddMvcCore().AddControllersAsServices().AddRazorPages();
-                IMvcBuilder mvcBuilder = services.AddMvc()
-                    .AddControllersAsServices();
+                IMvcBuilder mvcBuilder = services.AddMvc();
+                    //.AddControllersAsServices();
 
                 ;
                 //.AddMvcOptions(mvcopts);
@@ -239,15 +243,13 @@ namespace SlimeWeb.Core.App_Start
 
                         if (groupedManagers.PostManager == null)
                         {
-                            //services.AddScoped<IPostManager<Post>, PostManager>();
-                           // services.AddScoped<IPostManager<IPost>>(sp =>
-                           // (IPostManager<IPost>)sp.GetRequiredService<IPostManager<Post>>());
+                             
 
 
                         }
                     }
                 }
-               
+                
                 return services;
 
                 
@@ -272,172 +274,166 @@ namespace SlimeWeb.Core.App_Start
         // 
         public IApplicationBuilder ConfigureSlime(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             try
             {
-
                 IApplicationBuilder tap = null;
                 AppBuilder = app;
-                extensionsPath = Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), 
-                    AppSettingsManager.GetExtetionPath());
+
+                extensionsPath = Path.Combine(
+                    FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+                    AppSettingsManager.GetExtetionPath()
+                );
 
                 app.UseCookiePolicy();
-              
 
-
-                
-
-                 
                 app.UseAuthentication();
                 app.UseAuthorization();
-              
 
-                // app.UseStaticFiles();
-                if (Directory.Exists(FileSystemManager.GetAppRootDataFolderAbsolutePath()) == false)
+                // Ensure data folder exists
+                if (!Directory.Exists(FileSystemManager.GetAppRootDataFolderAbsolutePath()))
                 {
                     Directory.CreateDirectory(FileSystemManager.GetAppRootDataFolderAbsolutePath());
                 }
-                
 
+                // Static files
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-                    Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(),
-                    FileSystemManager.AppDataDir)),
+                        Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), FileSystemManager.AppDataDir)
+                    ),
                     RequestPath = "/" + FileSystemManager.AppDataDir
-
                 });
+
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-                Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath())),
+                        Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath())
+                    ),
                     RequestPath = ""
-                }); ;
+                });
+
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "lib")),
+                        Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "lib")
+                    ),
                     RequestPath = "/lib"
-                }); ;
+                });
+
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "js")),
+                        Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath(), "js")
+                    ),
                     RequestPath = "/js"
-                }); ;
+                });
+
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(
-               Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath() )),
+                        Path.Combine(FileSystemManager.GetAppRootFolderAbsolutePath())
+                    ),
                     RequestPath = "/wwwroot"
-                }); ;
-                string pathbase;
-                pathbase = AppSettingsManager.GetPathBase();
+                });
+
+                // PathBase
+                string pathbase = AppSettingsManager.GetPathBase();
                 app.UsePathBase(pathbase);
-                app=ConfigureRoutdsAndEndpoints(app, AppSettingsManager.GetEnableExtensionsSetting());
 
+                // ❗ IMPORTANT FIX:
+                // DO NOT call UseRouting() or MapControllers() here.
+                // They must be called ONLY ONCE in Program.cs.
+                app = ConfigureRoutdsAndEndpoints(app, AppSettingsManager.GetEnableExtensionsSetting());
 
-
-
-
-
-
-                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().
-                    CreateScope())
+                // Database setup
+                using (var serviceScope = app.ApplicationServices
+                    .GetService<IServiceScopeFactory>()
+                    .CreateScope())
                 {
                     var context = serviceScope.ServiceProvider.GetRequiredService<SlimeDbContext>();
-                    
-                    bool createdb = false, migratedb = false, enablefileserver = false;
-                    createdb = AppSettingsManager.GetDataBaseCreationSetting();
-                    migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
 
-                    Console.WriteLine(context.Database.GetConnectionString());
+                    bool createdb = AppSettingsManager.GetDataBaseCreationSetting();
+                    bool migratedb = AppSettingsManager.GetDataBaseMigrationSetting();
 
-                   // CommonTools.usrmng = new SlimeWebsUserManager(serviceScope.ServiceProvider);
-
-                   
                     if (createdb && !migratedb)
-                    {
                         context.Database.EnsureCreated();
-                    }
                     else if (migratedb)
-                    {
                         context.Database.Migrate();
-                    }
-                    enablefileserver = AppSettingsManager.GetEnableFileServer();
+
+                    bool enablefileserver = AppSettingsManager.GetEnableFileServer();
                     if (enablefileserver)
                     {
-                        //app.UseFileServer(Direcotrybrowse);
                         app.UseFileServer(new FileServerOptions
                         {
-
                             FileProvider = new PhysicalFileProvider(
-                Path.Combine(FileSystemManager.GetAppRootBinaryFolderAbsolutePath(), "wwwroot", 
-                FileSystemManager.AppDataDir)),
+                                Path.Combine(
+                                    FileSystemManager.GetAppRootBinaryFolderAbsolutePath(),
+                                    "wwwroot",
+                                    FileSystemManager.AppDataDir
+                                )
+                            ),
                             RequestPath = "/" + FileSystemManager.AppDataDir,
                             EnableDirectoryBrowsing = Direcotrybrowse
                         });
-
                     }
+
                     if (AppSettingsManager.GetisFirstRun())
                     {
-
-
                         InstallManager installManager = new InstallManager(serviceScope.ServiceProvider);
                         installManager.CrreateInitalAdmin();
                     }
                 }
 
-
+                // Extensions
                 if (AppSettingsManager.GetEnableExtensionsSetting())
                 {
                     if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
-                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() == false)
+                        !AppSettingsManager.GetEnableExtensionsSlimeWebSetting())
                     {
                         app.UseExtCore();
                     }
-                    else if (AppSettingsManager.GetEnableExtensionsExtCoreSetting() == false &&
-                           AppSettingsManager.GetEnableExtensionsSlimeWebSetting() != false)
+                    else if (!AppSettingsManager.GetEnableExtensionsExtCoreSetting() &&
+                              AppSettingsManager.GetEnableExtensionsSlimeWebSetting())
                     {
-
-                        //slimeExtension = SlimePluginManager.LoadConfigurePlugins(extensionsPath, app,
-                        //    app.ApplicationServices);
-                        app.UseRouting();
-
+                        
+                        // ❗ FIX: DO NOT call UseRouting() here.
                         app.UseForwardedHeaders(new ForwardedHeadersOptions
                         {
-                            ForwardedHeaders = ForwardedHeaders.XForwardedFor
-                            | ForwardedHeaders.XForwardedProto
+                            ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                                               ForwardedHeaders.XForwardedProto
                         });
                     }
                 }
 
-                       
-                         
-                       
+                NavigationManager.AddDefaultMenusOnTopMenu();
+                NavigationManager.AddDefaultMenusOnBottomMenu();
 
+                var usermanager = app.ApplicationServices
+                    .GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>();
+                var singmanager = app.ApplicationServices
+                    .GetRequiredService<Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser>>();
+                var rolmnger = app.ApplicationServices
+                    .GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole>>();
+                var db = app.ApplicationServices
+                    .GetRequiredService<SlimeDbContext>();
 
-
-                       tap = app;
-                         
-                   
-
-                    NavigationManager.AddDefaultMenusOnTopMenu();
-                    NavigationManager.AddDefaultMenusOnBottomMenu();
-                    
-
-                
-                
-                 
+                CommonTools.usrmng = new SlimeWebsUserManager(
+                    usermanager, singmanager, db, rolmnger
+                );
+                var provider = app.ApplicationServices
+                    .GetRequiredService<ApplicationPartManager>(); 
+                foreach (var part in provider.ApplicationParts)
+                { Console.WriteLine("Loaded part: " + part.Name); }
                 tap = app;
                 return tap;
             }
             catch (Exception ex)
             {
                 CommonTools.ErrorReporting(ex);
-                return app; ;
+                return app;
             }
-            }
+        }
+
 
         //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
@@ -465,45 +461,28 @@ namespace SlimeWeb.Core.App_Start
                     {
                         app.UseEndpoints(endpoints =>                        {
 
-                            var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
+                            //var Endpointplugins =
+                            SlimePluginManager.LoadEndpointPlugins(extensionsPath,
                                 endpoints, app.ApplicationServices);
                             endpoints.MapControllerRoute(
                              name: "default",
                             pattern: pathbase + "/" + "{controller=Home}/{action=Index}/{id?}");
-                            endpoints.MapControllerRoute(
-                             name: "Post",
-                            pattern: pathbase + "/" + "{controller=Posts}/{action=Index}/{name}/{page?}");
 
                             endpoints.MapRazorPages();
                             endpoints.MapControllers();
 
                         });
-                        app.UseMvc(routes =>
-                        {
-                            routes.MapRoute(name: "default",
-                            template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
-                            routes.MapRoute(name: "Post",
-                            template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
-                        });
+                        //app.UseMvc(routes =>
+                        //{
+                        //    routes.MapRoute(name: "default",
+                        //    template: pathbase + "/" + "{ controller = Home}/{ action = Index}/{ id?}");
+                        //    routes.MapRoute(name: "Post",
+                        //    template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
+                        //});
                     }
                     else
                     {
-                        //app.UseEndpoints(endpoints =>
-                        //{
-
-                        //    //var Endpointplugins = SlimePluginManager.LoadEndpointPlugins(extensionsPath,
-                        //    //    endpoints, app.ApplicationServices);
-                        //    endpoints.MapControllerRoute(
-                        //     name: "default",
-                        //    pattern: pathbase + "/{controller=Home}/{action=Index}/{id?}");
-                        //    endpoints.MapControllerRoute(
-                        //     name: "Post",
-                        //    pattern: pathbase + "/{controller=Posts}/{action=Index}/{name}/{page?}");
-
-                        //    endpoints.MapRazorPages();
-                        //    endpoints.MapControllers();
-
-                        //});
+                        
                         app.UseMvc(routes =>
                         {
                             routes.MapRoute(name: "default",
@@ -512,7 +491,9 @@ namespace SlimeWeb.Core.App_Start
                             template: pathbase + "/" + "{ controller = Posts}/{action=Index}/{name}/{page?}");
                         });
                     }
+                     
                     tapp = app;
+
                     return app;
                 }
             }

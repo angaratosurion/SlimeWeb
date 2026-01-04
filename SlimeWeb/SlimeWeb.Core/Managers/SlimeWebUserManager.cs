@@ -33,9 +33,10 @@ namespace SlimeWeb.Core.Managers
             roleManager = roleMgr;
             this.Context = tdb;
         }
-         
-         
-         
+
+        public SlimeWebsUserManager() { db = new SlimeDbContext(); }
+
+
 
         public SlimeDbContext Context { get { return db; } set { db = value; } }
         //WikiManager wkmngr = CommonTools.wkmngr;

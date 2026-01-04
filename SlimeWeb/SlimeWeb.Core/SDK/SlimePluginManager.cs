@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using ReverseMarkdown.Converters;
 using SlimeWeb.Core.Managers;
 using SlimeWeb.Core.SDK.Interfaces;
 using SlimeWeb.Core.Tools;
@@ -25,6 +26,7 @@ namespace SlimeWeb.Core.SDK
 {
     public class SlimePluginManager
     {
+        private static readonly HashSet<string> LoadedAssemblies = new HashSet<string>();
         public static List<ExtCore.Infrastructure.IExtension>
             GetSlimeWebExtCoreExtensionInfo()
         {
@@ -297,7 +299,25 @@ namespace SlimeWeb.Core.SDK
                 string pluginLocation = relativePath;
                 // Console.WriteLine($"Loading commands from: {pluginLocation}");
                 PluginLoadContext loadContext = new PluginLoadContext(pluginLocation);
-                return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(pluginLocation)));
+                var name = Path.GetFileNameWithoutExtension(pluginLocation);
+                if (!LoadedAssemblies.Contains(name))
+                {
+                  
+
+                   //var plg= loadContext.LoadFromAssemblyName(new AssemblyName
+                        
+                   //     (Path.GetFileNameWithoutExtension(pluginLocation)));
+
+                    var plg = Assembly.LoadFrom(pluginLocation);
+                    LoadedAssemblies.Add(name);
+                    return plg;
+
+                }
+                else
+                {
+                    
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -510,8 +530,8 @@ namespace SlimeWeb.Core.SDK
             if (CommonTools.isEmpty(pluginLocation) != true)
             {
                 ap = new List<Controller>();
-                var mvc = mvcBuilder.AddControllersAsServices();
-                var files = Directory.GetFiles(pluginLocation, "*.dll",
+                
+                var files = Directory.GetFiles(pluginLocation, "*.plugin",
                     enumerationOptions);
                 foreach (var file in files)
                 {
@@ -520,10 +540,10 @@ namespace SlimeWeb.Core.SDK
                     {
                         var parts = plg.GetTypes().
                             Where(t => typeof(Controller).IsAssignableFrom(t)).ToList();
-                        foreach (var part in parts)
+                        //foreach (var part in parts)
                         {
-
-                            mvc.AddApplicationPart(plg);
+                            
+                            mvcBuilder.AddApplicationPart(plg);
 
                         }
                         mvcBuilder.Services.Configure<MvcRazorRuntimeCompilationOptions>(options =>

@@ -12,8 +12,8 @@ namespace HelloWorld.Actions
         {
             try
             {
-                mvcBuilder.AddControllersAsServices()
-                    .AddRazorPages();
+                //mvcBuilder.AddControllersAsServices()
+                //    .AddRazorPages();
                  
                 Console.WriteLine("testt HelloWorld.Actions AddMvcAction");
             }

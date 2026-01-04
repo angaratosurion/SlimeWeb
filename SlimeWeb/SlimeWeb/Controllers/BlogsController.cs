@@ -33,12 +33,12 @@ namespace SlimeWeb.Controllers
         }
         private readonly ILogger<HomeController> _logger;
 
-        public BlogsController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-            blogmnger = new BlogManager();
-            accessManager = new AccessManager();
-        }
+        //public BlogsController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //    blogmnger = new BlogManager();
+        //    accessManager = new AccessManager();
+        //}
 
 
         public async Task<IActionResult> Index()

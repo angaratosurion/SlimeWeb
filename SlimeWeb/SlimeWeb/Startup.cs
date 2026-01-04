@@ -1,23 +1,25 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SlimeWeb.Core;
+using SlimeWeb.Core.App_Start;
+using SlimeWeb.Core.Data;
+using SlimeWeb.Core.Data.DBContexts;
+using SlimeWeb.Core.Data.Models;
+using SlimeWeb.Core.Managers;
+using SlimeWeb.Core.Tools;
+using SlimeWeb.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using SlimeWeb.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SlimeWeb.Core.App_Start;
-using SlimeWeb.Core.Data.Models;
-using SlimeWeb.Core.Data;
-using SlimeWeb.Core;
-using SlimeWeb.Core.Managers;
-using Microsoft.AspNetCore.Mvc;
 
 namespace SlimeWeb
 {
@@ -35,9 +37,7 @@ namespace SlimeWeb
         {
             services = base.ConfigureServicesSlime(services);
 
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-            services.AddControllers();
+           
 
         }
 
@@ -47,8 +47,8 @@ namespace SlimeWeb
 
 
             app = base.ConfigureSlime(app, env);
-            //app = ConfigureRoutdsAndEndpoints(app,
-            //    AppSettingsManager.GetEnableExtensionsSetting());
+            app = ConfigureRoutdsAndEndpoints(app,
+                AppSettingsManager.GetEnableExtensionsSetting());
             bool errorshowing = AppSettingsManager.GetForceErrorShowingSetting();
             if (env.IsDevelopment() || errorshowing == true)
             {
@@ -76,12 +76,10 @@ namespace SlimeWeb
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                    endpoints.MapControllers();
+                     
                 });
 
-            app = base.ConfigureRoutdsAndEndpoints(app,
-                AppSettingsManager.GetEnableExtensionsSetting());
+            
 
 
 

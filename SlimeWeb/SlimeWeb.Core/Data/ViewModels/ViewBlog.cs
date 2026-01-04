@@ -12,7 +12,7 @@ namespace SlimeWeb.Core.Data.ViewModels
 {
     public class ViewBlog : Blog
     {
-        SlimeWebsUserManager usrmng;
+        SlimeWebsUserManager usrmng = new SlimeWebsUserManager();
         public ViewBlog() { }
       
         public void ImportFromModel(Blog md)
@@ -26,7 +26,7 @@ namespace SlimeWeb.Core.Data.ViewModels
                     this.LastUpdate = md.LastUpdate;
                     this.Name = md.Name;
                     this.Title = md.Title;
-                    this.Administrator = CommonTools.usrmng.GetUserbyID(md.Administrator);
+                    this.Administrator =  usrmng.GetUserbyID(md.Administrator);
                 }
             }
             catch (Exception ex)
