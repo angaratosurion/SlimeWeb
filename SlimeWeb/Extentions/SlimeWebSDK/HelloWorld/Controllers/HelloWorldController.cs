@@ -22,8 +22,8 @@ namespace HelloWorld.Controllers
         public IActionResult Index()
         {
 
-            return  Content("helloWorld");
-          //  return View();
+           // return  Content("helloWorld");
+          return View();
         }
 
         public IActionResult Privacy()

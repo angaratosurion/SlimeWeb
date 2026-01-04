@@ -149,16 +149,10 @@ namespace SlimeWeb.Core.App_Start
 
 
 
-                var mvcopts = new MvcOptions();
-                mvcopts.EnableEndpointRouting = false;
-                //IMvcCoreBuilder mvcBuilder =
-                //     services.AddMvcCore().AddControllersAsServices().AddRazorPages();
+               
+                 
                 IMvcBuilder mvcBuilder = services.AddMvc();
-                    //.AddControllersAsServices();
-
-                ;
-                //.AddMvcOptions(mvcopts);
-
+                     
 
                 if (AppSettingsManager.GetCompileOnRuntime())
                 {

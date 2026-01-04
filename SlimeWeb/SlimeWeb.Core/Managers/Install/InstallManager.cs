@@ -10,14 +10,18 @@ namespace SlimeWeb.Core.Managers.Install
 {
     public class InstallManager : IDataManager
     {
+        SlimeDbContext db;
         UserManager<ApplicationUser> AspuserManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         public InstallManager(IServiceProvider serviceProvider)
         {
 
 
             AspuserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             _roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            _signInManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
+            db = serviceProvider.GetService<SlimeDbContext>();
             //  RoleStore<ApplicationRole> roleStore = serviceProvider.GetRequiredService<RoleStore<ApplicationRole>>();
 
         }
@@ -34,7 +38,9 @@ namespace SlimeWeb.Core.Managers.Install
                 string adminname = null, adminapss = null;
                 adminname = AppSettingsManager.GetDefaultAdminUserName();
                 adminapss = AppSettingsManager.GetDefaultAdminUserPassword();
-                SlimeWebsUserManager userManager = CommonTools.usrmng;
+                 
+                SlimeWebsUserManager userManager = new SlimeWebsUserManager(AspuserManager,
+                    _signInManager, db, _roleManager);
                 if (userManager != null)
                 {
                     if (!CommonTools.isEmpty(adminname) && !CommonTools.isEmpty(adminapss) &&
